@@ -1,8 +1,12 @@
 package group1.project.synthlab.module;
 
-import group1.project.synthlab.exceptions.BadConnection;
+import com.jsyn.unitgen.Circuit;
 
-public interface IModule {
-	public void connectIn(IModule module) throws BadConnection;
-	public void connectOut(IModule module) throws BadConnection;
+
+public interface IModule {	
+	public void start();
+	public void stop();
+	public boolean isStarted();
+	public String getName();
+	public Circuit getCircuit(); 
 }
