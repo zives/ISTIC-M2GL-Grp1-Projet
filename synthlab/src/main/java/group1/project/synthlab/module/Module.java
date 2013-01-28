@@ -1,5 +1,11 @@
 package group1.project.synthlab.module;
 
-public class Module implements IModule {
+import com.jsyn.unitgen.Circuit;
 
+public abstract class Module implements IModule {
+	protected Circuit circuit;
+	
+	public Module() {
+		this.circuit = new Circuit();
+	}
 }
