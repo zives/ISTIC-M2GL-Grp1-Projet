@@ -40,10 +40,10 @@ public class OutModule extends Module implements IModule {
 		//Bugs!
 		
 		passThrough = new PassThrough();
-		setDistribution(Distribution.MONORIGHT);
+		setDistribution(Distribution.STEREO);
 
-		lineOut.input.setMaximum(5);
-		lineOut.input.setMinimum(-5);
+		lineOut.input.setMaximum(1); //5V
+		lineOut.input.setMinimum(-1); //-5V
 
 		port1 = new InPort("Source 1", passThrough.input);
 		port2 = new InPort("Source 2", passThrough.input);
@@ -117,7 +117,7 @@ public class OutModule extends Module implements IModule {
 		osc.output.connect(out.getPort1().getJSynPort());
 		// Set the frequency and amplitude for the sine wave.
 		osc.frequency.set(345.0);		
-		osc.amplitude.set(5);
+		osc.amplitude.set(1);
 			
 		
 		out.start();
