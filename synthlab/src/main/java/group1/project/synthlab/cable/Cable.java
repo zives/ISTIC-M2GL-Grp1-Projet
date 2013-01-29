@@ -34,7 +34,7 @@ public class Cable implements ICable {
 	}
 
 
-	public void setOutPort(OutPort outPort) throws PortAlreadyUsed {
+	public void setOutPort(OutPort outPort) throws BadConnection, PortAlreadyUsed {
 		if (outPort.isUsed())
 			throw new PortAlreadyUsed("Ce port " + outPort.getLabel() + " est déjà utilisé par un autre cable. Déttacher le câble avant d'en ajouter un autre!");
 		this.outPort = outPort;

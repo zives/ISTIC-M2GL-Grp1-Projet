@@ -10,6 +10,6 @@ public interface ICable {
 	public InPort getInPort();
 	public void setInPort(InPort inPort) throws BadConnection, PortAlreadyUsed;
 	public OutPort getOutPort();
-	public void setOutPort(OutPort outPort);
+	public void setOutPort(OutPort outPort) throws BadConnection, PortAlreadyUsed;
 	
 }
