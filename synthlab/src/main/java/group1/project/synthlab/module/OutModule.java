@@ -15,18 +15,19 @@ import com.jsyn.unitgen.SineOscillator;
 public class OutModule extends Module implements IModule {
 
 	public enum Distribution {
-		MONOLEFT, MONORIGHT, STEREO
+		MONO, STEREO
 	}
 
 	/* jSyn module */
 	protected LineOut lineOut;
 
 	/* Défintion des ports */
-	protected InPort port1;
-	protected InPort port2;
+	protected InPort leftPort;
+	protected InPort rightPort;
 
 	/* Variables internes */
-	private PassThrough passThrough;
+	private PassThrough passThroughLeft;
+	private PassThrough passThroughRight;
 	private boolean isOn;
 
 	/* Propriétés du module */
@@ -39,32 +40,34 @@ public class OutModule extends Module implements IModule {
 		//Ne pas ajouter LineOut au ciruit!
 		//Bugs!
 		
-		passThrough = new PassThrough();
-		setDistribution(Distribution.STEREO);
+		passThroughLeft = new PassThrough();
+		passThroughRight = new PassThrough();
+		
+		setDistribution(Distribution.MONO);
 
 		lineOut.input.setMaximum(1); //5V
 		lineOut.input.setMinimum(-1); //-5V
 
-		port1 = new InPort("Source 1", passThrough.input);
-		port2 = new InPort("Source 2", passThrough.input);
+		leftPort = new InPort("Source left", passThroughLeft.input);
+		rightPort = new InPort("Source right", passThroughRight.input);
 
 		isOn = false;
 	}
 
 	public void setDistribution(Distribution distribution) {
 		this.distribution = distribution;
-
-		passThrough.output.disconnectAll();
+		passThroughLeft.output.disconnectAll();
+		passThroughRight.output.disconnectAll();
 		switch (this.distribution) {
-		case MONOLEFT:
-			passThrough.output.connect(lineOut.input.getConnectablePart(0));
-			break;
-		case MONORIGHT:
-			passThrough.output.connect(lineOut.input.getConnectablePart(1));
+		case MONO:
+			passThroughLeft.output.connect(lineOut.input.getConnectablePart(0));
+			passThroughRight.output.connect(lineOut.input.getConnectablePart(1));
 			break;
 		default:
-			passThrough.output.connect(lineOut.input.getConnectablePart(0));
-			passThrough.output.connect(lineOut.input.getConnectablePart(1));
+			passThroughLeft.output.connect(lineOut.input.getConnectablePart(0));
+			passThroughLeft.output.connect(lineOut.input.getConnectablePart(1));
+			passThroughRight.output.connect(lineOut.input.getConnectablePart(0));
+			passThroughRight.output.connect(lineOut.input.getConnectablePart(1));
 		}
 
 	}
@@ -73,12 +76,12 @@ public class OutModule extends Module implements IModule {
 		return lineOut;
 	}
 
-	public InPort getPort1() {
-		return port1;
+	public InPort getLeftPort() {
+		return leftPort;
 	}
 	
-	public InPort getPort2() {
-		return port2;
+	public InPort getRightPort() {
+		return rightPort;
 	}
 
 	public Distribution getDistribution() {
@@ -114,7 +117,7 @@ public class OutModule extends Module implements IModule {
 		synth.add( osc = new SineOscillator() );
 		// Add a stereo audio output unit.
 		synth.add(out.getCircuit());
-		osc.output.connect(out.getPort1().getJSynPort());
+		osc.output.connect(out.getLeftPort().getJSynPort());
 		// Set the frequency and amplitude for the sine wave.
 		osc.frequency.set(200.0);		
 		osc.amplitude.set(0.7);
