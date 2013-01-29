@@ -3,6 +3,7 @@ package group1.project.synthlab.module;
 import javax.swing.JFrame;
 
 import group1.project.synthlab.port.in.InPort;
+import group1.project.synthlab.unitExtensions.Attenuator;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
@@ -17,9 +18,13 @@ public class OutModule extends Module implements IModule {
 	public enum Distribution {
 		MONO, STEREO
 	}
+	
+	private final double MAX_VOLTAGE = 5;
 
 	/* jSyn module */
 	protected LineOut lineOut;
+	protected Attenuator attenuatorLeft;
+	protected Attenuator attenuatorRight;
 
 	/* Défintion des ports */
 	protected InPort leftPort;
@@ -36,20 +41,28 @@ public class OutModule extends Module implements IModule {
 	public OutModule() {
 		super("Out-" + moduleCount);
 		lineOut = new LineOut();
+		attenuatorLeft = new Attenuator();
+		attenuatorRight = new Attenuator();
 		
 		//Ne pas ajouter LineOut au ciruit!
 		//Bugs!
+		circuit.add(attenuatorLeft);
+		circuit.add(attenuatorRight);
 		
 		passThroughLeft = new PassThrough();
-		passThroughRight = new PassThrough();
+		passThroughRight = new PassThrough();	
+		
 		
 		setDistribution(Distribution.MONO);
 
-		lineOut.input.setMaximum(1); //5V
-		lineOut.input.setMinimum(-1); //-5V
+		lineOut.input.setMaximum(1); //MAX_VOLTAGE
+		lineOut.input.setMinimum(-1); //-MAX_VOLTAGE
 
-		leftPort = new InPort("Source left", passThroughLeft.input);
-		rightPort = new InPort("Source right", passThroughRight.input);
+		leftPort = new InPort("Source left", attenuatorLeft.input);
+		rightPort = new InPort("Source right", attenuatorRight.input);
+		
+		attenuatorLeft.output.connect(passThroughLeft.input);
+		attenuatorRight.output.connect(passThroughRight.input);
 
 		isOn = false;
 	}
@@ -70,6 +83,22 @@ public class OutModule extends Module implements IModule {
 			passThroughRight.output.connect(lineOut.input.getConnectablePart(1));
 		}
 
+	}
+	
+	/* en décibel de - inf à 24 */
+	/*
+	 * la formule wikipedia donne
+	 * 10 ^ (valeurEnDB / 20) * tensionNominale
+	 * MARCHE! correspond exactement à la table http://fr.wikipedia.org/wiki/Niveau_(audio)
+	 */
+	public void mitigate(double db) {
+		if (db > 24) 
+			db = 24;
+		double voltage = Math.pow(10.0, db / 20.0) * MAX_VOLTAGE; 
+		attenuatorLeft.setAttenuation(voltage / MAX_VOLTAGE - 1);
+		attenuatorRight.setAttenuation(voltage / MAX_VOLTAGE - 1);
+		System.out.println(voltage / MAX_VOLTAGE  - 1);
+		//System.out.println(voltage);
 	}
 
 	public LineOut getLineOut() {
@@ -107,6 +136,7 @@ public class OutModule extends Module implements IModule {
 
 	public static void main(String[] args) {
 		OutModule out = new OutModule();
+		
 		// Create a context for the synthesizer.
 		Synthesizer synth = JSyn.createSynthesizer();
 
@@ -119,9 +149,9 @@ public class OutModule extends Module implements IModule {
 		synth.add(out.getCircuit());
 		osc.output.connect(out.getLeftPort().getJSynPort());
 		// Set the frequency and amplitude for the sine wave.
-		osc.frequency.set(200.0);		
-		osc.amplitude.set(0.7);
-			
+		osc.frequency.set(300.0);		
+		osc.amplitude.set(1);
+		out.mitigate(-6);	
 		
 		out.start();
 		
@@ -137,7 +167,7 @@ public class OutModule extends Module implements IModule {
 		
 		scope.start();
 		
-				
+
 		
 		JFrame frame = new JFrame();
 		frame.add(scope.getView());
