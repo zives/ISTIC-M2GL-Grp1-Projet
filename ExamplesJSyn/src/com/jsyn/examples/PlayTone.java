@@ -36,7 +36,7 @@ public class PlayTone
 		osc.output.connect( 0, lineOut.input, 1 );
 
 		// Set the frequency and amplitude for the sine wave.
-		osc.frequency.set( 345.0 );
+		osc.frequency.set( 300.0 );
 		osc.amplitude.set( 0.6 );
 
 		// We only need to start the LineOut. It will pull data from the
