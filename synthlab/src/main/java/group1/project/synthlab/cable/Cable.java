@@ -15,7 +15,9 @@ public class Cable implements ICable {
 	}
 
 
-	public void setInPort(InPort inPort) throws BadConnection {
+	public void setInPort(InPort inPort) throws BadConnection, PortAlreadyUsed {
+		if (inPort.isUsed())
+			throw new PortAlreadyUsed("Ce port " + inPort.getLabel() + " est déjà utilisé par un autre cable. Déttacher le câble avant d'en ajouter un autre!");
 		this.inPort = inPort;
 		if(outPort != null){
 			outPort.getJSynPort().connect(inPort.getJSynPort());
@@ -32,13 +34,15 @@ public class Cable implements ICable {
 	}
 
 
-	public void setOutPort(OutPort outPort) {
+	public void setOutPort(OutPort outPort) throws PortAlreadyUsed {
+		if (outPort.isUsed())
+			throw new PortAlreadyUsed("Ce port " + outPort.getLabel() + " est déjà utilisé par un autre cable. Déttacher le câble avant d'en ajouter un autre!");
 		this.outPort = outPort;
 		
 	}
 	
 	
-	public Cable() throws PortAlreadyUsed, BadConnection {
+	public Cable() {
 	}
 	
 	

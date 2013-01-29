@@ -116,8 +116,8 @@ public class OutModule extends Module implements IModule {
 		synth.add(out.getCircuit());
 		osc.output.connect(out.getPort1().getJSynPort());
 		// Set the frequency and amplitude for the sine wave.
-		osc.frequency.set(345.0);		
-		osc.amplitude.set(1);
+		osc.frequency.set(200.0);		
+		osc.amplitude.set(0.7);
 			
 		
 		out.start();
