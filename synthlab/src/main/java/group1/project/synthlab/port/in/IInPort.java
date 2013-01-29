@@ -8,8 +8,6 @@ import com.jsyn.ports.ConnectableInput;
 
 public interface IInPort extends IPort {
 
-	public void connectTo(OutPort targetPort) throws PortAlreadyUsed;
-	public void disconnect();
 	public ConnectableInput getJSynPort();
 		
 }

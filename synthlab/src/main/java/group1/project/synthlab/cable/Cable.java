@@ -6,20 +6,47 @@ import group1.project.synthlab.port.in.InPort;
 import group1.project.synthlab.port.out.OutPort;
 
 public class Cable implements ICable {
-	protected InPort inPort;
-	protected OutPort outPort;
 	
-	public Cable(InPort in, OutPort out) throws PortAlreadyUsed, BadConnection {
-		this.outPort = out;
-		this.inPort = in;
-		out.connectTo(in);	
-		in.connectTo(out); //TODO : vérifier que celà ne pose pas de problèmes
+	protected InPort inPort; // Entrée d'un module
+	protected OutPort outPort; // Sortie d'un module
+	
+	public InPort getInPort() {
+		return inPort;
 	}
+
+
+	public void setInPort(InPort inPort) throws BadConnection {
+		this.inPort = inPort;
+		if(outPort != null){
+			outPort.getJSynPort().connect(inPort.getJSynPort());
+			outPort.setCable(this);
+			inPort.setCable(this);
+		}
+		else
+			throw new BadConnection("Un câble doit partir d'une sortie et arriver à une entrée.");
+	}
+
+
+	public OutPort getOutPort() {
+		return outPort;
+	}
+
+
+	public void setOutPort(OutPort outPort) {
+		this.outPort = outPort;
+		
+	}
+	
+	
+	public Cable() throws PortAlreadyUsed, BadConnection {
+	}
+	
 	
 	@Override
 	public void finalize() throws Throwable{
-		this.outPort.disconnect();
-		this.inPort.disconnect();
+		this.outPort.getJSynPort().disconnect(inPort.getJSynPort());
+		outPort.setCable(null);
+		inPort.setCable(null);
 		super.finalize();		
 	}
 }
