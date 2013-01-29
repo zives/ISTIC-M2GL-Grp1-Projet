@@ -12,7 +12,7 @@ public class Attenuator extends UnitFilter {
 		super();
 		attenuation = 0;
 	}
-	
+	 
 	
 	@Override
 	public void generate(int start, int limit) {

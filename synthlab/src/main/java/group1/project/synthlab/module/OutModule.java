@@ -51,7 +51,7 @@ public class OutModule extends Module implements IModule {
 		
 		passThroughLeft = new PassThrough();
 		passThroughRight = new PassThrough();	
-		
+		 
 		
 		setDistribution(Distribution.MONO);
 
