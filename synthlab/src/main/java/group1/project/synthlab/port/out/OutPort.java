@@ -9,7 +9,7 @@ import com.jsyn.ports.ConnectableOutput;
 
 public class OutPort extends Port implements IOutPort {
 	protected ConnectableOutput jSynPort;
-	private ICable cable;
+
 
 	public OutPort(String label, ConnectableOutput jSynPort) {
 		super(label);
