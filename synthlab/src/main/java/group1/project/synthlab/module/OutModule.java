@@ -22,8 +22,8 @@ public class OutModule extends Module implements IModule {
 	protected LineOut lineOut;
 
 	/* Défintion des ports */
-	protected InPort leftPort;
-	protected InPort rightPort;
+	protected InPort port1;
+	protected InPort port2;
 
 	/* Variables internes */
 	private PassThrough passThrough;
@@ -40,15 +40,13 @@ public class OutModule extends Module implements IModule {
 		//Bugs!
 		
 		passThrough = new PassThrough();
-		setDistribution(Distribution.STEREO);
+		setDistribution(Distribution.MONORIGHT);
 
-		lineOut.input.setup(-5, -4, 5);
 		lineOut.input.setMaximum(5);
 		lineOut.input.setMinimum(-5);
-	
 
-		leftPort = new InPort("Source Left", passThrough.input);
-		rightPort = new InPort("Source Right", passThrough.input);
+		port1 = new InPort("Source 1", passThrough.input);
+		port2 = new InPort("Source 2", passThrough.input);
 
 		isOn = false;
 	}
@@ -75,12 +73,12 @@ public class OutModule extends Module implements IModule {
 		return lineOut;
 	}
 
-	public InPort getLeftPort() {
-		return leftPort;
+	public InPort getPort1() {
+		return port1;
 	}
 	
-	public InPort getRightPort() {
-		return rightPort;
+	public InPort getPort2() {
+		return port2;
 	}
 
 	public Distribution getDistribution() {
@@ -116,10 +114,10 @@ public class OutModule extends Module implements IModule {
 		synth.add( osc = new SineOscillator() );
 		// Add a stereo audio output unit.
 		synth.add(out.getCircuit());
-		osc.output.connect(out.getLeftPort().getJSynPort());
+		osc.output.connect(out.getPort1().getJSynPort());
 		// Set the frequency and amplitude for the sine wave.
 		osc.frequency.set(345.0);		
-		osc.amplitude.set(0.6);
+		osc.amplitude.set(5);
 			
 		
 		out.start();
@@ -128,11 +126,12 @@ public class OutModule extends Module implements IModule {
 		
 		 AudioScope scope= new AudioScope( synth );
 		scope.addProbe( osc.output );
-		scope.setTriggerMode( AudioScope.TriggerMode.NORMAL );
+		scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
 		
 		scope.getModel().getTriggerModel().getLevelModel().setDoubleValue( 0.0001 );
 	
 		scope.getView().setShowControls( true );
+		
 		scope.start();
 		
 				
