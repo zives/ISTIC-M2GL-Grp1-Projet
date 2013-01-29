@@ -1,0 +1,7 @@
+*.class
+/*.class
+target/
+bin/
+.metadata/
+Servers/
+.git/
