@@ -7,12 +7,11 @@ import java.util.List;
 
 
 public abstract class Port implements IPort, IPortObservable {
-	protected List<IPortObserver> observers;
+	protected List<IPortObserver> observers = new ArrayList<IPortObserver>();
 	protected ICable cable;
 	private String label;	
 	
 	public Port() {
-		observers = new ArrayList<IPortObserver>();
 	}
 		
 	public ICable getCable() {
@@ -37,7 +36,6 @@ public abstract class Port implements IPort, IPortObservable {
 
 	public void register(IPortObserver observer) {
 		observers.add(observer);
-		
 	}
 
 	public void unregister(IPortObserver observer) {
@@ -50,9 +48,9 @@ public abstract class Port implements IPort, IPortObservable {
 			observer.cableConnected(this);
 		
 	}
-	public void cableDeconnected() {
+	public void cableDisconnected() {
 		for(IPortObserver observer: observers)
-			observer.cableDeconnected(this);
+			observer.cableDisconnected(this);
 	}
 	
 

@@ -2,14 +2,17 @@ package group1.project.synthlab.module;
 
 import javax.swing.JFrame;
 
+import group1.project.synthlab.cable.Cable;
+import group1.project.synthlab.exceptions.BadConnection;
+import group1.project.synthlab.exceptions.PortAlreadyUsed;
+import group1.project.synthlab.port.IPort;
+import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.InPort;
 import group1.project.synthlab.port.out.OutPort;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
-import com.jsyn.ports.UnitOutputPort;
 import com.jsyn.scope.AudioScope;
-import com.jsyn.unitgen.Add;
 import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.Multiply;
 import com.jsyn.unitgen.PassThrough;
@@ -24,12 +27,12 @@ public class VCOModule extends Module implements IPortObserver {
 	private boolean fmconnected;
 	
 	// Amplitude par défaut
-	public static final double a0 = 0.5; // TODO : valeur minimale de la fréquence
+	public static final double a0 = 0.5;
 	
-	// Fréquences par défaut, max et min :
-	public static final double fmin = 0; // TODO : valeur minimale de la fréquence
-	public static final double fmax = 6000; // TODO : valeur maximale de la fréquence
-	public static final double f0 = 300; // TODO : valeur par défaut de f0 ?
+	// Fréquences max, min et de base par défaut :
+	public static final double fmin = 0;
+	public static final double fmax = 6000;
+	public static double f0 = 300;
 	
 	// Un oscillateur pour chaque forme d'onde
 	private SineOscillator sineosc;
@@ -40,7 +43,7 @@ public class VCOModule extends Module implements IPortObserver {
 	private InPort fm;
 	
 	// Un PassThrough pour envoyer la modulation de fréquence vers l'entrée des 3 oscillateurs
-	PassThrough passThrough;
+	private PassThrough passThrough;
 	
 	// Ports de sortie : 1 pour chaque forme d'onde
 	private OutPort outsine;
@@ -64,8 +67,21 @@ public class VCOModule extends Module implements IPortObserver {
 		circuit.add(squareosc);
 		circuit.add(triangleosc);
 		
-		// Création du PassThrough
+		// Création du PassThrough : on applique la formule f0 * 2 ^ (5*Vfm) au signal en entrée et on envoie la sortie dans un passThrough
+		// On doit multiplier Vfm par 5 car JSyn considère des amplitudes entre -1 et 5, et nous considérons des tensions entre -5V et +5V)
 		passThrough = new PassThrough();
+		Multiply multiply5 = new Multiply();
+		multiply5.inputB.set(5);
+		PowerOfTwo poweroftwo = new PowerOfTwo();
+		multiply5.output.connect(poweroftwo.input);
+		Multiply multiplyf0 = new Multiply();
+		multiplyf0.inputB.set(f0);
+		multiplyf0.inputA.connect(poweroftwo.output);
+		passThrough.input.connect(multiplyf0.output);
+		
+		// Port d'entrée : 
+		fm = new InPort("fm", multiply5.inputA);
+		fm.register(this);
 		
 		// Ports de sortie
 		outsine = new OutPort("outsine", sineosc.output);
@@ -88,36 +104,31 @@ public class VCOModule extends Module implements IPortObserver {
 	public void changeFrequency(){
 		if(!fmconnected){
 			double newFrequency = (reglageoctave + reglagefin) * ((fmax - fmin) / 10);
-			sineosc.frequency.set(newFrequency);
-			squareosc.frequency.set(newFrequency);
-			triangleosc.frequency.set(newFrequency);
+			f0 = newFrequency;
+			sineosc.frequency.set(f0);
+			squareosc.frequency.set(f0);
+			triangleosc.frequency.set(f0);
 		}
 	}
 	
 	// Fonction qui gère la connexion à l'entrée FM, et donc le passage à la modulation de fréquence par un signal en entrée
-	// TODO : modifier cette fonction pour qu'elle n'ait pas de paramètres et retrouve plutôt le signal d'entrée en passant par le cable (à faire quand la User Story CABL sera terminée)
-	// La fonction sera donc appelée lorsqu'on créera un câble.
-	public void connectFM(UnitOutputPort output){
-		fmconnected = true;
-		Multiply multiply5 = new Multiply();
-		multiply5.inputA.connect(output);
-		multiply5.inputB.set(1);
-		PowerOfTwo poweroftwo = new PowerOfTwo();
-		multiply5.output.connect(poweroftwo.input);
-		Multiply multiplyf0 = new Multiply();
-		multiplyf0.inputB.set(f0); // f plutôt ?
-		multiplyf0.inputA.connect(poweroftwo.output);
-		passThrough.input.connect(multiplyf0.output);
-		passThrough.output.connect(sineosc.frequency);
-		passThrough.output.connect(squareosc.frequency);
-		passThrough.output.connect(triangleosc.frequency);
+	// La fonction sera donc appelée lorsqu'on connectera un cable au port fm
+	public void cableConnected(IPort port) {
+		if(port.getLabel().equals("fm")){ // Si un câble vient d'être connecté dans l'entrée fm, on "active" la modulation de fréquence
+			System.out.println("\nConnexion d'un câble dans l'entrée fm !");
+			fmconnected = true;
+			passThrough.output.connect(sineosc.frequency);
+			passThrough.output.connect(squareosc.frequency);
+			passThrough.output.connect(triangleosc.frequency);
+		}
 	}
-	
+
 	// Fonction qui gère la déconnexion à l'entrée FM
-	public void disconnectFM(){
-		fmconnected = false;
-		passThrough.input.disconnectAll();
-		passThrough.output.disconnectAll();
+	public void cableDisconnected(IPort port) {
+		if(port.getLabel().equals("fm")){ // Si un câble vient d'être déconnecté de l'entrée fm, on remet la fréquence des oscillateurs à f0
+			fmconnected = false;
+			passThrough.output.disconnectAll();
+		}
 	}
 	
 	public void start() {
@@ -164,7 +175,8 @@ public class VCOModule extends Module implements IPortObserver {
 		this.outtriangle = outtriangle;
 	}
 
-	public static void main(String[] args){
+	@SuppressWarnings("deprecation")
+	public static void main(String[] args) throws Throwable{
 		// On crée et démarre le Synthesizer
 		Synthesizer synth = JSyn.createSynthesizer();
 		synth.start();
@@ -184,10 +196,12 @@ public class VCOModule extends Module implements IPortObserver {
 		// On crée un VCO dont on va utiliser la sortie sinusoïdale pour moduler la fréquence de notre premier vco
 		VCOModule fm = new VCOModule();
 		synth.add(fm.getCircuit());
-		fm.squareosc.frequency.set(1);
-		fm.squareosc.amplitude.set(0.1);	// Mettre une valeur assez élevée sinon le changement est fréquence est inaudible
+		fm.squareosc.frequency.set(0.2);
+		// Si l'on considère des tensions comprises entre -5V et +5V, cela correspond à une amplitude de 0,5V, donc une amplitude crète à crète de 1V
+		// Ainsi, quand on passe d'un sommet à un creux, on divise la fréquence par 2, et quand on passe d'un creux à un sommet on multiplie la fréquence par 2
+		fm.squareosc.amplitude.set(0.1);
 		
-		// Pour l'affichage
+		// Pour l'affichage des courbes
 		AudioScope scope= new AudioScope( synth );
 		scope.addProbe(vco.sineosc.output);
 		scope.addProbe(fm.squareosc.output);
@@ -205,32 +219,36 @@ public class VCOModule extends Module implements IPortObserver {
 		{
 			double time = synth.getCurrentTime();
 			// Sleep for a few seconds.
-			synth.sleepUntil( time + 1.0 );
+			synth.sleepUntil( time + 3.0 );
 		} catch( InterruptedException e )
 		{
 			e.printStackTrace();
 		}
 		
-		
-		vco.connectFM(fm.squareosc.output);
+		// Avec modulation de fréquence pendant quelques secondes
+		// On connecte la sortie de notre VCO fm vers le port d'entrée fm de notre VCO vco
+		Cable c = new Cable();
+		c.setOutPort(fm.getOutsquare());
+		c.setInPort(vco.getFm());
 
-		// Avec modulation de fréquence pendant 3s
-		try
-		{
-			double time = synth.getCurrentTime();
-			// Sleep for a few seconds.
-			synth.sleepUntil( time + 4.0 );
-		} catch( InterruptedException e )
-		{
-			e.printStackTrace();
+		// On vérifie que la fréquence est bien divisée par 2 ou multipliée par 2 quand on passe d'une crète à la suivante
+		int i = 0;
+		while(i<15) {
+			System.out.println("Fréquence = " + vco.sineosc.frequency.getValue());
+			i++;
+			try {
+				synth.sleepUntil( synth.getCurrentTime() + 0.5 );
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		
-		
-		/* Sans modulation de fréquence le reste du temps, avec une fréquence réglée un peu plus haut
-		vco.disconnectFM();
+		// Sans modulation de fréquence le reste du temps, avec une fréquence réglée un peu plus haut
+		//fm.squareosc.output.disconnectAll();
+		c.finalize();
 		vco.reglageoctave = 1;
 		vco.reglagefin = 0.2;
-		vco.changeFrequency();*/
+		vco.changeFrequency();
 	}
 
 	public int getReglageoctave() {
