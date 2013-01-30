@@ -11,12 +11,14 @@ import com.jsyn.ports.UnitOutputPort;
 import com.jsyn.scope.AudioScope;
 import com.jsyn.unitgen.Add;
 import com.jsyn.unitgen.LineOut;
+import com.jsyn.unitgen.Multiply;
 import com.jsyn.unitgen.PassThrough;
+import com.jsyn.unitgen.PowerOfTwo;
 import com.jsyn.unitgen.SineOscillator;
 import com.jsyn.unitgen.SquareOscillator;
 import com.jsyn.unitgen.TriangleOscillator;
 
-public class VCOModule extends Module {
+public class VCOModule extends Module implements IPortObserver {
 
 	// Modulation de fréquence connectée ou pas
 	private boolean fmconnected;
@@ -97,12 +99,15 @@ public class VCOModule extends Module {
 	// La fonction sera donc appelée lorsqu'on créera un câble.
 	public void connectFM(UnitOutputPort output){
 		fmconnected = true;
-		// On doit passer par un additionneur car le signal en sortie de fm a des valeurs faibles
-		Add adder = new Add();
-		//ConnectableOutput fmoutput = this.fm.getCable().getOutPort().getJSynPort();
-		output.connect(adder.inputA);
-		adder.inputB.set(500); // On ajoute 500 pour se trouver dans des valeurs cohérentes de fréquences (audibles)
-		passThrough.input.connect(adder.output);
+		Multiply multiply5 = new Multiply();
+		multiply5.inputA.connect(output);
+		multiply5.inputB.set(1);
+		PowerOfTwo poweroftwo = new PowerOfTwo();
+		multiply5.output.connect(poweroftwo.input);
+		Multiply multiplyf0 = new Multiply();
+		multiplyf0.inputB.set(f0); // f plutôt ?
+		multiplyf0.inputA.connect(poweroftwo.output);
+		passThrough.input.connect(multiplyf0.output);
 		passThrough.output.connect(sineosc.frequency);
 		passThrough.output.connect(squareosc.frequency);
 		passThrough.output.connect(triangleosc.frequency);
@@ -176,9 +181,16 @@ public class VCOModule extends Module {
 		// On connecte la sortie de notre oscillateur sinusoïdal à lineOut
 		vco.sineosc.output.connect(lineOut.input);
 		
+		// On crée un VCO dont on va utiliser la sortie sinusoïdale pour moduler la fréquence de notre premier vco
+		VCOModule fm = new VCOModule();
+		synth.add(fm.getCircuit());
+		fm.squareosc.frequency.set(1);
+		fm.squareosc.amplitude.set(0.1);	// Mettre une valeur assez élevée sinon le changement est fréquence est inaudible
+		
 		// Pour l'affichage
 		AudioScope scope= new AudioScope( synth );
 		scope.addProbe(vco.sineosc.output);
+		scope.addProbe(fm.squareosc.output);
 		scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
 		scope.getModel().getTriggerModel().getLevelModel().setDoubleValue( 0.0001 );
 		scope.getView().setShowControls( true );
@@ -193,35 +205,32 @@ public class VCOModule extends Module {
 		{
 			double time = synth.getCurrentTime();
 			// Sleep for a few seconds.
-			synth.sleepUntil( time + 3.0 );
+			synth.sleepUntil( time + 1.0 );
 		} catch( InterruptedException e )
 		{
 			e.printStackTrace();
 		}
 		
-		// On crée un VCO dont on va utiliser la sortie sinusoïdale pour moduler la fréquence de notre premier vco
-		VCOModule fm = new VCOModule();
-		synth.add(fm.getCircuit());
-		fm.sineosc.frequency.set(1);	// Ne pas mettre une valeur trop élevée sinon le changement est fréquence est inaudible
-		fm.sineosc.amplitude.set(200);	// Mettre une valeur assez élevée sinon le changement est fréquence est inaudible
-		vco.connectFM(fm.sineosc.output);
+		
+		vco.connectFM(fm.squareosc.output);
 
 		// Avec modulation de fréquence pendant 3s
 		try
 		{
 			double time = synth.getCurrentTime();
 			// Sleep for a few seconds.
-			synth.sleepUntil( time + 3.0 );
+			synth.sleepUntil( time + 4.0 );
 		} catch( InterruptedException e )
 		{
 			e.printStackTrace();
 		}
 		
-		// Sans modulation de fréquence le reste du temps, avec une fréquence réglée un peu plus haut
+		
+		/* Sans modulation de fréquence le reste du temps, avec une fréquence réglée un peu plus haut
 		vco.disconnectFM();
 		vco.reglageoctave = 1;
 		vco.reglagefin = 0.2;
-		vco.changeFrequency();
+		vco.changeFrequency();*/
 	}
 
 	public int getReglageoctave() {
