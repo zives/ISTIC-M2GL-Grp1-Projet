@@ -136,16 +136,12 @@ public class VCOModule extends Module implements IPortObserver {
 	}
 	
 	public void start() {
-		sineOsc.start();
-		squareOsc.start();
-		triangleOsc.start();
+		circuit.start();
 		isOn = true;
 	}
 
 	public void stop() {
-		sineOsc.stop();
-		squareOsc.stop();
-		triangleOsc.stop();
+		circuit.stop();
 		isOn = false;
 	}
 	
@@ -216,7 +212,7 @@ public class VCOModule extends Module implements IPortObserver {
 
 		// LineOut sera remplacé par OutModule
 		OutModule out = new OutModule();
-		out.setDistribution(Distribution.MONO);
+		out.setDistribution(Distribution.NORMAL);
 		synth.add(out.getCircuit());
 		out.start();
 		

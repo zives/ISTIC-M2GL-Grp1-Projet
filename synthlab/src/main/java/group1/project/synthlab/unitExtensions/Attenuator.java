@@ -3,9 +3,13 @@ package group1.project.synthlab.unitExtensions;
 import com.jsyn.unitgen.UnitBinaryOperator;
 import com.jsyn.unitgen.UnitFilter;
 
+/**
+ * Atténue un son via en soustrayant l'amplitude par une autre valeur
+ * @author Groupe 1
+ * 
+ */
 public class Attenuator extends UnitFilter {
-
-	//en db
+	
 	private double attenuation;
 	
 	public Attenuator() {
@@ -34,12 +38,17 @@ public class Attenuator extends UnitFilter {
 
 	}
 
-
+	/**
+	 * 
+	 * @return the amplitude attenuation 
+	 */
 	public double getAttenuation() {
 		return attenuation;
 	}
 
-
+	/**
+	 * @param attenuation  the amplitude attenuation 
+	 */
 	public void setAttenuation(double attenuation) {
 		this.attenuation = attenuation;
 	}
