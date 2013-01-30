@@ -3,8 +3,7 @@ package group1.project.synthlab.module;
 import javax.swing.JFrame;
 
 import group1.project.synthlab.cable.Cable;
-import group1.project.synthlab.exceptions.BadConnection;
-import group1.project.synthlab.exceptions.PortAlreadyUsed;
+import group1.project.synthlab.module.OutModule.Distribution;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.InPort;
@@ -13,7 +12,6 @@ import group1.project.synthlab.port.out.OutPort;
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.scope.AudioScope;
-import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.Multiply;
 import com.jsyn.unitgen.PassThrough;
 import com.jsyn.unitgen.PowerOfTwo;
@@ -186,12 +184,15 @@ public class VCOModule extends Module implements IPortObserver {
 		synth.add(vco.getCircuit());
 
 		// LineOut sera remplacé par OutModule
-		LineOut lineOut = new LineOut();
-		synth.add(lineOut);
-		lineOut.start();
+		OutModule out = new OutModule();
+		out.setDistribution(Distribution.MONO);
+		synth.add(out.getCircuit());
+		out.start();
 		
-		// On connecte la sortie de notre oscillateur sinusoïdal à lineOut
-		vco.sineosc.output.connect(lineOut.input);
+		// On connecte la sortie sinusoïdale de notre VCO au module de sortie
+		Cable c1 = new Cable();
+		c1.setOutPort(vco.getOutsine());
+		c1.setInPort(out.getLeftPort());
 		
 		// On crée un VCO dont on va utiliser la sortie sinusoïdale pour moduler la fréquence de notre premier vco
 		VCOModule fm = new VCOModule();
@@ -227,9 +228,9 @@ public class VCOModule extends Module implements IPortObserver {
 		
 		// Avec modulation de fréquence pendant quelques secondes
 		// On connecte la sortie de notre VCO fm vers le port d'entrée fm de notre VCO vco
-		Cable c = new Cable();
-		c.setOutPort(fm.getOutsquare());
-		c.setInPort(vco.getFm());
+		Cable c2 = new Cable();
+		c2.setOutPort(fm.getOutsquare());
+		c2.setInPort(vco.getFm());
 
 		// On vérifie que la fréquence est bien divisée par 2 ou multipliée par 2 quand on passe d'une crète à la suivante
 		int i = 0;
@@ -245,7 +246,7 @@ public class VCOModule extends Module implements IPortObserver {
 		
 		// Sans modulation de fréquence le reste du temps, avec une fréquence réglée un peu plus haut
 		//fm.squareosc.output.disconnectAll();
-		c.finalize();
+		c2.finalize();
 		vco.reglageoctave = 1;
 		vco.reglagefin = 0.2;
 		vco.changeFrequency();

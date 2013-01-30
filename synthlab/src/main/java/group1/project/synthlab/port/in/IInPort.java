@@ -1,8 +1,6 @@
 package group1.project.synthlab.port.in;
 
-import group1.project.synthlab.exceptions.PortAlreadyUsed;
 import group1.project.synthlab.port.IPort;
-import group1.project.synthlab.port.out.OutPort;
 
 import com.jsyn.ports.ConnectableInput;
 

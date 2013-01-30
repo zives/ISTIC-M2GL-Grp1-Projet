@@ -2,10 +2,6 @@ package group1.project.synthlab.workspace;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
-import com.jsyn.devices.AudioDeviceManager;
-import com.jsyn.unitgen.UnitGenerator;
-import com.softsynth.shared.time.ScheduledCommand;
-import com.softsynth.shared.time.TimeStamp;
 
 import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.module.OutModule;
