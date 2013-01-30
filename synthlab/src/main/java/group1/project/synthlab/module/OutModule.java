@@ -15,6 +15,11 @@ import com.jsyn.unitgen.SineOscillator;
 
 public class OutModule extends Module implements IModule {
 
+	/**
+	 * Module de sortie
+	 * @author Groupe 1
+	 *
+	 */
 	public enum Distribution {
 		MONO, STEREO
 	}
@@ -38,6 +43,9 @@ public class OutModule extends Module implements IModule {
 	/* Propriétés du module */
 	Distribution distribution;
 
+	/**
+	 * Initialise le circuit (attenuateur, port, ...)
+	 */
 	public OutModule() {
 		super("Out-" + moduleCount);
 		lineOut = new LineOut();
@@ -52,7 +60,6 @@ public class OutModule extends Module implements IModule {
 		passThroughLeft = new PassThrough();
 		passThroughRight = new PassThrough();	
 		 
-		
 		setDistribution(Distribution.MONO);
 
 		lineOut.input.setMaximum(1); //MAX_VOLTAGE
@@ -66,7 +73,11 @@ public class OutModule extends Module implements IModule {
 
 		isOn = false;
 	}
-
+	
+	/**
+	 * Mise à jour de la distribution (en mono ou en stero)
+	 * @param distribution
+	 */
 	public void setDistribution(Distribution distribution) {
 		this.distribution = distribution;
 		passThroughLeft.output.disconnectAll();
@@ -82,18 +93,16 @@ public class OutModule extends Module implements IModule {
 			passThroughRight.output.connect(lineOut.input.getConnectablePart(0));
 			passThroughRight.output.connect(lineOut.input.getConnectablePart(1));
 		}
-
 	}
-	
-	/* en décibel de - inf à 24 */
-	/*
-	 * la formule wikipedia donne
+
+	/**
+	 * Formule pour attenuer le son
 	 * 10 ^ (valeurEnDB / 20) * tensionNominale
-	 * MARCHE! correspond exactement à la table http://fr.wikipedia.org/wiki/Niveau_(audio)
+	 * @param db (valeur max : 12 dB)
 	 */
 	public void mitigate(double db) {
-		if (db > 24) 
-			db = 24;
+		if (db > 12) 
+			db = 12;
 		double voltage = Math.pow(10.0, db / 20.0) * MAX_VOLTAGE; 
 		attenuatorLeft.setAttenuation(voltage / MAX_VOLTAGE - 1);
 		attenuatorRight.setAttenuation(voltage / MAX_VOLTAGE - 1);
@@ -101,22 +110,41 @@ public class OutModule extends Module implements IModule {
 		//System.out.println(voltage);
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public LineOut getLineOut() {
 		return lineOut;
 	}
 
+	/**
+	 * Retourne le port gauche en entree
+	 * @return
+	 */
 	public InPort getLeftPort() {
 		return leftPort;
 	}
 	
+	/**
+	 * Retourne le port droit en entree
+	 * @return
+	 */
 	public InPort getRightPort() {
 		return rightPort;
 	}
 
+	/**
+	 * Retourne la distribution (mono ou stereo)
+	 * @return
+	 */
 	public Distribution getDistribution() {
 		return distribution;
 	}
 
+	/**
+	 * Demarre le circuit
+	 */
 	public void start() {
 		circuit.start();
 		lineOut.setSynthesisEngine(circuit.getSynthesisEngine());
@@ -124,12 +152,19 @@ public class OutModule extends Module implements IModule {
 		isOn = true;
 	}
 
+	/**
+	 * Arrete le circuit
+	 */
 	public void stop() {
 		circuit.stop();
 		lineOut.stop();
 		isOn = false;
 	}
 
+	/**
+	 * Donne l'etat du bouton Mute
+	 * @return true si le circuit est en marche, faux sinon (le son est coupe) 
+	 */
 	public boolean isOn() {
 		return isOn;
 	}
