@@ -1,11 +1,20 @@
 package group1.project.synthlab.test;
 
+import group1.project.synthlab.module.OutModule;
+import group1.project.synthlab.module.OutModule.Distribution;
 import junit.framework.TestCase;
 
+import com.jsyn.unitgen.Circuit;
+
 public class TestOutModule extends TestCase {
+	
+	OutModule outModule; 
+	Circuit c;
 
 	protected void setUp() throws Exception {
 		super.setUp();
+		outModule = new OutModule();
+		c = new Circuit();
 	}
 
 	protected void tearDown() throws Exception {
@@ -16,31 +25,37 @@ public class TestOutModule extends TestCase {
 		fail("Not yet implemented");
 	}
 
+	public void testGetDistribution() {
+		assertEquals(Distribution.MONO, outModule.getDistribution());
+	}
+	
 	public void testSetDistribution() {
-		fail("Not yet implemented");
+		outModule.setDistribution(Distribution.STEREO);
+		assertEquals(Distribution.STEREO, outModule.getDistribution());
 	}
 
 	public void testMitigate() {
-		fail("Not yet implemented");
+		outModule.mitigate(20);
+		// TODO : ne faudrait-il pas un get pour dB ou pour attenuateur ??
 	}
 
 	public void testGetLineOut() {
-		fail("Not yet implemented");
+		assertNotNull(outModule.getLineOut());
 	}
 
 	public void testGetLeftPort() {
-		fail("Not yet implemented");
+		assertNotNull(outModule.getLeftPort());
 	}
 
 	public void testGetRightPort() {
-		fail("Not yet implemented");
+		assertNotNull(outModule.getRightPort());
 	}
 
-	public void testGetDistribution() {
-		fail("Not yet implemented");
+	public void testStartFalse() {
+		assertFalse(outModule.isStarted());
 	}
-
-	public void testStart() {
+	
+	public void testStartTrue() {
 		fail("Not yet implemented");
 	}
 
@@ -48,7 +63,11 @@ public class TestOutModule extends TestCase {
 		fail("Not yet implemented");
 	}
 
-	public void testIsOn() {
+	public void testIsOnFalse() {
+		assertFalse(outModule.isStarted());
+	}
+	
+	public void testIsOnTrue() {		
 		fail("Not yet implemented");
 	}
 
