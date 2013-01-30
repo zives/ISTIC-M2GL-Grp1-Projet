@@ -165,7 +165,7 @@ public class OutModule extends Module implements IModule {
 	 * Donne l'etat du bouton Mute
 	 * @return true si le circuit est en marche, faux sinon (le son est coupe) 
 	 */
-	public boolean isOn() {
+	public boolean isStarted() {
 		return isOn;
 	}
 
