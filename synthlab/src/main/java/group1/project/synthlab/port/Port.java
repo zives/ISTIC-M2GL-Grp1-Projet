@@ -2,11 +2,18 @@ package group1.project.synthlab.port;
 
 import group1.project.synthlab.cable.ICable;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public abstract class Port implements IPort {
 
+public abstract class Port implements IPort, IPortObservable {
+	protected List<IPortObserver> observers;
 	protected ICable cable;
 	private String label;	
+	
+	public Port() {
+		observers = new ArrayList<IPortObserver>();
+	}
 		
 	public ICable getCable() {
 		return cable;
@@ -26,6 +33,26 @@ public abstract class Port implements IPort {
 	
 	public boolean isUsed() {
 		return cable != null;
+	}
+
+	public void register(IPortObserver observer) {
+		observers.add(observer);
+		
+	}
+
+	public void unregister(IPortObserver observer) {
+		observers.remove(observer);
+		
+	}
+
+	public void cableConnected() {
+		for(IPortObserver observer: observers)
+			observer.cableConnected(this);
+		
+	}
+	public void cableDeconnected() {
+		for(IPortObserver observer: observers)
+			observer.cableDeconnected(this);
 	}
 	
 
