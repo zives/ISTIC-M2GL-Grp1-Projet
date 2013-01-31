@@ -1,8 +1,8 @@
 package group1.project.synthlab.test;
 
 
-import group1.project.synthlab.control.module.OutModule;
-import group1.project.synthlab.control.module.OutModule.Distribution;
+import group1.project.synthlab.module.OutModule;
+import group1.project.synthlab.module.OutModule.Distribution;
 import junit.framework.TestCase;
 
 import com.jsyn.JSyn;
@@ -146,26 +146,21 @@ public class TestOutModule extends TestCase {
 	public void testStop() {
 		System.err.println("Préparation au stop...");
 		out.start();
-		try
-		{
-			double time = synth.getCurrentTime();
-			synth.sleepUntil( time + 2.0 );
-		} catch( InterruptedException e )
-		{
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
 		out.stop();
 		assert(!out.isStarted());
 		System.err.println("Stop...");
-		try
-		{
-			double time = synth.getCurrentTime();
-			synth.sleepUntil( time + 4.0 );
-		} catch( InterruptedException e )
-		{
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		synth.stop();
+		
 	}
 
 }

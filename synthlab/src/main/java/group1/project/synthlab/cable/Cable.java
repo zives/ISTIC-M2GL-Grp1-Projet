@@ -1,9 +1,9 @@
 package group1.project.synthlab.cable;
 
-import group1.project.synthlab.control.port.in.InPort;
-import group1.project.synthlab.control.port.out.OutPort;
 import group1.project.synthlab.exceptions.BadConnection;
 import group1.project.synthlab.exceptions.PortAlreadyUsed;
+import group1.project.synthlab.port.in.InPort;
+import group1.project.synthlab.port.out.OutPort;
 
 public class Cable implements ICable {
 	
@@ -16,7 +16,7 @@ public class Cable implements ICable {
 	// Lorsqu'on crée un cable, on commence par cliquer sur la sortie d'un module...
 	public void setOutPort(OutPort outPort) throws BadConnection, PortAlreadyUsed {
 		if (outPort.isUsed())
-			throw new PortAlreadyUsed("Ce port " + outPort.getLabel() + " est déjà utilisé par un autre cable. Déttacher le câble avant d'en ajouter un autre!");
+			throw new PortAlreadyUsed("Ce port " + outPort.getLabel() + " est déjà utilisé par un autre cable. Déttachez le câble avant d'en ajouter un autre !");
 		this.outPort = outPort;
 		
 	}
@@ -24,7 +24,7 @@ public class Cable implements ICable {
 	// Et on termine en cliquant sur l'entrée d'un module
 	public void setInPort(InPort inPort) throws BadConnection, PortAlreadyUsed {
 		if (inPort.isUsed())
-			throw new PortAlreadyUsed("Ce port " + inPort.getLabel() + " est déjà utilisé par un autre cable. Déttacher le câble avant d'en ajouter un autre!");
+			throw new PortAlreadyUsed("Ce port " + inPort.getLabel() + " est déjà utilisé par un autre cable. Déttachez le câble avant d'en ajouter un autre !");
 		this.inPort = inPort;
 		if(outPort != null){
 			outPort.getJSynPort().connect(inPort.getJSynPort());
@@ -35,8 +35,10 @@ public class Cable implements ICable {
 			inPort.cableConnected();
 		}
 		else
-			throw new BadConnection("Un câble doit partir d'une sortie et arriver à une entrée.");
+			throw new BadConnection("Un câble doit partir d'une sortie de module et arriver à une entrée d'un autre module.");
 	}
+	
+	
 
 	public InPort getInPort() {
 		return inPort;

@@ -1,4 +1,4 @@
-package group1.project.synthlab.control.port;
+package group1.project.synthlab.port;
 
 import group1.project.synthlab.cable.ICable;
 
@@ -10,8 +10,9 @@ public abstract class Port implements IPort, IPortObservable {
 	protected List<IPortObserver> observers = new ArrayList<IPortObserver>();
 	protected ICable cable;
 	private String label;	
-	
-	public Port() {
+
+	public Port(String label){
+		this.label = label;
 	}
 		
 	public ICable getCable() {
@@ -22,9 +23,7 @@ public abstract class Port implements IPort, IPortObservable {
 		this.cable = cable;
 	}
 	
-	public Port(String label) {
-		this.label = label;
-	}
+	
 	
 	public String getLabel() {
 		return label;

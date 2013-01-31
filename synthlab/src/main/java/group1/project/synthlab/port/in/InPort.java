@@ -1,13 +1,13 @@
-package group1.project.synthlab.control.port.in;
+package group1.project.synthlab.port.in;
 
-import group1.project.synthlab.control.port.Port;
+import group1.project.synthlab.port.Port;
 
 import com.jsyn.ports.ConnectableInput;
 
 public class InPort extends Port implements IInPort {
 	protected ConnectableInput jSynPort;
 	
-	public InPort(String label, ConnectableInput jSynPort) {
+	public InPort(String label, ConnectableInput jSynPort)  {
 		super(label);
 		this.jSynPort = jSynPort;
 	}
@@ -15,5 +15,5 @@ public class InPort extends Port implements IInPort {
 	public ConnectableInput getJSynPort() {
 		return jSynPort;
 	}
-
+ 
 }

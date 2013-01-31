@@ -1,4 +1,4 @@
-package group1.project.synthlab.control.module;
+package group1.project.synthlab.module;
 
 import com.jsyn.unitgen.Circuit;
 

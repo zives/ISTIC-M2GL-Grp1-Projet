@@ -1,17 +1,17 @@
 package group1.project.synthlab.workspace;
 
-import javax.swing.JPanel;
+import javax.management.InstanceAlreadyExistsException;
+
+import group1.project.synthlab.module.IModule;
+import group1.project.synthlab.module.OutModule;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 
-import group1.project.synthlab.control.module.IModule;
-import group1.project.synthlab.control.module.OutModule;
-
 public class Workspace implements IWorkspace {
-
-	private Synthesizer synthesizer;
-	private JPanel p;
+	protected static IWorkspace instance;
+	protected Synthesizer synthesizer;
+	
 	public Workspace(){
 		synthesizer = JSyn.createSynthesizer();
 		synthesizer.start();
@@ -26,9 +26,10 @@ public class Workspace implements IWorkspace {
 		synthesizer.remove(module.getCircuit());
 	}
 
-	public JPanel getPresentation() {
-		// TODO Auto-generated method stub
-		return p;
+	public static IWorkspace getInstance() {
+		if (instance == null)
+			instance = new Workspace();
+		return instance;
 	}
 
 }

@@ -1,6 +1,6 @@
-package group1.project.synthlab.control.module;
+package group1.project.synthlab.module;
 
-import group1.project.synthlab.control.port.in.InPort;
+import group1.project.synthlab.port.in.InPort;
 import group1.project.synthlab.unitExtensions.Attenuator;
 
 import javax.swing.JFrame;
@@ -171,8 +171,8 @@ public class OutModule extends Module implements IModule {
 	 * Arrête le circuit
 	 */
 	public void stop() {
-		circuit.stop();
 		lineOut.stop();
+		circuit.stop();		
 		isOn = false;
 	}
 

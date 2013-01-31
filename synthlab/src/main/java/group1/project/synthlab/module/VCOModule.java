@@ -1,13 +1,13 @@
-package group1.project.synthlab.control.module;
-
-import javax.swing.JFrame;
+package group1.project.synthlab.module;
 
 import group1.project.synthlab.cable.Cable;
-import group1.project.synthlab.control.module.OutModule.Distribution;
-import group1.project.synthlab.control.port.IPort;
-import group1.project.synthlab.control.port.IPortObserver;
-import group1.project.synthlab.control.port.in.InPort;
-import group1.project.synthlab.control.port.out.OutPort;
+import group1.project.synthlab.module.OutModule.Distribution;
+import group1.project.synthlab.port.IPort;
+import group1.project.synthlab.port.IPortObserver;
+import group1.project.synthlab.port.in.InPort;
+import group1.project.synthlab.port.out.OutPort;
+
+import javax.swing.JFrame;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
@@ -25,7 +25,7 @@ public class VCOModule extends Module implements IPortObserver {
 	protected boolean fmConnected;
 	
 	// Amplitude par défaut
-	public static final double a0 = 0.5;
+	public static final double a0 = 0.1;
 	
 	// Fréquences max, min et de base par défaut :
 	public static final double fmin = 0;
@@ -72,8 +72,7 @@ public class VCOModule extends Module implements IPortObserver {
 		// On doit multiplier Vfm par 5 car JSyn considère des amplitudes entre -1 et 1, et nous considérons des tensions entre -5V et +5V)
 		passThrough = new PassThrough();
 		Multiply multiply5 = new Multiply();
-		multiply5.inputB.set(1); //Inutile de multiplier par 5 car 1JsynV correspond à l'amplitude maximale, l'amplitude de JSyj est exprimée en % de -1 à 1
-		//5 est une valeur choisie arbitrairement de façon à ce que 5v == 1JsynV
+		multiply5.inputB.set(5); 
 		PowerOfTwo poweroftwo = new PowerOfTwo();
 		multiply5.output.connect(poweroftwo.input);
 		Multiply multiplyf0 = new Multiply();
