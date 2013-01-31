@@ -1,6 +1,6 @@
-package group1.project.synthlab.module;
+package group1.project.synthlab.control.module;
 
-import group1.project.synthlab.port.in.InPort;
+import group1.project.synthlab.control.port.in.InPort;
 import group1.project.synthlab.unitExtensions.Attenuator;
 
 import javax.swing.JFrame;

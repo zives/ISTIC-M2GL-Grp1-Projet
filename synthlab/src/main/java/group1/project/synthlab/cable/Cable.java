@@ -1,9 +1,9 @@
 package group1.project.synthlab.cable;
 
+import group1.project.synthlab.control.port.in.InPort;
+import group1.project.synthlab.control.port.out.OutPort;
 import group1.project.synthlab.exceptions.BadConnection;
 import group1.project.synthlab.exceptions.PortAlreadyUsed;
-import group1.project.synthlab.port.in.InPort;
-import group1.project.synthlab.port.out.OutPort;
 
 public class Cable implements ICable {
 	

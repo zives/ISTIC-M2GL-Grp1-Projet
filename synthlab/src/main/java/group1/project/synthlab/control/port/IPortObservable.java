@@ -1,4 +1,4 @@
-package group1.project.synthlab.port;
+package group1.project.synthlab.control.port;
 
 public interface IPortObservable {
 	public void register(IPortObserver observer);

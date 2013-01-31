@@ -1,6 +1,5 @@
 package group1.project.synthlab.unitExtensions;
 
-import com.jsyn.unitgen.UnitBinaryOperator;
 import com.jsyn.unitgen.UnitFilter;
 
 /**

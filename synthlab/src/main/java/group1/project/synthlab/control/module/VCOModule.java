@@ -1,13 +1,13 @@
-package group1.project.synthlab.module;
+package group1.project.synthlab.control.module;
 
 import javax.swing.JFrame;
 
 import group1.project.synthlab.cable.Cable;
-import group1.project.synthlab.module.OutModule.Distribution;
-import group1.project.synthlab.port.IPort;
-import group1.project.synthlab.port.IPortObserver;
-import group1.project.synthlab.port.in.InPort;
-import group1.project.synthlab.port.out.OutPort;
+import group1.project.synthlab.control.module.OutModule.Distribution;
+import group1.project.synthlab.control.port.IPort;
+import group1.project.synthlab.control.port.IPortObserver;
+import group1.project.synthlab.control.port.in.InPort;
+import group1.project.synthlab.control.port.out.OutPort;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;

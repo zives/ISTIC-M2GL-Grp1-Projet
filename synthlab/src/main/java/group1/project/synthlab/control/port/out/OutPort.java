@@ -1,6 +1,6 @@
-package group1.project.synthlab.port.out;
+package group1.project.synthlab.control.port.out;
 
-import group1.project.synthlab.port.Port;
+import group1.project.synthlab.control.port.Port;
 
 import com.jsyn.ports.ConnectableOutput;
 

@@ -1,24 +1,14 @@
 package group1.project.synthlab.test;
 
 
-import javax.sql.rowset.spi.SyncFactory;
-
-import group1.project.synthlab.module.OutModule;
-import group1.project.synthlab.module.OutModule.Distribution;
-
-import group1.project.synthlab.module.OutModule;
-import group1.project.synthlab.module.OutModule.Distribution;
-
-
-
+import group1.project.synthlab.control.module.OutModule;
+import group1.project.synthlab.control.module.OutModule.Distribution;
 import junit.framework.TestCase;
-
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
-import com.jsyn.unitgen.SineOscillator;
-
 import com.jsyn.unitgen.Circuit;
+import com.jsyn.unitgen.SineOscillator;
 
 public class TestOutModule extends TestCase {
 	

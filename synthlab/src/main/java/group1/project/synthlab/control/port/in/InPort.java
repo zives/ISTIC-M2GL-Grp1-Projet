@@ -1,6 +1,7 @@
-package group1.project.synthlab.port.in;
+package group1.project.synthlab.control.port.in;
 
-import group1.project.synthlab.port.Port;
+import group1.project.synthlab.control.port.Port;
+
 import com.jsyn.ports.ConnectableInput;
 
 public class InPort extends Port implements IInPort {
