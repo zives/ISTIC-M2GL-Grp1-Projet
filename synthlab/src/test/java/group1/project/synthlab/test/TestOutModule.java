@@ -31,7 +31,6 @@ public class TestOutModule extends TestCase {
 		synth.add(out.getCircuit());
 		oscTest.start();
 		out.start();
-		synth.start();
 
 	}
 
@@ -47,85 +46,36 @@ public class TestOutModule extends TestCase {
 		assert(out.getDistribution() == Distribution.NORMAL);
 		assert(!out.isStarted());
 		assert(out.getAttenuation() == 0);
-		
-		try
-		{
-			double time = synth.getCurrentTime();
-			synth.sleepUntil( time + 1.0 );
-		} catch( InterruptedException e )
-		{
-			e.printStackTrace();
-		}
+				
 	}
 
 	public void testSetDistribution() {
 
 		out.setDistribution(Distribution.DISTRIBUTED);
 		assert(out.getDistribution() == Distribution.DISTRIBUTED);
-		System.err.println("Distribution 2channels");
-		
-		try
-		{
-			double time = synth.getCurrentTime();
-			synth.sleepUntil( time + 3.0 );
-		} catch( InterruptedException e )
-		{
-			e.printStackTrace();
-		}
-
+		System.err.println("Distribution 2 channels");
+	
 		out.setDistribution(Distribution.NORMAL);
 		assert(out.getDistribution() == Distribution.NORMAL);
 		System.err.println("Distribution normale");
-		try
-		{
-			double time = synth.getCurrentTime();
-			synth.sleepUntil( time + 3.0 );
-		} catch( InterruptedException e )
-		{
-			e.printStackTrace();
-		}
+	
 
 	}
 
 	public void testSetAttenuation() {
 		out.setAttenuation(13);
 		assert(out.getAttenuation() == 12);
-		System.err.println("Att�nuation +12db");
-		
-		try
-		{
-			double time = synth.getCurrentTime();
-			synth.sleepUntil( time + 1.0 );
-		} catch( InterruptedException e )
-		{
-			e.printStackTrace();
-		}
+		System.err.println("Attenuation +12db");
 		
 		out.setAttenuation(-20);
 		assert(out.getAttenuation() == -20);
-		System.err.println("Att�nuation -20db");
+		System.err.println("Attenuation -20db");
 		
-		try
-		{
-			double time = synth.getCurrentTime();
-			synth.sleepUntil( time + 1.0 );
-		} catch( InterruptedException e )
-		{
-			e.printStackTrace();
-		}
 		
 		out.setAttenuation(0);
 		assert(out.getAttenuation() == 0);
-		System.err.println("Att�nuation 0db");
+		System.err.println("Attenuation 0db");
 		
-		try
-		{
-			double time = synth.getCurrentTime();
-			synth.sleepUntil( time + 1.0 );
-		} catch( InterruptedException e )
-		{
-			e.printStackTrace();
-		}
 
 	}
 	
@@ -133,32 +83,17 @@ public class TestOutModule extends TestCase {
 		out.start();
 		assert(out.isStarted());
 		System.err.println("Start...");
-		try
-		{
-			double time = synth.getCurrentTime();
-			synth.sleepUntil( time + 4.0 );
-		} catch( InterruptedException e )
-		{
-			e.printStackTrace();
-		}
+	
 	}
 
 	public void testStop() {
-		System.err.println("Préparation au stop...");
+		System.err.println("Preparation au stop...");
 		out.start();
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		
 		out.stop();
 		assert(!out.isStarted());
 		System.err.println("Stop...");
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		
 		synth.stop();
 		
 	}

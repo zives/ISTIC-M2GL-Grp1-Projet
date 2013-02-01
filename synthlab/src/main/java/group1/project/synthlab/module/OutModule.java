@@ -11,14 +11,16 @@ import com.jsyn.scope.AudioScope;
 import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.PassThrough;
 import com.jsyn.unitgen.SineOscillator;
+import com.jsyn.unitgen.TriangleOscillator;
 
 /**
  * Module de sortie
+ * 
  * @author Groupe 1
  * 
  */
 public class OutModule extends Module implements IModule {
-	
+
 	public enum Distribution {
 		NORMAL, DISTRIBUTED
 	}
@@ -79,8 +81,7 @@ public class OutModule extends Module implements IModule {
 	 * 
 	 * @param distribution
 	 *            NORMAL, le son ne sort que sur le haut parleur correspond au
-	 *            cable du port (gauche ou droite); 
-	 *            DISTRIBUTED, le son de
+	 *            cable du port (gauche ou droite); DISTRIBUTED, le son de
 	 *            chacun des ports est envoyé sur les deux hauts parleurs. Si
 	 *            les deux ports sont occupés, le son est mixé/fusionné sur les
 	 *            deux hauts parleurs.
@@ -107,8 +108,8 @@ public class OutModule extends Module implements IModule {
 
 	/**
 	 * Atténuation du son Formule pour attenuer le son 10 ^ (valeurEnDB / 20) *
-	 * tensionNominale
-	 * http://fr.wikipedia.org/wiki/Niveau_(audio)
+	 * tensionNominale http://fr.wikipedia.org/wiki/Niveau_(audio)
+	 * 
 	 * @param db
 	 *            (valeurs : -inf à +12 dB)
 	 */
@@ -119,7 +120,7 @@ public class OutModule extends Module implements IModule {
 		attenuatorLeft.setAttenuation(voltage - 1);
 		attenuatorRight.setAttenuation(voltage - 1);
 	}
-	
+
 	/**
 	 * 
 	 * @return the amplitude attenuation
@@ -172,7 +173,7 @@ public class OutModule extends Module implements IModule {
 	 */
 	public void stop() {
 		lineOut.stop();
-		circuit.stop();		
+		circuit.stop();
 		isOn = false;
 	}
 
@@ -185,42 +186,84 @@ public class OutModule extends Module implements IModule {
 		return isOn;
 	}
 
+	// Test fonctionnel
 	public static void main(String[] args) {
+
+		// Creation d'un module de sortie
 		OutModule out = new OutModule();
 
-		// Create a context for the synthesizer.
+		// Creation du synthétiseur
 		Synthesizer synth = JSyn.createSynthesizer();
-
-		
 		synth.start();
 
-		SineOscillator osc;
-		// Add a tone generator.
-		synth.add(osc = new SineOscillator());
-		// Add a stereo audio output unit.
+		// Creation d'oscillateurs arbitraire
+		SineOscillator oscS = null;
+		synth.add(oscS = new SineOscillator());
+		TriangleOscillator oscT = null;
+		synth.add(oscT = new TriangleOscillator());
+
+		// Ajout de notre module au synthetiseur et connexion aux oscillateur
 		synth.add(out.getCircuit());
-		osc.output.connect(out.getLeftPort().getJSynPort());
-		// Set the frequency and amplitude for the sine wave.
-		osc.frequency.set(300.0);
-		osc.amplitude.set(1);
-		out.setAttenuation(-10);
+		oscS.output.connect(out.getLeftPort().getJSynPort());
+		oscT.output.connect(out.getRightPort().getJSynPort());
 
-		out.start();
+		// Reglage des oscillateurs
+		oscS.frequency.set(200.0);
+		oscS.amplitude.set(1);
+		oscT.frequency.set(300.0);
+		oscT.amplitude.set(1);
 
+		// Vue graphique
 		AudioScope scope = new AudioScope(synth);
-		scope.addProbe(osc.output);
+		scope.addProbe(oscS.output);
+		scope.addProbe(oscT.output);
 		scope.setTriggerMode(AudioScope.TriggerMode.AUTO);
 
 		scope.getModel().getTriggerModel().getLevelModel()
 				.setDoubleValue(0.0001);
-
 		scope.getView().setShowControls(true);
-
 		scope.start();
+
+		// Fenetre
 		JFrame frame = new JFrame();
 		frame.add(scope.getView());
 		frame.pack();
 		frame.setVisible(true);
+
+		// Début du test
+		try {
+			out.start();
+			System.out.println("Demarrage...");
+			Thread.sleep(2000);
+			System.out
+					.println("Resultat attendu freq 300 oscillation sinusoidale à gauche et triangle freq 600 à droite");
+			out.setDistribution(Distribution.NORMAL);
+			oscS.amplitude.set(0);
+			Thread.sleep(2000);
+			oscS.amplitude.set(1);
+			oscT.amplitude.set(0);
+			Thread.sleep(2000);
+			oscT.amplitude.set(1);
+			Thread.sleep(2000);
+			System.out.println("Mixage des ports");
+			out.setDistribution(Distribution.DISTRIBUTED);
+			Thread.sleep(2000);
+			System.out.println("+12db");
+			out.setAttenuation(12);
+			Thread.sleep(2000);
+			System.out.println("-20db");
+			out.setAttenuation(-20);
+			Thread.sleep(2000);
+			System.out.println("Stop");
+			out.stop();
+			Thread.sleep(3000);
+			System.out.println("Start");
+			out.start();
+			out.setAttenuation(0);
+			Thread.sleep(3000);
+		} catch (Exception e) {
+
+		}
 
 	}
 }
