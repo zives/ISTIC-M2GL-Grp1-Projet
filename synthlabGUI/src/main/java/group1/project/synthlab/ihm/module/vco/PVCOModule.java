@@ -23,13 +23,12 @@ public class PVCOModule extends PModule implements IPVCOModule {
 	protected ICVCOModule controller;
 	
 	public PVCOModule(ICVCOModule controller) {
+		super(controller);
 		this.controller = controller;
-		this.setLayout(null);
-		this.setBackground(new Color(70,70,70));
-		this.setSize(300, 300);
-		this.setPreferredSize(this.getSize());
-		this.setMaximumSize(this.getSize());
+		//Taille et couleur définie dans la super classe
 		
+		
+		//Label et onoff boutons déjà rajoutés dans la super classe
 		
 		//Label
 		JLabel label = new JLabel(controller.getName());
@@ -58,16 +57,7 @@ public class PVCOModule extends PModule implements IPVCOModule {
 	}
 	
 	
-	@Override
-	public void paint(Graphics g) {	
-		super.paint(g);
-		Graphics2D gi = (Graphics2D) g;
-		gi.setStroke(new BasicStroke(8f));
-		g.setColor(new Color(50,50,50));
-		g.drawRect(5, 5, getWidth() - 10, getHeight() - 10);
-		
-	}
-	
+
 	
 	public static void main(String[] args) {
 		CFactory factory = new CFactory();
@@ -81,7 +71,7 @@ public class PVCOModule extends PModule implements IPVCOModule {
 	}
 
 
-	public void reregisterModuleToCables() {
+	public void reregisterCables() {
 		//Enregitrement du module auprès des cables
 		register((IPModuleObserver) controller.getFm().getCable());
 		register((IPModuleObserver) controller.getOutSine().getCable());

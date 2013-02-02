@@ -19,14 +19,14 @@ public class COutModule extends OutModule implements ICOutModule {
 	@Override
 	public void cableConnected(IPort port) {		
 		super.cableConnected(port);
-		presentation.reregisterModuleToCables();
+		presentation.reregisterCables();
 		
 	}
 
 	@Override
 	public void cableDisconnected(IPort port) {
 		super.cableDisconnected(port);
-		presentation.reregisterModuleToCables();
+		presentation.reregisterCables();
 	}
 	
 	 

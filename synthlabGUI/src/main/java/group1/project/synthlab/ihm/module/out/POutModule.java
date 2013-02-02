@@ -22,20 +22,12 @@ public class POutModule extends PModule implements IPOutModule {
 	protected ICOutModule controller;
 
 	public POutModule(ICOutModule controller) {
+		super(controller);
 		this.controller = controller;
 		this.setLayout(null);
-		this.setBackground(new Color(70, 70, 70));
-		this.setSize(300, 300);
-		this.setPreferredSize(this.getSize());
-		this.setMaximumSize(this.getSize());
-
-
+		//Taille et couleur définie dans la super classe
 		
-		// Label
-		JLabel label = new JLabel(controller.getName());
-		label.setForeground(Color.GRAY);
-		label.setOpaque(false);
-		label.setLocation(127, 137);
+		//Label et onoff boutons déjà rajoutés dans la super classe
 
 		// Ports
 		PPort pportLeft = (PPort) (((ICInPort) controller.getLeftPort())
@@ -46,21 +38,12 @@ public class POutModule extends PModule implements IPOutModule {
 		pportRight.setLocation(70, 220);
 
 		// Ajouts des composants
-		add(label);
 		add(pportLeft);
 		add(pportRight);
 
 	}
 
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-		Graphics2D gi = (Graphics2D) g;
-		gi.setStroke(new BasicStroke(8f));
-		g.setColor(new Color(50, 50, 50));
-		g.drawRect(5, 5, getWidth() - 10, getHeight() - 10);
 
-	}
 
 	public static void main(String[] args) {
 		CFactory factory = new CFactory();
@@ -73,7 +56,7 @@ public class POutModule extends PModule implements IPOutModule {
 
 	}
 
-	public void reregisterModuleToCables() {
+	public void reregisterCables() {
 		// Enregitrement du module auprès des cables
 		register((IPModuleObserver) controller.getLeftPort().getCable());
 		register((IPModuleObserver) controller.getRightPort().getCable());

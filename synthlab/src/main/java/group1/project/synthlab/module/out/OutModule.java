@@ -188,7 +188,6 @@ public class OutModule extends Module implements IOutModule {
 	}
 	
 	public void cableConnected(IPort port) {
-		System.out.println("jj");
 	}
 
 
