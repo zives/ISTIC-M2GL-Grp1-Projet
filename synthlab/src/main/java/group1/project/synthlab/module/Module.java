@@ -6,7 +6,7 @@ import com.jsyn.unitgen.Circuit;
 
 
 public abstract class Module implements IModule {
-	protected static int moduleCount = 0;
+	
 	
 	protected Circuit circuit;
 	
@@ -19,7 +19,6 @@ public abstract class Module implements IModule {
 		this.circuit = new Circuit();
 		this.name = name;
 		this.factory = factory;
-		++moduleCount;
 	}
 	
 	public String getName() {

@@ -12,6 +12,7 @@ import java.awt.Component;
 import java.awt.Font;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JSlider;
 
 public class PVCOModule extends PModule implements IPVCOModule {
@@ -28,9 +29,20 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		
 		//Label et onoff boutons déjà rajoutés dans la super classe
 			
+		//Label fréquence
+		JLabel freqLabel = new JLabel("100 Hz");
+		freqLabel.setForeground(Color.LIGHT_GRAY);
+		freqLabel.setOpaque(false);		
+		freqLabel.setSize(getWidth(),20);
+		freqLabel.setHorizontalAlignment(JLabel.CENTER);
+		freqLabel.setBorder(null);
+		freqLabel.setPreferredSize(freqLabel.getSize());
+		freqLabel.setLocation(getWidth() / 2 - freqLabel.getWidth() / 2, 50);
+		freqLabel.setFont(new Font("Monospaced", Font.ITALIC, 26));		
+		
 		//Sliders
 		JSlider octaveSlider = new JSlider();
-		octaveSlider.setMaximum(9);
+		octaveSlider.setMaximum(10);
 		octaveSlider.setMinimum(0);
 		octaveSlider.setValue(controller.getCoarseAdjustment());
 		octaveSlider.setOrientation(JSlider.HORIZONTAL);
@@ -43,7 +55,7 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		octaveSlider.setPreferredSize(octaveSlider.getSize());
 		octaveSlider.setOpaque(false);
 		octaveSlider.setFocusable(false);
-		octaveSlider.setLocation(getWidth() / 2 - octaveSlider.getWidth() / 2, 100);
+		octaveSlider.setLocation(getWidth() / 2 - octaveSlider.getWidth() / 2, 90);
 		
 		//Ports
 		PPort pportFM = (PPort) (((ICInPort) controller.getFm()).getPresentation());
@@ -57,6 +69,7 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		
 		
 		//Ajouts des composants
+		add(freqLabel);
 		add(pportFM);
 		add(pportSin);
 		add(pportTri);

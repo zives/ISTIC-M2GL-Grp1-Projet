@@ -27,6 +27,8 @@ public class OutModule extends Module implements IOutModule {
 	public enum Distribution {
 		NORMAL, DISTRIBUTED
 	}
+	
+	protected static int moduleCount = 0;
 
 	@SuppressWarnings("unused")
 	private final double MAX_VOLTAGE = 5;
@@ -52,7 +54,7 @@ public class OutModule extends Module implements IOutModule {
 	 * Initialise le circuit (attenuateur, port, ...)
 	 */
 	public OutModule(Factory factory) {
-		super("Out-" + moduleCount, factory);
+		super("Out-" + ++moduleCount, factory);
 		lineOut = new LineOut();
 		attenuatorLeft = new Attenuator();
 		attenuatorRight = new Attenuator();

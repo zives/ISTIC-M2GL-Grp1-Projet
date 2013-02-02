@@ -25,6 +25,8 @@ import com.jsyn.unitgen.TriangleOscillator;
  * 
  */
 public class VCOModule extends Module implements IPortObserver, IVCOModule {
+	
+	protected static int moduleCount = 0;
 
 	/** Modulation de frequence connectee ou pas */
 	protected boolean fmConnected;
@@ -74,7 +76,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	 * Constructeur : initialise le VCO (, port, ...)
 	 */
 	public VCOModule(Factory factory) {
-		super("VCO-" + moduleCount, factory);
+		super("VCO-" + ++moduleCount, factory);
 		
 		// Creation des oscillateurs
 		sineOsc = new SineOscillator();
@@ -309,7 +311,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		synth.add(out);
 		out.start();
 		
-		// On connecte la sortie sinusoidale de notre VCO à la sortie
+		// On connecte la sortie sinusoidale de notre VCO ï¿½ la sortie
 
 		out.input.connect(vco.getOutSine().getJSynPort());
 		
@@ -320,9 +322,9 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		// la frequence du signal modulant doit etre faible pour que le changement de frequence soit audible
 		fm.squareOsc.frequency.set(0.5); 
 		// Les amplitudes en JSyn varient entre -1 et 1, ce qui correspond dans notre modele a -5V +5V
-		// Une amplitude de 0.2 correspond donc a une amplitude crete à crete de 1V
+		// Une amplitude de 0.2 correspond donc a une amplitude crete ï¿½ crete de 1V
 
-		// Ainsi, en theorie, quand on passe d'un sommet a un creux, la frequence du signal doit etre divisee par 2² et lorsqu'on passe d'un creux a un sommet la frequence doit etre multipliee par 2².
+		// Ainsi, en theorie, quand on passe d'un sommet a un creux, la frequence du signal doit etre divisee par 2ï¿½ et lorsqu'on passe d'un creux a un sommet la frequence doit etre multipliee par 2ï¿½.
 		fm.squareOsc.amplitude.set(0.2);
 		
 		// Pour l'affichage des courbes
@@ -389,7 +391,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 
 		vco.cableConnected(vco.getFm());
 
-		// On verifie que la frequence est bien divisee par 2² ou multipliee par 2² quand on passe d'une crete a la suivante
+		// On verifie que la frequence est bien divisee par 2ï¿½ ou multipliee par 2ï¿½ quand on passe d'une crete a la suivante
 		// Avec un signal modulant carre, la valeur de la frequence du signal modulee va alternee entre 2 valeurs
 		// Il suffit donc d'afficher ces valeurs pour verifier le rapport de 1 a 4.
 		int i = 0;
