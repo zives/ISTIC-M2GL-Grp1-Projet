@@ -4,7 +4,6 @@ import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
-import group1.project.synthlab.port.in.InPort;
 import group1.project.synthlab.unitExtensions.Attenuator;
 
 import javax.swing.JFrame;
@@ -37,7 +36,7 @@ public class OutModule extends Module implements IOutModule {
 	protected Attenuator attenuatorLeft;
 	protected Attenuator attenuatorRight;
 
-	/* Défintion des ports */
+	/* Defintion des ports */
 	protected IInPort leftPort;
 	protected IInPort rightPort;
 
@@ -46,7 +45,7 @@ public class OutModule extends Module implements IOutModule {
 	private PassThrough passThroughRight;
 	private boolean isOn;
 
-	/* Propriétés du module */
+	/* Proprietes du module */
 	Distribution distribution;
 
 	/**
@@ -196,14 +195,15 @@ public class OutModule extends Module implements IOutModule {
 	}
 
 	// Test fonctionnel
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
-		//Creéation de la factory
+		//Creeation de la factory
 		Factory factory = new Factory();
 		
 		// Creation d'un module de sortie
 		OutModule out = new OutModule(factory);
 
-		// Creation du synthétiseur
+		// Creation du synthetiseur
 		Synthesizer synth = JSyn.createSynthesizer();
 		synth.start();
 
@@ -241,7 +241,7 @@ public class OutModule extends Module implements IOutModule {
 		frame.pack();
 		frame.setVisible(true);
 
-		// Début du test
+		// Debut du test
 		try {
 			out.start();
 			System.out.println("Demarrage...");

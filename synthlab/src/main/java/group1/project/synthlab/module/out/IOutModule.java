@@ -10,11 +10,11 @@ public interface IOutModule extends IModule {
 	public void setDistribution(Distribution distribution);
 
 	/**
-	 * Atténuation du son Formule pour attenuer le son 10 ^ (valeurEnDB / 20) *
+	 * Attenuation du son Formule pour attenuer le son 10 ^ (valeurEnDB / 20) *
 	 * tensionNominale http://fr.wikipedia.org/wiki/Niveau_(audio)
 	 * 
 	 * @param db
-	 *            (valeurs : -inf à +12 dB)
+	 *            (valeurs : -inf a� +12 dB)
 	 */
 	public void setAttenuation(double db);
 
@@ -26,17 +26,17 @@ public interface IOutModule extends IModule {
 
 	/**
 	 * 
-	 * @return l'objet JSyn correspondant à la sortie brute (son non filtré)
+	 * @return l'objet JSyn correspondant a� la sortie brute (son non filtre)
 	 */
 	public LineOut getLineOut();
 
 	/**
-	 * @return Le port d'entrée gauche
+	 * @return Le port d'entree gauche
 	 */
 	public IInPort getLeftPort();
 
 	/**
-	 * @return Retourne le port d'entrée droite
+	 * @return Retourne le port d'entree droite
 	 */
 	public IInPort getRightPort();
 

@@ -114,6 +114,11 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		squareOsc.frequency.set(f0);
 		triangleOsc.frequency.set(f0);
 		
+		// On regle les amplitudes des oscillateurs au minimum, puisque le VCO n'est pas encore demarre
+		sineOsc.amplitude.set(amin);
+		squareOsc.amplitude.set(amin);
+		triangleOsc.amplitude.set(amin);
+				
 		// Lorsqu'il est cree le VCO est eteint
 		isOn = false;
 	}
@@ -162,7 +167,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	 * @see group1.project.synthlab.module.IModule#start()
 	 */
 	public void start() {
-		circuit.start();
+		//circuit.start();
 		sineOsc.amplitude.set(a0);
 		squareOsc.amplitude.set(a0);
 		triangleOsc.amplitude.set(a0);
@@ -296,7 +301,8 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		// On cree notre VCO et on ajoute le circuit cree au Synthesizer
 		VCOModule vco = (VCOModule) factory.createVCOModule();
 		synth.add(vco.getCircuit());
-
+		vco.start();
+		
 		// LineOut remplace ici OutModule
 		LineOut out = new LineOut();
 
@@ -318,6 +324,8 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		// Ainsi, en theorie, quand on passe d'un sommet a un creux, la frequence du signal doit etre divisee par 2² et lorsqu'on passe d'un creux a un sommet la frequence doit etre multipliee par 2².
 		fm.squareOsc.amplitude.set(0.2);
 	
+		fm.start();
+		
 		// Pour l'affichage des courbes
 		AudioScope scope= new AudioScope( synth );
 		scope.addProbe(vco.sineOsc.output);
