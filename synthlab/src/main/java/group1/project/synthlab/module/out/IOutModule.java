@@ -6,6 +6,11 @@ import group1.project.synthlab.port.in.IInPort;
 
 import com.jsyn.unitgen.LineOut;
 
+/**
+ * Interface de creation du module de sortie.
+ * @author Groupe 1
+ *
+ */
 public interface IOutModule extends IModule {
 	public void setDistribution(Distribution distribution);
 
@@ -19,29 +24,27 @@ public interface IOutModule extends IModule {
 	public void setAttenuation(double db);
 
 	/**
-	 * 
-	 * @return the amplitude attenuation
+	 * @return the amplitude attenuation.
 	 */
 	public double getAttenuation();
 
 	/**
-	 * 
-	 * @return l'objet JSyn correspondant a  la sortie brute (son non filtre)
+	 * @return l'objet JSyn correspondant a la sortie brute (son non filtre).
 	 */
 	public LineOut getLineOut();
 
 	/**
-	 * @return Le port d'entree gauche
+	 * @return le port d'entree gauche.
 	 */
 	public IInPort getLeftPort();
 
 	/**
-	 * @return Retourne le port d'entree droite
+	 * @return le port d'entree droite.
 	 */
 	public IInPort getRightPort();
 
 	/**
-	 * @return Retourne la distribution du son
+	 * @return la distribution du son.
 	 */
 	public Distribution getDistribution();
 

@@ -84,7 +84,6 @@ public class OutModule extends Module implements IOutModule {
 		
 	}
 	
-
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.module.out.IOutModule#setDistribution(group1.project.synthlab.module.out.OutModule.Distribution)
 	 */
@@ -249,7 +248,7 @@ public class OutModule extends Module implements IOutModule {
 			System.out.println("Demarrage...");
 			Thread.sleep(2000);
 			System.out
-					.println("Resultat attendu freq 300 oscillation sinusoidale à gauche et triangle freq 600 à droite");
+					.println("Resultat attendu freq 300 oscillation sinusoidale a gauche et triangle freq 600 a droite");
 			out.setDistribution(Distribution.NORMAL);
 			oscS.amplitude.set(0);
 			Thread.sleep(2000);
