@@ -1,8 +1,8 @@
 package group1.project.synthlab.ihm.module.vco;
 
-import group1.project.synthlab.ihm.factory.ControllerFactory;
+import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.port.PPort;
-import group1.project.synthlab.port.in.IInPort;
+import group1.project.synthlab.ihm.port.in.ICInPort;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -31,8 +31,8 @@ public class PVCOModule extends JPanel implements IPVCOModule {
 		label.setLocation(17, 7);
 		
 		//Ports
-		IInPort pportFM = controller.getFm();
-		setVisible)
+		PPort pportFM = (PPort) (((ICInPort) controller.getFm()).getPresentation());
+		pportFM.setLocation(10, 250);
 		
 		
 		//Ajouts des composants
@@ -51,7 +51,8 @@ public class PVCOModule extends JPanel implements IPVCOModule {
 	
 	
 	public static void main(String[] args) {
-		CVCOModule module = (CVCOModule) ControllerFactory.getInstance().createVCOModule();
+		CFactory factory = new CFactory();
+		CVCOModule module = (CVCOModule) factory.createVCOModule();
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add((Component) module.getPresentation());

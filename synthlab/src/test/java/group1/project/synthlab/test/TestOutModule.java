@@ -1,6 +1,8 @@
 package group1.project.synthlab.test;
 
 
+import group1.project.synthlab.factory.Factory;
+import group1.project.synthlab.module.out.IOutModule;
 import group1.project.synthlab.module.out.OutModule;
 import group1.project.synthlab.module.out.OutModule.Distribution;
 import junit.framework.TestCase;
@@ -15,14 +17,15 @@ public class TestOutModule extends TestCase {
 	OutModule outModule; 
 	Circuit c;
 
-	protected OutModule out;
+	protected IOutModule out;
 	protected SineOscillator oscTest;
 	protected Synthesizer synth;
 	
 	protected void setUp() throws Exception {
+		Factory factory = new Factory();
 		super.setUp();
 
-		out = new OutModule();
+		out = factory.createOutModule();
 		oscTest = new SineOscillator();
 		
 		synth = JSyn.createSynthesizer();
