@@ -1,6 +1,8 @@
 package group1.project.synthlab.module.vco;
 
 import com.jsyn.unitgen.SineOscillator;
+
+
 import com.jsyn.unitgen.SquareOscillator;
 import com.jsyn.unitgen.TriangleOscillator;
 
@@ -9,6 +11,11 @@ import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 
+/**
+ * Interface du module VCO
+ * @author Groupe 1
+ *
+ */
 public interface IVCOModule extends IModule {
 	
 	/**

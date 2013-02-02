@@ -36,7 +36,6 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	/** Amplitude par defaut */
 	public static final double a0 = 0.5;
 
-	
 	/** Frequence min */
 	public static final double fmin = 0;
 	/** Frequence max */
@@ -111,7 +110,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		// Quand on cree notre VCO, il n'a pas de signal en entree, donc la frequence vaut f0
 		fmConnected = false;
 		
-		//On définie le coarseAdjustement et le fineAdjustement
+		//On definie le coarseAdjustement et le fineAdjustement
 		coarseAdjustment = ((int) (f0 / (fmax - fmin)) * 10) ;
 		fineAdjustment = ((f0 / (fmax - fmin)) * 10) - coarseAdjustment;
 		
@@ -315,7 +314,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		synth.add(out);
 		out.start();
 		
-		// On connecte la sortie sinusoidale de notre VCO � la sortie
+		// On connecte la sortie sinusoidale de notre VCO a la sortie
 
 		out.input.connect(vco.getOutSine().getJSynPort());
 		
