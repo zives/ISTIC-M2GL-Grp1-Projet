@@ -27,12 +27,13 @@ public class COutPort extends OutPort implements ICOutPort {
 			if (!CWorkspace.getInstance().isDrawingCable()) {
 				ICCable cable = (ICCable)factory.createCable();
 				try {
+					CWorkspace.getInstance().setDrawingCable(cable);
 					cable.setOutPort(this);
 									
 				} catch (PortAlreadyUsed e) {
 					e.printStackTrace();
 				}
-				CWorkspace.getInstance().setDrawingCable(cable);	//TODO remonter ca ds le try
+				
 			}
 		} else {
 			// TODO à faire dans une autre user story (Déconnexion)

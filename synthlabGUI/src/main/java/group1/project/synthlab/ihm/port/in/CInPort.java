@@ -34,9 +34,10 @@ public class CInPort extends InPort implements ICInPort {
 			if (CWorkspace.getInstance().isDrawingCable()) {
 				CCable cable = (CCable) CWorkspace.getInstance()
 						.getDrawingCable();
-				CWorkspace.getInstance().setDrawingCable(null); // TODO remonter ca ds le try
+				
 				try {
 					cable.setInPort(this);
+					CWorkspace.getInstance().setDrawingCable(null); 
 					
 				} catch (PortAlreadyUsed e) {
 					e.printStackTrace();

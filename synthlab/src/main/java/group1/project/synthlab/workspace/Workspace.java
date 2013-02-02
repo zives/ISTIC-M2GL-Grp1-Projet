@@ -1,5 +1,8 @@
 package group1.project.synthlab.workspace;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.management.InstanceAlreadyExistsException;
 
 import group1.project.synthlab.factory.Factory;
@@ -13,19 +16,23 @@ public class Workspace implements IWorkspace {
 	protected static IWorkspace instance;
 	protected Synthesizer synthesizer;
 	protected Factory factory;
+	protected List<IModule> modules;
 
 	public Workspace(Factory factory) {
 		this.factory = factory;
+		this.modules = new ArrayList<IModule>();
 		synthesizer = JSyn.createSynthesizer();
 		synthesizer.start();
-		addModule(factory.createOutModule());
+				
 	}
 
 	public void addModule(IModule module) {
+		modules.add(module);
 		synthesizer.add(module.getCircuit());
 	}
 
 	public void removeModule(IModule module) {
+		modules.remove(module);
 		synthesizer.remove(module.getCircuit());
 	}
 

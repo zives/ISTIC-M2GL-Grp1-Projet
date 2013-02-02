@@ -7,5 +7,6 @@ public interface ICWorkspace extends IWorkspace {
 	public ICCable getDrawingCable();
 	public void setDrawingCable(ICCable drawingCable) ;	
 	public boolean isDrawingCable();
+	public void addOneVCOModule();
 
 }

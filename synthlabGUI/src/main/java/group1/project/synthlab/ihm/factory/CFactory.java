@@ -4,6 +4,7 @@ import group1.project.synthlab.cable.Cable;
 import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.ihm.cable.CCable;
+import group1.project.synthlab.ihm.module.out.COutModule;
 import group1.project.synthlab.ihm.module.vco.CVCOModule;
 import group1.project.synthlab.ihm.port.in.CInPort;
 import group1.project.synthlab.ihm.port.out.COutPort;
@@ -45,8 +46,7 @@ public class CFactory extends Factory {
 
 	@Override
 	public IOutModule createOutModule() {
-		return null;
-		//TODO;
+		return new COutModule(this);
 	}
 
 	@Override

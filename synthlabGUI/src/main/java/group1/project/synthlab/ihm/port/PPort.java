@@ -29,7 +29,7 @@ public class PPort extends JPanel implements IPPort {
 	public PPort(final ICPort controller) {
 		this.setOpaque(false);
 		this.setBackground(new Color(0, 0, 0, 0));
-		this.setSize(new Dimension(42, 42));
+		this.setSize(new Dimension(52, 52));
 		this.setPreferredSize(getSize());
 		this.mouseEntered = false;
 		this.MARGIN = (getWidth() - SIZE) / 2;
@@ -96,8 +96,8 @@ public class PPort extends JPanel implements IPPort {
 		g.setColor(Color.WHITE);
 		FontMetrics metrics = g.getFontMetrics(font);
 		String text = controller.getLabel();
-		if (text.length() > 10)
-			text = text.substring(0, 10);
+		if (text.length() > 14)
+			text = text.substring(0, 14);
 		int wLabel = metrics.stringWidth(text);
 		g.drawString(text, (getWidth() - wLabel) / 2, 42);
 	}
