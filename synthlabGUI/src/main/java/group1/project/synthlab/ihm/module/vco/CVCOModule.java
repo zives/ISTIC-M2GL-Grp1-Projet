@@ -1,7 +1,5 @@
 package group1.project.synthlab.ihm.module.vco;
 
-import java.awt.Component;
-
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;

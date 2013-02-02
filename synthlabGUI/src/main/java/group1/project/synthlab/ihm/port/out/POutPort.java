@@ -1,18 +1,12 @@
 package group1.project.synthlab.ihm.port.out;
 
-import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.port.ICPort;
 import group1.project.synthlab.ihm.port.PPort;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class POutPort extends PPort implements IPOutPort {
 

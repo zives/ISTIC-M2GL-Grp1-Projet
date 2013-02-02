@@ -1,6 +1,5 @@
 package group1.project.synthlab.ihm.workspace;
 
-import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.ihm.cable.ICCable;
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.module.ICModule;

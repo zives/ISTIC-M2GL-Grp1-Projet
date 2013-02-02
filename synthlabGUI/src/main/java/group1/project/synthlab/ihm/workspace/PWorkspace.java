@@ -3,7 +3,6 @@ package group1.project.synthlab.ihm.workspace;
 import group1.project.synthlab.ihm.cable.IPCable;
 import group1.project.synthlab.ihm.cable.PCable;
 import group1.project.synthlab.ihm.module.IPModule;
-import group1.project.synthlab.ihm.tools.PTools;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
@@ -18,6 +17,7 @@ import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.util.Properties;
 
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
@@ -27,6 +27,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import com.jtattoo.plaf.smart.SmartLookAndFeel;
 
 public class PWorkspace extends JFrame implements IPWorkspace {
 
@@ -43,9 +47,10 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 	private Button vcoButton;
 
-	public PWorkspace(ICWorkspace controller) {
+	public PWorkspace(ICWorkspace controller) {		
 		super("Synthetiseur");
-		// this.controle = controle;
+		initLnF();
+
 
 		this.controller = controller;
 
@@ -56,8 +61,49 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 		setVisible(true);
 		setLocation(250, 100);
-
+		
+	
+		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
+	
+	private void initLnF() {
+		 // setup the look and feel properties
+        Properties props = new Properties();
+        
+        props.put("selectionBackgroundColor", "180 240 197"); 
+        props.put("menuSelectionBackgroundColor", "180 240 197"); 
+        
+        props.put("controlColor", "218 254 230");
+        props.put("controlColorLight", "218 254 230");
+        props.put("controlColorDark", "180 240 197"); 
+
+        props.put("buttonColor", "218 230 254");
+        props.put("buttonColorLight", "255 255 255");
+        props.put("buttonColorDark", "244 242 232");
+
+        props.put("rolloverColor", "218 254 230"); 
+        props.put("rolloverColorLight", "218 254 230"); 
+        props.put("rolloverColorDark", "180 240 197"); 
+
+        props.put("windowTitleForegroundColor", "0 0 0");
+        props.put("windowTitleBackgroundColor", "180 240 197"); 
+        props.put("windowTitleColorLight", "218 254 230"); 
+        props.put("windowTitleColorDark", "180 240 197"); 
+        props.put("windowBorderColor", "218 254 230");
+        
+        SmartLookAndFeel.setCurrentTheme(props);
+        try {
+			UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void initialize() {
@@ -72,18 +118,18 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		fichier.add(quit);
 
 		toolBar = new JPanel();
-		toolBar.setBackground(Color.LIGHT_GRAY);
 		toolBar.setLayout(new FlowLayout());
 
 		workspacePanel = new JLayeredPane();
 		workspacePanel.setOpaque(true);
-		workspacePanel.setBackground(Color.BLACK);
+		workspacePanel.setBackground(new Color(20,20,20));
 		workspacePanel.setLayout(null);
 		workspacePanel.setPreferredSize(new Dimension(2000, 2000));
 		workspacePanel.setSize(workspacePanel.getPreferredSize());
 		centerPanel = new JScrollPane(workspacePanel);
 
-		vcoButton = new Button("VCO");
+		vcoButton = new Button("Ajouter VCO");
+		vcoButton.setForeground(Color.BLACK);
 
 		toolBar.add(vcoButton);
 		add(toolBar, BorderLayout.NORTH);

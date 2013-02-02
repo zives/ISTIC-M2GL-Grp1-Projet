@@ -2,7 +2,6 @@ package group1.project.synthlab.ihm.workspace;
 
 import group1.project.synthlab.ihm.cable.IPCable;
 import group1.project.synthlab.ihm.module.IPModule;
-import group1.project.synthlab.ihm.module.IPModuleObserver;
 
 import javax.swing.JLayeredPane;
 

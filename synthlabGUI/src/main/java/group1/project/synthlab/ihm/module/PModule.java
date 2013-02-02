@@ -55,7 +55,8 @@ public abstract class PModule extends JPanel implements IPModule {
 		onOffButton.setSize(20, 20);
 		onOffButton.setBorder(null);
 		onOffButton.setPreferredSize(onOffButton.getSize());
-		onOffButton.setLocation(getWidth() - onOffButton.getWidth() - 13, 13);		
+		onOffButton.setLocation(getWidth() - onOffButton.getWidth() - 13, 13);	
+		onOffButton.setFocusPainted(false);
 		add(onOffButton);
 
 		// Events

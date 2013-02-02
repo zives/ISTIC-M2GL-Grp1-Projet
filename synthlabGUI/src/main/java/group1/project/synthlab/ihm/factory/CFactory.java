@@ -3,7 +3,6 @@ package group1.project.synthlab.ihm.factory;
 import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.ihm.cable.CCable;
-import group1.project.synthlab.ihm.module.ICModule;
 import group1.project.synthlab.ihm.module.out.COutModule;
 import group1.project.synthlab.ihm.module.vco.CVCOModule;
 import group1.project.synthlab.ihm.port.in.CInPort;

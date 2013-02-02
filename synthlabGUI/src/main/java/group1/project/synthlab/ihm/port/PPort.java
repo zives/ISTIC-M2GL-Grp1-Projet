@@ -1,8 +1,6 @@
 package group1.project.synthlab.ihm.port;
 
 import group1.project.synthlab.exceptions.BadConnection;
-import group1.project.synthlab.ihm.factory.CFactory;
-import group1.project.synthlab.port.in.IInPort;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,9 +12,7 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.text.IconView;
 
 public class PPort extends JPanel implements IPPort {
 	private static final long serialVersionUID = -7576041067842211961L;

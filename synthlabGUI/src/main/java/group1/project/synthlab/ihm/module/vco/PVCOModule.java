@@ -42,6 +42,7 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		octaveSlider.setForeground(Color.LIGHT_GRAY);
 		octaveSlider.setPreferredSize(octaveSlider.getSize());
 		octaveSlider.setOpaque(false);
+		octaveSlider.setFocusable(false);
 		octaveSlider.setLocation(getWidth() / 2 - octaveSlider.getWidth() / 2, 100);
 		
 		//Ports

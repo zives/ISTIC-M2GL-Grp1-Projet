@@ -1,19 +1,14 @@
 package group1.project.synthlab.ihm.module.out;
 
 import group1.project.synthlab.ihm.factory.CFactory;
-import group1.project.synthlab.ihm.module.PModule;
 import group1.project.synthlab.ihm.module.IPModuleObserver;
+import group1.project.synthlab.ihm.module.PModule;
 import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.in.ICInPort;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 public class POutModule extends PModule implements IPOutModule {
 
