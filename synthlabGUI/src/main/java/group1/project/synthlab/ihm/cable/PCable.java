@@ -39,6 +39,7 @@ public class PCable extends JPanel implements IPCable {
 	public void setP1(int x, int y) {
 		p1 = new Point(x, y);
 		repaint();
+		((JLayeredPane) this.getParent()).moveToFront(this);
 	}
 
 	public void setP1(IPPort port) {
@@ -48,11 +49,13 @@ public class PCable extends JPanel implements IPCable {
 				+ PPort.SIZE / 2);
 
 		repaint();
+		((JLayeredPane) this.getParent()).moveToFront(this);
 	}
 
 	public void setP2(int x, int y) {
 		p2 = new Point(x, y);
 		repaint();
+		((JLayeredPane) this.getParent()).moveToFront(this);
 	}
 
 	public void setP2(IPPort port) {
@@ -61,6 +64,7 @@ public class PCable extends JPanel implements IPCable {
 				+ PPort.getMARGIN(), p.getY() + p.getParent().getY()
 				+ PPort.SIZE / 2);
 		repaint();
+		((JLayeredPane) this.getParent()).moveToFront(this);
 
 	}
 
@@ -101,7 +105,7 @@ public class PCable extends JPanel implements IPCable {
 		g.drawLine((int) p1.getX() - getX(), (int) p1.getY() - getY(),
 				(int) p2.getX() - getX(), (int) p2.getY() - getY());
 		
-		((JLayeredPane) this.getParent()).moveToFront(this);
+		
 	}
 
 }
