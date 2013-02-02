@@ -85,13 +85,11 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		passThrough.input.connect(multiplyf0.output);
 		
 		// Port d'entrée : 
-		fm = factory.createInPort("fm", multiply5.inputA);
-		fm.register(this);
-		
+		fm = factory.createInPort("fm", multiply5.inputA, this);
 		// Ports de sortie
-		outSine = factory.createOutPort("outsine", sineOsc.output);
-		outSquare = factory.createOutPort("outsquare", squareOsc.output);
-		outTriangle = factory.createOutPort("outtriangle", triangleOsc.output);
+		outSine = factory.createOutPort("outsine", sineOsc.output, this);
+		outSquare = factory.createOutPort("outsquare", squareOsc.output, this);
+		outTriangle = factory.createOutPort("outtriangle", triangleOsc.output, this);
 		
 		// Quand on crée notre VCO, il n'a pas de signal en entrée, donc la fréquence vaut f0
 		fmConnected = false;

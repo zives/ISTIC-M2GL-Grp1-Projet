@@ -30,11 +30,6 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		this.setPreferredSize(this.getSize());
 		this.setMaximumSize(this.getSize());
 		
-		//Enregitrement du module auprès des cables
-		register((IPModuleObserver) controller.getFm().getCable());
-		register((IPModuleObserver) controller.getOutSine().getCable());
-		register((IPModuleObserver) controller.getOutTriangle().getCable());
-		register((IPModuleObserver) controller.getOutSquare().getCable());
 		
 		//Label
 		JLabel label = new JLabel(controller.getName());
@@ -82,6 +77,16 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		frame.add((Component) module.getPresentation());
 		frame.pack();
 		frame.setVisible(true);
+		
+	}
+
+
+	public void reregisterModuleToCables() {
+		//Enregitrement du module auprès des cables
+		register((IPModuleObserver) controller.getFm().getCable());
+		register((IPModuleObserver) controller.getOutSine().getCable());
+		register((IPModuleObserver) controller.getOutTriangle().getCable());
+		register((IPModuleObserver) controller.getOutSquare().getCable());
 		
 	}
 

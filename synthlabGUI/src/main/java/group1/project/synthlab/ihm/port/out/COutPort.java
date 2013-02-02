@@ -6,6 +6,7 @@ import group1.project.synthlab.exceptions.PortAlreadyUsed;
 import group1.project.synthlab.ihm.cable.ICCable;
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.workspace.CWorkspace;
+import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.port.out.OutPort;
 
 import com.jsyn.ports.ConnectableOutput;
@@ -13,8 +14,8 @@ import com.jsyn.ports.ConnectableOutput;
 public class COutPort extends OutPort implements ICOutPort {
 	protected IPOutPort presentation;
 
-	public COutPort(String label, ConnectableOutput jSynPort, CFactory factory) {
-		super(label, jSynPort, factory);
+	public COutPort(String label, ConnectableOutput jSynPort, IModule module, CFactory factory) {
+		super(label, jSynPort, module,  factory);
 		presentation = new POutPort(this);
 	}
 

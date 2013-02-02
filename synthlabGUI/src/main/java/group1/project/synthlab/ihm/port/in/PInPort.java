@@ -32,19 +32,7 @@ public class PInPort extends PPort implements IPInPort {
 		super.paint(g);
 	}
 
-	public static void main(String args[]) {
-		CFactory factory = new CFactory();
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		JPanel panel = new JPanel();
-		CInPort port = (CInPort)(factory.createInPort("test", null));
-		panel.add((Component) port.getPresentation());
-		panel.setBackground(Color.BLACK);
-		frame.add(panel);
-		
-		frame.pack();
-		frame.setVisible(true);
-	}
+
 
 	public void refresh() {
 		repaint();

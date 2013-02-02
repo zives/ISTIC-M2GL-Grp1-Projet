@@ -1,27 +1,21 @@
 package group1.project.synthlab.ihm.port.in;
 
-import com.jsyn.ports.ConnectableInput;
-import com.jsyn.ports.ConnectableOutput;
-
 import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.exceptions.BadConnection;
 import group1.project.synthlab.exceptions.PortAlreadyUsed;
 import group1.project.synthlab.ihm.cable.CCable;
 import group1.project.synthlab.ihm.factory.CFactory;
-import group1.project.synthlab.ihm.port.CPort;
-import group1.project.synthlab.ihm.port.IPPort;
-import group1.project.synthlab.ihm.port.PPort;
-import group1.project.synthlab.ihm.port.out.IPOutPort;
-import group1.project.synthlab.ihm.port.out.POutPort;
 import group1.project.synthlab.ihm.workspace.CWorkspace;
+import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.port.in.InPort;
-import group1.project.synthlab.workspace.Workspace;
+
+import com.jsyn.ports.ConnectableInput;
 
 public class CInPort extends InPort implements ICInPort {
 	protected IPInPort presentation;
 
-	public CInPort(String label, ConnectableInput jSynPort, CFactory factory) {
-		super(label, jSynPort, factory);
+	public CInPort(String label, ConnectableInput jSynPort, IModule module,  CFactory factory) {
+		super(label, jSynPort, module,  factory);
 		presentation = new PInPort(this);
 	}
 

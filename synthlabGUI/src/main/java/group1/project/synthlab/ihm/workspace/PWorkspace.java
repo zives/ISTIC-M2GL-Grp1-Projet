@@ -129,6 +129,8 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		workspacePanel.remove((Component) cable);
 
 	}
+	
+	
 
 	public void addModule(IPModule module) {
 		Component cModule = (Component) module;

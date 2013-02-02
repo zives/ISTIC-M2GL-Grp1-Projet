@@ -11,7 +11,7 @@ import java.util.List;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-public class PModule extends JPanel implements IPModule {
+public abstract  class PModule extends JPanel implements IPModule {
 
 	private static final long serialVersionUID = -3047834031036120214L;
 	private PModule self;

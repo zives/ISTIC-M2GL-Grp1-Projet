@@ -31,8 +31,8 @@ public class PCable extends JPanel implements IPCable {
 		setLocation(0, 0);
 		setSize(1, 1);
 		setOpaque(false);
-		setBackground(new Color(0,0,0,0));
-		
+		setBackground(new Color(0, 0, 0, 0));
+
 	}
 
 	public void setP1(int x, int y) {
@@ -42,8 +42,9 @@ public class PCable extends JPanel implements IPCable {
 
 	public void setP1(IPPort port) {
 		PPort p = (PPort) port;
-		p1 = new Point(p.getX() + PPort.SIZE / 2 + PPort.getMARGIN(), p.getY() + PPort.SIZE
-				/ 2);
+		p1 = new Point(p.getX() + p.getParent().getX() + PPort.SIZE / 2
+				+ PPort.getMARGIN(), p.getY() + p.getParent().getY()
+				+ PPort.SIZE / 2);
 
 		repaint();
 	}
@@ -55,8 +56,9 @@ public class PCable extends JPanel implements IPCable {
 
 	public void setP2(IPPort port) {
 		PPort p = (PPort) port;
-		p2 = new Point(p.getX() + PPort.SIZE / 2  + PPort.getMARGIN(), p.getY() + PPort.SIZE
-				/ 2);
+		p2 = new Point(p.getX() + p.getParent().getX() + PPort.SIZE / 2
+				+ PPort.getMARGIN(), p.getY() + p.getParent().getY()
+				+ PPort.SIZE / 2);
 		repaint();
 
 	}
@@ -86,6 +88,7 @@ public class PCable extends JPanel implements IPCable {
 			y = (int) (p2.getY() - 10);
 			h = (int) (p1.getY() - p2.getY() + 20);
 		}
+
 		this.setBounds(new Rectangle(x, y, w, h));
 
 		ig.setStroke(new BasicStroke(10f));

@@ -2,6 +2,7 @@ package group1.project.synthlab.module.out;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
+import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.in.InPort;
 import group1.project.synthlab.unitExtensions.Attenuator;
@@ -70,13 +71,16 @@ public class OutModule extends Module implements IOutModule {
 		lineOut.input.setMaximum(1); // MAX_VOLTAGE
 		lineOut.input.setMinimum(-1); // -MAX_VOLTAGE
 
-		leftPort = factory.createInPort("Source left", attenuatorLeft.input);
-		rightPort = factory.createInPort("Source right", attenuatorRight.input);
+		leftPort = factory.createInPort("Source left", attenuatorLeft.input, this);
+		rightPort = factory.createInPort("Source right", attenuatorRight.input, this);
+
 
 		attenuatorLeft.output.connect(passThroughLeft.input);
 		attenuatorRight.output.connect(passThroughRight.input);
 
 		isOn = false;
+		
+		
 	}
 	
 
@@ -182,6 +186,15 @@ public class OutModule extends Module implements IOutModule {
 	public boolean isStarted() {
 		return isOn;
 	}
+	
+	public void cableConnected(IPort port) {
+		System.out.println("jj");
+	}
+
+
+	public void cableDisconnected(IPort port) {
+		
+	}
 
 	// Test fonctionnel
 	public static void main(String[] args) {
@@ -265,4 +278,7 @@ public class OutModule extends Module implements IOutModule {
 		}
 
 	}
+
+
+	
 }

@@ -1,11 +1,12 @@
 package group1.project.synthlab.module;
 
 import group1.project.synthlab.factory.Factory;
+import group1.project.synthlab.port.IPortObserver;
 
 import com.jsyn.unitgen.Circuit;
 
 
-public interface IModule {	
+public interface IModule extends IPortObserver {	
 	/**
 	 * Démarre le circuit
 	 */

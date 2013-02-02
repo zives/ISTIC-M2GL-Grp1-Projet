@@ -29,9 +29,7 @@ public class POutModule extends PModule implements IPOutModule {
 		this.setPreferredSize(this.getSize());
 		this.setMaximumSize(this.getSize());
 
-		// Enregitrement du module auprès des cables
-		register((IPModuleObserver) controller.getLeftPort().getCable());
-		register((IPModuleObserver) controller.getRightPort().getCable());
+
 		
 		// Label
 		JLabel label = new JLabel(controller.getName());
@@ -73,6 +71,14 @@ public class POutModule extends PModule implements IPOutModule {
 		frame.pack();
 		frame.setVisible(true);
 
+	}
+
+	public void reregisterModuleToCables() {
+		// Enregitrement du module auprès des cables
+		register((IPModuleObserver) controller.getLeftPort().getCable());
+		register((IPModuleObserver) controller.getRightPort().getCable());
+		
+		
 	}
 
 }

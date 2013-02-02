@@ -4,6 +4,7 @@ import java.awt.Component;
 
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.module.vco.VCOModule;
+import group1.project.synthlab.port.IPort;
 
 public class CVCOModule extends VCOModule implements ICVCOModule {
 	protected IPVCOModule presentation;
@@ -16,6 +17,20 @@ public class CVCOModule extends VCOModule implements ICVCOModule {
 	public IPVCOModule getPresentation() {
 		return presentation;
 	}
+
+	@Override
+	public void cableConnected(IPort port) {		
+		super.cableConnected(port);
+		presentation.reregisterModuleToCables();
+	}
+
+	@Override
+	public void cableDisconnected(IPort port) {
+		super.cableDisconnected(port);
+		presentation.reregisterModuleToCables();
+	}
+	
+	
 	
 	 
 }

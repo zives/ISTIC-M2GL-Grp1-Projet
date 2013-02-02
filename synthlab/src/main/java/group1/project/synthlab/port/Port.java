@@ -2,6 +2,7 @@ package group1.project.synthlab.port;
 
 import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.factory.Factory;
+import group1.project.synthlab.module.IModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +14,10 @@ public abstract class Port implements IPort {
 	protected String label;	
 	protected Factory factory;
 
-	public Port(String label, Factory factory){
+	public Port(String label, IModule module, Factory factory){
 		this.label = label;
 		this.factory = factory;
+		register(module);
 	}
 		
 	public ICable getCable() {
@@ -37,7 +39,8 @@ public abstract class Port implements IPort {
 	}
 
 	public void register(IPortObserver observer) {
-		observers.add(observer);
+		if (!observers.contains(observer))
+			observers.add(observer);
 	}
 
 	public void unregister(IPortObserver observer) {
