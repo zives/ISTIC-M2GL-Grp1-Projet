@@ -111,6 +111,10 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		// Quand on cree notre VCO, il n'a pas de signal en entree, donc la frequence vaut f0
 		fmConnected = false;
 		
+		//On définie le coarseAdjustement et le fineAdjustement
+		coarseAdjustment = ((int) (f0 / (fmax - fmin)) * 10) ;
+		fineAdjustment = ((f0 / (fmax - fmin)) * 10) - coarseAdjustment;
+		
 		// On regle les frequences des oscillateurs aux valeurs par defaut
 		sineOsc.frequency.set(f0);
 		squareOsc.frequency.set(f0);

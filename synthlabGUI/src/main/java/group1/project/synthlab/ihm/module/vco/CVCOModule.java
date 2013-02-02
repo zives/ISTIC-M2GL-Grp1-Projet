@@ -20,12 +20,14 @@ public class CVCOModule extends VCOModule implements ICVCOModule {
 	public void cableConnected(IPort port) {		
 		super.cableConnected(port);
 		presentation.reregisterCables();
+		presentation.setSlidersEnabled(false);
 	}
 
 	@Override
 	public void cableDisconnected(IPort port) {
 		super.cableDisconnected(port);
 		presentation.reregisterCables();
+		presentation.setSlidersEnabled(true);
 	}
 	
 	
