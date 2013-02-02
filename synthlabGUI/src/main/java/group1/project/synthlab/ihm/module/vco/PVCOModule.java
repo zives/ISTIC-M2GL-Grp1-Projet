@@ -2,6 +2,7 @@ package group1.project.synthlab.ihm.module.vco;
 
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.module.PModule;
+import group1.project.synthlab.ihm.module.IPModuleObserver;
 import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.in.ICInPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
@@ -28,6 +29,12 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		this.setSize(300, 300);
 		this.setPreferredSize(this.getSize());
 		this.setMaximumSize(this.getSize());
+		
+		//Enregitrement du module auprès des cables
+		register((IPModuleObserver) controller.getFm().getCable());
+		register((IPModuleObserver) controller.getOutSine().getCable());
+		register((IPModuleObserver) controller.getOutTriangle().getCable());
+		register((IPModuleObserver) controller.getOutSquare().getCable());
 		
 		//Label
 		JLabel label = new JLabel(controller.getName());

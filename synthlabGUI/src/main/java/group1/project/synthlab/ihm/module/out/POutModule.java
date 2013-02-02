@@ -2,6 +2,7 @@ package group1.project.synthlab.ihm.module.out;
 
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.module.PModule;
+import group1.project.synthlab.ihm.module.IPModuleObserver;
 import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.in.ICInPort;
 
@@ -17,48 +18,52 @@ import javax.swing.JLabel;
 public class POutModule extends PModule implements IPOutModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
-	
+
 	protected ICOutModule controller;
-	
+
 	public POutModule(ICOutModule controller) {
 		this.controller = controller;
 		this.setLayout(null);
-		this.setBackground(new Color(70,70,70));
+		this.setBackground(new Color(70, 70, 70));
 		this.setSize(300, 300);
 		this.setPreferredSize(this.getSize());
 		this.setMaximumSize(this.getSize());
+
+		// Enregitrement du module auprès des cables
+		register((IPModuleObserver) controller.getLeftPort().getCable());
+		register((IPModuleObserver) controller.getRightPort().getCable());
 		
-		//Label
+		// Label
 		JLabel label = new JLabel(controller.getName());
 		label.setForeground(Color.GRAY);
 		label.setOpaque(false);
 		label.setLocation(127, 137);
-		
-		//Ports
-		PPort pportLeft = (PPort) (((ICInPort) controller.getLeftPort()).getPresentation());
+
+		// Ports
+		PPort pportLeft = (PPort) (((ICInPort) controller.getLeftPort())
+				.getPresentation());
 		pportLeft.setLocation(10, 220);
-		PPort pportRight = (PPort) (((ICInPort) controller.getRightPort()).getPresentation());
+		PPort pportRight = (PPort) (((ICInPort) controller.getRightPort())
+				.getPresentation());
 		pportRight.setLocation(70, 220);
-		
-		//Ajouts des composants
+
+		// Ajouts des composants
 		add(label);
 		add(pportLeft);
 		add(pportRight);
-		
+
 	}
-	
-	
+
 	@Override
-	public void paint(Graphics g) {	
+	public void paint(Graphics g) {
 		super.paint(g);
 		Graphics2D gi = (Graphics2D) g;
 		gi.setStroke(new BasicStroke(8f));
-		g.setColor(new Color(50,50,50));
+		g.setColor(new Color(50, 50, 50));
 		g.drawRect(5, 5, getWidth() - 10, getHeight() - 10);
-		
+
 	}
-	
-	
+
 	public static void main(String[] args) {
 		CFactory factory = new CFactory();
 		COutModule module = (COutModule) factory.createOutModule();
@@ -67,9 +72,7 @@ public class POutModule extends PModule implements IPOutModule {
 		frame.add((Component) module.getPresentation());
 		frame.pack();
 		frame.setVisible(true);
-		
+
 	}
 
 }
-
-

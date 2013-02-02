@@ -32,6 +32,7 @@ public class PCable extends JPanel implements IPCable {
 		setSize(1, 1);
 		setOpaque(false);
 		setBackground(new Color(0,0,0,0));
+		
 	}
 
 	public void setP1(int x, int y) {

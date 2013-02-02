@@ -4,12 +4,14 @@ import group1.project.synthlab.cable.Cable;
 import group1.project.synthlab.exceptions.BadConnection;
 import group1.project.synthlab.exceptions.PortAlreadyUsed;
 import group1.project.synthlab.ihm.factory.CFactory;
+import group1.project.synthlab.ihm.module.IPModuleObservable;
+import group1.project.synthlab.ihm.module.IPModuleObserver;
 import group1.project.synthlab.ihm.port.in.ICInPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 
-public class CCable extends Cable implements ICCable{
+public class CCable extends Cable implements ICCable, IPModuleObserver{
 	protected IPCable presentation;
 	public CCable(CFactory factory) {
 		super(factory);
@@ -30,6 +32,10 @@ public class CCable extends Cable implements ICCable{
 	}
 	public IPCable getPresentation() {
 		return presentation;
+	}
+	public void update(IPModuleObservable subject) {
+		presentation.setP1(((ICOutPort)outPort).getPresentation());
+		presentation.setP2(((ICOutPort)outPort).getPresentation());		
 	}
 	
 	

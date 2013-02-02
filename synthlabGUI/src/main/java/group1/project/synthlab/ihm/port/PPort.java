@@ -36,6 +36,7 @@ public class PPort extends JPanel implements IPPort {
 		this.controller = controller;
 		this.mouseEnteredColor = new Color(0, 0, 0);
 		
+		
 		this.addMouseListener(new MouseListener() {
 
 

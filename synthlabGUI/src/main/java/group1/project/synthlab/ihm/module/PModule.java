@@ -16,7 +16,7 @@ public class PModule extends JPanel implements IPModule {
 	private static final long serialVersionUID = -3047834031036120214L;
 	private PModule self;
 	private Point locationComponentOnDrag = new Point();
-	protected List<PModuleObserver> observers = new ArrayList<PModuleObserver>();
+	protected List<IPModuleObserver> observers = new ArrayList<IPModuleObserver>();
 
 	public PModule() {
 		self = this;
@@ -70,16 +70,16 @@ public class PModule extends JPanel implements IPModule {
 		});
 	}
 
-	public void register(PModuleObserver observer) {
+	public void register(IPModuleObserver observer) {
 		observers.add(observer);
 	}
 
-	public void unregister(PModuleObserver observer) {
+	public void unregister(IPModuleObserver observer) {
 		observers.remove(observer);
 	}
 
 	public void updateAll() {
-		for (PModuleObserver obs : observers)
-			obs.update(this);
+		for (IPModuleObserver obs : observers)
+			if (obs != null) obs.update(this);
 	}
 }
