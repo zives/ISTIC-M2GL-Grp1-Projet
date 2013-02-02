@@ -29,6 +29,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	protected boolean fmConnected;
 	
 	// Amplitude par défaut
+	public static final double amin = 0;
 	public static final double a0 = 0.1;
 	
 	// Fréquences max, min et de base par défaut :
@@ -95,14 +96,14 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		fmConnected = false;
 		
 		// On règle les fréquences et amplitudes des oscillateurs aux valeurs par défaut
-		sineOsc.amplitude.set(a0);
-		squareOsc.amplitude.set(a0);
-		triangleOsc.amplitude.set(a0);
+		sineOsc.amplitude.set(amin);
+		squareOsc.amplitude.set(amin);
+		triangleOsc.amplitude.set(amin);
 		sineOsc.frequency.set(f0);
 		squareOsc.frequency.set(f0);
 		triangleOsc.frequency.set(f0);
 		
-		isOn = false;
+		
 	}
 	
 	// Fonction appelée lorsque les réglages sont modifiées sur l'IHM
@@ -138,11 +139,17 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	
 	public void start() {
 		circuit.start();
+		sineOsc.amplitude.set(a0);
+		squareOsc.amplitude.set(a0);
+		triangleOsc.amplitude.set(a0);
 		isOn = true;
 	}
 
 	public void stop() {
 		circuit.stop();
+		sineOsc.amplitude.set(amin);
+		squareOsc.amplitude.set(amin);
+		triangleOsc.amplitude.set(amin);
 		isOn = false;
 	}
 	
