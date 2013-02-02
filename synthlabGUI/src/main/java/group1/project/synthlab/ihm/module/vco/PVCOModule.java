@@ -1,20 +1,18 @@
 package group1.project.synthlab.ihm.module.vco;
 
 import group1.project.synthlab.ihm.factory.CFactory;
-import group1.project.synthlab.ihm.module.PModule;
 import group1.project.synthlab.ihm.module.IPModuleObserver;
+import group1.project.synthlab.ihm.module.PModule;
 import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.in.ICInPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.Font;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JSlider;
 
 public class PVCOModule extends PModule implements IPVCOModule {
 
@@ -29,12 +27,22 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		
 		
 		//Label et onoff boutons déjà rajoutés dans la super classe
-		
-		//Label
-		JLabel label = new JLabel(controller.getName());
-		label.setForeground(Color.GRAY);
-		label.setOpaque(false);
-		label.setLocation(127, 137);
+			
+		//Sliders
+		JSlider octaveSlider = new JSlider();
+		octaveSlider.setMaximum(9);
+		octaveSlider.setMinimum(0);
+		octaveSlider.setValue(controller.getCoarseAdjustment());
+		octaveSlider.setOrientation(JSlider.HORIZONTAL);
+		octaveSlider.setSize(200, 40);
+		octaveSlider.setMajorTickSpacing(1);
+		octaveSlider.setPaintTicks(true);
+		octaveSlider.setPaintLabels(true);
+		octaveSlider.setFont(new Font("Arial", 0, 8));
+		octaveSlider.setForeground(Color.LIGHT_GRAY);
+		octaveSlider.setPreferredSize(octaveSlider.getSize());
+		octaveSlider.setOpaque(false);
+		octaveSlider.setLocation(getWidth() / 2 - octaveSlider.getWidth() / 2, 100);
 		
 		//Ports
 		PPort pportFM = (PPort) (((ICInPort) controller.getFm()).getPresentation());
@@ -44,18 +52,17 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		PPort pportTri = (PPort) (((ICOutPort) controller.getOutTriangle()).getPresentation());
 		pportTri.setLocation(130, 220);
 		PPort pportSqu = (PPort) (((ICOutPort) controller.getOutSquare()).getPresentation());
-		pportSqu.setLocation(200, 220);
+		pportSqu.setLocation(190, 220);
 		
 		
 		//Ajouts des composants
-		add(label);
 		add(pportFM);
 		add(pportSin);
 		add(pportTri);
 		add(pportSqu);
+		add(octaveSlider);
 		
-	}
-	
+	}	
 	
 
 	

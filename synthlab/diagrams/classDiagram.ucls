@@ -49,8 +49,8 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </enumeration>  
-  <package id="8" corner="BOTTOM_RIGHT" language="java" name="group1.project.synthlab" project="synthlab" 
-    file="/synthlab/src/main/java/group1/project/synthlab" binary="false">    
+  <package id="8" corner="BOTTOM_RIGHT" language="java" name="group1.project.synthlab" project="synthlabGUI" 
+    file="/synthlabGUI/src/main/java/group1/project/synthlab" binary="false">    
     <position height="49" width="158" x="949" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true"/>  
   </package>  
