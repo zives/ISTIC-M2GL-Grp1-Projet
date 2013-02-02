@@ -316,6 +316,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		// On cree un VCO dont on va utiliser la sortie carree pour moduler la frequence de notre premier vco
 		VCOModule fm = new VCOModule(factory);
 		synth.add(fm.getCircuit());
+		fm.start();
 		// la frequence du signal modulant doit etre faible pour que le changement de frequence soit audible
 		fm.squareOsc.frequency.set(0.5); 
 		// Les amplitudes en JSyn varient entre -1 et 1, ce qui correspond dans notre modele a -5V +5V
@@ -323,8 +324,6 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 
 		// Ainsi, en theorie, quand on passe d'un sommet a un creux, la frequence du signal doit etre divisee par 2² et lorsqu'on passe d'un creux a un sommet la frequence doit etre multipliee par 2².
 		fm.squareOsc.amplitude.set(0.2);
-	
-		fm.start();
 		
 		// Pour l'affichage des courbes
 		AudioScope scope= new AudioScope( synth );
