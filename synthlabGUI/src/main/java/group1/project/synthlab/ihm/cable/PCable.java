@@ -11,6 +11,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 public class PCable extends JPanel implements IPCable {
@@ -91,7 +92,7 @@ public class PCable extends JPanel implements IPCable {
 
 		this.setBounds(new Rectangle(x, y, w, h));
 
-		ig.setStroke(new BasicStroke(10f));
+		ig.setStroke(new BasicStroke(9f));
 		g.setColor(new Color(100, 100, 100));
 		g.drawLine((int) p1.getX() - getX(), (int) p1.getY() - getY(),
 				(int) p2.getX() - getX(), (int) p2.getY() - getY());
@@ -99,6 +100,8 @@ public class PCable extends JPanel implements IPCable {
 		g.setColor(new Color(200, 200, 200));
 		g.drawLine((int) p1.getX() - getX(), (int) p1.getY() - getY(),
 				(int) p2.getX() - getX(), (int) p2.getY() - getY());
+		
+		((JLayeredPane) this.getParent()).moveToFront(this);
 	}
 
 }
