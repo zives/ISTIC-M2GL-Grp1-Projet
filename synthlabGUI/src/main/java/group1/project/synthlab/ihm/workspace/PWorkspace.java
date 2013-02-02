@@ -3,17 +3,21 @@ package group1.project.synthlab.ihm.workspace;
 import group1.project.synthlab.ihm.cable.IPCable;
 import group1.project.synthlab.ihm.cable.PCable;
 import group1.project.synthlab.ihm.module.IPModule;
+import group1.project.synthlab.ihm.tools.PTools;
 
+import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
@@ -22,6 +26,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 public class PWorkspace extends JFrame implements IPWorkspace {
 
@@ -34,7 +39,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	private ICWorkspace controller;
 	private JPanel toolBar;
 	private JLayeredPane workspacePanel;
-	private JScrollPane centerPanel; 
+	private JScrollPane centerPanel;
 
 	private Button vcoButton;
 
@@ -92,24 +97,45 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		setVisible(true);
 		setLocation(250, 100);
 
-		//Events
-		workspacePanel.addMouseMotionListener(new MouseMotionListener() {
+		// Events
 
-			public void mouseMoved(MouseEvent ev) {
-				if (controller.isDrawingCable()) {
-					PCable cable = (PCable) controller.getDrawingCable()
-							.getPresentation();
-					cable.setP2(ev.getX(), ev.getY());
-					for (Component component : getComponents())
-						component.dispatchEvent(ev);
+		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
+
+			public void eventDispatched(AWTEvent e) {
+				if (e instanceof MouseEvent) {
+					if (SwingUtilities.isDescendingFrom(
+							(Component) e.getSource(), centerPanel)) {						
+						MouseEvent m = (MouseEvent) e;
+						if (m.getID() == MouseEvent.MOUSE_MOVED) {
+							if (controller.isDrawingCable()) {
+								 PCable cable = (PCable) controller.getDrawingCable()
+								 .getPresentation();
+								 Point finalPoint = SwingUtilities.convertPoint((Component) e.getSource(), m.getPoint(), centerPanel);
+								 cable.setP2((int) finalPoint.getX(),(int) finalPoint.getY());
+							}
+						}
+					}
 				}
 			}
+		},  AWTEvent.MOUSE_MOTION_EVENT_MASK);
+		// workspacePanel.addMouseMotionListener(new MouseMotionListener() {
+		//
+		// public void mouseMoved(MouseEvent ev) {
+		// if (controller.isDrawingCable()) {
+		// PCable cable = (PCable) controller.getDrawingCable()
+		// .getPresentation();
+		// cable.setP2(ev.getX(), ev.getY());
+		// for (Component component : getComponents())
+		// component.repaint();
+		// }
+		// }
+		//
+		// public void mouseDragged(MouseEvent arg0) {
+		// }
+		// });
 
-			public void mouseDragged(MouseEvent arg0) {
-			}
-		});
 		vcoButton.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent ev) {
 				controller.addOneVCOModule();
 			}
@@ -129,17 +155,19 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		workspacePanel.remove((Component) cable);
 
 	}
-	
-	
 
 	public void addModule(IPModule module) {
 		Component cModule = (Component) module;
-		int x = (int) (-centerPanel.getViewport().getView().getX() + Math.random() * (centerPanel.getWidth()) - cModule.getWidth());
-		if (x < 0) x = 0;
-		int  y = (int)(-centerPanel.getViewport().getView().getY() + Math.random() * (centerPanel.getHeight() - cModule.getHeight()));
-		if (y < 0) y = 0;
+		int x = (int) (-centerPanel.getViewport().getView().getX()
+				+ Math.random() * (centerPanel.getWidth()) - cModule.getWidth());
+		if (x < 0)
+			x = 0;
+		int y = (int) (-centerPanel.getViewport().getView().getY() + Math
+				.random() * (centerPanel.getHeight() - cModule.getHeight()));
+		if (y < 0)
+			y = 0;
 		cModule.setLocation(x, y);
-		
+
 		workspacePanel.add(cModule);
 		workspacePanel.moveToFront(cModule);
 	}
@@ -148,14 +176,10 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		workspacePanel.remove((Component) module);
 
 	}
-	
-	
 
 	public static void main(String[] args) {
-		CWorkspace ws = (CWorkspace) CWorkspace.getInstance();	
+		CWorkspace ws = (CWorkspace) CWorkspace.getInstance();
 
 	}
-
-
 
 }

@@ -6,7 +6,7 @@ import java.awt.Panel;
 import java.awt.Point;
 
 public class PTools {
-	static Point getPositionOfComponentInPanel(Panel panel, Component component) {
+	public static Point getPositionOfComponentInPanel(Panel panel, Component component) {
 		int x = component.getX();
 		int y = component.getY();
 		Container parent = component.getParent();
