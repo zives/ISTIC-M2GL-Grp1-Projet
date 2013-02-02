@@ -2,7 +2,7 @@ package group1.project.synthlab.port;
 
 import group1.project.synthlab.cable.ICable;
 
-public interface IPort {
+public interface IPort extends IPortObservable {
 	public String getLabel();
 	public ICable getCable();
 	public void setCable(ICable cable);

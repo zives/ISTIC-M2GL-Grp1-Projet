@@ -1,17 +1,17 @@
 package group1.project.synthlab.module.vco;
 
 import group1.project.synthlab.module.IModule;
-import group1.project.synthlab.port.in.InPort;
-import group1.project.synthlab.port.out.OutPort;
+import group1.project.synthlab.port.in.IInPort;
+import group1.project.synthlab.port.out.IOutPort;
 
 public interface IVCOModule extends IModule {
-	public InPort getFm();
+	public IInPort getFm();
 
-	public OutPort getOutSine();
+	public IOutPort getOutSine();
 
-	public OutPort getOutSquare();
+	public IOutPort getOutSquare();
 
-	public OutPort getOutTriangle();
+	public IOutPort getOutTriangle();
 	
 	public int getOctave();
 

@@ -1,13 +1,15 @@
 package group1.project.synthlab.module.vco;
 
 import group1.project.synthlab.cable.Cable;
+import group1.project.synthlab.cable.ICable;
+import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
 import group1.project.synthlab.module.out.OutModule;
 import group1.project.synthlab.module.out.OutModule.Distribution;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.IPortObserver;
-import group1.project.synthlab.port.in.InPort;
-import group1.project.synthlab.port.out.OutPort;
+import group1.project.synthlab.port.in.IInPort;
+import group1.project.synthlab.port.out.IOutPort;
 
 import javax.swing.JFrame;
 
@@ -40,15 +42,15 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	protected TriangleOscillator triangleOsc;
 
 	// Port d'entrée : modulation de fréquence
-	protected InPort fm;
+	protected IInPort fm;
 	
 	// Un PassThrough pour envoyer la modulation de fréquence vers l'entrée des 3 oscillateurs
 	private PassThrough passThrough;
 	
 	// Ports de sortie : 1 pour chaque forme d'ondes
-	protected OutPort outSine;
-	protected OutPort outSquare;
-	protected OutPort outTriangle;
+	protected IOutPort outSine;
+	protected IOutPort outSquare;
+	protected IOutPort outTriangle;
 	
 	// Réglage manuel de la fréquence
 	protected int octaveSetting; // entre 0 et 9 
@@ -58,8 +60,8 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	protected boolean isOn;
 	
 	// Constructeur
-	public VCOModule() {
-		super("VCO-" + moduleCount);
+	public VCOModule(Factory factory) {
+		super("VCO-" + moduleCount, factory);
 		
 		// Création des oscillateurs
 		sineOsc = new SineOscillator();
@@ -83,13 +85,13 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		passThrough.input.connect(multiplyf0.output);
 		
 		// Port d'entrée : 
-		fm = new InPort("fm", multiply5.inputA);
+		fm = factory.createInPort("fm", multiply5.inputA);
 		fm.register(this);
 		
 		// Ports de sortie
-		outSine = new OutPort("outsine", sineOsc.output);
-		outSquare = new OutPort("outsquare", squareOsc.output);
-		outTriangle = new OutPort("outtriangle", triangleOsc.output);
+		outSine = factory.createOutPort("outsine", sineOsc.output);
+		outSquare = factory.createOutPort("outsquare", squareOsc.output);
+		outTriangle = factory.createOutPort("outtriangle", triangleOsc.output);
 		
 		// Quand on crée notre VCO, il n'a pas de signal en entrée, donc la fréquence vaut f0
 		fmConnected = false;
@@ -146,20 +148,20 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		isOn = false;
 	}
 	
-	public InPort getFm() {
+	public IInPort getFm() {
 		return fm;
 	}
 
-	public OutPort getOutSine() {
+	public IOutPort getOutSine() {
 		return outSine;
 	}
 
 
-	public OutPort getOutSquare() {
+	public IOutPort getOutSquare() {
 		return outSquare;
 	}
 
-	public OutPort getOutTriangle() {
+	public IOutPort getOutTriangle() {
 		return outTriangle;
 	}
 
@@ -188,27 +190,30 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws Throwable{
+		//Factory
+		Factory factory = new Factory();
+		
 		// On crée et démarre le Synthesizer
 		Synthesizer synth = JSyn.createSynthesizer();
 		synth.start();
 		
 		// On crée notre VCO (pas de signal fm en entrée) et on ajoute le circuit créé au Synthesizer
-		VCOModule vco = new VCOModule();
+		VCOModule vco = (VCOModule) factory.createVCOModule();
 		synth.add(vco.getCircuit());
 
 		// LineOut sera remplacé par OutModule
-		OutModule out = new OutModule();
+		OutModule out = new OutModule(factory);
 		out.setDistribution(Distribution.NORMAL);
 		synth.add(out.getCircuit());
 		out.start();
 		
 		// On connecte la sortie sinusoïdale de notre VCO au module de sortie
-		Cable c1 = new Cable();
+		ICable c1 =factory.createCable();
 		c1.setOutPort(vco.getOutSine());
 		c1.setInPort(out.getLeftPort());
 		
 		// On crée un VCO dont on va utiliser la sortie sinusoïdale pour moduler la fréquence de notre premier vco
-		VCOModule fm = new VCOModule();
+		VCOModule fm = new VCOModule(factory);
 		synth.add(fm.getCircuit());
 		fm.triangleOsc.frequency.set(10); // une valeur petite permet de déformer l'onde de façon à ce que cetet déformation soit audible suffisament longtemps pour être humain
 		// Si l'on considère des tensions comprises entre -5V et +5V, cela correspond à une amplitude de 0,5JSyn, donc une amplitude crète à crète de 1JSyn (1 JSyn == 5V == amplitude max)
@@ -241,7 +246,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		
 		// Avec modulation de fréquence pendant quelques secondes
 		// On connecte la sortie de notre VCO fm vers le port d'entrée fm de notre VCO vco
-		Cable c2 = new Cable();
+		ICable c2 = factory.createCable();
 		c2.setOutPort(fm.getOutTriangle());
 		c2.setInPort(vco.getFm());
 
@@ -259,7 +264,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		
 		// Sans modulation de fréquence le reste du temps, avec une fréquence réglée un peu plus haut
 		//fm.squareosc.output.disconnectAll();
-		c2.finalize();
+		c2.disconnect();
 		vco.setOctave(1);
 		vco.setFineAdjustment(0.2);
 	}

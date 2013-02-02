@@ -1,18 +1,21 @@
 package group1.project.synthlab.port;
 
 import group1.project.synthlab.cable.ICable;
+import group1.project.synthlab.factory.Factory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class Port implements IPort, IPortObservable {
+public abstract class Port implements IPort {
 	protected List<IPortObserver> observers = new ArrayList<IPortObserver>();
 	protected ICable cable;
-	private String label;	
+	protected String label;	
+	protected Factory factory;
 
-	public Port(String label){
+	public Port(String label, Factory factory){
 		this.label = label;
+		this.factory = factory;
 	}
 		
 	public ICable getCable() {

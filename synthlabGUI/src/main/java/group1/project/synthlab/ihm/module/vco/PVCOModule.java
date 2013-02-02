@@ -30,7 +30,8 @@ public class PVCOModule extends JPanel implements IPVCOModule {
 		label.setLocation(17, 7);
 		
 		//Ports
-		IPPort pportFM = controller.getFm()
+		PPort pportFM = controller.getFm();
+		setVisible)
 		
 		
 		//Ajouts des composants

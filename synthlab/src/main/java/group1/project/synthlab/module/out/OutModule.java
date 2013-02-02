@@ -1,6 +1,8 @@
 package group1.project.synthlab.module.out;
 
+import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
+import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.in.InPort;
 import group1.project.synthlab.unitExtensions.Attenuator;
 
@@ -35,8 +37,8 @@ public class OutModule extends Module implements IOutModule {
 	protected Attenuator attenuatorRight;
 
 	/* Défintion des ports */
-	protected InPort leftPort;
-	protected InPort rightPort;
+	protected IInPort leftPort;
+	protected IInPort rightPort;
 
 	/* Variables internes */
 	private PassThrough passThroughLeft;
@@ -49,8 +51,8 @@ public class OutModule extends Module implements IOutModule {
 	/**
 	 * Initialise le circuit (attenuateur, port, ...)
 	 */
-	public OutModule() {
-		super("Out-" + moduleCount);
+	public OutModule(Factory factory) {
+		super("Out-" + moduleCount, factory);
 		lineOut = new LineOut();
 		attenuatorLeft = new Attenuator();
 		attenuatorRight = new Attenuator();
@@ -68,8 +70,8 @@ public class OutModule extends Module implements IOutModule {
 		lineOut.input.setMaximum(1); // MAX_VOLTAGE
 		lineOut.input.setMinimum(-1); // -MAX_VOLTAGE
 
-		leftPort = new InPort("Source left", attenuatorLeft.input);
-		rightPort = new InPort("Source right", attenuatorRight.input);
+		leftPort = factory.createInPort("Source left", attenuatorLeft.input);
+		rightPort = factory.createInPort("Source right", attenuatorRight.input);
 
 		attenuatorLeft.output.connect(passThroughLeft.input);
 		attenuatorRight.output.connect(passThroughRight.input);
@@ -133,7 +135,7 @@ public class OutModule extends Module implements IOutModule {
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.module.out.IOutModule#getLeftPort()
 	 */
-	public InPort getLeftPort() {
+	public IInPort getLeftPort() {
 		return leftPort;
 	}
 
@@ -141,7 +143,7 @@ public class OutModule extends Module implements IOutModule {
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.module.out.IOutModule#getRightPort()
 	 */
-	public InPort getRightPort() {
+	public IInPort getRightPort() {
 		return rightPort;
 	}
 
@@ -183,9 +185,11 @@ public class OutModule extends Module implements IOutModule {
 
 	// Test fonctionnel
 	public static void main(String[] args) {
-
+		//Creéation de la factory
+		Factory factory = new Factory();
+		
 		// Creation d'un module de sortie
-		OutModule out = new OutModule();
+		OutModule out = new OutModule(factory);
 
 		// Creation du synthétiseur
 		Synthesizer synth = JSyn.createSynthesizer();

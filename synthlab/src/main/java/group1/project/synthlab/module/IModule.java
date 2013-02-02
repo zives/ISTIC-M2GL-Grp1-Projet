@@ -1,5 +1,7 @@
 package group1.project.synthlab.module;
 
+import group1.project.synthlab.factory.Factory;
+
 import com.jsyn.unitgen.Circuit;
 
 
@@ -29,4 +31,16 @@ public interface IModule {
 	 * @return le circuit JSyn interne au module
 	 */
 	public Circuit getCircuit(); 
+	
+	/**
+	 * 
+	 * @return la factory
+	 */
+	public Factory getFactory();
+
+	/**
+	 * 
+	 * @param factory une factory
+	 */
+	public void setFactory(Factory factory);
 }

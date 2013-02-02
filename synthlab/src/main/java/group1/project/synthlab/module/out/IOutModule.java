@@ -2,7 +2,7 @@ package group1.project.synthlab.module.out;
 
 import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.module.out.OutModule.Distribution;
-import group1.project.synthlab.port.in.InPort;
+import group1.project.synthlab.port.in.IInPort;
 
 import com.jsyn.unitgen.LineOut;
 
@@ -33,12 +33,12 @@ public interface IOutModule extends IModule {
 	/**
 	 * @return Le port d'entrée gauche
 	 */
-	public InPort getLeftPort();
+	public IInPort getLeftPort();
 
 	/**
 	 * @return Retourne le port d'entrée droite
 	 */
-	public InPort getRightPort();
+	public IInPort getRightPort();
 
 	/**
 	 * @return Retourne la distribution du son
