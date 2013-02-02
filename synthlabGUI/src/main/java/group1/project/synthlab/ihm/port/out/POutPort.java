@@ -1,6 +1,6 @@
 package group1.project.synthlab.ihm.port.out;
 
-import group1.project.synthlab.ihm.factory.ControllerFactory;
+import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.port.ICPort;
 import group1.project.synthlab.ihm.port.PPort;
 
@@ -33,10 +33,11 @@ public class POutPort extends PPort implements IPOutPort {
 	}
 
 	public static void main(String args[]) {
+		CFactory factory = new CFactory();
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel panel = new JPanel();
-		COutPort port = (COutPort) (ControllerFactory.getInstance()
+		COutPort port = (COutPort) (factory
 				.createOutPort("test", null));
 		panel.add((Component) port.getPresentation());
 		panel.setBackground(Color.BLACK);

@@ -1,7 +1,7 @@
 package group1.project.synthlab.ihm.port;
 
 import group1.project.synthlab.exceptions.BadConnection;
-import group1.project.synthlab.ihm.factory.ControllerFactory;
+import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.port.in.IInPort;
 
 import java.awt.Color;

@@ -7,7 +7,7 @@ import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.exceptions.BadConnection;
 import group1.project.synthlab.exceptions.PortAlreadyUsed;
 import group1.project.synthlab.ihm.cable.CCable;
-import group1.project.synthlab.ihm.factory.ControllerFactory;
+import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.port.CPort;
 import group1.project.synthlab.ihm.port.IPPort;
 import group1.project.synthlab.ihm.port.PPort;
@@ -20,8 +20,8 @@ import group1.project.synthlab.workspace.Workspace;
 public class CInPort extends InPort implements ICInPort {
 	protected IPInPort presentation;
 
-	public CInPort(String label, ConnectableInput jSynPort) {
-		super(label, jSynPort);
+	public CInPort(String label, ConnectableInput jSynPort, CFactory factory) {
+		super(label, jSynPort, factory);
 		presentation = new PInPort(this);
 	}
 

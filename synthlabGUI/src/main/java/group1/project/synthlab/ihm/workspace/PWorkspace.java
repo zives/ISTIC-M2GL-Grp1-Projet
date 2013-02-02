@@ -2,7 +2,7 @@ package group1.project.synthlab.ihm.workspace;
 
 import group1.project.synthlab.ihm.cable.IPCable;
 import group1.project.synthlab.ihm.cable.PCable;
-import group1.project.synthlab.ihm.factory.ControllerFactory;
+import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.port.IPPort;
 import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.in.CInPort;
@@ -137,13 +137,13 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	
 	
 	public static void main(String[] args) {
-		
+		CFactory factory = new CFactory();
 		CWorkspace ws = (CWorkspace) CWorkspace.getInstance();
 		
 		
 		JPanel panel = new JPanel();
-		COutPort portS = (COutPort)(ControllerFactory.getInstance().createOutPort("sModule", null));
-		CInPort portE = (CInPort)(ControllerFactory.getInstance().createInPort("eModule", null));
+		COutPort portS = (COutPort)(factory.createOutPort("sModule", null));
+		CInPort portE = (CInPort)(factory.createInPort("eModule", null));
 		
 		((PPort) portS.getPresentation()).setLocation(100, 100);
 		((PPort) portE.getPresentation()).setLocation(200, 300);

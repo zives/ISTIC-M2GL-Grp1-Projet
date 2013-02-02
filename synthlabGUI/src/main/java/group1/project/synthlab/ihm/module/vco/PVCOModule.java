@@ -1,7 +1,8 @@
 package group1.project.synthlab.ihm.module.vco;
 
 import group1.project.synthlab.ihm.factory.ControllerFactory;
-import group1.project.synthlab.ihm.port.IPPort;
+import group1.project.synthlab.ihm.port.PPort;
+import group1.project.synthlab.port.in.IInPort;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -30,7 +31,7 @@ public class PVCOModule extends JPanel implements IPVCOModule {
 		label.setLocation(17, 7);
 		
 		//Ports
-		PPort pportFM = controller.getFm();
+		IInPort pportFM = controller.getFm();
 		setVisible)
 		
 		

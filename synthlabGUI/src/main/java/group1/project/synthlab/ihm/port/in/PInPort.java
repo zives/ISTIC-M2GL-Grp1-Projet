@@ -1,6 +1,6 @@
 package group1.project.synthlab.ihm.port.in;
 
-import group1.project.synthlab.ihm.factory.ControllerFactory;
+import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.port.ICPort;
 import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.out.COutPort;
@@ -33,10 +33,11 @@ public class PInPort extends PPort implements IPInPort {
 	}
 
 	public static void main(String args[]) {
+		CFactory factory = new CFactory();
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel panel = new JPanel();
-		CInPort port = (CInPort)(ControllerFactory.getInstance().createInPort("test", null));
+		CInPort port = (CInPort)(factory.createInPort("test", null));
 		panel.add((Component) port.getPresentation());
 		panel.setBackground(Color.BLACK);
 		frame.add(panel);

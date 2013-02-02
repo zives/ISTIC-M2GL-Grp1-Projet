@@ -1,14 +1,16 @@
 package group1.project.synthlab.ihm.workspace;
 
 import group1.project.synthlab.ihm.cable.CCable;
-import group1.project.synthlab.workspace.IWorkspace;
+import group1.project.synthlab.ihm.cable.ICCable;
+import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.workspace.Workspace;
 
 public class CWorkspace extends Workspace implements ICWorkspace {
-	protected CCable drawingCable;
+	protected ICCable drawingCable;
 	protected IPWorkspace presentation;
 
-	public CWorkspace() {
+	public CWorkspace(CFactory factory) {
+		super(factory);
 		this.presentation = new PWorkspace(this);
 	}
 
@@ -16,11 +18,11 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		return presentation;
 	}
 
-	public CCable getDrawingCable() {
+	public ICCable getDrawingCable() {
 		return drawingCable;
 	}
 
-	public void setDrawingCable(CCable drawingCable) {
+	public void setDrawingCable(ICCable drawingCable) {
 
 		if (drawingCable != null && this.drawingCable == null) {
 			this.drawingCable = drawingCable;
@@ -36,8 +38,10 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 	}
 
 	public static ICWorkspace getInstance() {
-		if (instance == null)
-			instance = new CWorkspace();
+		if (instance == null)  {
+			CFactory factory = new CFactory();
+			instance = factory.createWorkSpace();
+		}
 		return (ICWorkspace) instance;
 	}
 
