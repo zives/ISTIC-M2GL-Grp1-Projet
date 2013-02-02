@@ -1,8 +1,8 @@
 package group1.project.synthlab.test;
 
 
-import group1.project.synthlab.module.OutModule;
-import group1.project.synthlab.module.OutModule.Distribution;
+import group1.project.synthlab.module.out.OutModule;
+import group1.project.synthlab.module.out.OutModule.Distribution;
 import junit.framework.TestCase;
 
 import com.jsyn.JSyn;

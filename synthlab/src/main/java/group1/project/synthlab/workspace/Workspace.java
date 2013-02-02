@@ -3,7 +3,7 @@ package group1.project.synthlab.workspace;
 import javax.management.InstanceAlreadyExistsException;
 
 import group1.project.synthlab.module.IModule;
-import group1.project.synthlab.module.OutModule;
+import group1.project.synthlab.module.out.OutModule;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;

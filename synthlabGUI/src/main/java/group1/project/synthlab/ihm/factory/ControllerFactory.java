@@ -3,10 +3,11 @@ package group1.project.synthlab.ihm.factory;
 import group1.project.synthlab.cable.Cable;
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.ihm.cable.CCable;
+import group1.project.synthlab.ihm.module.vco.CVCOModule;
 import group1.project.synthlab.ihm.port.in.CInPort;
 import group1.project.synthlab.ihm.port.out.COutPort;
-import group1.project.synthlab.module.OutModule;
-import group1.project.synthlab.module.VCOModule;
+import group1.project.synthlab.module.out.OutModule;
+import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.in.InPort;
 import group1.project.synthlab.port.out.OutPort;
 
@@ -33,9 +34,7 @@ public class ControllerFactory extends Factory {
 
 	@Override
 	public VCOModule createVCOModule() {
-		// TODO A décommenter
-		// return new CVCOModule();
-		return null;
+		return new CVCOModule();
 	}
 
 	@Override

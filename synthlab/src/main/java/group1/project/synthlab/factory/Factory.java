@@ -1,8 +1,8 @@
 package group1.project.synthlab.factory;
 
 import group1.project.synthlab.cable.Cable;
-import group1.project.synthlab.module.OutModule;
-import group1.project.synthlab.module.VCOModule;
+import group1.project.synthlab.module.out.OutModule;
+import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.in.InPort;
 import group1.project.synthlab.port.out.OutPort;
 

@@ -1,7 +1,9 @@
-package group1.project.synthlab.module;
+package group1.project.synthlab.module.vco;
 
 import group1.project.synthlab.cable.Cable;
-import group1.project.synthlab.module.OutModule.Distribution;
+import group1.project.synthlab.module.Module;
+import group1.project.synthlab.module.out.OutModule;
+import group1.project.synthlab.module.out.OutModule.Distribution;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.InPort;
@@ -19,7 +21,7 @@ import com.jsyn.unitgen.SineOscillator;
 import com.jsyn.unitgen.SquareOscillator;
 import com.jsyn.unitgen.TriangleOscillator;
 
-public class VCOModule extends Module implements IPortObserver {
+public class VCOModule extends Module implements IPortObserver, IVCOModule {
 
 	// Modulation de fréquence connectée ou pas
 	protected boolean fmConnected;
@@ -148,32 +150,17 @@ public class VCOModule extends Module implements IPortObserver {
 		return fm;
 	}
 
-	public void setFm(InPort fm) {
-		this.fm = fm;
-	}
-
 	public OutPort getOutSine() {
 		return outSine;
 	}
 
-	public void setOutSine(OutPort outsine) {
-		this.outSine = outsine;
-	}
 
 	public OutPort getOutSquare() {
 		return outSquare;
 	}
 
-	public void setOutSquare(OutPort outsquare) {
-		this.outSquare = outsquare;
-	}
-
 	public OutPort getOutTriangle() {
 		return outTriangle;
-	}
-
-	public void setOutTriangle(OutPort outtriangle) {
-		this.outTriangle = outtriangle;
 	}
 
 	

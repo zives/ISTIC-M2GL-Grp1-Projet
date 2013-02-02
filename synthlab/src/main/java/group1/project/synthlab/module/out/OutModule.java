@@ -1,5 +1,6 @@
-package group1.project.synthlab.module;
+package group1.project.synthlab.module.out;
 
+import group1.project.synthlab.module.Module;
 import group1.project.synthlab.port.in.InPort;
 import group1.project.synthlab.unitExtensions.Attenuator;
 
@@ -19,7 +20,7 @@ import com.jsyn.unitgen.TriangleOscillator;
  * @author Groupe 1
  * 
  */
-public class OutModule extends Module implements IModule {
+public class OutModule extends Module implements IOutModule {
 
 	public enum Distribution {
 		NORMAL, DISTRIBUTED
@@ -75,16 +76,10 @@ public class OutModule extends Module implements IModule {
 
 		isOn = false;
 	}
+	
 
-	/**
-	 * Mise à jour de la distribution du son
-	 * 
-	 * @param distribution
-	 *            NORMAL, le son ne sort que sur le haut parleur correspond au
-	 *            cable du port (gauche ou droite); DISTRIBUTED, le son de
-	 *            chacun des ports est envoyé sur les deux hauts parleurs. Si
-	 *            les deux ports sont occupés, le son est mixé/fusionné sur les
-	 *            deux hauts parleurs.
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.out.IOutModule#setDistribution(group1.project.synthlab.module.out.OutModule.Distribution)
 	 */
 	public void setDistribution(Distribution distribution) {
 		this.distribution = distribution;
@@ -106,12 +101,9 @@ public class OutModule extends Module implements IModule {
 		}
 	}
 
-	/**
-	 * Atténuation du son Formule pour attenuer le son 10 ^ (valeurEnDB / 20) *
-	 * tensionNominale http://fr.wikipedia.org/wiki/Niveau_(audio)
-	 * 
-	 * @param db
-	 *            (valeurs : -inf à +12 dB)
+
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.out.IOutModule#setAttenuation(double)
 	 */
 	public void setAttenuation(double db) {
 		if (db > 12)
@@ -121,45 +113,49 @@ public class OutModule extends Module implements IModule {
 		attenuatorRight.setAttenuation(voltage - 1);
 	}
 
-	/**
-	 * 
-	 * @return the amplitude attenuation
+
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.out.IOutModule#getAttenuation()
 	 */
 	public double getAttenuation() {
 		return attenuatorLeft.getAttenuation();
 	}
 
-	/**
-	 * 
-	 * @return l'objet JSyn correspondant à la sortie brute (son non filtré)
+
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.out.IOutModule#getLineOut()
 	 */
 	public LineOut getLineOut() {
 		return lineOut;
 	}
 
-	/**
-	 * @return Le port d'entrée gauche
+
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.out.IOutModule#getLeftPort()
 	 */
 	public InPort getLeftPort() {
 		return leftPort;
 	}
 
-	/**
-	 * @return Retourne le port d'entrée droite
+
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.out.IOutModule#getRightPort()
 	 */
 	public InPort getRightPort() {
 		return rightPort;
 	}
 
-	/**
-	 * @return Retourne la distribution du son
+
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.out.IOutModule#getDistribution()
 	 */
 	public Distribution getDistribution() {
 		return distribution;
 	}
 
-	/**
-	 * Démarre le circuit
+	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#start()
 	 */
 	public void start() {
 		circuit.start();
@@ -168,8 +164,9 @@ public class OutModule extends Module implements IModule {
 		isOn = true;
 	}
 
-	/**
-	 * Arrête le circuit
+	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#stop()
 	 */
 	public void stop() {
 		lineOut.stop();
@@ -177,10 +174,8 @@ public class OutModule extends Module implements IModule {
 		isOn = false;
 	}
 
-	/**
-	 * Donne l'état du bouton Mute
-	 * 
-	 * @return true si le circuit est en marche, faux sinon (le son est coupé)
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#isStarted()
 	 */
 	public boolean isStarted() {
 		return isOn;
