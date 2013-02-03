@@ -5,6 +5,8 @@ import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.module.out.IOutModule;
 import group1.project.synthlab.module.out.OutModule;
+import group1.project.synthlab.module.vcf.IVCFModule;
+import group1.project.synthlab.module.vcf.VCFModule;
 import group1.project.synthlab.module.vco.IVCOModule;
 import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.in.IInPort;
@@ -43,6 +45,10 @@ public class Factory {
 
 	public IWorkspace createWorkSpace() {
 		return new Workspace(this);
+	}
+
+	public IVCFModule createVCFModule() {
+		return new VCFModule(this);
 	}
 
 }
