@@ -7,7 +7,7 @@ import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 
 /**
- * Création d'un cable
+ * Crï¿½ation d'un cable
  * 
  * @author Groupe 1
  * 
@@ -77,12 +77,15 @@ public class Cable implements ICable {
 	 * Deconnecte les 2 ports.
 	 */
 	public void disconnect() {
-		this.outPort.getJSynPort().disconnect(inPort.getJSynPort());
-		outPort.setCable(null);
-		inPort.setCable(null);
-		// On previent les observers que dorénavant aucun cable ne connecte les 2 ports.
+		this.outPort.getJSynPort().disconnect(inPort.getJSynPort());		
+		
+		// On previent les observers que dorenavant aucun cable ne connecte les 2 ports.
 		outPort.cableDisconnected();
 		inPort.cableDisconnected();
+		
+		//A faire impÃ©rativement en dernier
+		outPort.setCable(null);
+		inPort.setCable(null);
 	}
 	
 	@Override

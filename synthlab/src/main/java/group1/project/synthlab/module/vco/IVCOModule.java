@@ -86,6 +86,17 @@ public interface IVCOModule extends IModule {
 	public void setFineAdjustment(double fineadjustment);
 	
 	/**
+	 * Reglage très fin
+	 * @return la valeur du reglage fin de la frequence f0 (double entre 0 et 1)
+	 */
+	public double getUltraFineAdjustment();
+
+	/**
+	 * @param fineadjustment : la nouvelle valeur du reglage très fin de la frequence f0 (double entre 0 et 1)
+	 */
+	public void setUltraFineAdjustment(double fineadjustment);
+	
+	/**
 	 * Met a jour la frequence f0 des 3 signaux en fonction des valeurs de reglage grossier et fin
 	 */
 	public void changeFrequency();

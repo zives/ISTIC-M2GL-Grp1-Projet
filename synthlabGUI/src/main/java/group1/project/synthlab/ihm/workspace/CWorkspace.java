@@ -1,5 +1,6 @@
 package group1.project.synthlab.ihm.workspace;
 
+import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.ihm.cable.ICCable;
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.module.ICModule;
@@ -47,6 +48,9 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		return (ICWorkspace) instance;
 	}
 	
+	public void removeCable(ICable cCable) {
+		presentation.removeCable(((ICCable)cCable).getPresentation());		
+	}
 
 	@Override
 	public void addModule(IModule module) {
@@ -56,14 +60,21 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 
 	@Override
 	public void removeModule(IModule module) {
-		super.removeModule(module);
 		presentation.removeModule(((ICModule) module).getPresentation());
+		super.removeModule(module);		
 	}
 
 	public void addOneVCOModule() {
 		addModule(factory.createVCOModule());
 		
 	}
+
+	public void addOneOutModule() {
+		addModule(factory.createOutModule());
+		
+	}
+
+	
 	
 	
 

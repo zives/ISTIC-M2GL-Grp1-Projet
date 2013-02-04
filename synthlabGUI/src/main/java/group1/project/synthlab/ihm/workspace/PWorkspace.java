@@ -46,6 +46,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	private JScrollPane centerPanel;
 
 	private Button vcoButton;
+	private Button outButton;
 
 	public PWorkspace(ICWorkspace controller) {		
 		super("Synthetiseur");
@@ -130,8 +131,12 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 		vcoButton = new Button("Ajouter VCO");
 		vcoButton.setForeground(Color.BLACK);
-
 		toolBar.add(vcoButton);
+		
+		outButton = new Button("Ajouter sortie");
+		outButton.setForeground(Color.BLACK);
+		toolBar.add(outButton);
+
 		add(toolBar, BorderLayout.NORTH);
 		add(centerPanel, BorderLayout.CENTER);
 
@@ -186,6 +191,13 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 				controller.addOneVCOModule();
 			}
 		});
+		
+		outButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent ev) {
+				controller.addOneOutModule();
+			}
+		});
 	}
 
 	public JLayeredPane getWorkspacePanel() {
@@ -220,7 +232,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 	public void removeModule(IPModule module) {
 		workspacePanel.remove((Component) module);
-
+		repaint();
 	}
 
 	public static void main(String[] args) {

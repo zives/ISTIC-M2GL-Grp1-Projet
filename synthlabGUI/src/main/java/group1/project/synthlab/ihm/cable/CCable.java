@@ -8,10 +8,11 @@ import group1.project.synthlab.ihm.module.IPModuleObservable;
 import group1.project.synthlab.ihm.module.IPModuleObserver;
 import group1.project.synthlab.ihm.port.in.ICInPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
+import group1.project.synthlab.ihm.workspace.CWorkspace;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 
-public class CCable extends Cable implements ICCable, IPModuleObserver{
+public class CCable extends Cable implements ICCable{
 	protected IPCable presentation;
 	public CCable(CFactory factory) {
 		super(factory);
@@ -38,6 +39,13 @@ public class CCable extends Cable implements ICCable, IPModuleObserver{
 		presentation.setP2(((ICInPort)inPort).getPresentation());
 	
 	}
+	@Override
+	public void disconnect() {
+		CWorkspace.getInstance().removeCable(this);		
+		super.disconnect();
+	}
+	
+	
 	
 	
 }

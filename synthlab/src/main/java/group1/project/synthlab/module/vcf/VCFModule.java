@@ -111,6 +111,20 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 		onoff.inputB.set(0);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see group1.project.synthlab.module.IModule#destruct()
+	 */
+	public void destruct() {
+		if (out.isUsed())
+			out.getCable().disconnect();
+		if (in.isUsed())
+			in.getCable().disconnect();
+		if (fm.isUsed())
+			fm.getCable().disconnect();
+	}
+	
 	// Fonction appelee lorsque les reglages de la frequence de coupure sont modifiees sur l'IHM
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.module.IVCOModule#changeFrequency()
@@ -125,7 +139,7 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.module.IVCOModule#changeQFactor()
 	 */
-	public void changeQFactor(){
+	private void changeQFactor(){
 		filter1.Q.set(q);
 		filter2.Q.set(q);
 	}

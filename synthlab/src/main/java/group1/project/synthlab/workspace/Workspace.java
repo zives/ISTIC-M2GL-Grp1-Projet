@@ -31,9 +31,11 @@ public class Workspace implements IWorkspace {
 		synthesizer.add(module.getCircuit());
 	}
 
-	public void removeModule(IModule module) {
-		modules.remove(module);
+	public void removeModule(IModule module) {	
+		module.destruct();
 		synthesizer.remove(module.getCircuit());
+		modules.remove(module);
+		
 	}
 
 	public static IWorkspace getInstance() {

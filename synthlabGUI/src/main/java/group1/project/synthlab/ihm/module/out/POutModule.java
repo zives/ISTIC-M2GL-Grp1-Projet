@@ -40,23 +40,9 @@ public class POutModule extends PModule implements IPOutModule {
 
 
 
-	public static void main(String[] args) {
-		CFactory factory = new CFactory();
-		COutModule module = (COutModule) factory.createOutModule();
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add((Component) module.getPresentation());
-		frame.pack();
-		frame.setVisible(true);
 
-	}
 
-	public void reregisterCables() {
-		// Enregitrement du module auprès des cables
-		register((IPModuleObserver) controller.getLeftPort().getCable());
-		register((IPModuleObserver) controller.getRightPort().getCable());
-		
-		
-	}
+
+	
 
 }

@@ -44,4 +44,9 @@ public interface IModule extends IPortObserver {
 	 * @param factory une factory
 	 */
 	public void setFactory(Factory factory);
+	
+	/**
+	 * Detruit les dependences du module
+	 */
+	public void destruct();
 }

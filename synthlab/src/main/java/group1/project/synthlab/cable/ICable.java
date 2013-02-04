@@ -1,18 +1,15 @@
 package group1.project.synthlab.cable;
 
 import group1.project.synthlab.exceptions.BadConnection;
-
+import group1.project.synthlab.exceptions.PortAlreadyUsed;
+import group1.project.synthlab.port.in.IInPort;
+import group1.project.synthlab.port.out.IOutPort;
 /**
- * Interface de création d'un cable
+ * Interface de creation d'un cable
  * 
  * @author Groupe 1
  * 
  */
-import group1.project.synthlab.exceptions.PortAlreadyUsed;
-import group1.project.synthlab.port.in.IInPort;
-import group1.project.synthlab.port.in.InPort;
-import group1.project.synthlab.port.out.IOutPort;
-import group1.project.synthlab.port.out.OutPort;
 
 public interface ICable {
 

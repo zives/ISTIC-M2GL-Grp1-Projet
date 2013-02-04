@@ -28,6 +28,7 @@ public abstract class Module implements IModule {
 		this.factory = factory;
 	}
 	
+	
 	public String getName() {
 		return name;
 	}
@@ -43,5 +44,6 @@ public abstract class Module implements IModule {
 	public void setFactory(Factory factory) {
 		this.factory = factory;
 	}
+	
 	
 }

@@ -19,6 +19,13 @@ public abstract class Port implements IPort {
 		this.factory = factory;
 		register(module);
 	}
+	
+	@Override
+	public void finalize() throws Throwable{
+		if (cable != null)
+			cable.disconnect();
+		super.finalize();		
+	}
 		
 	public ICable getCable() {
 		return cable;

@@ -1,5 +1,7 @@
 package group1.project.synthlab.ihm.module;
 
+import group1.project.synthlab.ihm.workspace.CWorkspace;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -29,9 +31,9 @@ public abstract class PModule extends JPanel implements IPModule {
 
 	public PModule(final ICModule controller) {
 		self = this;
-		
+
 		this.setLayout(null);
-		this.setBackground(new Color(70,70,70));
+		this.setBackground(new Color(70, 70, 70));
 		this.setSize(300, 300);
 		this.setPreferredSize(this.getSize());
 		this.setMaximumSize(this.getSize());
@@ -41,9 +43,9 @@ public abstract class PModule extends JPanel implements IPModule {
 		label.setForeground(Color.LIGHT_GRAY);
 		label.setOpaque(false);
 		label.setLocation(13, 10);
-		label.setSize(100,20);
+		label.setSize(100, 20);
 		label.setPreferredSize(label.getSize());
-		label.setFont(new Font("Arial", Font.BOLD, 14));		
+		label.setFont(new Font("Arial", Font.BOLD, 14));
 		add(label);
 
 		// OnOff
@@ -55,9 +57,23 @@ public abstract class PModule extends JPanel implements IPModule {
 		onOffButton.setSize(20, 20);
 		onOffButton.setBorder(null);
 		onOffButton.setPreferredSize(onOffButton.getSize());
-		onOffButton.setLocation(getWidth() - onOffButton.getWidth() - 13, 13);	
+		onOffButton.setLocation(getWidth() - onOffButton.getWidth() - 13, 13);
 		onOffButton.setFocusPainted(false);
 		add(onOffButton);
+
+		// Remove
+		final JToggleButton removeButton = new JToggleButton("X");
+		removeButton.setOpaque(false);
+		removeButton.setForeground(new Color(70, 70, 70));
+		removeButton.setSelected(false);
+		removeButton.setFont(new Font("Arial", 0, 10));
+		removeButton.setSize(20, 20);
+		removeButton.setBorder(null);
+		removeButton.setPreferredSize(removeButton.getSize());
+		removeButton.setLocation(getWidth() - removeButton.getWidth()
+				- onOffButton.getWidth() - 15, 13);
+		removeButton.setFocusPainted(false);
+		add(removeButton);
 
 		// Events
 		onOffButton.addActionListener(new ActionListener() {
@@ -72,6 +88,13 @@ public abstract class PModule extends JPanel implements IPModule {
 
 				}
 
+			}
+		});
+
+		removeButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent ev) {
+				CWorkspace.getInstance().removeModule(controller);
 			}
 		});
 
@@ -97,6 +120,7 @@ public abstract class PModule extends JPanel implements IPModule {
 
 			public void mouseClicked(MouseEvent arg0) {
 				((JLayeredPane) getParent()).moveToFront(self);
+				updateAll();
 
 			}
 		});
@@ -124,7 +148,7 @@ public abstract class PModule extends JPanel implements IPModule {
 		});
 	}
 
-	public void register(IPModuleObserver observer) {
+	public void register(IPModuleObserver observer) {		
 		observers.add(observer);
 	}
 
@@ -137,7 +161,12 @@ public abstract class PModule extends JPanel implements IPModule {
 			if (obs != null)
 				obs.update(this);
 	}
-	
+
+	public void unregisterAllCables() {
+		observers.clear();
+
+	}
+
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);

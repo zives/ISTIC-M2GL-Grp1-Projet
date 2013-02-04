@@ -1,6 +1,7 @@
 package group1.project.synthlab.ihm.module.vco;
 
 import group1.project.synthlab.ihm.factory.CFactory;
+import group1.project.synthlab.ihm.module.IPModuleObserver;
 import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 
@@ -19,17 +20,17 @@ public class CVCOModule extends VCOModule implements ICVCOModule {
 	@Override
 	public void cableConnected(IPort port) {		
 		super.cableConnected(port);
-		presentation.reregisterCables();
+		presentation.register((IPModuleObserver) port.getCable());
 		if (port == getFm())
 			presentation.setSlidersEnabled(false);
 	}
 
 	@Override
-	public void cableDisconnected(IPort port) {
-		super.cableDisconnected(port);
-		presentation.reregisterCables();
+	public void cableDisconnected(IPort port) {		
+		presentation.unregister((IPModuleObserver) port.getCable());
 		if (port == getFm())
 			presentation.setSlidersEnabled(true);
+		super.cableDisconnected(port);
 	}
 	
 	

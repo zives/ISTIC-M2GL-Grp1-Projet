@@ -27,7 +27,7 @@ public class OutModule extends Module implements IOutModule {
 	public enum Distribution {
 		NORMAL, DISTRIBUTED
 	}
-	
+
 	protected static int moduleCount = 0;
 
 	@SuppressWarnings("unused")
@@ -72,20 +72,36 @@ public class OutModule extends Module implements IOutModule {
 		lineOut.input.setMaximum(1); // MAX_VOLTAGE
 		lineOut.input.setMinimum(-1); // -MAX_VOLTAGE
 
-		leftPort = factory.createInPort("Source left", attenuatorLeft.input, this);
-		rightPort = factory.createInPort("Source right", attenuatorRight.input, this);
-
+		leftPort = factory.createInPort("Source left", attenuatorLeft.input,
+				this);
+		rightPort = factory.createInPort("Source right", attenuatorRight.input,
+				this);
 
 		attenuatorLeft.output.connect(passThroughLeft.input);
 		attenuatorRight.output.connect(passThroughRight.input);
 
 		isOn = false;
-		
-		
+
 	}
+
 	
 	/* (non-Javadoc)
-	 * @see group1.project.synthlab.module.out.IOutModule#setDistribution(group1.project.synthlab.module.out.OutModule.Distribution)
+	 * @see group1.project.synthlab.module.IModule#destruct()
+	 */
+	public void destruct() {
+		if (rightPort.isUsed())
+			rightPort.getCable().disconnect();
+		
+		if (leftPort.isUsed())
+			leftPort.getCable().disconnect();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * group1.project.synthlab.module.out.IOutModule#setDistribution(group1.
+	 * project.synthlab.module.out.OutModule.Distribution)
 	 */
 	public void setDistribution(Distribution distribution) {
 		this.distribution = distribution;
@@ -107,8 +123,9 @@ public class OutModule extends Module implements IOutModule {
 		}
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see group1.project.synthlab.module.out.IOutModule#setAttenuation(double)
 	 */
 	public void setAttenuation(double db) {
@@ -119,48 +136,54 @@ public class OutModule extends Module implements IOutModule {
 		attenuatorRight.setAttenuation(voltage - 1);
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see group1.project.synthlab.module.out.IOutModule#getAttenuation()
 	 */
 	public double getAttenuation() {
 		return attenuatorLeft.getAttenuation();
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see group1.project.synthlab.module.out.IOutModule#getLineOut()
 	 */
 	public LineOut getLineOut() {
 		return lineOut;
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see group1.project.synthlab.module.out.IOutModule#getLeftPort()
 	 */
 	public IInPort getLeftPort() {
 		return leftPort;
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see group1.project.synthlab.module.out.IOutModule#getRightPort()
 	 */
 	public IInPort getRightPort() {
 		return rightPort;
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see group1.project.synthlab.module.out.IOutModule#getDistribution()
 	 */
 	public Distribution getDistribution() {
 		return distribution;
 	}
 
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see group1.project.synthlab.module.IModule#start()
 	 */
 	public void start() {
@@ -170,8 +193,9 @@ public class OutModule extends Module implements IOutModule {
 		isOn = true;
 	}
 
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see group1.project.synthlab.module.IModule#stop()
 	 */
 	public void stop() {
@@ -180,27 +204,28 @@ public class OutModule extends Module implements IOutModule {
 		isOn = false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see group1.project.synthlab.module.IModule#isStarted()
 	 */
 	public boolean isStarted() {
 		return isOn;
 	}
-	
+
 	public void cableConnected(IPort port) {
 	}
 
-
 	public void cableDisconnected(IPort port) {
-		
+
 	}
 
 	// Test fonctionnel
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
-		//Creeation de la factory
+		// Creeation de la factory
 		Factory factory = new Factory();
-		
+
 		// Creation d'un module de sortie
 		OutModule out = new OutModule(factory);
 
@@ -279,6 +304,4 @@ public class OutModule extends Module implements IOutModule {
 
 	}
 
-
-	
 }
