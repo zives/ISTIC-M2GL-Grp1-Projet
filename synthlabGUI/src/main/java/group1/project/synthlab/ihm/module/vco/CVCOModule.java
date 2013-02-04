@@ -21,15 +21,11 @@ public class CVCOModule extends VCOModule implements ICVCOModule {
 	public void cableConnected(IPort port) {		
 		super.cableConnected(port);
 		presentation.register((IPModuleObserver) port.getCable());
-		if (port == getFm())
-			presentation.setSlidersEnabled(false);
 	}
 
 	@Override
 	public void cableDisconnected(IPort port) {		
 		presentation.unregister((IPModuleObserver) port.getCable());
-		if (port == getFm())
-			presentation.setSlidersEnabled(true);
 		super.cableDisconnected(port);
 	}
 	

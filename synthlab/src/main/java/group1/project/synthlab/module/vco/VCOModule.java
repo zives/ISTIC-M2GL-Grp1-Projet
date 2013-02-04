@@ -53,6 +53,9 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	/** Port d'entree : modulation de frequence */
 	protected IInPort fm;
 
+	/** Pour l'application de la formule de modulation de frequence */
+	protected Multiply multiplyf0 = new Multiply();
+	
 	/**
 	 * Un PassThrough pour envoyer la modulation de frequence vers l'entree des
 	 * 3 oscillateurs
@@ -102,7 +105,6 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		multiply5.inputB.set(5);
 		PowerOfTwo poweroftwo = new PowerOfTwo();
 		multiply5.output.connect(poweroftwo.input);
-		Multiply multiplyf0 = new Multiply();
 		multiplyf0.inputB.set(f0);
 		multiplyf0.inputA.connect(poweroftwo.output);
 		passThrough.input.connect(multiplyf0.output);
@@ -158,14 +160,13 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	 * @see group1.project.synthlab.module.IVCOModule#changeFrequency()
 	 */
 	public void changeFrequency() {
-		if (!fmConnected) {
-			double newFrequency = (coarseAdjustment + fineAdjustment + ultraFineAdjustment)
-					* ((fmax - fmin) / 1000000);
-			f0 = newFrequency;
-			sineOsc.frequency.set(f0);
-			squareOsc.frequency.set(f0);
-			triangleOsc.frequency.set(f0);
-		}
+		double newFrequency = (coarseAdjustment + fineAdjustment + ultraFineAdjustment)
+				* ((fmax - fmin) / 1000000);
+		f0 = newFrequency;
+		sineOsc.frequency.set(f0);
+		squareOsc.frequency.set(f0);
+		triangleOsc.frequency.set(f0);
+		multiplyf0.inputB.set(f0);
 	}
 
 	// Fonction qui gere la connexion a l'entree FM, et donc le passage a la
