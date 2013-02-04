@@ -3,13 +3,20 @@ package group1.project.synthlab.ihm.module.out;
 import group1.project.synthlab.ihm.module.PModule;
 import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.in.ICInPort;
+import group1.project.synthlab.ihm.tools.PGradient;
 import group1.project.synthlab.module.out.OutModule.Distribution;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.JToggleButton;
@@ -51,7 +58,7 @@ public class POutModule extends PModule implements IPOutModule {
 		volumeLabel.setLocation(getWidth() / 2 - volumeLabel.getWidth() / 2, 50);
 		volumeLabel.setFont(new Font("Monospaced", Font.ITALIC, 26));
 
-		// SSliders
+		// Sliders
 
 		attenuatorSlider = new JSlider();
 		attenuatorSlider.setMaximum(120);
@@ -68,8 +75,9 @@ public class POutModule extends PModule implements IPOutModule {
 
 		attenuatorSlider.setMajorTickSpacing(100);
 		attenuatorSlider.setPaintTicks(true);
-		attenuatorSlider.setPaintLabels(true);
 		
+		
+
 		JLabel attenuatorLabel = new JLabel("dB");
 		attenuatorLabel.setForeground(Color.LIGHT_GRAY);
 		attenuatorLabel.setOpaque(false);
@@ -78,7 +86,7 @@ public class POutModule extends PModule implements IPOutModule {
 		attenuatorLabel.setPreferredSize(attenuatorLabel.getSize());
 		attenuatorLabel.setLocation(attenuatorSlider.getX(), 90);
 		attenuatorLabel.setFont(new Font("Arial", Font.ITALIC, 10));
-		
+
 
 		// Distribution
 		final JToggleButton distributionButton = new JToggleButton("DISTRIBUED");
@@ -92,7 +100,12 @@ public class POutModule extends PModule implements IPOutModule {
 		distributionButton.setLocation(getWidth()/2 - distributionButton.getWidth()/2, 100);
 		distributionButton.setFocusPainted(false);
 
-
+	
+		PGradient gradient = new PGradient(Color.DARK_GRAY, Color.LIGHT_GRAY, Color.DARK_GRAY, 0.2f, 0.4f, 0.7f);
+		gradient.setSize(10, 140);
+		gradient.setLocation(40, 55);
+				  
+		
 		// Ajouts des composants
 		add(pportLeft);
 		add(pportRight);
@@ -100,7 +113,13 @@ public class POutModule extends PModule implements IPOutModule {
 		add(attenuatorSlider);
 		add(attenuatorLabel);
 		add(distributionButton);
+		add(gradient);
 
+		this.repaint();
+
+		
+		
+		
 		// Events
 		attenuatorSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
@@ -108,7 +127,7 @@ public class POutModule extends PModule implements IPOutModule {
 				volumeLabel.setText(Math.round(controller.getAttenuation()) + " dB");
 			}
 		});
-		
+
 		distributionButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
 				if (distributionButton.isSelected()) {
@@ -117,20 +136,19 @@ public class POutModule extends PModule implements IPOutModule {
 				} else {
 					controller.setDistribution(Distribution.NORMAL);
 					distributionButton.setText("STEREO");
-
 				}
 
 			}
 		});
-
-
-
 	}
-
-
-
-
-
+	
+//	public void paint(Graphics graphics) {
+//		Graphics2D g2d = (Graphics2D) graphics;
+//		g2d.setPaint(new GradientPaint(40, 55, Color.darkGray, 200, 200, Color.lightGray, false));
+//		Rectangle2D.Double rectangle= new Rectangle2D.Double(40,55,10,140);
+//		g2d.fill(rectangle);
+//		repaint();
+//	}
 
 
 
