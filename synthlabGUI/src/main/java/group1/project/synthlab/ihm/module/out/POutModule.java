@@ -59,7 +59,6 @@ public class POutModule extends PModule implements IPOutModule {
 		volumeLabel.setFont(new Font("Monospaced", Font.ITALIC, 26));
 
 		// Sliders
-
 		attenuatorSlider = new JSlider();
 		attenuatorSlider.setMaximum(120);
 		attenuatorSlider.setMinimum(-300);
@@ -72,12 +71,9 @@ public class POutModule extends PModule implements IPOutModule {
 		attenuatorSlider.setOpaque(false);
 		attenuatorSlider.setFocusable(false);
 		attenuatorSlider.setLocation(getWidth()/5 - attenuatorSlider.getWidth()/5, 50);
-
 		attenuatorSlider.setMajorTickSpacing(100);
 		attenuatorSlider.setPaintTicks(true);
 		
-		
-
 		JLabel attenuatorLabel = new JLabel("dB");
 		attenuatorLabel.setForeground(Color.LIGHT_GRAY);
 		attenuatorLabel.setOpaque(false);
@@ -86,7 +82,6 @@ public class POutModule extends PModule implements IPOutModule {
 		attenuatorLabel.setPreferredSize(attenuatorLabel.getSize());
 		attenuatorLabel.setLocation(attenuatorSlider.getX(), 90);
 		attenuatorLabel.setFont(new Font("Arial", Font.ITALIC, 10));
-
 
 		// Distribution
 		final JToggleButton distributionButton = new JToggleButton("DISTRIBUED");
@@ -100,12 +95,10 @@ public class POutModule extends PModule implements IPOutModule {
 		distributionButton.setLocation(getWidth()/2 - distributionButton.getWidth()/2, 100);
 		distributionButton.setFocusPainted(false);
 
-	
 		PGradient gradient = new PGradient(Color.DARK_GRAY, Color.LIGHT_GRAY, Color.DARK_GRAY, 0.2f, 0.4f, 0.7f);
 		gradient.setSize(10, 140);
 		gradient.setLocation(40, 55);
 				  
-		
 		// Ajouts des composants
 		add(pportLeft);
 		add(pportRight);
@@ -117,9 +110,6 @@ public class POutModule extends PModule implements IPOutModule {
 
 		this.repaint();
 
-		
-		
-		
 		// Events
 		attenuatorSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
@@ -135,21 +125,11 @@ public class POutModule extends PModule implements IPOutModule {
 					distributionButton.setText("NORMAL");
 				} else {
 					controller.setDistribution(Distribution.NORMAL);
-					distributionButton.setText("STEREO");
+					distributionButton.setText("DISTRIBUTED");
 				}
 
 			}
 		});
 	}
-	
-//	public void paint(Graphics graphics) {
-//		Graphics2D g2d = (Graphics2D) graphics;
-//		g2d.setPaint(new GradientPaint(40, 55, Color.darkGray, 200, 200, Color.lightGray, false));
-//		Rectangle2D.Double rectangle= new Rectangle2D.Double(40,55,10,140);
-//		g2d.fill(rectangle);
-//		repaint();
-//	}
-
-
 
 }
