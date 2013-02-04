@@ -24,6 +24,11 @@ public interface IVCOModule extends IModule {
 	public double getf0();
 	
 	/**
+	 * définie une fréquence personnalisée
+	 */
+	public void setf0(double freq);
+	
+	/**
 	 * @return l'oscillateur JSyn qui genere le signal sinusoidale
 	 */
 	public SineOscillator getSineOsc();
@@ -81,25 +86,21 @@ public interface IVCOModule extends IModule {
 	public double getFineAdjustment();
 
 	/**
-	 * @param fineadjustment : la nouvelle valeur du reglage fin de la frequence f0 (double entre 0 et 1)
+	 * @param fineAdjustment : la nouvelle valeur du reglage fin de la frequence f0 (double entre 0 et 1)
 	 */
-	public void setFineAdjustment(double fineadjustment);
-	
-	/**
-	 * Reglage très fin
-	 * @return la valeur du reglage fin de la frequence f0 (double entre 0 et 1)
-	 */
-	public double getUltraFineAdjustment();
+	public void setFineAdjustment(double fineAdjustment);
 
-	/**
-	 * @param fineadjustment : la nouvelle valeur du reglage très fin de la frequence f0 (double entre 0 et 1)
-	 */
-	public void setUltraFineAdjustment(double fineadjustment);
 	
 	/**
 	 * Met a jour la frequence f0 des 3 signaux en fonction des valeurs de reglage grossier et fin
 	 */
 	public void changeFrequency();
+	
+	
+	/**
+	 * Met à jour les valeurs d'ajustements en fonction de la fréquence 
+	 */
+	public void redefAdjustments() ;
 	
 	/**
 	 * Si un cable est connecte dans le port d'entree fm, le VCO doit activer la modulation de frequence

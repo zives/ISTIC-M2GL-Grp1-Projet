@@ -1,4 +1,4 @@
-package group1.project.synthlab.unitExtensions;
+package group1.project.synthlab.unitExtensions.Attenuator;
 
 import com.jsyn.unitgen.UnitFilter;
 

@@ -59,7 +59,7 @@ public class TestVCOModule extends TestCase {
 	 */
 	public void testChangeFrequency() {
 		vco.setCoarseAdjustment(1);
-		vco.setFineAdjustment(0.2);
+		vco.setFineAdjustment(0);
 		vco.changeFrequency();
 		assert (vco.getSineOsc().frequency.get() == (VCOModule.fmax - VCOModule.fmin)/50);
 		assert (vco.getSquareOsc().frequency.get() == (VCOModule.fmax - VCOModule.fmin)/50);

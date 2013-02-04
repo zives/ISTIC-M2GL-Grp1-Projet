@@ -11,6 +11,7 @@ public class CVCOModule extends VCOModule implements ICVCOModule {
 	public CVCOModule(CFactory factory) {
 		super(factory);
 		this.presentation = new PVCOModule(this);
+		this.filterAmplitude.register(this.presentation);
 	}
 
 	public IPVCOModule getPresentation() {
