@@ -148,6 +148,7 @@ public class OutModule extends Module implements IOutModule {
 	 */
 	public double getAttenuation() {
 		return attenuationDB;
+		
 	}
 
 	/*

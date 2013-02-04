@@ -185,9 +185,12 @@ public class PVCOModule extends PModule implements IPVCOModule {
 						return;
 					}
 					controller.setf0(val);
-
-					freqLabel.setText(freqToString(controller.getf0()) + " Hz");
-					textFreq.setText(freqToString(controller.getf0()));
+					controller.redefAdjustments();
+					coarseSlider.setValue(controller.getCoarseAdjustment() * 10);
+					fineSlider.setValue((int) (controller.getFineAdjustment() * 10000.0));
+					freqLabel.setText(freqToString(val) + " Hz");
+					textFreq.setText(freqToString(val));
+					
 				}
 			}
 			
@@ -196,7 +199,7 @@ public class PVCOModule extends PModule implements IPVCOModule {
 	}
 
 	private String freqToString(double freq) {
-		String val = String.valueOf(controller.getf0());
+		String val = String.valueOf(freq);
 		if (val.indexOf(".") < 0)
 			val += ".00";
 		else {

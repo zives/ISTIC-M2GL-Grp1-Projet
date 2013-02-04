@@ -24,6 +24,7 @@ public class Attenuator extends UnitFilter {
 
 		for (int i = start; i < limit; i++) {
 			double x = inputs[i];
+			
 			if (x > 0){
 				x += attenuation;
 				if (x < 0) x = 0;

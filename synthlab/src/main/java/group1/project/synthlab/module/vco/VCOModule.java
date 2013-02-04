@@ -38,7 +38,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	/** Amplitude a l'arret */
 	public static final double amin = 0;
 	/** Amplitude par defaut */
-	public static final double a0 = 5;
+	public static final double a0 = 0.5;
 
 	/** Frequence min */
 	public static final double fmin = Signal.FMIN;
@@ -46,7 +46,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	public static final double fmax = Signal.FMAXAUDIBLE;
 
 	/** Frequence de base */
-	protected double f0 = 6000;
+	protected double f0 = 300;
 
 	/** Oscillateur generant le signal sinusoidale */
 	protected SineOscillator sineOsc;

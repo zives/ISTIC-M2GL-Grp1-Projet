@@ -22,6 +22,7 @@ import javax.swing.JSlider;
 import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.plaf.SliderUI;
 
 
 public class POutModule extends PModule implements IPOutModule {
@@ -51,17 +52,17 @@ public class POutModule extends PModule implements IPOutModule {
 		final JLabel volumeLabel = new JLabel(controller.getAttenuation() + " dB");
 		volumeLabel.setForeground(Color.LIGHT_GRAY);
 		volumeLabel.setOpaque(false);
-		volumeLabel.setSize(getWidth(), 20);
-		volumeLabel.setHorizontalAlignment(JLabel.CENTER);
+		volumeLabel.setSize(150, 20);
+		volumeLabel.setHorizontalTextPosition(JLabel.LEFT);
 		volumeLabel.setBorder(null);
 		volumeLabel.setPreferredSize(volumeLabel.getSize());
-		volumeLabel.setLocation(getWidth() / 2 - volumeLabel.getWidth() / 2, 50);
+		volumeLabel.setLocation(getWidth() / 2 - volumeLabel.getWidth() / 2 + 40, 50);
 		volumeLabel.setFont(new Font("Monospaced", Font.ITALIC, 26));
 
 		// Sliders
 		attenuatorSlider = new JSlider();
 		attenuatorSlider.setMaximum(120);
-		attenuatorSlider.setMinimum(-300);
+		attenuatorSlider.setMinimum(-200);
 		attenuatorSlider.setOrientation(JSlider.VERTICAL);
 		attenuatorSlider.setValue((int) controller.getAttenuation()*10);
 		attenuatorSlider.setSize(40, 150);
@@ -70,14 +71,16 @@ public class POutModule extends PModule implements IPOutModule {
 		attenuatorSlider.setPreferredSize(attenuatorSlider.getSize());
 		attenuatorSlider.setOpaque(false);
 		attenuatorSlider.setFocusable(false);
-		attenuatorSlider.setLocation(getWidth()/5 - attenuatorSlider.getWidth()/5, 50);
+		attenuatorSlider.setBorder(null);
+		attenuatorSlider.setLocation(35, 50);
 		attenuatorSlider.setMajorTickSpacing(100);
+		attenuatorSlider.setMinorTickSpacing(25);
 		attenuatorSlider.setPaintTicks(true);
 		
 		JLabel attenuatorLabel = new JLabel("dB");
 		attenuatorLabel.setForeground(Color.LIGHT_GRAY);
 		attenuatorLabel.setOpaque(false);
-		attenuatorLabel.setSize(80, 20);
+		attenuatorLabel.setSize(30, 20);
 		attenuatorLabel.setBorder(null);
 		attenuatorLabel.setPreferredSize(attenuatorLabel.getSize());
 		attenuatorLabel.setLocation(attenuatorSlider.getX(), 90);
@@ -89,15 +92,15 @@ public class POutModule extends PModule implements IPOutModule {
 		distributionButton.setForeground(new Color(70, 70, 70));
 		distributionButton.setSelected(false);
 		distributionButton.setFont(new Font("Arial", 0, 10));
-		distributionButton.setSize(80, 20);
+		distributionButton.setSize(150, 30);
 		distributionButton.setBorder(null);
 		distributionButton.setPreferredSize(distributionButton.getSize());
-		distributionButton.setLocation(getWidth()/2 - distributionButton.getWidth()/2, 100);
+		distributionButton.setLocation(getWidth()/2 - distributionButton.getWidth()/2+40, 100);
 		distributionButton.setFocusPainted(false);
 
 		PGradient gradient = new PGradient(Color.DARK_GRAY, Color.LIGHT_GRAY, Color.DARK_GRAY, 0.2f, 0.4f, 0.7f);
 		gradient.setSize(10, 140);
-		gradient.setLocation(40, 55);
+		gradient.setLocation(25, 55);
 				  
 		// Ajouts des composants
 		add(pportLeft);
@@ -114,7 +117,7 @@ public class POutModule extends PModule implements IPOutModule {
 		attenuatorSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				controller.setAttenuation(attenuatorSlider.getValue()/10.0);
-				volumeLabel.setText(Math.round(controller.getAttenuation()) + " dB");
+				volumeLabel.setText(Math.round(controller.getAttenuation() * 10) / 10.0 + " dB");
 			}
 		});
 
