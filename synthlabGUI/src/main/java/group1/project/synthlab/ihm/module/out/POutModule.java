@@ -54,34 +54,39 @@ public class POutModule extends PModule implements IPOutModule {
 		// SSliders
 
 		attenuatorSlider = new JSlider();
-		attenuatorSlider.setMaximum(12);
-		attenuatorSlider.setMinimum(-60);
+		attenuatorSlider.setMaximum(120);
+		attenuatorSlider.setMinimum(-300);
 		attenuatorSlider.setOrientation(JSlider.VERTICAL);
-		attenuatorSlider.setValue((int) controller.getAttenuation());
+		attenuatorSlider.setValue((int) controller.getAttenuation()*10);
 		attenuatorSlider.setSize(40, 150);
 		attenuatorSlider.setFont(new Font("Arial", 0, 8));
 		attenuatorSlider.setForeground(Color.LIGHT_GRAY);
 		attenuatorSlider.setPreferredSize(attenuatorSlider.getSize());
 		attenuatorSlider.setOpaque(false);
 		attenuatorSlider.setFocusable(false);
-		attenuatorSlider.setSnapToTicks(true);
-		attenuatorSlider.setLocation(getWidth()/5 - attenuatorSlider.getWidth()/5, 30);
+		attenuatorSlider.setLocation(getWidth()/5 - attenuatorSlider.getWidth()/5, 50);
+
+		attenuatorSlider.setMajorTickSpacing(100);
+		attenuatorSlider.setPaintTicks(true);
+		attenuatorSlider.setPaintLabels(true);
+		
 		JLabel attenuatorLabel = new JLabel("dB");
 		attenuatorLabel.setForeground(Color.LIGHT_GRAY);
 		attenuatorLabel.setOpaque(false);
-		attenuatorLabel.setSize(100, 20);
+		attenuatorLabel.setSize(80, 20);
 		attenuatorLabel.setBorder(null);
 		attenuatorLabel.setPreferredSize(attenuatorLabel.getSize());
 		attenuatorLabel.setLocation(attenuatorSlider.getX(), 90);
 		attenuatorLabel.setFont(new Font("Arial", Font.ITALIC, 10));
+		
 
 		// Distribution
-		final JToggleButton distributionButton = new JToggleButton("STEREO");
+		final JToggleButton distributionButton = new JToggleButton("DISTRIBUED");
 		distributionButton.setOpaque(false);
 		distributionButton.setForeground(new Color(70, 70, 70));
 		distributionButton.setSelected(false);
 		distributionButton.setFont(new Font("Arial", 0, 10));
-		distributionButton.setSize(50, 20);
+		distributionButton.setSize(80, 20);
 		distributionButton.setBorder(null);
 		distributionButton.setPreferredSize(distributionButton.getSize());
 		distributionButton.setLocation(getWidth()/2 - distributionButton.getWidth()/2, 100);
@@ -99,8 +104,8 @@ public class POutModule extends PModule implements IPOutModule {
 		// Events
 		attenuatorSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				controller.setAttenuation(attenuatorSlider.getValue());
-				volumeLabel.setText(Math.round(controller.getAttenuation()*4) + "dB");
+				controller.setAttenuation(attenuatorSlider.getValue()/10.0);
+				volumeLabel.setText(Math.round(controller.getAttenuation()) + " dB");
 			}
 		});
 		

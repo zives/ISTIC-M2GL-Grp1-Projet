@@ -48,7 +48,9 @@ public class OutModule extends Module implements IOutModule {
 	private boolean isOn;
 
 	/* Proprietes du module */
-	Distribution distribution;
+	protected Distribution distribution;
+	protected double attenuationDB;
+
 
 	/**
 	 * Initialise le circuit (attenuateur, port, ...)
@@ -68,6 +70,7 @@ public class OutModule extends Module implements IOutModule {
 		passThroughRight = new PassThrough();
 
 		setDistribution(Distribution.NORMAL);
+		attenuationDB = 0;
 
 		lineOut.input.setMaximum(1); // MAX_VOLTAGE
 		lineOut.input.setMinimum(-1); // -MAX_VOLTAGE
@@ -131,6 +134,7 @@ public class OutModule extends Module implements IOutModule {
 	public void setAttenuation(double db) {
 		if (db > 12)
 			db = 12;
+		attenuationDB = db;
 		double voltage = Math.pow(10.0, new Double(db) / 20.0);
 		attenuatorLeft.setAttenuation(voltage - 1);
 		attenuatorRight.setAttenuation(voltage - 1);
@@ -142,7 +146,7 @@ public class OutModule extends Module implements IOutModule {
 	 * @see group1.project.synthlab.module.out.IOutModule#getAttenuation()
 	 */
 	public double getAttenuation() {
-		return attenuatorLeft.getAttenuation();
+		return attenuationDB;
 	}
 
 	/*
