@@ -226,6 +226,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	public void addCable(IPCable cable) {
 		workspacePanel.add((Component) cable);
 		workspacePanel.moveToFront((Component) cable);
+		repaint();
 	}
 
 	public void removeCable(IPCable cable) {
@@ -248,6 +249,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 		workspacePanel.add(cModule);
 		workspacePanel.moveToFront(cModule);
+		repaint();
 	}
 
 	public void removeModule(IPModule module) {

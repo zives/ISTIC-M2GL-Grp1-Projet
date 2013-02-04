@@ -2,20 +2,28 @@ package group1.project.synthlab.ihm.cable;
 
 import group1.project.synthlab.ihm.port.IPPort;
 import group1.project.synthlab.ihm.port.PPort;
-import group1.project.synthlab.ihm.workspace.CWorkspace;
 
+import java.awt.AWTEvent;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
+import java.awt.event.AWTEventListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.Line2D;
+import java.awt.geom.QuadCurve2D;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class PCable extends JPanel implements IPCable {
 	/**
@@ -25,47 +33,74 @@ public class PCable extends JPanel implements IPCable {
 	protected ICCable controller;
 	protected Point p1;
 	protected Point p2;
-	protected Line2D line;
+	QuadCurve2D  graphicLink;
+	private PCable self;
+	private AWTEventListener mouseEvent;
+	private List<Integer> animation;
+	private Timer timerAnimation;
+	private Point pBezier;
+	private boolean mouseMove;
 
 	public PCable(final CCable controller) {
 		this.controller = controller;
-
+		this.self = this;
 		this.p1 = new Point(10, 10);
 		this.p2 = new Point(20, 20);
-
+		
+		this.animation = new ArrayList<Integer>();
+		this.mouseMove = false;
+		
 		setLocation(0, 0);
 		setSize(1, 1);
 		setOpaque(false);
 		setBackground(new Color(0, 0, 0, 0));
-
+		
+			}
+	
 	
 
+	@Override
+	protected void finalize() throws Throwable {
+		destruct();
+		super.finalize();
 	}
 	
-	public void addMouseClickEvents() {
-		this.addMouseListener(new MouseListener() {
+	public void destruct() {
+		if (mouseEvent != null) {
+			Toolkit.getDefaultToolkit().removeAWTEventListener(mouseEvent);
+		}
+	}
 
-			public void mouseReleased(MouseEvent e) {
-			}
-			public void mousePressed(MouseEvent e) {
-			}
-			public void mouseExited(MouseEvent e) {
-			}
-			public void mouseEntered(MouseEvent e) {
-			}
 
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-					if (line != null
-							&& line.intersectsLine(e.getX() - 8, e.getY() - 8,
-									e.getX() + 8, e.getY() + 8)) {
+
+
+	public void cableConnected() {
+		Toolkit.getDefaultToolkit().addAWTEventListener(mouseEvent = new AWTEventListener() {
+			public void eventDispatched(AWTEvent e) {
+			
+				if (e instanceof MouseEvent) {					
+					MouseEvent m = (MouseEvent) e;
+					if (m.getID() == MouseEvent.MOUSE_CLICKED) {
 						
-						controller.disconnect();
-
-					}
+						if (m.getClickCount() == 2) {
+							Point finalPoint = SwingUtilities.convertPoint(
+									(Component) e.getSource(),
+									m.getPoint(), self.getParent());
+							if (graphicLink != null
+									&& graphicLink.intersects(finalPoint.getX()  - self.getX() - 16,
+											finalPoint.getY() - self.getY() - 16, finalPoint.getX() - self.getX() + 16,
+											finalPoint.getY() - self.getY() + 16)) {
+								controller.disconnect();
+								return;
+							}
+						}
+					}					
+					
 				}
 			}
-		});
+		}, AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK);
+		
+		
 	}
 
 	public void setP1(int x, int y) {
@@ -80,7 +115,7 @@ public class PCable extends JPanel implements IPCable {
 				+ PPort.getMARGIN(), p.getY() + p.getParent().getY()
 				+ PPort.SIZE / 2);
 
-		repaint();		
+		repaint();
 		((JLayeredPane) this.getParent()).moveToFront(this);
 	}
 
@@ -96,7 +131,7 @@ public class PCable extends JPanel implements IPCable {
 				+ PPort.getMARGIN(), p.getY() + p.getParent().getY()
 				+ PPort.SIZE / 2);
 		repaint();
-		
+
 		((JLayeredPane) this.getParent()).moveToFront(this);
 
 	}
@@ -127,18 +162,29 @@ public class PCable extends JPanel implements IPCable {
 			h = (int) (p1.getY() - p2.getY() + 20);
 		}
 
-		this.setBounds(x, y, w, h);
+		this.setBounds(x, y, w, h + 70); //+70 for curve more the line
+			
 		ig.setStroke(new BasicStroke(9f));
 		g.setColor(new Color(100, 100, 100));
-		 line = new Line2D.Double((int) p1.getX() - getX(), (int) p1.getY() -
-		 getY(),
-		 (int) p2.getX() - getX(), (int) p2.getY() - getY());
-		g.drawLine((int) p1.getX() - getX(), (int) p1.getY() - getY(),
-				(int) p2.getX() - getX(), (int) p2.getY() - getY());
+		
+		if ( !mouseMove) {
+			pBezier = new Point(getWidth() / 2, getHeight());
+		}
+		
+		//g.drawLine((int) p1.getX() - getX(), (int) p1.getY() - getY(),
+			//	(int) p2.getX() - getX(), (int) p2.getY() - getY());
+		QuadCurve2D q = new QuadCurve2D.Double((int) p1.getX() - getX(), (int) p1.getY() - getY(), pBezier.x, pBezier.y, (int) p2.getX() - getX(),  (int) p2.getY() - getY());
+		ig.draw(q);
+		
 		ig.setStroke(new BasicStroke(3f));
-		g.setColor(new Color(200, 200, 200));
-		g.drawLine((int) p1.getX() - getX(), (int) p1.getY() - getY(),
-				(int) p2.getX() - getX(), (int) p2.getY() - getY());
+		g.setColor(new Color(170, 170, 170));
+		
+		//g.drawLine((int) p1.getX() - getX(), (int) p1.getY() - getY(),
+		//		(int) p2.getX() - getX(), (int) p2.getY() - getY());
+		q = new QuadCurve2D.Double((int) p1.getX() - getX(), (int) p1.getY() - getY(), pBezier.x, pBezier.y,  (int) p2.getX() - getX(),  (int) p2.getY() - getY());
+		ig.draw(q);
+		
+		graphicLink = q;
 
 	}
 

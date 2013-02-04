@@ -30,7 +30,7 @@ public class CCable extends Cable implements ICCable{
 	public void setInPort(IInPort inPort) throws BadConnection, PortAlreadyUsed {		
 		super.setInPort(inPort);
 		presentation.setP2(((ICInPort)inPort).getPresentation()); 
-		presentation.addMouseClickEvents();
+		presentation.cableConnected();
 		
 	}
 	public IPCable getPresentation() {
@@ -43,6 +43,7 @@ public class CCable extends Cable implements ICCable{
 	}
 	@Override
 	public void disconnect() {
+		presentation.destruct();
 		CWorkspace.getInstance().removeCable(this);		
 		super.disconnect();
 	}

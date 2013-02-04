@@ -72,6 +72,10 @@ public class Cable implements ICable {
 	public IOutPort getOutPort() {
 		return outPort;
 	}
+	
+	public boolean isConnected() {
+		return inPort  != null && outPort != null;
+	}
 
 	/**
 	 * Deconnecte les 2 ports.

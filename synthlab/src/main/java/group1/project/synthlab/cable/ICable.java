@@ -17,5 +17,9 @@ public interface ICable {
 	public void setInPort(IInPort inPort) throws BadConnection, PortAlreadyUsed;
 	public IOutPort getOutPort();
 	public void setOutPort(IOutPort outPort) throws BadConnection, PortAlreadyUsed;
+	/**
+	 * Suand les deux bouts du cables sont connectés à un port
+	 */
+	public boolean isConnected();
 	public void disconnect();
 }
