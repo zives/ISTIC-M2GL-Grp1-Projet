@@ -45,6 +45,9 @@ public interface IModule extends IPortObserver {
 	 */
 	public void setFactory(Factory factory);
 	
+
+
+	
 	/**
 	 * Detruit les dependences du module
 	 */

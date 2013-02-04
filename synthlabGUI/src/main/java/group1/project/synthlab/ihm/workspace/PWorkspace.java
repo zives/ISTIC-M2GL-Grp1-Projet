@@ -36,19 +36,20 @@ import com.jtattoo.plaf.smart.SmartLookAndFeel;
 
 public class PWorkspace extends JFrame implements IPWorkspace {
 
-	private JMenuBar menuBar;
-	private JMenu fichier;
-	private JMenuItem quit;
+	protected JMenuBar menuBar;
+	protected JMenu fichier;
+	protected JMenuItem quit;
 
 	private static final long serialVersionUID = 1L;
 
-	private ICWorkspace controller;
-	private JPanel toolBar;
-	private JLayeredPane workspacePanel;
-	private JScrollPane centerPanel;
+	protected ICWorkspace controller;
+	protected JPanel toolBar;
+	protected JLayeredPane workspacePanel;
+	protected JScrollPane centerPanel;
 
-	private Button vcoButton;
-	private Button outButton;
+	protected Button vcoButton;
+	protected Button outButton;
+	protected Button multiplexerButton;
 
 	public PWorkspace(ICWorkspace controller) {
 		super("Synthetiseur");
@@ -137,6 +138,11 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		outButton.setBackground(new Color(150,150,150));
 		outButton.setForeground(Color.BLACK);
 		toolBar.add(outButton);
+		
+		multiplexerButton = new Button("Ajouter multiplexeur");
+		multiplexerButton.setBackground(new Color(150,150,150));
+		multiplexerButton.setForeground(Color.BLACK);
+		toolBar.add(multiplexerButton);
 
 		add(toolBar, BorderLayout.NORTH);
 		add(centerPanel, BorderLayout.CENTER);
@@ -144,7 +150,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		pack();
 		setBackground(Color.BLACK);
 		setVisible(true);
-		setSize(800, 600);
+		setSize(1024, 600);
 		setResizable(true);
 		setVisible(true);
 		setLocation(250, 100);
@@ -215,6 +221,13 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 			public void actionPerformed(ActionEvent ev) {
 				controller.addOneOutModule();
+			}
+		});
+		
+		multiplexerButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent ev) {
+				controller.addOneMultiplexer();
 			}
 		});
 	}

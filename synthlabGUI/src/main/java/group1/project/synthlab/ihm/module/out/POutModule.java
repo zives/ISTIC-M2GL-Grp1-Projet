@@ -112,10 +112,10 @@ public class POutModule extends PModule implements IPOutModule {
 		distributionButton.setForeground(new Color(70, 70, 70));
 		distributionButton.setSelected(false);
 		distributionButton.setFont(new Font("Arial", 0, 10));
-		distributionButton.setSize(150, 30);
+		distributionButton.setSize(100, 20);
 		distributionButton.setBorder(null);
 		distributionButton.setPreferredSize(distributionButton.getSize());
-		distributionButton.setLocation(getWidth()/2 - distributionButton.getWidth()/2+40, 100);
+		distributionButton.setLocation(volumeLabel.getX(), 100);
 		distributionButton.setFocusPainted(false);
 
 		PGradient gradient = new PGradient(new Color(40,20,20), new Color(170,170,170), 0.5f);

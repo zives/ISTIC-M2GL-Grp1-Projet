@@ -13,10 +13,12 @@ public abstract class Port implements IPort {
 	protected ICable cable;
 	protected String label;	
 	protected Factory factory;
+	protected IModule module;
 
 	public Port(String label, IModule module, Factory factory){
 		this.label = label;
 		this.factory = factory;
+		this.module = module;
 		register(module);
 	}
 	
@@ -63,6 +65,10 @@ public abstract class Port implements IPort {
 	public void cableDisconnected() {
 		for(IPortObserver observer: observers)
 			observer.cableDisconnected(this);
+	}
+
+	public IModule getModule() {
+		return module;
 	}
 	
 

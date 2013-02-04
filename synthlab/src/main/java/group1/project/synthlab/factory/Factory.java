@@ -3,6 +3,8 @@ package group1.project.synthlab.factory;
 import group1.project.synthlab.cable.Cable;
 import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.module.IModule;
+import group1.project.synthlab.module.multiplexer.IMultiplexerModule;
+import group1.project.synthlab.module.multiplexer.MultiplexerModule;
 import group1.project.synthlab.module.out.IOutModule;
 import group1.project.synthlab.module.out.OutModule;
 import group1.project.synthlab.module.vcf.IVCFModule;
@@ -49,6 +51,10 @@ public class Factory {
 
 	public IVCFModule createVCFModule() {
 		return new VCFModule(this);
+	}
+
+	public IMultiplexerModule createMultiplexerModule() {
+		return new MultiplexerModule(this);
 	}
 
 }

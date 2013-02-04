@@ -3,13 +3,16 @@ package group1.project.synthlab.ihm.factory;
 import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.ihm.cable.CCable;
+import group1.project.synthlab.ihm.module.multiplexer.CMultiplexerModule;
 import group1.project.synthlab.ihm.module.out.COutModule;
 import group1.project.synthlab.ihm.module.vco.CVCOModule;
 import group1.project.synthlab.ihm.port.in.CInPort;
 import group1.project.synthlab.ihm.port.out.COutPort;
 import group1.project.synthlab.ihm.workspace.CWorkspace;
 import group1.project.synthlab.module.IModule;
+import group1.project.synthlab.module.multiplexer.IMultiplexerModule;
 import group1.project.synthlab.module.out.IOutModule;
+import group1.project.synthlab.module.vcf.IVCFModule;
 import group1.project.synthlab.module.vco.IVCOModule;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
@@ -43,6 +46,17 @@ public class CFactory extends Factory {
 	@Override
 	public IOutModule createOutModule() {
 		return new COutModule(this);
+	}
+	
+	@Override
+	public IVCFModule createVCFModule() {
+		//return new CVCFModule(this); // TODO
+		return null;
+	}
+	
+	@Override
+	public IMultiplexerModule createMultiplexerModule() {
+		return new CMultiplexerModule(this);
 	}
 
 	@Override

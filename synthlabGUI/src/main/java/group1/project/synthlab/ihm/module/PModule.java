@@ -82,6 +82,7 @@ public abstract class PModule extends JPanel implements IPModule {
 				if (onOffButton.isSelected()) {
 					controller.start();
 					onOffButton.setText("Off");
+					
 				} else {
 					controller.stop();
 					onOffButton.setText("On");
@@ -120,7 +121,7 @@ public abstract class PModule extends JPanel implements IPModule {
 
 			public void mouseClicked(MouseEvent arg0) {
 				((JLayeredPane) getParent()).moveToFront(self);
-				updateAll();
+				updateAllMove();
 
 			}
 		});
@@ -143,7 +144,7 @@ public abstract class PModule extends JPanel implements IPModule {
 				}
 
 				self.setLocation(loc);
-				updateAll();
+				updateAllMove();
 			}
 		});
 	}
@@ -156,10 +157,10 @@ public abstract class PModule extends JPanel implements IPModule {
 		observers.remove(observer);
 	}
 
-	public void updateAll() {
+	public void updateAllMove() {
 		for (IPModuleObserver obs : observers)
 			if (obs != null)
-				obs.update(this);
+				obs.moduleMove(this);
 	}
 
 	public void unregisterAllCables() {

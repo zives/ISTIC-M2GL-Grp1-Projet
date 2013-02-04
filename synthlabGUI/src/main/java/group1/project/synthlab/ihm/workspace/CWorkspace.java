@@ -73,6 +73,11 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		addModule(factory.createOutModule());
 		
 	}
+	
+	public void addOneMultiplexer() {
+		addModule(factory.createMultiplexerModule());
+		
+	}
 
 	
 	

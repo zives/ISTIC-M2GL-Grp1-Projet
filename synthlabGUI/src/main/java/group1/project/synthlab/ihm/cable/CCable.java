@@ -36,7 +36,7 @@ public class CCable extends Cable implements ICCable{
 	public IPCable getPresentation() {
 		return presentation;
 	}
-	public void update(IPModuleObservable subject) {
+	public void moduleMove(IPModuleObservable subject) {
 		presentation.setP1(((ICOutPort)outPort).getPresentation());
 		presentation.setP2(((ICInPort)inPort).getPresentation());
 	
@@ -47,6 +47,12 @@ public class CCable extends Cable implements ICCable{
 		CWorkspace.getInstance().removeCable(this);		
 		super.disconnect();
 	}
+	public boolean outPortHasSignal() {
+		if (outPort == null)
+			return false;
+		return outPort.getModule().isStarted();
+	}
+
 	
 	
 	

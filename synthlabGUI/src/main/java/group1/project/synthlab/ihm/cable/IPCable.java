@@ -14,4 +14,5 @@ public interface IPCable {
 	public void cableConnected();
 
 	public void destruct();
+	
 }
