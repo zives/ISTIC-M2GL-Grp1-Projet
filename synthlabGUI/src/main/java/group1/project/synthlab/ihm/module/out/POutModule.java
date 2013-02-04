@@ -77,14 +77,34 @@ public class POutModule extends PModule implements IPOutModule {
 		attenuatorSlider.setMinorTickSpacing(25);
 		attenuatorSlider.setPaintTicks(true);
 		
-		JLabel attenuatorLabel = new JLabel("dB");
-		attenuatorLabel.setForeground(Color.LIGHT_GRAY);
-		attenuatorLabel.setOpaque(false);
-		attenuatorLabel.setSize(30, 20);
-		attenuatorLabel.setBorder(null);
-		attenuatorLabel.setPreferredSize(attenuatorLabel.getSize());
-		attenuatorLabel.setLocation(attenuatorSlider.getX(), 90);
-		attenuatorLabel.setFont(new Font("Arial", Font.ITALIC, 10));
+		
+		//Labels slider
+		JLabel attenuatorMaxValueLabel = new JLabel("+12");
+		attenuatorMaxValueLabel.setForeground(Color.LIGHT_GRAY);
+		attenuatorMaxValueLabel.setOpaque(false);
+		attenuatorMaxValueLabel.setSize(30, 20);
+		attenuatorMaxValueLabel.setBorder(null);
+		attenuatorMaxValueLabel.setPreferredSize(attenuatorMaxValueLabel.getSize());
+		attenuatorMaxValueLabel.setLocation(attenuatorSlider.getX() + 40, 50);
+		attenuatorMaxValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
+		
+		JLabel attenuator0ValueLabel = new JLabel("0");
+		attenuator0ValueLabel.setForeground(Color.LIGHT_GRAY);
+		attenuator0ValueLabel.setOpaque(false);
+		attenuator0ValueLabel.setSize(30, 20);
+		attenuator0ValueLabel.setBorder(null);
+		attenuator0ValueLabel.setPreferredSize(attenuator0ValueLabel.getSize());
+		attenuator0ValueLabel.setLocation(attenuatorSlider.getX() + 40, 98);
+		attenuator0ValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
+		
+		JLabel attenuatorMinValueLabel = new JLabel(String.valueOf(attenuatorSlider.getMinimum() / 10));
+		attenuatorMinValueLabel.setForeground(Color.LIGHT_GRAY);
+		attenuatorMinValueLabel.setOpaque(false);
+		attenuatorMinValueLabel.setSize(30, 20);
+		attenuatorMinValueLabel.setBorder(null);
+		attenuatorMinValueLabel.setPreferredSize(attenuatorMinValueLabel.getSize());
+		attenuatorMinValueLabel.setLocation(attenuatorSlider.getX() + 40, 185);
+		attenuatorMinValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 
 		// Distribution
 		final JToggleButton distributionButton = new JToggleButton("DISTRIBUED");
@@ -98,7 +118,7 @@ public class POutModule extends PModule implements IPOutModule {
 		distributionButton.setLocation(getWidth()/2 - distributionButton.getWidth()/2+40, 100);
 		distributionButton.setFocusPainted(false);
 
-		PGradient gradient = new PGradient(Color.DARK_GRAY, Color.LIGHT_GRAY, Color.DARK_GRAY, 0.2f, 0.4f, 0.7f);
+		PGradient gradient = new PGradient(new Color(40,20,20), new Color(170,170,170), 0.5f);
 		gradient.setSize(10, 140);
 		gradient.setLocation(25, 55);
 				  
@@ -107,7 +127,9 @@ public class POutModule extends PModule implements IPOutModule {
 		add(pportRight);
 		add(volumeLabel);
 		add(attenuatorSlider);
-		add(attenuatorLabel);
+		add(attenuatorMaxValueLabel);
+		add(attenuator0ValueLabel);
+		add(attenuatorMinValueLabel);
 		add(distributionButton);
 		add(gradient);
 
