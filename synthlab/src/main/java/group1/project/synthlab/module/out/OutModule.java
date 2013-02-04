@@ -4,6 +4,7 @@ import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
+import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.unitExtensions.Attenuator;
 
 import javax.swing.JFrame;
@@ -31,7 +32,7 @@ public class OutModule extends Module implements IOutModule {
 	protected static int moduleCount = 0;
 
 	@SuppressWarnings("unused")
-	private final double MAX_VOLTAGE = 5;
+	private final double MAX_VOLTAGE = Signal.AMAX;
 
 	/* jSyn module */
 	protected LineOut lineOut;
