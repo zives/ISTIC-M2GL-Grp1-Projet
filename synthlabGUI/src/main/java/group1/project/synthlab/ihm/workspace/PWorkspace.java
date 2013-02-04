@@ -16,6 +16,8 @@ import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.util.Properties;
 
@@ -48,10 +50,9 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	private Button vcoButton;
 	private Button outButton;
 
-	public PWorkspace(ICWorkspace controller) {		
+	public PWorkspace(ICWorkspace controller) {
 		super("Synthetiseur");
 		initLnF();
-
 
 		this.controller = controller;
 
@@ -62,39 +63,37 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 		setVisible(true);
 		setLocation(250, 100);
-		
-	
-		
+
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-	
+
 	private void initLnF() {
-		 // setup the look and feel properties
-        Properties props = new Properties();
-        
-        props.put("selectionBackgroundColor", "180 240 197"); 
-        props.put("menuSelectionBackgroundColor", "180 240 197"); 
-        
-        props.put("controlColor", "218 254 230");
-        props.put("controlColorLight", "218 254 230");
-        props.put("controlColorDark", "180 240 197"); 
+		// setup the look and feel properties
+		Properties props = new Properties();
 
-        props.put("buttonColor", "218 230 254");
-        props.put("buttonColorLight", "255 255 255");
-        props.put("buttonColorDark", "244 242 232");
+		props.put("selectionBackgroundColor", "180 240 197");
+		props.put("menuSelectionBackgroundColor", "180 240 197");
 
-        props.put("rolloverColor", "218 254 230"); 
-        props.put("rolloverColorLight", "218 254 230"); 
-        props.put("rolloverColorDark", "180 240 197"); 
+		props.put("controlColor", "218 254 230");
+		props.put("controlColorLight", "218 254 230");
+		props.put("controlColorDark", "180 240 197");
 
-        props.put("windowTitleForegroundColor", "0 0 0");
-        props.put("windowTitleBackgroundColor", "180 240 197"); 
-        props.put("windowTitleColorLight", "218 254 230"); 
-        props.put("windowTitleColorDark", "180 240 197"); 
-        props.put("windowBorderColor", "218 254 230");
-        
-        SmartLookAndFeel.setCurrentTheme(props);
-        try {
+		props.put("buttonColor", "218 230 254");
+		props.put("buttonColorLight", "255 255 255");
+		props.put("buttonColorDark", "244 242 232");
+
+		props.put("rolloverColor", "218 254 230");
+		props.put("rolloverColorLight", "218 254 230");
+		props.put("rolloverColorDark", "180 240 197");
+
+		props.put("windowTitleForegroundColor", "0 0 0");
+		props.put("windowTitleBackgroundColor", "180 240 197");
+		props.put("windowTitleColorLight", "218 254 230");
+		props.put("windowTitleColorDark", "180 240 197");
+		props.put("windowBorderColor", "218 254 230");
+
+		SmartLookAndFeel.setCurrentTheme(props);
+		try {
 			UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -123,17 +122,19 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 		workspacePanel = new JLayeredPane();
 		workspacePanel.setOpaque(true);
-		workspacePanel.setBackground(new Color(20,20,20));
+		workspacePanel.setBackground(new Color(20, 20, 20));
 		workspacePanel.setLayout(null);
-		workspacePanel.setPreferredSize(new Dimension(2000, 2000));
+		workspacePanel.setPreferredSize(new Dimension(3000, 3000));
 		workspacePanel.setSize(workspacePanel.getPreferredSize());
 		centerPanel = new JScrollPane(workspacePanel);
 
 		vcoButton = new Button("Ajouter VCO");
+		vcoButton.setBackground(new Color(150,150,150));
 		vcoButton.setForeground(Color.BLACK);
 		toolBar.add(vcoButton);
-		
+
 		outButton = new Button("Ajouter sortie");
+		outButton.setBackground(new Color(150,150,150));
 		outButton.setForeground(Color.BLACK);
 		toolBar.add(outButton);
 
@@ -149,26 +150,44 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		setLocation(250, 100);
 
 		// Events
-
 		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
 
 			public void eventDispatched(AWTEvent e) {
 				if (e instanceof MouseEvent) {
 					if (SwingUtilities.isDescendingFrom(
-							(Component) e.getSource(), centerPanel)) {						
+							(Component) e.getSource(), centerPanel)) {
 						MouseEvent m = (MouseEvent) e;
 						if (m.getID() == MouseEvent.MOUSE_MOVED) {
 							if (controller.isDrawingCable()) {
-								 PCable cable = (PCable) controller.getDrawingCable()
-								 .getPresentation();
-								 Point finalPoint = SwingUtilities.convertPoint((Component) e.getSource(), m.getPoint(), centerPanel);
-								 cable.setP2((int) finalPoint.getX(),(int) finalPoint.getY());
+								PCable cable = (PCable) controller
+										.getDrawingCable().getPresentation();
+								Point finalPoint = SwingUtilities.convertPoint(
+										(Component) e.getSource(),
+										m.getPoint(), centerPanel);
+								cable.setP2((int) finalPoint.getX(),
+										(int) finalPoint.getY());
 							}
 						}
 					}
 				}
 			}
-		},  AWTEvent.MOUSE_MOTION_EVENT_MASK);
+		}, AWTEvent.MOUSE_MOTION_EVENT_MASK);
+		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
+			public void eventDispatched(AWTEvent e) {
+				if (e instanceof KeyEvent) {
+					KeyEvent m = (KeyEvent) e;
+					if (m.getID() == KeyEvent.KEY_RELEASED) {
+						if (m.getKeyCode() == KeyEvent.VK_ESCAPE
+								&& controller.isDrawingCable()) {
+							controller.removeCable(controller.getDrawingCable());
+							controller.setDrawingCable(null);
+							repaint();
+						}
+					}
+				}
+			}
+		}, AWTEvent.KEY_EVENT_MASK);
+
 		// workspacePanel.addMouseMotionListener(new MouseMotionListener() {
 		//
 		// public void mouseMoved(MouseEvent ev) {
@@ -191,7 +210,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 				controller.addOneVCOModule();
 			}
 		});
-		
+
 		outButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent ev) {
@@ -211,6 +230,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 	public void removeCable(IPCable cable) {
 		workspacePanel.remove((Component) cable);
+		repaint();
 
 	}
 

@@ -2,14 +2,17 @@ package group1.project.synthlab.ihm.cable;
 
 import group1.project.synthlab.ihm.port.IPPort;
 import group1.project.synthlab.ihm.port.PPort;
+import group1.project.synthlab.ihm.workspace.CWorkspace;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.geom.Line2D;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -22,8 +25,9 @@ public class PCable extends JPanel implements IPCable {
 	protected ICCable controller;
 	protected Point p1;
 	protected Point p2;
+	protected Line2D line;
 
-	public PCable(CCable controller) {
+	public PCable(final CCable controller) {
 		this.controller = controller;
 
 		this.p1 = new Point(10, 10);
@@ -34,6 +38,34 @@ public class PCable extends JPanel implements IPCable {
 		setOpaque(false);
 		setBackground(new Color(0, 0, 0, 0));
 
+	
+
+	}
+	
+	public void addMouseClickEvents() {
+		this.addMouseListener(new MouseListener() {
+
+			public void mouseReleased(MouseEvent e) {
+			}
+			public void mousePressed(MouseEvent e) {
+			}
+			public void mouseExited(MouseEvent e) {
+			}
+			public void mouseEntered(MouseEvent e) {
+			}
+
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					if (line != null
+							&& line.intersectsLine(e.getX() - 8, e.getY() - 8,
+									e.getX() + 8, e.getY() + 8)) {
+						
+						controller.disconnect();
+
+					}
+				}
+			}
+		});
 	}
 
 	public void setP1(int x, int y) {
@@ -48,7 +80,7 @@ public class PCable extends JPanel implements IPCable {
 				+ PPort.getMARGIN(), p.getY() + p.getParent().getY()
 				+ PPort.SIZE / 2);
 
-		repaint();
+		repaint();		
 		((JLayeredPane) this.getParent()).moveToFront(this);
 	}
 
@@ -64,6 +96,7 @@ public class PCable extends JPanel implements IPCable {
 				+ PPort.getMARGIN(), p.getY() + p.getParent().getY()
 				+ PPort.SIZE / 2);
 		repaint();
+		
 		((JLayeredPane) this.getParent()).moveToFront(this);
 
 	}
@@ -94,18 +127,19 @@ public class PCable extends JPanel implements IPCable {
 			h = (int) (p1.getY() - p2.getY() + 20);
 		}
 
-		this.setBounds(new Rectangle(x, y, w, h));
-
+		this.setBounds(x, y, w, h);
 		ig.setStroke(new BasicStroke(9f));
 		g.setColor(new Color(100, 100, 100));
+		 line = new Line2D.Double((int) p1.getX() - getX(), (int) p1.getY() -
+		 getY(),
+		 (int) p2.getX() - getX(), (int) p2.getY() - getY());
 		g.drawLine((int) p1.getX() - getX(), (int) p1.getY() - getY(),
 				(int) p2.getX() - getX(), (int) p2.getY() - getY());
 		ig.setStroke(new BasicStroke(3f));
 		g.setColor(new Color(200, 200, 200));
 		g.drawLine((int) p1.getX() - getX(), (int) p1.getY() - getY(),
 				(int) p2.getX() - getX(), (int) p2.getY() - getY());
-		
-		
+
 	}
 
 }

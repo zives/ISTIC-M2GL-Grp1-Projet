@@ -24,11 +24,13 @@ public class CCable extends Cable implements ICCable{
 		super.setOutPort(outPort);
 		presentation.setP1(((ICOutPort)outPort).getPresentation());
 		presentation.setP2(((ICOutPort)outPort).getPresentation());
+		
 	}
 	@Override
 	public void setInPort(IInPort inPort) throws BadConnection, PortAlreadyUsed {		
 		super.setInPort(inPort);
 		presentation.setP2(((ICInPort)inPort).getPresentation()); 
+		presentation.addMouseClickEvents();
 		
 	}
 	public IPCable getPresentation() {
