@@ -6,6 +6,9 @@ import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
+import group1.project.synthlab.signal.Signal;
+import group1.project.synthlab.unitExtensions.FilterAmplitude;
+
 import javax.swing.JFrame;
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
@@ -37,9 +40,10 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	public static final double a0 = 0.5;
 
 	/** Frequence min */
-	public static final double fmin = 0;
+	public static final double fmin = Signal.FMIN;
 	/** Frequence max */
-	public static final double fmax = 6000;
+	public static final double fmax = Signal.FMAXAUDIBLE;
+	
 	/** Frequence de base */
 	protected double f0 = 300;
 
@@ -50,6 +54,9 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	/** Oscillateur generant le signal triangulaire */
 	protected TriangleOscillator triangleOsc;
 
+	/** Filtre pour ramener l'amplitude du signal modulant a amax si elle est au dessus */
+	protected FilterAmplitude filterAmplitude;
+	
 	/** Port d'entree : modulation de frequence */
 	protected IInPort fm;
 
@@ -84,7 +91,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	 */
 	public VCOModule(Factory factory) {
 		super("VCO-" + ++moduleCount, factory);
-
+		
 		// Creation des oscillateurs
 		sineOsc = new SineOscillator();
 		squareOsc = new SquareOscillator();
@@ -102,16 +109,21 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		// -1 et 1, et nous considerons des tensions entre -5V et +5V)
 		passThrough = new PassThrough();
 		Multiply multiply5 = new Multiply();
-		multiply5.inputB.set(5);
+		multiply5.inputB.set(Signal.AMAX);
 		PowerOfTwo poweroftwo = new PowerOfTwo();
 		multiply5.output.connect(poweroftwo.input);
 		multiplyf0.inputB.set(f0);
 		multiplyf0.inputA.connect(poweroftwo.output);
 		passThrough.input.connect(multiplyf0.output);
 
+		// Filtre d'amplitude
+		// TODO : Tester lorsqu'on aura un VCA
+		filterAmplitude = new FilterAmplitude(Signal.AMAXMODULATION);
+		
 		// Port d'entree :
-		fm = factory.createInPort("fm", multiply5.inputA, this);
-
+		fm = factory.createInPort("fm", filterAmplitude.input, this);
+		filterAmplitude.output.connect(multiply5.inputA);
+		
 		// Ports de sortie
 		outSine = factory.createOutPort("outsine", sineOsc.output, this);
 		outSquare = factory.createOutPort("outsquare", squareOsc.output, this);
@@ -425,7 +437,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		// Ainsi, en theorie, quand on passe d'un sommet a un creux, la
 		// frequence du signal doit etre divisee par 2^2 et lorsqu'on passe d'un
 		// creux a un sommet la frequence doit etre multipliee par 2^2.
-		fm.squareOsc.amplitude.set(0.2);
+		fm.squareOsc.amplitude.set(2.01);
 
 		// Pour l'affichage des courbes
 		AudioScope scope = new AudioScope(synth);
@@ -488,8 +500,8 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 
 		vco.cableConnected(vco.getFm());
 
-		// On verifie que la frequence est bien divisee par 2� ou multipliee par
-		// 2� quand on passe d'une crete a la suivante
+		// On verifie que la frequence est bien divisee par 2^2 ou multipliee par
+		// 2^2 quand on passe d'une crete a la suivante
 		// Avec un signal modulant carre, la valeur de la frequence du signal
 		// modulee va alternee entre 2 valeurs
 		// Il suffit donc d'afficher ces valeurs pour verifier le rapport de 1 a
