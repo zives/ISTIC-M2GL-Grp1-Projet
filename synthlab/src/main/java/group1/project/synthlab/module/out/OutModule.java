@@ -5,7 +5,7 @@ import group1.project.synthlab.module.Module;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.signal.Signal;
-import group1.project.synthlab.unitExtensions.Attenuator;
+import group1.project.synthlab.unitExtensions.Attenuator.Attenuator;
 
 import javax.swing.JFrame;
 

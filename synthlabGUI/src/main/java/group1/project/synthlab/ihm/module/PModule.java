@@ -49,7 +49,7 @@ public abstract class PModule extends JPanel implements IPModule {
 		add(label);
 
 		// OnOff
-		final JToggleButton onOffButton = new JToggleButton("Off");
+		final JToggleButton onOffButton = new JToggleButton("On");
 		onOffButton.setOpaque(false);
 		onOffButton.setForeground(new Color(70, 70, 70));
 		onOffButton.setSelected(false);
@@ -81,10 +81,10 @@ public abstract class PModule extends JPanel implements IPModule {
 			public void actionPerformed(ActionEvent ev) {
 				if (onOffButton.isSelected()) {
 					controller.start();
-					onOffButton.setText("On");
+					onOffButton.setText("Off");
 				} else {
 					controller.stop();
-					onOffButton.setText("Off");
+					onOffButton.setText("On");
 
 				}
 

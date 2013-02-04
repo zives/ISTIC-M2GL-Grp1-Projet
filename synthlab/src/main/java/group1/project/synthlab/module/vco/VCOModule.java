@@ -7,9 +7,10 @@ import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Signal;
-import group1.project.synthlab.unitExtensions.FilterAmplitude;
+import group1.project.synthlab.unitExtensions.FilterAmplitude.FilterAmplitude;
 
 import javax.swing.JFrame;
+
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.scope.AudioScope;
@@ -37,15 +38,15 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	/** Amplitude a l'arret */
 	public static final double amin = 0;
 	/** Amplitude par defaut */
-	public static final double a0 = 0.5;
+	public static final double a0 = 5;
 
 	/** Frequence min */
 	public static final double fmin = Signal.FMIN;
 	/** Frequence max */
 	public static final double fmax = Signal.FMAXAUDIBLE;
-	
+
 	/** Frequence de base */
-	protected double f0 = 300;
+	protected double f0 = 6000;
 
 	/** Oscillateur generant le signal sinusoidale */
 	protected SineOscillator sineOsc;
@@ -54,15 +55,18 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	/** Oscillateur generant le signal triangulaire */
 	protected TriangleOscillator triangleOsc;
 
-	/** Filtre pour ramener l'amplitude du signal modulant a amax si elle est au dessus */
+	/**
+	 * Filtre pour ramener l'amplitude du signal modulant a amax si elle est au
+	 * dessus
+	 */
 	protected FilterAmplitude filterAmplitude;
-	
+
 	/** Port d'entree : modulation de frequence */
 	protected IInPort fm;
 
 	/** Pour l'application de la formule de modulation de frequence */
 	protected Multiply multiplyf0 = new Multiply();
-	
+
 	/**
 	 * Un PassThrough pour envoyer la modulation de frequence vers l'entree des
 	 * 3 oscillateurs
@@ -76,12 +80,10 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	/** Pour de sortie pour le signal triangulaire */
 	protected IOutPort outTriangle;
 
-	/** Reglage grossier de la frequence de base : entier de 0 a 9 */
-	protected int coarseAdjustment; // entre 0 et 90
-	/** Reglage fin de la frequence de base : double entre 0 et 1 */
-	protected double fineAdjustment; // entre 0 et 9.9
-	/** Reglage ultra fin de la frequence de base : double entre 0 et 1 */
-	protected double ultraFineAdjustment; // entre 0 et 0.1
+	/** Reglage grossier de la frequence de base : entier de 0 a 990 */
+	protected int coarseAdjustment;
+	/** Reglage fin de la frequence de base : double entre 0 et 10 */
+	protected double fineAdjustment;
 
 	/** Etat du module (allume ou eteint) */
 	protected boolean isOn;
@@ -91,7 +93,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	 */
 	public VCOModule(Factory factory) {
 		super("VCO-" + ++moduleCount, factory);
-		
+
 		// Creation des oscillateurs
 		sineOsc = new SineOscillator();
 		squareOsc = new SquareOscillator();
@@ -119,11 +121,11 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		// Filtre d'amplitude
 		// TODO : Tester lorsqu'on aura un VCA
 		filterAmplitude = new FilterAmplitude(Signal.AMAXMODULATION);
-		
+
 		// Port d'entree :
 		fm = factory.createInPort("fm", filterAmplitude.input, this);
 		filterAmplitude.output.connect(multiply5.inputA);
-		
+
 		// Ports de sortie
 		outSine = factory.createOutPort("outsine", sineOsc.output, this);
 		outSquare = factory.createOutPort("outsquare", squareOsc.output, this);
@@ -135,8 +137,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		fmConnected = false;
 
 		// On definie le coarseAdjustement et le fineAdjustement
-		coarseAdjustment = ((int) (f0 / (fmax - fmin)) * 10000);
-		fineAdjustment = ((f0 / (fmax - fmin)) * 1000) - coarseAdjustment;
+		redefAdjustments();
 
 		// On regle les frequences des oscillateurs aux valeurs par defaut
 		sineOsc.frequency.set(f0);
@@ -172,13 +173,20 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	 * @see group1.project.synthlab.module.IVCOModule#changeFrequency()
 	 */
 	public void changeFrequency() {
-		double newFrequency = (coarseAdjustment + fineAdjustment + ultraFineAdjustment)
-				* ((fmax - fmin) / 1000000);
+		double newFrequency = ((coarseAdjustment + fineAdjustment)
+				* ((fmax - fmin) + fmin) / 100);
 		f0 = newFrequency;
 		sineOsc.frequency.set(f0);
 		squareOsc.frequency.set(f0);
 		triangleOsc.frequency.set(f0);
 		multiplyf0.inputB.set(f0);
+	}
+
+	public void redefAdjustments() {
+		coarseAdjustment = (int) ((f0 - fmin) / (fmax - fmin) * 100);
+		if (coarseAdjustment > 99)
+			coarseAdjustment = 99;
+		fineAdjustment = (((f0 - fmin) / (fmax - fmin)) * 100) - coarseAdjustment;
 	}
 
 	// Fonction qui gere la connexion a l'entree FM, et donc le passage a la
@@ -236,7 +244,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		circuit.stop();
 		reset();
 	}
-	
+
 	/**
 	 * remet les paramètres initiaux du module
 	 */
@@ -254,6 +262,17 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	 */
 	public double getf0() {
 		return f0;
+	}
+	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.vco.IVCOModule#setf0(double)
+	 */
+	public void setf0(double freq) {
+		if (freq > fmax)
+			freq = fmax;
+		else if (freq < fmin)
+			freq = fmin;
+		f0 = freq;
 	}
 
 	/*
@@ -366,25 +385,6 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	 */
 	public void setFineAdjustment(double fineadjustment) {
 		this.fineAdjustment = fineadjustment;
-		changeFrequency();
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IVCOModule#getFineAdjustment()
-	 */
-	public double getUltraFineAdjustment() {
-		return ultraFineAdjustment;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IVCOModule#setFineAdjustment()
-	 */
-	public void setUltraFineAdjustment(double ultraFineAdjustment) {
-		this.ultraFineAdjustment = ultraFineAdjustment;
 		changeFrequency();
 	}
 
@@ -500,7 +500,8 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 
 		vco.cableConnected(vco.getFm());
 
-		// On verifie que la frequence est bien divisee par 2^2 ou multipliee par
+		// On verifie que la frequence est bien divisee par 2^2 ou multipliee
+		// par
 		// 2^2 quand on passe d'une crete a la suivante
 		// Avec un signal modulant carre, la valeur de la frequence du signal
 		// modulee va alternee entre 2 valeurs
@@ -537,7 +538,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		vco.cableDisconnected(vco.getFm());
 		vco.setCoarseAdjustment(1);
 
-		vco.setFineAdjustment(0.2);
+		vco.setFineAdjustment(0);
 		vco.changeFrequency();
 	}
 
