@@ -208,6 +208,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	 */
 	public void start() {
 		// circuit.start();
+		sineOsc.amplitude.set(a0);
 		squareOsc.amplitude.set(a0);
 		triangleOsc.amplitude.set(a0);
 		isOn = true;
