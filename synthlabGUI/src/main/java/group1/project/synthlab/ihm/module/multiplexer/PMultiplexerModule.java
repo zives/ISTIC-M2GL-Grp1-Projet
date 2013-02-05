@@ -79,7 +79,8 @@ public class PMultiplexerModule extends PModule implements IPMultiplexerModule {
 		
 		setSize(getWidth(), getHeight() - 100);
 		setPreferredSize(getSize());
-
+		onOffButton.setSelected(true);
+		onOffButton.setText("Off");
 	}
 
 }

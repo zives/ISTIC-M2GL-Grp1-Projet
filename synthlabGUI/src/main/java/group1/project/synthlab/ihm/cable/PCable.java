@@ -88,13 +88,13 @@ public class PCable extends JPanel implements IPCable {
 									if (graphicLink != null
 											&& graphicLink.intersects(
 													finalPoint.getX()
-															- self.getX() - 16,
+															- self.getX() - 8,
 													finalPoint.getY()
-															- self.getY() - 16,
+															- self.getY() - 8,
 													finalPoint.getX()
-															- self.getX() + 16,
+															- self.getX() + 8,
 													finalPoint.getY()
-															- self.getY() + 16)) {
+															- self.getY() + 8)) {
 										controller.disconnect();
 										return;
 									}

@@ -28,7 +28,7 @@ public abstract class PModule extends JPanel implements IPModule {
 	private PModule self;
 	private Point locationComponentOnDrag = new Point();
 	protected List<IPModuleObserver> observers = new ArrayList<IPModuleObserver>();
-
+	protected final JToggleButton onOffButton;
 	public PModule(final ICModule controller) {
 		self = this;
 
@@ -49,7 +49,7 @@ public abstract class PModule extends JPanel implements IPModule {
 		add(label);
 
 		// OnOff
-		final JToggleButton onOffButton = new JToggleButton("On");
+		 onOffButton = new JToggleButton("On");
 		onOffButton.setOpaque(false);
 		onOffButton.setForeground(new Color(70, 70, 70));
 		onOffButton.setSelected(false);

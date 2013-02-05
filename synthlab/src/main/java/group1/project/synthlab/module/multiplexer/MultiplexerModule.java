@@ -78,7 +78,7 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 				this);
 
 
-		isOn = false;
+		isOn = true;
 
 	}
 
@@ -107,6 +107,8 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 		
 		if (outPort4.isUsed())
 			outPort4.getCable().disconnect();
+		
+		
 	}
 
 	
@@ -153,6 +155,7 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 	public void start() {
 		circuit.start();
 		passThrough.start();
+		passThrough.setEnabled(true);
 		isOn = true;
 	}
 
@@ -164,6 +167,7 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 	public void stop() {
 		circuit.stop();
 		passThrough.stop();
+		passThrough.setEnabled(false);
 		isOn = false;
 	}
 
