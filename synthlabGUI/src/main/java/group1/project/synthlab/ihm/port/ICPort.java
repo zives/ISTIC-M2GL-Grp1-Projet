@@ -9,4 +9,6 @@ public interface ICPort extends IPort {
 	public void actionCable()  throws BadConnection;
 
 	public void checkPutCable();
+
+	public void removeCable()  throws BadConnection;
 }

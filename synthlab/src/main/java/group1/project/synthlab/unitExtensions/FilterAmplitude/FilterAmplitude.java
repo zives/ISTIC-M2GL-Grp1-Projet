@@ -12,12 +12,12 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 	boolean isSatured = false;
 	protected double amax;
 	protected List<IFilterAmplitudeObserver> observers;
-	protected boolean warned;
+	protected boolean previouswarned;
 	
 	public FilterAmplitude(double maxvolt){
 		this.amax = maxvolt / Signal.AMAX;
 		this.observers = new ArrayList<IFilterAmplitudeObserver>();
-		this.warned = false;
+		this.previouswarned = false;
 	}
 	
 	@Override
@@ -25,35 +25,27 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 		double[] inputs = input.getValues();
 		double[] outputs = output.getValues();
 		
-		double max = 0;
-			double min = 0;
+
+			isSatured = false;
 		for (int i = start; i < limit; i++) {
 			double x = inputs[i];
 			if(x > amax){
 				isSatured = true;
-				x = amax;
-				if (!warned && x > max) {
-					updateAll(true);
-					warned = true;
-					max = x;
-				}
+				x = amax;				
 			}
-			if(x < -amax && x < min){
+			if(x < -amax ){
 				isSatured = true;
-				x = -amax;
-				if (!warned) {
-					updateAll(true);
-					warned = true;
-					min = x;
-				}
+				x = -amax;			
 			}
-			else {
-				if (warned && !isSatured) {
-					updateAll(false);
-					warned = false;
-				}
-			}
+			else 
 			outputs[i] = x;
+		}
+		if (previouswarned && !isSatured) {
+			updateAll(false);
+			previouswarned = false;
+		} else if( !previouswarned && isSatured) {
+			updateAll(true);
+			previouswarned = true;
 		}
 	}
 	

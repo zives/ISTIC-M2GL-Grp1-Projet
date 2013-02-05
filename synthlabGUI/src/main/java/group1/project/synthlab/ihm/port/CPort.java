@@ -27,4 +27,8 @@ public class CPort extends Port implements ICPort {
 		presentation.setForbidden();
 		
 	}
+
+	public void removeCable() throws BadConnection {
+		throw new BadConnection("Impossible de supprimer un cable avec un port de type indéfini, utilisez InPort ou OuPort !");
+	}
 }

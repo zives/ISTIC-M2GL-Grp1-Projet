@@ -57,6 +57,19 @@ public class PCable extends JPanel implements IPCable {
 		setSize(1, 1);
 		setOpaque(false);
 		setBackground(new Color(0, 0, 0, 0));
+		
+		timerAnimation = new Timer();
+		timerAnimation.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+
+				animation -= 2;
+				if (animation <= 0)
+					animation = 2000;
+				repaint();
+			}
+		}, 100, 50);
 
 	}
 
@@ -73,50 +86,39 @@ public class PCable extends JPanel implements IPCable {
 	}
 
 	public void cableConnected() {
-		Toolkit.getDefaultToolkit().addAWTEventListener(
-				mouseEvent = new AWTEventListener() {
-					public void eventDispatched(AWTEvent e) {
+//		Toolkit.getDefaultToolkit().addAWTEventListener(
+//				mouseEvent = new AWTEventListener() {
+//					public void eventDispatched(AWTEvent e) {
+//
+//						if (e instanceof MouseEvent) {
+//							MouseEvent m = (MouseEvent) e;
+//							if (m.getID() == MouseEvent.MOUSE_CLICKED) {
+//
+//								if (m.getClickCount() == 2) {
+//									Point finalPoint = SwingUtilities.convertPoint(
+//											(Component) e.getSource(),
+//											m.getPoint(), self.getParent());
+//									if (graphicLink != null
+//											&& graphicLink.intersects(
+//													finalPoint.getX()
+//															- self.getX() - 8,
+//													finalPoint.getY()
+//															- self.getY() - 8,
+//													finalPoint.getX()
+//															- self.getX() + 8,
+//													finalPoint.getY()
+//															- self.getY() + 8)) {
+//										controller.disconnect();
+//										return;
+//									}
+//								}
+//							}
+//
+//						}
+//					}
+//				}, AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK);
 
-						if (e instanceof MouseEvent) {
-							MouseEvent m = (MouseEvent) e;
-							if (m.getID() == MouseEvent.MOUSE_CLICKED) {
-
-								if (m.getClickCount() == 2) {
-									Point finalPoint = SwingUtilities.convertPoint(
-											(Component) e.getSource(),
-											m.getPoint(), self.getParent());
-									if (graphicLink != null
-											&& graphicLink.intersects(
-													finalPoint.getX()
-															- self.getX() - 8,
-													finalPoint.getY()
-															- self.getY() - 8,
-													finalPoint.getX()
-															- self.getX() + 8,
-													finalPoint.getY()
-															- self.getY() + 8)) {
-										controller.disconnect();
-										return;
-									}
-								}
-							}
-
-						}
-					}
-				}, AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK);
-
-		timerAnimation = new Timer();
-		timerAnimation.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-
-				animation -= 2;
-				if (animation <= 0)
-					animation = 2000;
-				repaint();
-			}
-		}, 100, 50);
+	
 
 	}
 

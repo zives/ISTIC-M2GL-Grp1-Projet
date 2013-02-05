@@ -54,10 +54,18 @@ public class PPort extends JPanel implements IPPort {
 			}
 
 			public void mouseClicked(MouseEvent ev) {
-				try {
-					controller.actionCable();
-				} catch (BadConnection e) {
-					e.printStackTrace();
+				if (ev.getClickCount() == 2) {
+					try {
+						controller.removeCable();
+					} catch (BadConnection e) {
+						e.printStackTrace();
+					}
+				} else if (ev.getClickCount() == 1) {
+					try {
+						controller.actionCable();
+					} catch (BadConnection e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		});

@@ -133,13 +133,11 @@ public class OutModule extends Module implements IOutModule {
 	 * @see group1.project.synthlab.module.out.IOutModule#setAttenuation(double)
 	 */
 	public void setAttenuation(double db) {
-		if (db > 12)
-			db = 12;
-		attenuationDB = db;
-		double voltage = Math.pow(10.0, new Double(db) / 20.0);
-		attenuatorLeft.setAttenuation(voltage - 1);
-		attenuatorRight.setAttenuation(voltage - 1);
-	
+		if (attenuationDB > 12)
+			attenuationDB = 12;
+		this.attenuationDB = attenuationDB;
+		attenuatorLeft.setAttenuation(Attenuator.attenuationDBToV(db));
+		attenuatorRight.setAttenuation(Attenuator.attenuationDBToV(db));	
 	}
 
 	/*

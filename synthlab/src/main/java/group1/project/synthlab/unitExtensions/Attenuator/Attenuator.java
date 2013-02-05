@@ -9,11 +9,12 @@ import com.jsyn.unitgen.UnitFilter;
  */
 public class Attenuator extends UnitFilter {
 	
-	private double attenuation;
+	private double attenuationV;
+
 	
 	public Attenuator() {
 		super();
-		attenuation = 0;
+		attenuationV = 0;
 	}
 	 
 	
@@ -24,7 +25,7 @@ public class Attenuator extends UnitFilter {
 
 		for (int i = start; i < limit; i++) {
 			double x = inputs[i];
-			double tmpAttenuation = attenuation * x;
+			double tmpAttenuation = attenuationV * x;
 			x = x + tmpAttenuation;
 			outputs[i] = x ;
 		}
@@ -36,14 +37,19 @@ public class Attenuator extends UnitFilter {
 	 * @return the amplitude attenuation 
 	 */
 	public double getAttenuation() {
-		return attenuation;
+		return attenuationV;
 	}
 
 	/**
 	 * @param attenuation  the amplitude attenuation 
 	 */
-	public void setAttenuation(double attenuation) {
-		this.attenuation = attenuation;
+	public void setAttenuation(double attenuationV) {
+		this.attenuationV = attenuationV;
+	}
+	
+	public static double attenuationDBToV(double attenuationDB){	
+		double voltage = Math.pow(10.0, new Double(attenuationDB) / 20.0);
+		return voltage - 1;		
 	}
 
 }

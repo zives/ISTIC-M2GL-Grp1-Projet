@@ -55,4 +55,10 @@ public class COutPort extends OutPort implements ICOutPort {
 			presentation.setAllowed();
 	}
 
+	public void removeCable()  throws BadConnection {
+		if (isUsed())
+			cable.disconnect();		
+		presentation.setAllowed();
+	}
+
 }

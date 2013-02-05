@@ -57,5 +57,11 @@ public class CInPort extends InPort implements ICInPort {
 			presentation.setAllowed();
 	}
 	
+	public void removeCable()  throws BadConnection {
+		if (isUsed())
+			cable.disconnect();
+		presentation.setForbidden();
+	}
+	
 	
 }
