@@ -7,6 +7,10 @@ import java.util.List;
 
 import com.jsyn.unitgen.UnitFilter;
 
+/**
+ * @author Groupe 1
+ * Empeche la saturation du son en redefinissant les amplitudes hors des bornes
+ */
 public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObservable{
 
 	boolean isSatured = false;
@@ -49,24 +53,39 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 		}
 	}
 	
+	/**
+	 * @return si le son est sature
+	 */
 	public boolean isSatured() {
 		return isSatured;
 	}
 	
+	/**
+	 * @return la borne dont l'amplitude ne doit pas etre depassee
+	 */
 	public double getMaxVolt() {
 		return amax * Signal.AMAX;
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.unitExtensions.FilterAmplitude.IFilterAmplitudeObservable#register(group1.project.synthlab.unitExtensions.FilterAmplitude.IFilterAmplitudeObserver)
+	 */
 	public void register(IFilterAmplitudeObserver observer) {
 		observers.add(observer);
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.unitExtensions.FilterAmplitude.IFilterAmplitudeObservable#unregister(group1.project.synthlab.unitExtensions.FilterAmplitude.IFilterAmplitudeObserver)
+	 */
 	public void unregister(IFilterAmplitudeObserver observer) {
 		observers.remove(observer);
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.unitExtensions.FilterAmplitude.IFilterAmplitudeObservable#updateAll(boolean)
+	 */
 	public void updateAll(boolean tooHigh) {
 		for(IFilterAmplitudeObserver observer: observers)
 			observer.warn(this, tooHigh);

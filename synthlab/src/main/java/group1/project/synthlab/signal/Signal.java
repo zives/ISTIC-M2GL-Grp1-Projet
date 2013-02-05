@@ -1,5 +1,9 @@
 package group1.project.synthlab.signal;
 
+/**
+ * @author Groupe 1
+ * Specification des signaux de l'application
+ */
 public class Signal {
 
 	/**	Frequence minimale */

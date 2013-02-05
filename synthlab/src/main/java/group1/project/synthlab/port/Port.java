@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * @author Groupe 1
+ * Un port
+ */
 public abstract class Port implements IPort {
 	protected List<IPortObserver> observers = new ArrayList<IPortObserver>();
 	protected ICable cable;

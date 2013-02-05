@@ -2,7 +2,17 @@ package group1.project.synthlab.workspace;
 
 import group1.project.synthlab.module.IModule;
 
+/**
+ * @author Groupe 1
+ * Le workspace qui contient les differents modules et cables
+ */
 public interface IWorkspace {
+	/**
+	 * @param module le module a ajouter
+	 */
 	public void addModule(IModule module);
+	/**
+	 * @param module le module a supprimer
+	 */
 	public void removeModule(IModule module);
 }

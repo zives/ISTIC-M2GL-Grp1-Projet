@@ -21,6 +21,10 @@ import group1.project.synthlab.workspace.Workspace;
 import com.jsyn.ports.ConnectableInput;
 import com.jsyn.ports.ConnectableOutput;
 
+/**
+ * @author Groupe 1
+ * 
+ */
 public class Factory {
 
 	public IInPort createInPort(String label, ConnectableInput jSynPort,

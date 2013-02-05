@@ -13,13 +13,43 @@ import group1.project.synthlab.port.out.IOutPort;
 
 public interface ICable {
 
-	public IInPort getInPort();
-	public void setInPort(IInPort inPort) throws BadConnection, PortAlreadyUsed;
-	public IOutPort getOutPort();
-	public void setOutPort(IOutPort outPort) throws BadConnection, PortAlreadyUsed;
 	/**
-	 * Suand les deux bouts du cables sont connectés à un port
+	 * @return le port d'entrée du module connecté
+	 */
+	public IInPort getInPort();
+	
+	/**
+	 * Mise a jour de la connection du port d'entree.
+	 * A la creation d'un cable, apres avoir clique sur la sortie d'un module,
+	 * on termine en cliquant sur l'entree d'un autre module.
+	 * @param inPort
+	 * @throws BadConnection
+	 * @throws PortAlreadyUsed
+	 */
+	public void setInPort(IInPort inPort) throws BadConnection, PortAlreadyUsed;
+	
+	/**
+	 * @return le port de sortie du module connecté
+	 */
+	public IOutPort getOutPort();
+	
+	/**
+	 * Mise a jour de la connexion du port de sortie.
+	 * Lorsqu'on cree un cable, on commence par cliquer sur la sortie d'un module.
+	 * @param outPort le port de sortie 
+	 * @throws BadConnection
+	 * @throws PortAlreadyUsed
+	 */
+	public void setOutPort(IOutPort outPort) throws BadConnection, PortAlreadyUsed;
+	
+	/**
+	 * @return si le cable est connecte a deux ports (n'est pas en etat de dessin)
 	 */
 	public boolean isConnected();
+	
+	
+	/**
+	 * detruit les connexions du cable
+	 */
 	public void disconnect();
 }

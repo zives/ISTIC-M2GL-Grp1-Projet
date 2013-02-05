@@ -19,7 +19,7 @@ public interface IOutModule extends IModule {
 	 * tensionNominale http://fr.wikipedia.org/wiki/Niveau_(audio)
 	 * 
 	 * @param db
-	 *            (valeurs : -inf a  +12 dB)
+	 *            (valeurs : -inf a +12 dB)
 	 */
 	public void setAttenuation(double db);
 
@@ -29,7 +29,7 @@ public interface IOutModule extends IModule {
 	public double getAttenuation();
 
 	/**
-	 * @return l'objet JSyn correspondant a la sortie brute (son non filtre).
+	 * @return l'objet JSyn correspondant a la sortie brute (son non filtre).
 	 */
 	public LineOut getLineOut();
 

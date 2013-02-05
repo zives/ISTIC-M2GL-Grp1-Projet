@@ -3,6 +3,7 @@ package group1.project.synthlab.ihm.port;
 import group1.project.synthlab.exceptions.BadConnection;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -44,12 +45,14 @@ public class PPort extends JPanel implements IPPort {
 
 			public void mouseExited(MouseEvent ev) {
 				mouseEntered = false;
+				setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 				repaint();
 			}
 
 			public void mouseEntered(MouseEvent ev) {
 				mouseEntered = true;
 				controller.checkPutCable();
+				setCursor(new Cursor(Cursor.HAND_CURSOR));
 				repaint();
 			}
 

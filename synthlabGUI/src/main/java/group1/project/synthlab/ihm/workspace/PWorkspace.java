@@ -3,13 +3,14 @@ package group1.project.synthlab.ihm.workspace;
 import group1.project.synthlab.ihm.cable.IPCable;
 import group1.project.synthlab.ihm.cable.PCable;
 import group1.project.synthlab.ihm.module.IPModule;
+import group1.project.synthlab.ihm.port.IPPort;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.ComponentOrientation;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Point;
@@ -173,6 +174,15 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 								cable.setP2((int) finalPoint.getX(),
 										(int) finalPoint.getY());
 							}
+							//Les curseurs
+							if (e.getSource() instanceof IPPort)
+								System.err.println('j');
+								//workspacePanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+							else if (e.getSource() instanceof IPModule) 
+								workspacePanel.setCursor(new Cursor(Cursor.MOVE_CURSOR));
+							
+							else
+								workspacePanel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 						}
 					}
 				}

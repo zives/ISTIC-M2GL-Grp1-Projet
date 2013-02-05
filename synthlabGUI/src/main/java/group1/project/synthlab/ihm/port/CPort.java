@@ -6,7 +6,7 @@ import group1.project.synthlab.ihm.workspace.CWorkspace;
 import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.port.Port;
 
-public class CPort extends Port implements ICPort {
+public abstract class CPort extends Port implements ICPort {
 	protected IPPort presentation;
 		
 	public CPort(String label, CWorkspace workspace, IModule module,  CFactory factory) {

@@ -18,6 +18,9 @@ public class CCable extends Cable implements ICCable{
 		super(factory);
 		presentation = new PCable(this);
 	}
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.cable.Cable#setOutPort(group1.project.synthlab.port.out.IOutPort)
+	 */
 	@Override
 	public void setOutPort(IOutPort outPort) throws BadConnection,
 			PortAlreadyUsed {
@@ -26,27 +29,41 @@ public class CCable extends Cable implements ICCable{
 		presentation.setP2(((ICOutPort)outPort).getPresentation());
 		
 	}
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.cable.Cable#setInPort(group1.project.synthlab.port.in.IInPort)
+	 */
 	@Override
 	public void setInPort(IInPort inPort) throws BadConnection, PortAlreadyUsed {		
 		super.setInPort(inPort);
 		presentation.setP2(((ICInPort)inPort).getPresentation()); 
-		presentation.cableConnected();
 		
 	}
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.cable.ICCable#getPresentation()
+	 */
 	public IPCable getPresentation() {
 		return presentation;
 	}
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.IPModuleObserver#moduleMove(group1.project.synthlab.ihm.module.IPModuleObservable)
+	 */
 	public void moduleMove(IPModuleObservable subject) {
 		presentation.setP1(((ICOutPort)outPort).getPresentation());
 		presentation.setP2(((ICInPort)inPort).getPresentation());
 	
 	}
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.cable.Cable#disconnect()
+	 */
 	@Override
 	public void disconnect() {
 		presentation.destruct();
 		CWorkspace.getInstance().removeCable(this);		
 		super.disconnect();
 	}
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.cable.ICCable#outPortHasSignal()
+	 */
 	public boolean outPortHasSignal() {
 		if (outPort == null)
 			return false;

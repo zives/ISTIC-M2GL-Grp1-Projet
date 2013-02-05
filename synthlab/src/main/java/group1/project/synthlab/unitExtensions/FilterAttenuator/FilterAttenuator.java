@@ -1,18 +1,18 @@
-package group1.project.synthlab.unitExtensions.Attenuator;
+package group1.project.synthlab.unitExtensions.FilterAttenuator;
 
 import com.jsyn.unitgen.UnitFilter;
 
 /**
- * Atténue un son via en soustrayant l'amplitude par une autre valeur
+ * Atténue un son sur son amplitude
  * @author Groupe 1
  * 
  */
-public class Attenuator extends UnitFilter {
+public class FilterAttenuator extends UnitFilter {
 	
 	private double attenuationV;
 
 	
-	public Attenuator() {
+	public FilterAttenuator() {
 		super();
 		attenuationV = 0;
 	}
@@ -47,6 +47,10 @@ public class Attenuator extends UnitFilter {
 		this.attenuationV = attenuationV;
 	}
 	
+	/** 
+	 * @param attenuationDB une valeur en exprimée dB
+	 * @return une valeur en volt à multiplier par l'amplitude courante pour attenuer un son
+	 */
 	public static double attenuationDBToV(double attenuationDB){	
 		double voltage = Math.pow(10.0, new Double(attenuationDB) / 20.0);
 		return voltage - 1;		

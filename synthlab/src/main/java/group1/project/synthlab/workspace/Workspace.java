@@ -12,6 +12,10 @@ import group1.project.synthlab.module.out.OutModule;
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 
+/**
+ * @author Groupe 1
+ *
+ */
 public class Workspace implements IWorkspace {
 	protected static IWorkspace instance;
 	protected Synthesizer synthesizer;
@@ -26,11 +30,17 @@ public class Workspace implements IWorkspace {
 				
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.workspace.IWorkspace#addModule(group1.project.synthlab.module.IModule)
+	 */
 	public void addModule(IModule module) {
 		modules.add(module);
 		synthesizer.add(module.getCircuit());
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.workspace.IWorkspace#removeModule(group1.project.synthlab.module.IModule)
+	 */
 	public void removeModule(IModule module) {	
 		module.destruct();
 		synthesizer.remove(module.getCircuit());
@@ -38,6 +48,9 @@ public class Workspace implements IWorkspace {
 		
 	}
 
+	/**
+	 * @return l'instance du WS
+	 */
 	public static IWorkspace getInstance() {
 		if (instance == null) {
 			Factory f = new Factory();

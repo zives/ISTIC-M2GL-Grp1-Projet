@@ -5,7 +5,7 @@ import group1.project.synthlab.module.Module;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.signal.Signal;
-import group1.project.synthlab.unitExtensions.Attenuator.Attenuator;
+import group1.project.synthlab.unitExtensions.FilterAttenuator.FilterAttenuator;
 
 import javax.swing.JFrame;
 
@@ -36,8 +36,8 @@ public class OutModule extends Module implements IOutModule {
 
 	/* jSyn module */
 	protected LineOut lineOut;
-	protected Attenuator attenuatorLeft;
-	protected Attenuator attenuatorRight;
+	protected FilterAttenuator attenuatorLeft;
+	protected FilterAttenuator attenuatorRight;
 
 	/* Defintion des ports */
 	protected IInPort leftPort;
@@ -59,8 +59,8 @@ public class OutModule extends Module implements IOutModule {
 	public OutModule(Factory factory) {
 		super("Out-" + ++moduleCount, factory);
 		lineOut = new LineOut();
-		attenuatorLeft = new Attenuator();
-		attenuatorRight = new Attenuator();
+		attenuatorLeft = new FilterAttenuator();
+		attenuatorRight = new FilterAttenuator();
 
 		// Ne pas ajouter LineOut au ciruit!
 		// Bugs!
@@ -136,8 +136,8 @@ public class OutModule extends Module implements IOutModule {
 		if (attenuationDB > 12)
 			attenuationDB = 12;
 		this.attenuationDB = attenuationDB;
-		attenuatorLeft.setAttenuation(Attenuator.attenuationDBToV(db));
-		attenuatorRight.setAttenuation(Attenuator.attenuationDBToV(db));	
+		attenuatorLeft.setAttenuation(FilterAttenuator.attenuationDBToV(db));
+		attenuatorRight.setAttenuation(FilterAttenuator.attenuationDBToV(db));	
 	}
 
 	/*

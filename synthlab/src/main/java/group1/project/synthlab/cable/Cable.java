@@ -7,7 +7,7 @@ import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 
 /**
- * Cr�ation d'un cable
+ * Création d'un cable
  * 
  * @author Groupe 1
  * 
@@ -26,10 +26,9 @@ public class Cable implements ICable {
 	public Cable(Factory factory) {
 		this.factory = factory;
 	}
-
-	/**
-	 * Mise a jour de la connection du port de sortie.
-	 * Lorsqu'on cree un cable, on commence par cliquer sur la sortie d'un module.
+	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.cable.ICable#setOutPort(group1.project.synthlab.port.out.IOutPort)
 	 */
 	public void setOutPort(IOutPort outPort) throws BadConnection, PortAlreadyUsed {
 		if (outPort.isUsed())
@@ -38,10 +37,9 @@ public class Cable implements ICable {
 		
 	}
 	
-	/**
-	 * Mise a jour de la connection du port d'entree.
-	 * A la creation d'un cable, apres avoir clique sur la sortie d'un module,
-	 * on termine en cliquant sur l'entree d'un autre module.
+	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.cable.ICable#setInPort(group1.project.synthlab.port.in.IInPort)
 	 */
 	public void setInPort(IInPort inPort) throws BadConnection, PortAlreadyUsed {
 		if (inPort.isUsed())
@@ -59,26 +57,30 @@ public class Cable implements ICable {
 			throw new BadConnection("Un cable doit partir d'une sortie de module et arriver a une entree d'un autre module.");
 	}
 	
-	/**
-	 * Retourne le port d'entree.
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.cable.ICable#getInPort()
 	 */
 	public IInPort getInPort() {
 		return inPort;
 	}
 	
-	/**
-	 * Retourne le port de sortie.
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.cable.ICable#getOutPort()
 	 */
 	public IOutPort getOutPort() {
 		return outPort;
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.cable.ICable#isConnected()
+	 */
 	public boolean isConnected() {
 		return inPort  != null && outPort != null;
 	}
 
-	/**
-	 * Deconnecte les 2 ports.
+
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.cable.ICable#disconnect()
 	 */
 	public void disconnect() {
 		this.outPort.getJSynPort().disconnect(inPort.getJSynPort());		

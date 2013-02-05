@@ -5,7 +5,7 @@ import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 
 /**
- * Interface de creation du module de sortie.
+ * Interface de creation du module de multiplexage (réplicateur, mixeur).
  * @author Groupe 1
  *
  */

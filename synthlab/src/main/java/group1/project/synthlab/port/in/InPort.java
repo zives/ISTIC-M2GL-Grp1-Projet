@@ -6,6 +6,10 @@ import group1.project.synthlab.port.Port;
 
 import com.jsyn.ports.ConnectableInput;
 
+/**
+ * @author Groupe 1
+ * Un port d'entree
+ */
 public class InPort extends Port implements IInPort {
 	protected ConnectableInput jSynPort;
 	
@@ -14,6 +18,9 @@ public class InPort extends Port implements IInPort {
 		this.jSynPort = jSynPort;
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.port.in.IInPort#getJSynPort()
+	 */
 	public ConnectableInput getJSynPort() {
 		return jSynPort;
 	}

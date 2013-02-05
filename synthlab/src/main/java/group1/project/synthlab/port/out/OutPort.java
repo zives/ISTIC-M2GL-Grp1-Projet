@@ -15,6 +15,9 @@ public class OutPort extends Port implements IOutPort {
 		this.jSynPort = jSynPort;
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.port.out.IOutPort#getJSynPort()
+	 */
 	public ConnectableOutput getJSynPort() {
 		return jSynPort;
 	}
