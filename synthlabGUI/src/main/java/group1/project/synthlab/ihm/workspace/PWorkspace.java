@@ -230,6 +230,13 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 				controller.addOneMultiplexer();
 			}
 		});
+		
+		quit.addActionListener(new ActionListener() {			
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+				
+			}
+		});
 	}
 
 	public JLayeredPane getWorkspacePanel() {
