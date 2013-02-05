@@ -50,6 +50,7 @@ public class PPort extends JPanel implements IPPort {
 			}
 
 			public void mouseEntered(MouseEvent ev) {
+				//regarde si on peut poser un cable
 				mouseEntered = true;
 				controller.checkPutCable();
 				setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -57,12 +58,14 @@ public class PPort extends JPanel implements IPPort {
 			}
 
 			public void mouseClicked(MouseEvent ev) {
+				//Double clic suppression
 				if (ev.getClickCount() == 2) {
 					try {
 						controller.removeCable();
 					} catch (BadConnection e) {
 						e.printStackTrace();
 					}
+				//Simple clic pose du cable
 				} else if (ev.getClickCount() == 1) {
 					try {
 						controller.actionCable();
@@ -111,12 +114,18 @@ public class PPort extends JPanel implements IPPort {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.port.IPPort#setForbidden()
+	 */
 	public void setForbidden() {
 		mouseEnteredColor = new Color(200, 50, 50);
 		
 	}
 
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.port.IPPort#setAllowed()
+	 */
 	public void setAllowed() {
 		mouseEnteredColor = new Color(170, 170, 170);
 		

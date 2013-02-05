@@ -5,6 +5,10 @@ import java.text.Format;
 
 import javax.swing.JFormattedTextField;
 
+/**
+ * @author Groupe 1
+ * Un contrôle n'acceptant que des valeurs numeriques
+ */
 public class FloatTextField extends JFormattedTextField {
 
 	@Override

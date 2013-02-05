@@ -16,17 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class PTools {
-	public static Point getPositionOfComponentInPanel(Panel panel, Component component) {
-		int x = component.getX();
-		int y = component.getY();
-		Container parent = component.getParent();
-		while (parent != null || parent != panel) {
-			x += parent.getX();
-			y += parent.getY();
-			parent = parent.getParent();
-		}
-		return new Point(x, y);
-		
-	}
+
 	
 }

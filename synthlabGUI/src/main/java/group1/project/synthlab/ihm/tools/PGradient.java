@@ -12,6 +12,10 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * @author Groupe 1
+ * Ungenerateur de degrade symetrique
+ */
 public class PGradient extends JPanel {
 
 	protected Color color1 ;

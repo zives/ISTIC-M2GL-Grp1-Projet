@@ -156,7 +156,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		setVisible(true);
 		setLocation(250, 100);
 
-		// Events
+		// Gestion des evenements du WS et de son contenu (evenements accepté par les controles dessous, ex sous le rectangle du cable on peut deplacer un module)
 		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
 
 			public void eventDispatched(AWTEvent e) {
@@ -165,6 +165,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 							(Component) e.getSource(), centerPanel)) {
 						MouseEvent m = (MouseEvent) e;
 						if (m.getID() == MouseEvent.MOUSE_MOVED) {
+							//On dessine le cable (meme si on mouse move sur le module en plus du ws)
 							if (controller.isDrawingCable()) {
 								PCable cable = (PCable) controller
 										.getDrawingCable().getPresentation();
@@ -188,6 +189,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 				}
 			}
 		}, AWTEvent.MOUSE_MOTION_EVENT_MASK);
+		//La touche echap (accessible à l'application) pour retirer un cable encours de creation
 		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
 			public void eventDispatched(AWTEvent e) {
 				if (e instanceof KeyEvent) {

@@ -120,6 +120,7 @@ public abstract class PModule extends JPanel implements IPModule {
 			}
 
 			public void mouseClicked(MouseEvent arg0) {
+				//On place le module en avant plan
 				((JLayeredPane) getParent()).moveToFront(self);
 				updateAllMove();
 
@@ -133,6 +134,7 @@ public abstract class PModule extends JPanel implements IPModule {
 			}
 
 			public void mouseDragged(MouseEvent ev) {
+				//On déplace le module
 				Point loc = new Point(
 						(int) (self.getX() + ev.getX() - locationComponentOnDrag
 								.getX()),

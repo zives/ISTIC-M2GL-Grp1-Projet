@@ -21,6 +21,10 @@ import group1.project.synthlab.workspace.IWorkspace;
 import com.jsyn.ports.ConnectableInput;
 import com.jsyn.ports.ConnectableOutput;
 
+/**
+ * @author Groupe 1
+ *	La factory des controles
+ */
 public class CFactory extends Factory {
 
 	@Override
