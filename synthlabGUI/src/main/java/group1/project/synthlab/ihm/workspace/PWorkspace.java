@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Point;
@@ -17,7 +18,6 @@ import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.util.Properties;
 
@@ -114,12 +114,12 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 		quit = new JMenuItem("Quitter l'application");
 
-		setJMenuBar(menuBar);
+		setJMenuBar(menuBar);		  
 		menuBar.add(fichier);
 		fichier.add(quit);
 
 		toolBar = new JPanel();
-		toolBar.setLayout(new FlowLayout());
+		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
 		workspacePanel = new JLayeredPane();
 		workspacePanel.setOpaque(true);
@@ -129,17 +129,17 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		workspacePanel.setSize(workspacePanel.getPreferredSize());
 		centerPanel = new JScrollPane(workspacePanel);
 
-		vcoButton = new Button("Ajouter VCO");
+		vcoButton = new Button("VCO");
 		vcoButton.setBackground(new Color(150,150,150));
 		vcoButton.setForeground(Color.BLACK);
 		toolBar.add(vcoButton);
 
-		outButton = new Button("Ajouter sortie");
+		outButton = new Button("OUT");
 		outButton.setBackground(new Color(150,150,150));
 		outButton.setForeground(Color.BLACK);
 		toolBar.add(outButton);
 		
-		multiplexerButton = new Button("Ajouter multiplexeur");
+		multiplexerButton = new Button("MULTIPLEXER");
 		multiplexerButton.setBackground(new Color(150,150,150));
 		multiplexerButton.setForeground(Color.BLACK);
 		toolBar.add(multiplexerButton);

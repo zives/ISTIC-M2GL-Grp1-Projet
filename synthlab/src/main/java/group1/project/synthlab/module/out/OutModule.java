@@ -139,6 +139,7 @@ public class OutModule extends Module implements IOutModule {
 		double voltage = Math.pow(10.0, new Double(db) / 20.0);
 		attenuatorLeft.setAttenuation(voltage - 1);
 		attenuatorRight.setAttenuation(voltage - 1);
+	
 	}
 
 	/*

@@ -62,7 +62,7 @@ public class POutModule extends PModule implements IPOutModule {
 		// Sliders
 		attenuatorSlider = new JSlider();
 		attenuatorSlider.setMaximum(120);
-		attenuatorSlider.setMinimum(-200);
+		attenuatorSlider.setMinimum(-300);
 		attenuatorSlider.setOrientation(JSlider.VERTICAL);
 		attenuatorSlider.setValue((int) controller.getAttenuation()*10);
 		attenuatorSlider.setSize(40, 150);
@@ -94,7 +94,7 @@ public class POutModule extends PModule implements IPOutModule {
 		attenuator0ValueLabel.setSize(30, 20);
 		attenuator0ValueLabel.setBorder(null);
 		attenuator0ValueLabel.setPreferredSize(attenuator0ValueLabel.getSize());
-		attenuator0ValueLabel.setLocation(attenuatorSlider.getX() + 40, 98);
+		attenuator0ValueLabel.setLocation(attenuatorSlider.getX() + 40, 85);
 		attenuator0ValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		
 		JLabel attenuatorMinValueLabel = new JLabel(String.valueOf(attenuatorSlider.getMinimum() / 10));
@@ -107,7 +107,7 @@ public class POutModule extends PModule implements IPOutModule {
 		attenuatorMinValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 
 		// Distribution
-		final JToggleButton distributionButton = new JToggleButton("DISTRIBUED");
+		final JToggleButton distributionButton = new JToggleButton("DISTRIBUTED");
 		distributionButton.setOpaque(false);
 		distributionButton.setForeground(new Color(70, 70, 70));
 		distributionButton.setSelected(false);
@@ -118,7 +118,7 @@ public class POutModule extends PModule implements IPOutModule {
 		distributionButton.setLocation(volumeLabel.getX(), 100);
 		distributionButton.setFocusPainted(false);
 
-		PGradient gradient = new PGradient(new Color(40,20,20), new Color(170,170,170), 0.5f);
+		PGradient gradient = new PGradient(new Color(100,60,60), new Color(160,160,160), 0.28f);
 		gradient.setSize(10, 140);
 		gradient.setLocation(25, 55);
 				  
