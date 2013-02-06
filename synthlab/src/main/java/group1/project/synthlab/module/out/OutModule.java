@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
+import com.jsyn.devices.AudioDeviceManager;
 import com.jsyn.scope.AudioScope;
 import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.PassThrough;
@@ -135,7 +136,7 @@ public class OutModule extends Module implements IOutModule {
 	public void setAttenuation(double db) {
 		if (attenuationDB > 12)
 			attenuationDB = 12;
-		this.attenuationDB = attenuationDB;
+		this.attenuationDB = db;
 		attenuatorLeft.setAttenuation(FilterAttenuator.attenuationDBToV(db));
 		attenuatorRight.setAttenuation(FilterAttenuator.attenuationDBToV(db));	
 	}

@@ -35,6 +35,7 @@ public class CCable extends Cable implements ICCable{
 	@Override
 	public void setInPort(IInPort inPort) throws BadConnection, PortAlreadyUsed {		
 		super.setInPort(inPort);
+		presentation.setP1(((ICOutPort)outPort).getPresentation());
 		presentation.setP2(((ICInPort)inPort).getPresentation()); 
 		
 	}

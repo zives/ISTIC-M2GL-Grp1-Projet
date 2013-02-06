@@ -49,6 +49,10 @@ public class PCable extends JPanel implements IPCable {
 	private Timer timerAnimation; // le timer qui anime le cable
 		
 	private Point pBezier; //le point d'attraction du cable pour la courbure
+	protected final double RATE_OF_CURVATURE = 1.6; //Plus le chiffre est gros , plus la ligne est tendue
+	
+	protected final Color[] LINK_COLORS = {new Color(110,110,110), new Color(100,40,40), new Color(100,100,50), new Color(40,100,40), new Color(40,40,140), new Color(40,100,100), new Color(100,40,100)}; //Liste des couleurs que peut prendre le cable
+	protected int currentColor;
 
 	public PCable(final CCable controller) {
 		this.controller = controller;
@@ -57,6 +61,8 @@ public class PCable extends JPanel implements IPCable {
 		this.p2 = new Point(20, 20);
 
 		this.animation = 10;
+		
+		this.currentColor = 0;
 		
 		setLocation(0, 0);
 		setSize(1, 1);
@@ -117,8 +123,8 @@ public class PCable extends JPanel implements IPCable {
 	 */
 	public void setP2(int x, int y) {
 		p2 = new Point(x, y);
-		repaint();
 		((JLayeredPane) this.getParent()).moveToFront(this);
+		repaint();
 	}
 
 	/* (non-Javadoc)
@@ -168,21 +174,25 @@ public class PCable extends JPanel implements IPCable {
 		
 		//On redefini le point d'attraction en fonction de la largeur
 	
-		double yAttraction  = w * w / 10000 *  Math.log(w) ;
+		double yAttraction  = w * w / (RATE_OF_CURVATURE * 10000) *  Math.log(w) ;
 		this.setBounds(x, y, w , getParent().getHeight()); // +200 for curve more the link
 		pBezier = new Point(getWidth() / 2, (int) (h - 10 + yAttraction) );
 		
 		//On trace une premiere ligne courbee
-		ig.setStroke(new BasicStroke(9f));
-		g.setColor(new Color(150, 150, 150));
+		ig.setStroke(new BasicStroke(9f,                     
+                BasicStroke.CAP_ROUND,   
+                BasicStroke.JOIN_ROUND)); 
+		g.setColor(LINK_COLORS[currentColor]);
 		QuadCurve2D q = new QuadCurve2D.Double((int) p1.getX() - getX(),
 				(int) p1.getY() - getY(), pBezier.x, pBezier.y, (int) p2.getX()
 						- getX(), (int) p2.getY() - getY());
 		ig.draw(q);
 
-		//On trace une deuxieme ligne par dessus (purement esthetiqueà
-		ig.setStroke(new BasicStroke(3f));
-		g.setColor(new Color(110, 110, 110));
+		//On trace une deuxieme ligne par dessus (purement esthetique)
+		ig.setStroke(new BasicStroke(3f,                     
+                BasicStroke.CAP_ROUND,   
+                BasicStroke.JOIN_ROUND));
+		g.setColor(new Color((int)(LINK_COLORS[currentColor].getRed() / 1.5), (int)(LINK_COLORS[currentColor].getGreen()  / 1.5), (int)(LINK_COLORS[currentColor].getBlue()  / 1.5)));
 		q = new QuadCurve2D.Double((int) p1.getX() - getX(), (int) p1.getY()
 				- getY(), pBezier.x, pBezier.y, (int) p2.getX() - getX(),
 				(int) p2.getY() - getY());
@@ -191,8 +201,8 @@ public class PCable extends JPanel implements IPCable {
 		//On trace une troisième ligne hashee si il y a animation (purement esthetique)
 		if (controller.outPortHasSignal()) {
 			// animation
-			g.setColor(new Color(90, 75, 90));
-			ig.setStroke(new BasicStroke(3f, BasicStroke.CAP_BUTT,
+			g.setColor(new Color((int)(LINK_COLORS[currentColor].getRed() *1.3), (int)(LINK_COLORS[currentColor].getGreen()  *1.3), (int)(LINK_COLORS[currentColor].getBlue() * 1.3)));
+			ig.setStroke(new BasicStroke(3f, BasicStroke.CAP_ROUND,
 					BasicStroke.JOIN_MITER, 10.0f, new float[] { 10f },
 					animation));
 
@@ -205,6 +215,14 @@ public class PCable extends JPanel implements IPCable {
 		//On redefini le forme geometrique
 		graphicLink = q;
 
+	}
+
+	public void nextColor() {
+		++currentColor;
+		if (currentColor >= LINK_COLORS.length)
+			currentColor = 0;
+		repaint();
+		
 	}
 
 

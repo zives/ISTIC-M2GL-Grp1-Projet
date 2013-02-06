@@ -139,7 +139,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		outButton.setBackground(new Color(150,150,150));
 		outButton.setForeground(Color.BLACK);
 		toolBar.add(outButton);
-		
+	
 		multiplexerButton = new Button("MULTIPLEXER");
 		multiplexerButton.setBackground(new Color(150,150,150));
 		multiplexerButton.setForeground(Color.BLACK);
@@ -177,8 +177,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 							}
 							//Les curseurs
 							if (e.getSource() instanceof IPPort)
-								System.err.println('j');
-								//workspacePanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+								workspacePanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 							else if (e.getSource() instanceof IPModule) 
 								workspacePanel.setCursor(new Cursor(Cursor.MOVE_CURSOR));
 							
@@ -189,6 +188,26 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 				}
 			}
 		}, AWTEvent.MOUSE_MOTION_EVENT_MASK);
+		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
+
+			public void eventDispatched(AWTEvent e) {
+				if (e instanceof MouseEvent) {
+					if (SwingUtilities.isDescendingFrom(
+							(Component) e.getSource(), centerPanel)) {
+						MouseEvent m = (MouseEvent) e;
+						if (m.getID() == MouseEvent.MOUSE_WHEEL) {
+							//On dessine le cable (meme si on mouse move sur le module en plus du ws)
+							if (controller.isDrawingCable()) {
+								PCable cable = (PCable) controller
+										.getDrawingCable().getPresentation();
+								cable.nextColor();
+								m.consume();
+							}
+						}
+					}
+				}
+			}
+		}, AWTEvent.MOUSE_WHEEL_EVENT_MASK);
 		//La touche echap (accessible à l'application) pour retirer un cable encours de creation
 		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
 			public void eventDispatched(AWTEvent e) {
