@@ -39,7 +39,7 @@ public abstract class PModule extends JPanel implements IPModule {
 
 		this.setLayout(null);
 		this.setOpaque(true);
-		this.setBackground(new Color(70, 70, 70));
+		this.setBackground(new Color(65, 65, 65));
 		this.setSize(300, 300);
 		this.setPreferredSize(this.getSize());
 		this.setMaximumSize(this.getSize());
@@ -192,8 +192,8 @@ public abstract class PModule extends JPanel implements IPModule {
 		 RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float(0, 0, getWidth() , getHeight() , 0, 0);
 	        gi.draw(roundedRectangle); 
 	      
-		g.setColor(new Color(50, 50, 50));
-		  roundedRectangle = new RoundRectangle2D.Float(4, 4, getWidth() - 8, getHeight() - 8, 5, 5);
+		g.setColor(new Color(150, 150, 150));
+		  roundedRectangle = new RoundRectangle2D.Float(4, 4, getWidth() - 8, getHeight() - 8, 3, 3);
 	        gi.draw(roundedRectangle); 
 	        
 	    	gi.setStroke(new BasicStroke(2f));
