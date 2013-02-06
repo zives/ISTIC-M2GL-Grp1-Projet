@@ -29,6 +29,7 @@ public abstract class PModule extends JPanel implements IPModule {
 	private Point locationComponentOnDrag = new Point();
 	protected List<IPModuleObserver> observers = new ArrayList<IPModuleObserver>();
 	protected final JToggleButton onOffButton;
+
 	public PModule(final ICModule controller) {
 		self = this;
 
@@ -49,7 +50,7 @@ public abstract class PModule extends JPanel implements IPModule {
 		add(label);
 
 		// OnOff
-		 onOffButton = new JToggleButton("On");
+		onOffButton = new JToggleButton("On");
 		onOffButton.setOpaque(false);
 		onOffButton.setForeground(new Color(70, 70, 70));
 		onOffButton.setSelected(false);
@@ -82,7 +83,7 @@ public abstract class PModule extends JPanel implements IPModule {
 				if (onOffButton.isSelected()) {
 					controller.start();
 					onOffButton.setText("Off");
-					
+
 				} else {
 					controller.stop();
 					onOffButton.setText("On");
@@ -115,12 +116,13 @@ public abstract class PModule extends JPanel implements IPModule {
 			}
 
 			public void mouseEntered(MouseEvent arg0) {
-				self.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+				if (!CWorkspace.getInstance().isDrawingCable()) 
+					self.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
 
 			}
 
 			public void mouseClicked(MouseEvent arg0) {
-				//On place le module en avant plan
+				// On place le module en avant plan
 				((JLayeredPane) getParent()).moveToFront(self);
 				updateAllMove();
 
@@ -134,24 +136,27 @@ public abstract class PModule extends JPanel implements IPModule {
 			}
 
 			public void mouseDragged(MouseEvent ev) {
-				//On déplace le module
-				Point loc = new Point(
-						(int) (self.getX() + ev.getX() - locationComponentOnDrag
-								.getX()),
-						(int) (self.getY() + ev.getY() - locationComponentOnDrag
-								.getY()));
-				if (loc.x < 0 || loc.y < 0) {
-					locationComponentOnDrag = ev.getPoint();
-					return;
-				}
+				// On déplace le module si on n'est pas en train de leir un
+				// cable
+				if (!CWorkspace.getInstance().isDrawingCable()) {
+					Point loc = new Point(
+							(int) (self.getX() + ev.getX() - locationComponentOnDrag
+									.getX()),
+							(int) (self.getY() + ev.getY() - locationComponentOnDrag
+									.getY()));
+					if (loc.x < 0 || loc.y < 0) {
+						locationComponentOnDrag = ev.getPoint();
+						return;
+					}
 
-				self.setLocation(loc);
-				updateAllMove();
+					self.setLocation(loc);
+					updateAllMove();
+				}
 			}
 		});
 	}
 
-	public void register(IPModuleObserver observer) {		
+	public void register(IPModuleObserver observer) {
 		observers.add(observer);
 	}
 

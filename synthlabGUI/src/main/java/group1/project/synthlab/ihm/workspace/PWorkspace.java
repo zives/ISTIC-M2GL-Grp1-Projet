@@ -176,9 +176,9 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 										(int) finalPoint.getY());
 							}
 							//Les curseurs
-							if (e.getSource() instanceof IPPort)
+							if (e.getSource() instanceof IPPort && !controller.isDrawingCable())
 								workspacePanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-							else if (e.getSource() instanceof IPModule) 
+							else if (e.getSource() instanceof IPModule && !controller.isDrawingCable()) 
 								workspacePanel.setCursor(new Cursor(Cursor.MOVE_CURSOR));
 							
 							else
