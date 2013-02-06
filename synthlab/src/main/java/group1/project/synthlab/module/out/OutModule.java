@@ -5,6 +5,7 @@ import group1.project.synthlab.module.Module;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.signal.Signal;
+import group1.project.synthlab.signal.Tools;
 import group1.project.synthlab.unitExtensions.FilterAttenuator.FilterAttenuator;
 
 import javax.swing.JFrame;
@@ -136,8 +137,8 @@ public class OutModule extends Module implements IOutModule {
 		if (attenuationDB > 12)
 			attenuationDB = 12;
 		this.attenuationDB = attenuationDB;
-		attenuatorLeft.setAttenuation(FilterAttenuator.attenuationDBToV(db));
-		attenuatorRight.setAttenuation(FilterAttenuator.attenuationDBToV(db));	
+		attenuatorLeft.setAttenuation(Tools.attenuationDBToV(db));
+		attenuatorRight.setAttenuation(Tools.attenuationDBToV(db));	
 	}
 
 	/*

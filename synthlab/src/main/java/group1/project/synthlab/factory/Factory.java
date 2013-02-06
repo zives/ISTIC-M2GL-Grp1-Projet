@@ -7,6 +7,8 @@ import group1.project.synthlab.module.multiplexer.IMultiplexerModule;
 import group1.project.synthlab.module.multiplexer.MultiplexerModule;
 import group1.project.synthlab.module.out.IOutModule;
 import group1.project.synthlab.module.out.OutModule;
+import group1.project.synthlab.module.vca.IVCAModule;
+import group1.project.synthlab.module.vca.VCAModule;
 import group1.project.synthlab.module.vcf.IVCFModule;
 import group1.project.synthlab.module.vcf.VCFModule;
 import group1.project.synthlab.module.vco.IVCOModule;
@@ -59,6 +61,10 @@ public class Factory {
 
 	public IMultiplexerModule createMultiplexerModule() {
 		return new MultiplexerModule(this);
+	}
+
+	public IVCAModule createVCAModule() {
+		return new VCAModule(this);
 	}
 
 }
