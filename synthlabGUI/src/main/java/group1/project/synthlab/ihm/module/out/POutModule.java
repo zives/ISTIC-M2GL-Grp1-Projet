@@ -119,7 +119,7 @@ public class POutModule extends PModule implements IPOutModule {
 		distributionButton.setLocation(volumeLabel.getX(), 100);
 		distributionButton.setFocusPainted(false);
 
-		PGradient gradient = new PGradient(new Color(100,60,60), new Color(160,160,160), 0.28f);
+		PGradient gradient = new PGradient(new Color(90,60,60), new Color(100,100,100), 0.28f);
 		gradient.setSize(10, 140);
 		gradient.setLocation(25, 55);
 				  
