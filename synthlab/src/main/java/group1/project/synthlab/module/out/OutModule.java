@@ -137,8 +137,9 @@ public class OutModule extends Module implements IOutModule {
 		if (attenuationDB > 12)
 			attenuationDB = 12;
 		this.attenuationDB = db;
-		attenuatorLeft.setAttenuation(Tools.attenuationDBToV(db));
-		attenuatorRight.setAttenuation(Tools.attenuationDBToV(db));	
+		//On convertie la valeur en dB en volt et on retranche la tension nominale (1 en JSyn) pour obtenir une attenuation
+		attenuatorLeft.setAttenuation(Tools.dBToV(db) - 1);
+		attenuatorRight.setAttenuation(Tools.dBToV(db) - 1);	
 
 	}
 

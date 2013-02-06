@@ -16,7 +16,8 @@ public class FilterModulationAmplitude extends UnitBinaryOperator {
 		for (int i = start; i < limit; i++) {
 			double a = inputsSignal[i];
 			double b = inputsModulation[i];
-			outputs[i] = a * (1 + Tools.attenuationDBToV(60 * b)) ;
+			outputs[i] = a *Tools.dBToV(60 * b) ; // Plus besoin du +1 car j'ai modifie la fnc dans tools (j'ai enleve le -1)
+
 		}
 	}
 
