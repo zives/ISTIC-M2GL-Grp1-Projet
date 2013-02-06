@@ -14,6 +14,7 @@ import com.jsyn.Synthesizer;
 import com.jsyn.scope.AudioScope;
 import com.jsyn.unitgen.FilterBiquadCommon;
 import com.jsyn.unitgen.FilterLowPass;
+import com.jsyn.unitgen.FilterStateVariable;
 import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.Multiply;
 import com.jsyn.unitgen.PowerOfTwo;
@@ -45,8 +46,7 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 	protected double q = 1;
 	
 	/** Filtres JSyn : on doit utiliser 2 filtre en serie pour avoir du 24dB/octave */
-	protected FilterBiquadCommon filter1;
-	protected FilterBiquadCommon filter2;
+	protected FilterStateVariable filter;
 	
 	/** Reglage grossier de la frequence de coupure : entier de 0 a 9 */
 	protected int coarseAdjustment; // entre 0 et 9 
@@ -79,14 +79,10 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 		
 		// Le filtre (ici un passe-bas)
 		// TODO : proposer d'autres types de filtres
-		filter1 = new FilterLowPass();
-		filter1.Q.set(q);
-		circuit.add(filter1);
-		filter2 = new FilterLowPass();
-		filter2.Q.set(q);
-		circuit.add(filter2);
-		filter1.output.connect(filter2.input);
-		filter2.output.connect(onoff.inputA);
+		filter = new FilterStateVariable();
+		//filter.resonance.set(1);
+		circuit.add(filter);
+		filter.lowPass.connect(onoff.inputA);
 		
 		// On applique la formule f0 * 2 ^ (5Vfm) au signal en entree fm et on envoie la sortie dans un passThrough
 		// Cette formule garantit egalement que si un signal nul est connecte en entree, la frequence de coupure vaudra f0
@@ -97,11 +93,10 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 		multiply5.output.connect(poweroftwo.input);
 		multiplyf0.inputB.set(f0);
 		multiplyf0.inputA.connect(poweroftwo.output);
-		multiplyf0.output.connect(filter1.frequency);
-		multiplyf0.output.connect(filter2.frequency);
+		multiplyf0.output.connect(filter.frequency);
 		
 		// Port d'entree : 
-		in = factory.createInPort("in", filter1.input, this);
+		in = factory.createInPort("in", filter.input, this);
 		fm = factory.createInPort("fm", multiply5.inputA, this);
 
 		// Ports de sortie
@@ -140,8 +135,8 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 	 * @see group1.project.synthlab.module.IVCOModule#changeQFactor()
 	 */
 	private void changeQFactor(){
-		filter1.Q.set(q);
-		filter2.Q.set(q);
+		//filter1.Q.set(q);
+		//filter2.Q.set(q);
 	}
 		
 	/* (non-Javadoc)
@@ -203,7 +198,7 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 		if(port == in){
 			System.out.println("Connexion d'un cable dans l'entree in");
 		}
-		else if(port == in){
+		else if(port == fm){
 			System.out.println("Connexion d'un cable dans l'entree fm");
 		}
 	}
@@ -261,7 +256,7 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 		
 		// Pour l'affichage des courbes
 		AudioScope scope= new AudioScope( synth );
-		scope.addProbe(vcf.filter1.output);
+		scope.addProbe(vcf.filter.lowPass);
 		scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
 		scope.getModel().getTriggerModel().getLevelModel().setDoubleValue( 0.0001 );
 		scope.getView().setShowControls( true );
@@ -286,7 +281,7 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 		try
 		{
 			double time = synth.getCurrentTime();
-			synth.sleepUntil( time + 5.0 );
+			synth.sleepUntil( time + 15.0 );
 		} catch( InterruptedException e )
 		{
 			e.printStackTrace();
@@ -321,8 +316,7 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 		// Il suffit donc d'afficher ces valeurs pour verifier le rapport de 1 a 4.
 		int i = 0;
 		while(i<30) {
-			System.out.println("Frequence filtre 1= " + vcf.filter1.frequency.getValue());
-			System.out.println("Frequence filtre 2= " + vcf.filter2.frequency.getValue());
+			System.out.println("Frequence filtre 1= " + vcf.filter.frequency.getValue());
 			i++;
 			try {
 				synth.sleepUntil( synth.getCurrentTime() + 0.3 );
