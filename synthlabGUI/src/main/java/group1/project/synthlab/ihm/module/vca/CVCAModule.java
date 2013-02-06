@@ -1,20 +1,20 @@
-package group1.project.synthlab.ihm.module.vco;
+package group1.project.synthlab.ihm.module.vca;
 
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.module.IPModuleObserver;
-import group1.project.synthlab.module.vco.VCOModule;
+import group1.project.synthlab.module.vca.VCAModule;
 import group1.project.synthlab.port.IPort;
 
-public class CVCOModule extends VCOModule implements ICVCOModule {
-	protected IPVCOModule presentation;
+public class CVCAModule extends VCAModule implements ICVCAModule {
+	protected IPVCAModule presentation;
 
-	public CVCOModule(CFactory factory) {
+	public CVCAModule(CFactory factory) {
 		super(factory);
-		this.presentation = new PVCOModule(this);
-		this.filterAmplitude.register(this.presentation);
+		this.presentation = new PVCAModule(this);
+		//this.filterAmplitude.register(this.presentation);
 	}
 
-	public IPVCOModule getPresentation() {
+	public IPVCAModule getPresentation() {
 		return presentation;
 	}
 
@@ -30,5 +30,6 @@ public class CVCOModule extends VCOModule implements ICVCOModule {
 		super.cableDisconnected(port);
 	}
 	
-	
+
+	 
 }

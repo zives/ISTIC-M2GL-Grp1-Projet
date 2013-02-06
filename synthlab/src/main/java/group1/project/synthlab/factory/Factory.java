@@ -54,7 +54,7 @@ public class Factory {
 	public IWorkspace createWorkSpace() {
 		return new Workspace(this);
 	}
-
+	
 	public IVCFModule createVCFModule() {
 		return new VCFModule(this);
 	}

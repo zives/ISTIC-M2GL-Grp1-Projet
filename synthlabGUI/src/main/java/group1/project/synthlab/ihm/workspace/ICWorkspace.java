@@ -12,5 +12,6 @@ public interface ICWorkspace extends IWorkspace {
 	public void addOneOutModule();
 	public void removeCable(ICable cCable);
 	public void addOneMultiplexer();
+	public void addOneVCAModule();
 
 }
