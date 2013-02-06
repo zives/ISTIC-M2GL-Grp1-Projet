@@ -120,7 +120,7 @@ public class PPort extends JPanel implements IPPort {
 	 * @see group1.project.synthlab.ihm.port.IPPort#setForbidden()
 	 */
 	public void setForbidden() {
-		mouseEnteredColor = new Color(160, 50, 50);
+		mouseEnteredColor = new Color(140, 40, 40);
 		
 	}
 
@@ -129,7 +129,7 @@ public class PPort extends JPanel implements IPPort {
 	 * @see group1.project.synthlab.ihm.port.IPPort#setAllowed()
 	 */
 	public void setAllowed() {
-		mouseEnteredColor = new Color(170, 170, 170);
+		mouseEnteredColor = new Color(150, 150, 150);
 	}
 
 

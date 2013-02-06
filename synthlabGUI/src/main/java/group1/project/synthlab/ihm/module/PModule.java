@@ -4,16 +4,20 @@ import group1.project.synthlab.ihm.workspace.CWorkspace;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Composite;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +38,7 @@ public abstract class PModule extends JPanel implements IPModule {
 		self = this;
 
 		this.setLayout(null);
+		this.setOpaque(true);
 		this.setBackground(new Color(70, 70, 70));
 		this.setSize(300, 300);
 		this.setPreferredSize(this.getSize());
@@ -52,7 +57,7 @@ public abstract class PModule extends JPanel implements IPModule {
 		// OnOff
 		onOffButton = new JToggleButton("On");
 		onOffButton.setOpaque(false);
-		onOffButton.setForeground(new Color(70, 70, 70));
+		onOffButton.setForeground(new Color(80, 80, 80));
 		onOffButton.setSelected(false);
 		onOffButton.setFont(new Font("Arial", 0, 10));
 		onOffButton.setSize(20, 20);
@@ -65,7 +70,7 @@ public abstract class PModule extends JPanel implements IPModule {
 		// Remove
 		final JToggleButton removeButton = new JToggleButton("X");
 		removeButton.setOpaque(false);
-		removeButton.setForeground(new Color(70, 70, 70));
+		removeButton.setForeground(new Color(80, 80, 80));
 		removeButton.setSelected(false);
 		removeButton.setFont(new Font("Arial", 0, 10));
 		removeButton.setSize(20, 20);
@@ -175,13 +180,27 @@ public abstract class PModule extends JPanel implements IPModule {
 
 	}
 
+	
 	@Override
 	public void paint(Graphics g) {
-		super.paint(g);
+		  super.paint(g);
 		Graphics2D gi = (Graphics2D) g;
-		gi.setStroke(new BasicStroke(8f));
+		gi.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+		gi.setStroke(new BasicStroke(6f));
+		g.setColor(getParent().getBackground()	);
+		 RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float(0, 0, getWidth() , getHeight() , 0, 0);
+	        gi.draw(roundedRectangle); 
+	      
 		g.setColor(new Color(50, 50, 50));
-		g.drawRect(5, 5, getWidth() - 10, getHeight() - 10);
-
+		  roundedRectangle = new RoundRectangle2D.Float(4, 4, getWidth() - 8, getHeight() - 8, 5, 5);
+	        gi.draw(roundedRectangle); 
+	        
+	    	gi.setStroke(new BasicStroke(2f));
+	        g.setColor(new Color(30, 30, 30));
+			  roundedRectangle = new RoundRectangle2D.Float(5, 5, getWidth() - 10, getHeight() - 10, 5, 5);
+		        gi.draw(roundedRectangle); 
+	      
+		
 	}
 }

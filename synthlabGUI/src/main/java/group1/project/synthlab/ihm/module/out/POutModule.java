@@ -69,6 +69,7 @@ public class POutModule extends PModule implements IPOutModule {
 		attenuatorSlider.setFont(new Font("Arial", 0, 8));
 		attenuatorSlider.setForeground(Color.LIGHT_GRAY);
 		attenuatorSlider.setPreferredSize(attenuatorSlider.getSize());
+		attenuatorSlider.setBackground(getBackground());
 		attenuatorSlider.setOpaque(false);
 		attenuatorSlider.setFocusable(false);
 		attenuatorSlider.setBorder(null);

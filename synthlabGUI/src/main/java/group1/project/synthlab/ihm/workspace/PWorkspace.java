@@ -22,6 +22,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.Properties;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
@@ -48,9 +49,9 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	protected JLayeredPane workspacePanel;
 	protected JScrollPane centerPanel;
 
-	protected Button vcoButton;
-	protected Button outButton;
-	protected Button multiplexerButton;
+	protected JButton vcoButton;
+	protected JButton outButton;
+	protected JButton multiplexerButton;
 
 	public PWorkspace(ICWorkspace controller) {
 		super("Synthetiseur");
@@ -124,23 +125,23 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 		workspacePanel = new JLayeredPane();
 		workspacePanel.setOpaque(true);
-		workspacePanel.setBackground(new Color(20, 20, 20));
+		workspacePanel.setBackground(new Color(30, 30, 30));
 		workspacePanel.setLayout(null);
 		workspacePanel.setPreferredSize(new Dimension(3000, 3000));
 		workspacePanel.setSize(workspacePanel.getPreferredSize());
 		centerPanel = new JScrollPane(workspacePanel);
 
-		vcoButton = new Button("VCO");
+		vcoButton = new JButton("VCO");
 		vcoButton.setBackground(new Color(150,150,150));
 		vcoButton.setForeground(Color.BLACK);
 		toolBar.add(vcoButton);
 
-		outButton = new Button("OUT");
+		outButton = new JButton("OUT");
 		outButton.setBackground(new Color(150,150,150));
 		outButton.setForeground(Color.BLACK);
 		toolBar.add(outButton);
 	
-		multiplexerButton = new Button("MULTIPLEXER");
+		multiplexerButton = new JButton("MULTIPLEXER");
 		multiplexerButton.setBackground(new Color(150,150,150));
 		multiplexerButton.setForeground(Color.BLACK);
 		toolBar.add(multiplexerButton);

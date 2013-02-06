@@ -205,7 +205,7 @@ public class PCable extends JPanel implements IPCable {
 
 		// On trace une premiere ligne courbee
 		ig.setStroke(new BasicStroke(9f, BasicStroke.CAP_ROUND,
-				BasicStroke.JOIN_ROUND));
+				BasicStroke.JOIN_BEVEL));
 		g.setColor(LINK_COLORS[currentColor]);
 		QuadCurve2D q = new QuadCurve2D.Double((int) p1.getX() - getX(),
 				(int) p1.getY() - getY(), pBezier.x, pBezier.y, (int) p2.getX()
