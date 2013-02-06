@@ -9,4 +9,9 @@ public interface IPPort {
 	 * Indique que le port est selectionnable
 	 */
 	public void setAllowed();
+	
+	/**
+	 * Indique que le port est supprimable
+	 */
+	public void setAllowedToDelete();
 }

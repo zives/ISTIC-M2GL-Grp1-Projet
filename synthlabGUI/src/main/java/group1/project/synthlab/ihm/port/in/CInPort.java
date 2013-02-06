@@ -39,7 +39,7 @@ public class CInPort extends InPort implements ICInPort {
 				
 			}
 		} else {
-			// TODO à faire dans une autre user story (Déconnexion)
+			
 		}
 
 	}
@@ -51,7 +51,9 @@ public class CInPort extends InPort implements ICInPort {
 	}
 	
 	public void checkPutCable() {
-		if (isUsed() || !CWorkspace.getInstance().isDrawingCable())
+		if (isUsed())
+			presentation.setAllowedToDelete();
+		else if (!CWorkspace.getInstance().isDrawingCable())
 			presentation.setForbidden();
 		else
 			presentation.setAllowed();

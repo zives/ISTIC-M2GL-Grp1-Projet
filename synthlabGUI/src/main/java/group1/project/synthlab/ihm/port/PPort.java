@@ -94,12 +94,14 @@ public class PPort extends JPanel implements IPPort {
 		g.fillOval(MARGIN + 2, 2, SIZE - 4, SIZE - 4);
 		if (!controller.isUsed() && !mouseEntered)
 			g.setColor(Color.BLACK);
-		else if (controller.isUsed())
-			g.setColor(new Color(170, 170, 170));
 		else if (mouseEntered)
 			g.setColor(mouseEnteredColor);
+		else if (controller.isUsed())
+			g.setColor(new Color(170, 170, 170));
+	
+		
 		g.fillOval(MARGIN + 6, 6, SIZE - 12, SIZE - 12);
-
+	
 		ig.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 				RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 		Font font = new Font("Arial", Font.ITALIC, 9);
@@ -118,7 +120,7 @@ public class PPort extends JPanel implements IPPort {
 	 * @see group1.project.synthlab.ihm.port.IPPort#setForbidden()
 	 */
 	public void setForbidden() {
-		mouseEnteredColor = new Color(200, 50, 50);
+		mouseEnteredColor = new Color(160, 50, 50);
 		
 	}
 
@@ -128,7 +130,14 @@ public class PPort extends JPanel implements IPPort {
 	 */
 	public void setAllowed() {
 		mouseEnteredColor = new Color(170, 170, 170);
-		
+	}
+
+
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.port.IPPort#setAllowedToDelete()
+	 */
+	public void setAllowedToDelete() {
+		mouseEnteredColor = new Color(50, 0, 0);
 	}
 
 

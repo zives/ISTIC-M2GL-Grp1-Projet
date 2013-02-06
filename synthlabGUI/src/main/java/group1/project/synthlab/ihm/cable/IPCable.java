@@ -38,4 +38,7 @@ public interface IPCable {
 	 */
 	public void destruct();
 	
+	/** Change la couleur du cable */
+	public void nextColor();
+	
 }

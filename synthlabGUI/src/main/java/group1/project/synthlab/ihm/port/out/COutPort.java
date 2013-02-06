@@ -49,7 +49,9 @@ public class COutPort extends OutPort implements ICOutPort {
 	}
 	
 	public void checkPutCable() {
-		if (isUsed() || CWorkspace.getInstance().isDrawingCable())
+		if (isUsed())
+			presentation.setAllowedToDelete();
+		else if (CWorkspace.getInstance().isDrawingCable())
 			presentation.setForbidden();
 		else
 			presentation.setAllowed();

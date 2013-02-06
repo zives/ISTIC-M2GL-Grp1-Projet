@@ -136,9 +136,10 @@ public class OutModule extends Module implements IOutModule {
 	public void setAttenuation(double db) {
 		if (attenuationDB > 12)
 			attenuationDB = 12;
-		this.attenuationDB = attenuationDB;
+		this.attenuationDB = db;
 		attenuatorLeft.setAttenuation(Tools.attenuationDBToV(db));
 		attenuatorRight.setAttenuation(Tools.attenuationDBToV(db));	
+
 	}
 
 	/*
