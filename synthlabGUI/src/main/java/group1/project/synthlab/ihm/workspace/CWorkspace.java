@@ -79,6 +79,11 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		
 	}
 
+	@Override
+	public void addOneVCAModule() {
+		addModule(factory.createVCAModule());
+	}
+
 	
 	
 	
