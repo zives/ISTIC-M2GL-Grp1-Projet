@@ -5,7 +5,6 @@ package group1.project.synthlab.test;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.vca.IVCAModule;
-
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.Circuit;
@@ -39,37 +38,59 @@ public class TestVCAModule extends TestCase {
 		super.tearDown();
 	}
 
+	/**
+	 * Test method for {@link group1.project.synthlab.module.vca.VCAModule#VCAModule(group1.project.synthlab.factory.Factory)}.
+	 */
 	public void testVCAModule() {
 		assertNotNull (vca.getFiltera0());
 		assertNotNull (vca.getFilteram());
+		assertTrue (!vca.getIn().isUsed());
+		assertTrue (!vca.getAm().isUsed());
+		assertTrue (!vca.getOut().isUsed());
+		assertTrue (vca.getFiltera0().inputA.isConnected());
+		assertEquals (vca.geta0()/60, vca.getFiltera0().inputB.get());
+		assertTrue (vca.getFiltera0().output.isConnected());
+		assertTrue (vca.getFilteram().inputA.isConnected());
+		assertTrue (vca.getFilteram().inputB.isConnected());
+		assertTrue (vca.getFilteram().output.isConnected());
+		assertTrue (!vca.isStarted());
 	}
 
+	/**
+	 * Test method for {@link group1.project.synthlab.module.vca.VCAModule#destruct()}.
+	 */
 	public void testDestruct() {
-		fail("Not yet implemented");
+		vca.destruct();
+		assertTrue (!vca.getAm().isUsed());
+		assertTrue (!vca.getIn().isUsed());
+		assertTrue (!vca.getOut().isUsed());
 	}
 
+	/**
+	 * Test method for {@link group1.project.synthlab.module.vca.VCAModule#changeGain()}.
+	 */
 	public void testChangeGain() {
-		fail("Not yet implemented");
+		vca.seta0(6);
+		vca.changeGain();
+		assertEquals (vca.geta0()/60, vca.getFiltera0().inputB.get());
 	}
 	
+	/**
+	 * Test method for {@link group1.project.synthlab.module.vca.VCAModule#start()}.
+	 */
 	public void testStart() {
-		fail("Not yet implemented");
+		vca.start();
+		assertTrue (vca.isStarted());
+		System.err.println("Start...");
 	}
-
+	
+	/**
+	 * Test method for {@link group1.project.synthlab.module.vca.VCAModule#stop()}.
+	 */
 	public void testStop() {
-		fail("Not yet implemented");
-	}
-
-	public void testIsStarted() {
-		fail("Not yet implemented");
-	}
-
-	public void testCableConnected() {
-		fail("Not yet implemented");
-	}
-
-	public void testCableDisconnected() {
-		fail("Not yet implemented");
+		vca.stop();
+		assertTrue (!vca.isStarted());
+		System.err.println("Stop...");
 	}
 	
 }

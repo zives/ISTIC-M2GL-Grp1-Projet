@@ -5,6 +5,7 @@ import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.in.ICInPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
 import group1.project.synthlab.ihm.tools.PGradient;
+import group1.project.synthlab.module.vca.VCAModule;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -50,8 +51,8 @@ public class PVCAModule extends PModule implements IPVCAModule {
 
 		// Sliders
 		gainSlider = new JSlider();
-		gainSlider.setMaximum(300);
-		gainSlider.setMinimum(-300);
+		gainSlider.setMaximum((int) VCAModule.amax);
+		gainSlider.setMinimum((int) VCAModule.amin);
 		gainSlider.setOrientation(JSlider.HORIZONTAL);
 		gainSlider.setValue((int) controller.geta0());
 		gainSlider.setSize(230, 80);
@@ -62,8 +63,11 @@ public class PVCAModule extends PModule implements IPVCAModule {
 		gainSlider.setFocusable(false);
 		gainSlider.setBorder(null);
 		gainSlider.setLocation(35, 90);
+		gainSlider.setMajorTickSpacing(10);
+		gainSlider.setMinorTickSpacing(2);
+		gainSlider.setPaintTicks(true);
 		
-		final JLabel gainMinValueLabel = new JLabel(String.valueOf(gainSlider.getMinimum() / 10));
+		final JLabel gainMinValueLabel = new JLabel(String.valueOf(VCAModule.amin));
 		gainMinValueLabel.setForeground(Color.LIGHT_GRAY);
 		gainMinValueLabel.setOpaque(false);
 		gainMinValueLabel.setSize(50, 20);
@@ -78,10 +82,10 @@ public class PVCAModule extends PModule implements IPVCAModule {
 		gainA0ValueLabel.setSize(30, 20);
 		gainA0ValueLabel.setBorder(null);
 		gainA0ValueLabel.setPreferredSize(gainA0ValueLabel.getSize());
-		gainA0ValueLabel.setLocation(gainSlider.getX() + 100, 100);
+		gainA0ValueLabel.setLocation(gainSlider.getX() + 150, 100);
 		gainA0ValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		
-		JLabel gainMaxValueLabel = new JLabel(String.valueOf(gainSlider.getMaximum() / 10));
+		JLabel gainMaxValueLabel = new JLabel(String.valueOf(VCAModule.amax));
 		gainMaxValueLabel.setForeground(Color.LIGHT_GRAY);
 		gainMaxValueLabel.setOpaque(false);
 		gainMaxValueLabel.setSize(30, 20);
@@ -90,7 +94,7 @@ public class PVCAModule extends PModule implements IPVCAModule {
 		gainMaxValueLabel.setLocation(gainSlider.getX() + 220, 100);
 		gainMaxValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		
-		PGradient gradient = new PGradient("HORIZONTAL", new Color(90,60,60), new Color(100,100,100), 0.5f);
+		PGradient gradient = new PGradient("HORIZONTAL", new Color(90,60,60), new Color(100,100,100), 0.7f);
 		gradient.setSize(230, 10);
 		gradient.setLocation(35, 90);
 	
@@ -112,7 +116,7 @@ public class PVCAModule extends PModule implements IPVCAModule {
 		// Events
 		gainSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				controller.seta0(gainSlider.getValue()/10);
+				controller.seta0(gainSlider.getValue());
 				controller.changeGain();
 				gainLabel.setText(Math.round(controller.geta0()) + " dB");
 			}

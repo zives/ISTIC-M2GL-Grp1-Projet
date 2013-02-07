@@ -68,8 +68,8 @@ public class PGradient extends JPanel {
 			g2d.setPaint(new GradientPaint(0, 0, getColor1(), cut*getWidth(), 0, getColor2(), false));
 			Rectangle2D.Double rectangle = new Rectangle2D.Double(0, 0, getWidth(), getHeight());
 			g2d.fill(rectangle);
-			g2d.setPaint(new GradientPaint(cut*getWidth(),  0, getColor2(), getWidth() - cut*getWidth(), cut*getWidth(), getColor1(), false));
-			rectangle = new Rectangle2D.Double(0, cut*getWidth(), getWidth() - cut*getWidth(), getHeight());
+			g2d.setPaint(new GradientPaint(cut*getWidth(),  0, getColor2(), getWidth(), 0, getColor1(), false));
+			rectangle = new Rectangle2D.Double(cut*getWidth(), 0, getWidth() - cut*getWidth(), getHeight());
 			g2d.fill(rectangle);
 		}
 
