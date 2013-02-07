@@ -3,6 +3,8 @@ package group1.project.synthlab.factory;
 import group1.project.synthlab.cable.Cable;
 import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.module.IModule;
+import group1.project.synthlab.module.extra.ExtraModule;
+import group1.project.synthlab.module.extra.IExtraModule;
 import group1.project.synthlab.module.multiplexer.IMultiplexerModule;
 import group1.project.synthlab.module.multiplexer.MultiplexerModule;
 import group1.project.synthlab.module.out.IOutModule;
@@ -65,6 +67,10 @@ public class Factory {
 
 	public IVCAModule createVCAModule() {
 		return new VCAModule(this);
+	}
+	
+	public IExtraModule createExtraModule() {
+		return new ExtraModule(this);
 	}
 
 }
