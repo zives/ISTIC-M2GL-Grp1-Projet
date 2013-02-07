@@ -6,7 +6,7 @@ import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
-import group1.project.synthlab.unitExtensions.FilterAttenuator.FilterModulationAmplitude;
+import group1.project.synthlab.unitExtensions.FilterAttenuator.FilterAmplitudeModulation;
 import javax.swing.JFrame;
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
@@ -36,10 +36,10 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 	protected double a0 = 0; // Valeur en dB, a diviser par 60 avant de brancher dans le filtre (12dB => 1V => 0.2JSyn)
 	
 	/** Filtre d'attenuation en fonction de a0 */
-	protected FilterModulationAmplitude filtera0;
+	protected FilterAmplitudeModulation filtera0;
 
 	/** Filtre d'attenuation en fonction de am */
-	protected FilterModulationAmplitude filteram;
+	protected FilterAmplitudeModulation filteram;
 	
 	/**  */
 	protected Multiply multiply = new Multiply();
@@ -62,8 +62,8 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 	public VCAModule(Factory factory) {
 		super("VCA-" + ++moduleCount, factory);
 		
-		filtera0 = new FilterModulationAmplitude();
-		filteram = new FilterModulationAmplitude();
+		filtera0 = new FilterAmplitudeModulation();
+		filteram = new FilterAmplitudeModulation();
 
 		filtera0.inputB.set(a0/60);
 		
