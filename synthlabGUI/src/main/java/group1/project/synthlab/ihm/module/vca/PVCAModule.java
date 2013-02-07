@@ -18,7 +18,7 @@ public class PVCAModule extends PModule implements IPVCAModule {
 	private static final long serialVersionUID = 9202805048987933945L;
 
 	protected ICVCAModule controller;
-	protected JSlider attenuatorSlider;
+	protected JSlider gainSlider;
 
 
 	public PVCAModule(final ICVCAModule controller) {
@@ -36,100 +36,67 @@ public class PVCAModule extends PModule implements IPVCAModule {
 		PPort pportOut = (PPort) (((ICOutPort) controller.getOut()).getPresentation());
 		pportOut.setLocation(130, 220);
 
-		// Label volume
-		final JLabel volumeLabel = new JLabel(controller.geta0() + " dB");
-		volumeLabel.setForeground(Color.LIGHT_GRAY);
-		volumeLabel.setOpaque(false);
-		volumeLabel.setSize(150, 20);
-		volumeLabel.setHorizontalTextPosition(JLabel.CENTER);
-		volumeLabel.setBorder(null);
-		volumeLabel.setPreferredSize(volumeLabel.getSize());
-		volumeLabel.setLocation(getWidth()/2 - volumeLabel.getWidth() / 2 + 40, 50);
-		volumeLabel.setFont(new Font("Monospaced", Font.ITALIC, 26));
+		// Label gain
+		final JLabel gainLabel = new JLabel(controller.geta0() + " dB");
+		gainLabel.setForeground(Color.LIGHT_GRAY);
+		gainLabel.setOpaque(false);
+		gainLabel.setSize(150, 20);
+		gainLabel.setHorizontalTextPosition(JLabel.CENTER);
+		gainLabel.setBorder(null);
+		gainLabel.setPreferredSize(gainLabel.getSize());
+		gainLabel.setLocation(getWidth()/2 - gainLabel.getWidth() / 2 + 30, 50);
+		gainLabel.setFont(new Font("Monospaced", Font.ITALIC, 26));
 
 		// Sliders
-		attenuatorSlider = new JSlider();
-		attenuatorSlider.setMaximum(300);
-		attenuatorSlider.setMinimum(-300);
-		attenuatorSlider.setOrientation(JSlider.HORIZONTAL);
-		attenuatorSlider.setValue((int) controller.geta0());
-		attenuatorSlider.setSize(230, 80);
-		attenuatorSlider.setFont(new Font("Arial", 0, 8));
-		attenuatorSlider.setForeground(Color.LIGHT_GRAY);
-		attenuatorSlider.setPreferredSize(attenuatorSlider.getSize());
-		attenuatorSlider.setOpaque(false);
-		attenuatorSlider.setFocusable(false);
-		attenuatorSlider.setBorder(null);
-		attenuatorSlider.setLocation(35, 50);
-//		attenuatorSliDER.SETMAJORTICKSPACING(100);
-//		ATTENUATORSLIDER.SETMINORTICKSPACING(25);
-//		ATTENUATORSLIder.setPaintTicks(true);
+		gainSlider = new JSlider();
+		gainSlider.setMaximum(300);
+		gainSlider.setMinimum(-300);
+		gainSlider.setOrientation(JSlider.HORIZONTAL);
+		gainSlider.setValue((int) controller.geta0());
+		gainSlider.setSize(230, 80);
+		gainSlider.setFont(new Font("Arial", 0, 8));
+		gainSlider.setForeground(Color.LIGHT_GRAY);
+		gainSlider.setPreferredSize(gainSlider.getSize());
+		gainSlider.setOpaque(false);
+		gainSlider.setFocusable(false);
+		gainSlider.setBorder(null);
+		gainSlider.setLocation(35, 70);
 		
-		
-		//Labels slider
-//		JLabel attenuatorMaxValueLabel = new JLabel("+300");
-//		attenuatorMaxValueLabel.setForeground(Color.LIGHT_GRAY);
-//		attenuatorMaxValueLabel.setOpaque(false);
-//		attenuatorMaxValueLabel.setSize(30, 20);
-//		attenuatorMaxValueLabel.setBorder(null);
-//		attenuatorMaxValueLabel.setPreferredSize(attenuatorMaxValueLabel.getSize());
-//		attenuatorMaxValueLabel.setLocation(attenuatorSlider.getX() + 40, 50);
-//		attenuatorMaxValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
-//		
-//		JLabel attenuator0ValueLabel = new JLabel("0");
-//		attenuator0ValueLabel.setForeground(Color.LIGHT_GRAY);
-//		attenuator0ValueLabel.setOpaque(false);
-//		attenuator0ValueLabel.setSize(30, 20);
-//		attenuator0ValueLabel.setBorder(null);
-//		attenuator0ValueLabel.setPreferredSize(attenuator0ValueLabel.getSize());
-//		attenuator0ValueLabel.setLocation(attenuatorSlider.getX() + 40, 85);
-//		attenuator0ValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
-//		
-//		JLabel attenuatorMinValueLabel = new JLabel(String.valueOf(attenuatorSlider.getMinimum() / 10));
-//		attenuatorMinValueLabel.setForeground(Color.LIGHT_GRAY);
-//		attenuatorMinValueLabel.setOpaque(false);
-//		attenuatorMinValueLabel.setSize(30, 20);
-//		attenuatorMinValueLabel.setBorder(null);
-//		attenuatorMinValueLabel.setPreferredSize(attenuatorMinValueLabel.getSize());
-//		attenuatorMinValueLabel.setLocation(attenuatorSlider.getX() + 40, 185);
-//		attenuatorMinValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
-
-
-//		PGradient gradient = new PGradient(new Color(100,60,60), new Color(160,160,160), 0.28f);
-//		gradient.setSize(10, 140);
-//		gradient.setLocation(25, 55);
+		final JLabel a0Label = new JLabel("a0");
+		a0Label.setForeground(Color.LIGHT_GRAY);
+		a0Label.setOpaque(false);
+		a0Label.setSize(50, 20);
+		a0Label.setBorder(null);
+		a0Label.setPreferredSize(a0Label.getSize());
+		a0Label.setLocation(gainSlider.getX(), 80);
+		a0Label.setFont(new Font("Arial", Font.ITALIC, 10));
+	
 				  
 		// Ajouts des composants
 		add(pportIn);
 		add(pportAm);
 		add(pportOut);
-		add(volumeLabel);
-		add(attenuatorSlider);
-//		add(attenuatorMaxValueLabel);
-//		add(attenuator0ValueLabel);
-//		add(attenuatorMinValueLabel);
-//		add(gradient);
+		add(gainLabel);
+		add(a0Label);
+		add(gainSlider);
+		
 
 		this.repaint();
 
 		// Events
-		attenuatorSlider.addChangeListener(new ChangeListener() {
+		gainSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				controller.seta0(attenuatorSlider.getValue());
-				volumeLabel.setText(Math.round(controller.geta0() * 10) + " dB");
+				controller.seta0(gainSlider.getValue()/10);
+				controller.changeGain();
+				gainLabel.setText(Math.round(controller.geta0()) + " dB");
 			}
-		});
-
-		
+		});	
 	}
 
 
 	public void setSlidersEnabled(boolean value) {
 		// TODO Auto-generated method stub
-		
+		gainSlider.setEnabled(value);
 	}
-
-
-	
 
 }

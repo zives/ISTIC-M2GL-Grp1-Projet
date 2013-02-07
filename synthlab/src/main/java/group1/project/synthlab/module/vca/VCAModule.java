@@ -202,7 +202,7 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 		// On cree un oscillateur que l'on connectera dans l'entree am
 		SquareOscillator amOsc = new SquareOscillator();
 		amOsc.frequency.set(0.5);
-		amOsc.amplitude.set(0.2);
+		amOsc.amplitude.set(0.1);
 		synth.add(amOsc);
 				
 		// LineOut remplace ici OutModule
