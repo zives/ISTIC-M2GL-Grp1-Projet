@@ -18,11 +18,17 @@ import javax.swing.JPanel;
  */
 public class PGradient extends JPanel {
 
+
+	public enum position {
+		HORIZONTAL, VERTICAL
+	}
 	protected Color color1 ;
 	protected Color color2;
 	protected float cut; //entre 0 et 1 
+	protected String position;
 
-	public PGradient(Color color1, Color color2, float cut) {
+	public PGradient(String position, Color color1, Color color2, float cut) {
+		this.position = position;
 		this.color1 = color1;
 		this.color2 = color2;
 		this.cut = cut;
@@ -50,13 +56,22 @@ public class PGradient extends JPanel {
 		super.paint(graphics);
 		Graphics2D g2d = (Graphics2D) graphics;
 
-		g2d.setPaint(new GradientPaint(0, 0, getColor1(), 0, cut*getHeight(), getColor2(), false));
-		Rectangle2D.Double rectangle = new Rectangle2D.Double(0, 0, getWidth(), getHeight());
-		g2d.fill(rectangle);
-		g2d.setPaint(new GradientPaint(0,  cut*getHeight(), getColor2(), 0, getHeight() - cut*getHeight(), getColor1(), false));
-		rectangle = new Rectangle2D.Double(0, cut*getHeight(), getWidth(), getHeight() - cut*getHeight());
-		g2d.fill(rectangle);
-	
+		if (position == "VERTICAL") {
+			g2d.setPaint(new GradientPaint(0, 0, getColor1(), 0, cut*getHeight(), getColor2(), false));
+			Rectangle2D.Double rectangle = new Rectangle2D.Double(0, 0, getWidth(), getHeight());
+			g2d.fill(rectangle);
+			g2d.setPaint(new GradientPaint(0,  cut*getHeight(), getColor2(), 0, getHeight() - cut*getHeight(), getColor1(), false));
+			rectangle = new Rectangle2D.Double(0, cut*getHeight(), getWidth(), getHeight() - cut*getHeight());
+			g2d.fill(rectangle);
+
+		} else {
+			g2d.setPaint(new GradientPaint(0, 0, getColor1(), cut*getWidth(), 0, getColor2(), false));
+			Rectangle2D.Double rectangle = new Rectangle2D.Double(0, 0, getWidth(), getHeight());
+			g2d.fill(rectangle);
+			g2d.setPaint(new GradientPaint(cut*getWidth(),  0, getColor2(), getWidth() - cut*getWidth(), cut*getWidth(), getColor1(), false));
+			rectangle = new Rectangle2D.Double(0, cut*getWidth(), getWidth() - cut*getWidth(), getHeight());
+			g2d.fill(rectangle);
+		}
 
 	}
 

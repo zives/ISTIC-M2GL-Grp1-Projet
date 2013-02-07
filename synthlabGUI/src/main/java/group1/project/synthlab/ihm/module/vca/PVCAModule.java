@@ -4,6 +4,7 @@ import group1.project.synthlab.ihm.module.PModule;
 import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.in.ICInPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
+import group1.project.synthlab.ihm.tools.PGradient;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -60,16 +61,38 @@ public class PVCAModule extends PModule implements IPVCAModule {
 		gainSlider.setOpaque(false);
 		gainSlider.setFocusable(false);
 		gainSlider.setBorder(null);
-		gainSlider.setLocation(35, 70);
+		gainSlider.setLocation(35, 90);
 		
-		final JLabel a0Label = new JLabel("a0");
-		a0Label.setForeground(Color.LIGHT_GRAY);
-		a0Label.setOpaque(false);
-		a0Label.setSize(50, 20);
-		a0Label.setBorder(null);
-		a0Label.setPreferredSize(a0Label.getSize());
-		a0Label.setLocation(gainSlider.getX(), 80);
-		a0Label.setFont(new Font("Arial", Font.ITALIC, 10));
+		final JLabel gainMinValueLabel = new JLabel(String.valueOf(gainSlider.getMinimum() / 10));
+		gainMinValueLabel.setForeground(Color.LIGHT_GRAY);
+		gainMinValueLabel.setOpaque(false);
+		gainMinValueLabel.setSize(50, 20);
+		gainMinValueLabel.setBorder(null);
+		gainMinValueLabel.setPreferredSize(gainMinValueLabel.getSize());
+		gainMinValueLabel.setLocation(gainSlider.getX(), 100);
+		gainMinValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
+		
+		JLabel gainA0ValueLabel = new JLabel("a0");
+		gainA0ValueLabel.setForeground(Color.LIGHT_GRAY);
+		gainA0ValueLabel.setOpaque(false);
+		gainA0ValueLabel.setSize(30, 20);
+		gainA0ValueLabel.setBorder(null);
+		gainA0ValueLabel.setPreferredSize(gainA0ValueLabel.getSize());
+		gainA0ValueLabel.setLocation(gainSlider.getX() + 100, 100);
+		gainA0ValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
+		
+		JLabel gainMaxValueLabel = new JLabel(String.valueOf(gainSlider.getMaximum() / 10));
+		gainMaxValueLabel.setForeground(Color.LIGHT_GRAY);
+		gainMaxValueLabel.setOpaque(false);
+		gainMaxValueLabel.setSize(30, 20);
+		gainMaxValueLabel.setBorder(null);
+		gainMaxValueLabel.setPreferredSize(gainMaxValueLabel.getSize());
+		gainMaxValueLabel.setLocation(gainSlider.getX() + 220, 100);
+		gainMaxValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
+		
+		PGradient gradient = new PGradient("HORIZONTAL", new Color(90,60,60), new Color(100,100,100), 0.5f);
+		gradient.setSize(230, 10);
+		gradient.setLocation(35, 90);
 	
 				  
 		// Ajouts des composants
@@ -77,7 +100,10 @@ public class PVCAModule extends PModule implements IPVCAModule {
 		add(pportAm);
 		add(pportOut);
 		add(gainLabel);
-		add(a0Label);
+		add(gradient);
+		add(gainMinValueLabel);
+		add(gainA0ValueLabel);
+		add(gainMaxValueLabel);
 		add(gainSlider);
 		
 
