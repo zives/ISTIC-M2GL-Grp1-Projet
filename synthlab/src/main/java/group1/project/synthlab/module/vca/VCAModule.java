@@ -213,7 +213,7 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 		// On cree un oscillateur que l'on connectera dans l'entree am
 		SquareOscillator amOsc = new SquareOscillator();
 		amOsc.frequency.set(0.5);
-		amOsc.amplitude.set(0.2);
+		amOsc.amplitude.set(0.1); // Amplitude de 0.1JSyn correspond à une amplitude de 1V crete a crete. En passant d'un pic a un creux on doit donc avoir une attenuation de 12dB (amplitude divisee par 4)
 		synth.add(amOsc);
 				
 		// LineOut remplace ici OutModule
@@ -239,7 +239,7 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 		frame.pack();
 		frame.setVisible(true);
 		
-		// Sans modulation d'amplitude au debut
+		System.out.println("Sans modulation d'amplitude au debut. Le signal doit etre identique au signal en entree (amplitude 0.5 JSyn)");
 		int i = 0;
 		while (i < 10) {
 			System.out.println("Amplitude en sortie = " + vca.filteram.output.getValue());
@@ -251,19 +251,25 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 			}
 		}
 		
-		// Avec modulation d'amplitude le reste du temps
-		amOsc.output.connect(vca.getAm().getJSynPort());
-		vca.cableConnected(vca.getAm());
-		
-		try
-		{
-			double time = synth.getCurrentTime();
-			synth.sleepUntil( time + 2.0 );
-		} catch( InterruptedException e )
-		{
-			e.printStackTrace();
+		System.out.println("Sans modulation d'amplitude mais en reglant f0 a 6dB. L'amplitude du signal en sortie doit etre doublee (1 JSyn)");
+		vca.seta0(6);
+		vca.changeGain();
+		i = 0;
+		while (i < 10) {
+			System.out.println("Amplitude en sortie = " + vca.filteram.output.getValue());
+			i++;
+			try {
+				synth.sleepUntil(synth.getCurrentTime() + 0.3);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		
+		System.out.println("On remet a0 a 0. On active la modulation d'amplitude. L'amplitude doit varier du simple au quadruple (-12 dB => /4), de 0.25 JSyn (0.5/2) a 1 JSyn (0.5*2)");
+		vca.seta0(0);
+		vca.changeGain();
+		amOsc.output.connect(vca.getAm().getJSynPort());
+		vca.cableConnected(vca.getAm());
 		i = 0;
 		while (i < 20) {
 			System.out.println("Amplitude en sortie = " + vca.filteram.output.getValue());
@@ -275,7 +281,7 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 			}
 		}
 		
-		// Changement de a0
+		System.out.println("Toujours avec la meme modulation d'amplitude, on met a0 a 6dB. L'amplitude doit varier du simple au quadruple (-12 dB => /4), mais dans des valeurs plus elevees, entre 0.50 JSYN (1/2) a 2 JSyn (1*2)");
 		vca.seta0(6);
 		vca.changeGain();
 		i = 0;
@@ -289,6 +295,22 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 			}
 		}
 		
+		System.out.println("On remet a0 a 0. On change maintenant le signal modulant pour lui mettre une amplitude de 0.2, soit 2V crete a crete. L'amplitude du signal en sortie du VCA doit donc maintenant alterner dans un rapport de 1 a 16 (-2V => -24dB => /16), de 0.125 (0.5/4) a 2 (0.5*4)");
+		vca.seta0(0);
+		vca.changeGain();
+		amOsc.amplitude.set(0.2);
+		i = 0;
+		while (i < 20) {
+			System.out.println("Amplitude en sortie = " + vca.filteram.output.getValue());
+			i++;
+			try {
+				synth.sleepUntil(synth.getCurrentTime() + 0.3);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		System.out.println("STOP pendant 2 sec");
 		vca.stop();
 		try
 		{
@@ -298,6 +320,8 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 		{
 			e.printStackTrace();
 		}
+		
+		System.out.println("START");
 		vca.start();
 	}
 
