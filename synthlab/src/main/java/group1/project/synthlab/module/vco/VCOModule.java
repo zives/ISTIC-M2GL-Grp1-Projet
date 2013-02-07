@@ -30,7 +30,7 @@ import com.jsyn.unitgen.TriangleOscillator;
  * @author Groupe 1
  *
  */
-public class VCOModule extends Module implements IPortObserver, IVCOModule {
+public class VCOModule extends Module implements IVCOModule {
 
 	protected static int moduleCount = 0;
 

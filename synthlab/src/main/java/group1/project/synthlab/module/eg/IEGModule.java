@@ -21,6 +21,14 @@ import group1.project.synthlab.signal.Tools;
  * @author 13010902
  *
  */
+/**
+ * @author 13010902
+ *
+ */
+/**
+ * @author 13010902
+ *
+ */
 public interface IEGModule extends IModule {
 
 	/**
@@ -30,39 +38,68 @@ public interface IEGModule extends IModule {
 	
 
 	/**
-	 * @param attack
+	 * @param definit le temps de montee en milliseconde
 	 */
 	public void setAttack(int attack);
 	
 	
-
 	/**
 	 * @return le temps d'extinction en milliseconde
 	 */
 	public int getDecay();
+	
 
+	/**
+	 * @param definit le temps d'extinction en milliseconde
+	 */
 	public void setDecay(int decay);
+
 
 	/**
 	 * @return le temps de relachement en milliseconde
 	 */
 	public int getRelease();
-
+	
+	
+	/**
+	 * @param definit le temps d'extinction en milliseconde
+	 */
 	public void setRelease(int release);
+	
 
 	/**
 	 * @return le temps entre le temps de montee et le temps d'extinction en milliseconde
 	 */
 	public int getHold();
-
+	
+	
+	/**
+	 * @param definit le temps entre le temps de montee et le temps d'extinction en milliseconde
+	 */
 	public void setHold(int hold);
-
+	
+	
+	/**
+	 * @return le niveau de maintien de l amplitude
+	 */
 	public double getSustain();
+	
 
+	/**
+	 * @param definit le niveau de maintien de l amplitude
+	 */
 	public void setSustain(double sustain);
+	
 
+	/**
+	 * @return l entree de declenchement
+	 */
 	public IInPort getGate();
+	
 
+	/**
+	 * @return la sortie
+	 */
 	public IOutPort getOut();
 
 
