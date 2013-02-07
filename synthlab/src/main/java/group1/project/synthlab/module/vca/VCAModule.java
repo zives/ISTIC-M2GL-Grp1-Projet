@@ -81,6 +81,7 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 		
 		// Lorsqu'il est cree, le VCA est eteint, on ne laisse donc passer aucun signal
 		onoff.inputB.set(0);
+		isOn = false;
 	}
 	
 	/*
