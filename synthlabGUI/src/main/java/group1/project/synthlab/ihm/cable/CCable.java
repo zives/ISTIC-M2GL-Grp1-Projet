@@ -62,14 +62,7 @@ public class CCable extends Cable implements ICCable{
 		CWorkspace.getInstance().removeCable(this);		
 		super.disconnect();
 	}
-	/* (non-Javadoc)
-	 * @see group1.project.synthlab.ihm.cable.ICCable#outPortHasSignal()
-	 */
-	public boolean outPortHasSignal() {
-		if (outPort == null)
-			return false;
-		return outPort.getModule().isStarted();
-	}
+
 
 	
 	

@@ -91,7 +91,7 @@ public abstract class Port implements IPort,  IFilterAmplitudeObserver {
 	public void hasSignal(IFilterAmplitudeObservable subject, boolean hasSignal) {
 		
 		if(isUsed())
-			this.cable.setSignalNull(!hasSignal);		
+			this.cable.setSignalNull(!hasSignal);
 	}
 
 	public void warn(IFilterAmplitudeObservable subject, boolean tooHigh) {

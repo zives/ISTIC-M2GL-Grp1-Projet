@@ -108,11 +108,11 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 
 		// Filtre d'amplitude
 		// TODO : Tester lorsqu'on aura un VCA
-		filterAmplitude = new FilterAmplitude(Signal.AMAXMODULATION);
+		filterAmplitude = new FilterAmplitude(Signal.AMAXMODULATION, true);
 		circuit.add(filterAmplitude);
 		
 		// Filtre de modulation de frequence
-		filterFrequencyModulation = new FilterFrequencyModulation(300);
+		filterFrequencyModulation = new FilterFrequencyModulation(f0);
 		circuit.add(filterFrequencyModulation);
 		
 		// Creation du PassThrough : on applique la formule f0 * 2 ^ (5Vfm) au
@@ -127,6 +127,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		
 		// Port d'entree :
 		fm = factory.createInPort("fm", filterAmplitude.input, this);
+		fm.setMaxForAmplitudeSupervisor(Signal.AMAXMODULATION);
 		filterAmplitude.output.connect(filterFrequencyModulation.input);
 		
 		// Ports de sortie

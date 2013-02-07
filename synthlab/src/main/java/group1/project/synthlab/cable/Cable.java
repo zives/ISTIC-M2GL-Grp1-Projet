@@ -19,6 +19,7 @@ public class Cable implements ICable {
 	protected IOutPort outPort; // Sortie d'un module
 	protected Factory factory;
 	protected boolean saturated;
+	protected boolean hasSignal;
 	
 	/**
 	 * Constructeur du cable.
@@ -26,6 +27,8 @@ public class Cable implements ICable {
 	 */
 	public Cable(Factory factory) {
 		this.factory = factory;
+		this.hasSignal = false;
+		this.saturated = false;
 	}
 	
 	/* (non-Javadoc)
@@ -113,6 +116,18 @@ public class Cable implements ICable {
 	 */
 	public boolean isSignalSaturated() {
 		return this.saturated;
+	}
+
+	public void setSignalNull(boolean b) {
+		this.hasSignal = !b;
+		
+	}
+
+	public boolean hasSignal() {
+		if (outPort == null)
+			return false;
+		return outPort.getModule().isStarted() &&  hasSignal;
+	
 	}
 
 }

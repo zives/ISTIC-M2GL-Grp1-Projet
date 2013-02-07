@@ -225,6 +225,11 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		
 	}
 
+	public void hasSignal(IFilterAmplitudeObservable subject, boolean hasSignal) {
+		
+		
+	}
+
 
 
 }

@@ -13,12 +13,15 @@ import com.jsyn.unitgen.UnitFilter;
  */
 public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObservable{
 
-	boolean isSatured = false;
-	protected double amax;
-	protected List<IFilterAmplitudeObserver> observers;
-	protected boolean previousSaturatedWarned;
-	protected boolean previousHasSignalWarned;
-	protected boolean truncate;
+	boolean isSatured = false; //Défini si le son est saturé (c.a.d qui dépasse amax)
+	protected double amax; //L'amplitude maximale autorisée
+	protected List<IFilterAmplitudeObserver> observers; 
+	protected boolean previousSaturatedWarned; //Défini si on a déjà prévenu d'une saturation ou non
+	protected boolean previousHasSignalWarned; //Défini si on a déjà prévenu d'un signal null ou non
+	protected boolean truncate; //Défini s'il font tronquer l'amplitude saturé à amax
+	protected int countNoSignal; //Nombre de fois où le signal était null
+	protected final int MAX_COUNT_NO_SIGNAL = 100; //Nombre maximum de fois ou on autorise un signal null avant d'avertir les observers
+	protected boolean hasSignal;
 	
 	public FilterAmplitude (double maxvolt, boolean truncate){
 		this.amax = maxvolt / Signal.AMAX;
@@ -26,6 +29,7 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 		this.previousSaturatedWarned = false;
 		this.previousHasSignalWarned = false;
 		this.truncate = false;
+		this.countNoSignal = 0;
 	}
 	
 	@Override
@@ -33,7 +37,7 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 		double[] inputs = input.getValues();
 		double[] outputs = output.getValues();
 
-		double moyenne = 0;
+		double sum = 0;
 
 			isSatured = false;
 		for (int i = start; i < limit; i++) {
@@ -50,12 +54,9 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 			}
 			else 
 				outputs[i] = x;
-			moyenne += x;
-			
+			sum += Math.abs(x);
 		}
-		
-		moyenne /= (limit - start);
-		
+		//Préviens d'une saturation
 		if (previousSaturatedWarned && !isSatured) {
 			updateWarnAll(false);
 			previousSaturatedWarned = false;
@@ -64,9 +65,19 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 			previousSaturatedWarned = true;
 		}
 		
-		boolean hasSignal = false;
-		if (Math.round(moyenne * 1000) / 1000 > 0)
+		//Détermine si on doit prévenir d'un signal ou non
+		if (sum > 0) {
+			this.countNoSignal = 0;
 			hasSignal = true;
+		}
+		else {
+			this.countNoSignal++;
+			
+			if (this.countNoSignal >= MAX_COUNT_NO_SIGNAL) 
+				hasSignal = false;
+				
+		}
+	
 		if (previousHasSignalWarned && !hasSignal) {
 			updateHasSignalAll(false);
 			previousHasSignalWarned = false;
@@ -95,7 +106,8 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 	 */
 	public void register(IFilterAmplitudeObserver observer) {
 		observers.add(observer);
-		
+		observer.warn(this, isSatured);
+		observer.hasSignal(this, hasSignal);
 	}
 
 	/* (non-Javadoc)
