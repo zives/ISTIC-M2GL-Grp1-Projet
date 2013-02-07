@@ -1,5 +1,7 @@
 package group1.project.synthlab.signal;
 
+import com.jsyn.Synthesizer;
+
 public class Tools {
 	
 	/** 
@@ -10,5 +12,16 @@ public class Tools {
 	public static double dBToV(double dB){	
 		double voltage = Math.pow(10.0, new Double(dB) / 20.0);
 		return voltage;		
+	}
+	
+	public static void wait(Synthesizer synth, double sec){
+		try
+		{
+			double time = synth.getCurrentTime();
+			synth.sleepUntil( time + sec );
+		} catch( InterruptedException e )
+		{
+			e.printStackTrace();
+		}
 	}
 }

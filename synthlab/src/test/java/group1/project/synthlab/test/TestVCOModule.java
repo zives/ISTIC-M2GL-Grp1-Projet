@@ -57,9 +57,9 @@ public class TestVCOModule extends TestCase {
 		assertEquals (vco.getf0(), vco.getSineOsc().frequency.get());
 		assertEquals (vco.getf0(), vco.getSquareOsc().frequency.get());
 		assertEquals (vco.getf0(), vco.getTriangleOsc().frequency.get());
-		assertTrue (!vco.getSineOsc().output.isConnected());
-		assertTrue (!vco.getSquareOsc().output.isConnected());
-		assertTrue (!vco.getTriangleOsc().output.isConnected());
+		assertTrue (vco.getSineOsc().output.isConnected());
+		assertTrue (vco.getSquareOsc().output.isConnected());
+		assertTrue (vco.getTriangleOsc().output.isConnected());
 		assertTrue (!vco.getSineOsc().frequency.isConnected());
 		assertTrue (!vco.getSquareOsc().frequency.isConnected());
 		assertTrue (!vco.getTriangleOsc().frequency.isConnected());

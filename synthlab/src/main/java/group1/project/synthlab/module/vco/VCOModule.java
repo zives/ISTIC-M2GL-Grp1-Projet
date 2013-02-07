@@ -7,6 +7,7 @@ import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Signal;
+import group1.project.synthlab.signal.Tools;
 import group1.project.synthlab.unitExtensions.FilterAmplitude.FilterAmplitude;
 import group1.project.synthlab.unitExtensions.FilterAttenuator.FilterFrequencyModulation;
 import javax.swing.JFrame;
@@ -470,38 +471,22 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		// 2s par signal, le changement de signal doit etre audible
 
 		// Sinusoidale
-		try {
-			double time = synth.getCurrentTime();
-			synth.sleepUntil(time + 2.0);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Tools.wait(synth, 2);
 
 		// Carree
-		out.input.disconnectAll();
+		out.input.disconnect(vco.getOutSine().getJSynPort());
 		out.input.connect(vco.getOutSquare().getJSynPort());
 
-		try {
-			double time = synth.getCurrentTime();
-			synth.sleepUntil(time + 2.0);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Tools.wait(synth, 2);
 
 		// Triangulaire
-		out.input.disconnectAll();
+		out.input.disconnect(vco.getOutSquare().getJSynPort());
 		out.input.connect(vco.getOutTriangle().getJSynPort());
 
-		try {
-			double time = synth.getCurrentTime();
-
-			synth.sleepUntil(time + 2.0);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Tools.wait(synth, 2);
 
 		// Retour en sinusoidale
-		out.input.disconnectAll();
+		out.input.disconnect(vco.getOutTriangle().getJSynPort());
 		out.input.connect(vco.getOutSine().getJSynPort());
 
 		// Avec modulation de frequence pendant quelques secondes
@@ -536,18 +521,14 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		// la note jouee est la meme qu'avant modulation.
 		fm.squareOsc.amplitude.set(0);
 
-		try {
-			double time = synth.getCurrentTime();
-			synth.sleepUntil(time + 2.0);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
+		Tools.wait(synth, 2);
+		
 		// Sans modulation de frequence le reste du temps, avec une frequence
 		// reglee un peu plus haut
 		fm.squareOsc.output.disconnectAll();
 		vco.cableDisconnected(vco.getFm());
-		vco.setf0(600);
+		vco.setCoarseAdjustment(11);
+		vco.setFineAdjustment(0);
 		vco.changeFrequency();
 	}
 
