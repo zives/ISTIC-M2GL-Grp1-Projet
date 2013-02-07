@@ -16,4 +16,5 @@ public interface ICCable extends ICable, IPModuleObserver{
 	 * @return defini si le port de sortie du module envoie un signal sonore <-> si le module du port out est allume (amplitude 0 acceptee)
 	 */
 	public boolean outPortHasSignal();
+
 }

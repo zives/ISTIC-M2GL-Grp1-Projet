@@ -51,6 +51,8 @@ public class PCable extends JPanel implements IPCable {
 	protected final double RATE_OF_CURVATURE = 1.7; // Plus le chiffre est gros
 													// , plus la ligne est
 													// tendue
+	
+	protected boolean saturated;
 
 	protected final Color[] LINK_COLORS = { new Color(110, 110, 110),
 			new Color(100, 50, 50), new Color(100, 100, 50),
@@ -72,6 +74,9 @@ public class PCable extends JPanel implements IPCable {
 		this.animation = 10;
 
 		this.currentColor = 0;
+		
+		this.saturated = false;
+		
 
 		setLocation(0, 0);
 		setSize(1, 1);
@@ -203,6 +208,17 @@ public class PCable extends JPanel implements IPCable {
 															// the link
 		pBezier = new Point(getWidth() / 2, (int) (h - 10 + yAttraction));
 
+		//On trace le contour si le signal est saturé
+		if (controller.isSignalSaturated()) {
+			ig.setStroke(new BasicStroke(11f, BasicStroke.CAP_ROUND,
+					BasicStroke.JOIN_BEVEL));
+			g.setColor(Color.red);
+			QuadCurve2D q = new QuadCurve2D.Double((int) p1.getX() - getX(),
+					(int) p1.getY() - getY(), pBezier.x, pBezier.y, (int) p2.getX()
+							- getX(), (int) p2.getY() - getY());
+			ig.draw(q);
+		}
+		
 		// On trace une premiere ligne courbee
 		ig.setStroke(new BasicStroke(9f, BasicStroke.CAP_ROUND,
 				BasicStroke.JOIN_BEVEL));
@@ -253,5 +269,7 @@ public class PCable extends JPanel implements IPCable {
 		repaint();
 
 	}
+
+
 
 }

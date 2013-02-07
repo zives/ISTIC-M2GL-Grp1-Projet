@@ -18,6 +18,7 @@ public class Cable implements ICable {
 	protected IInPort inPort; // Entree d'un module
 	protected IOutPort outPort; // Sortie d'un module
 	protected Factory factory;
+	protected boolean saturated;
 	
 	/**
 	 * Constructeur du cable.
@@ -99,4 +100,19 @@ public class Cable implements ICable {
 		disconnect();
 		super.finalize();		
 	}
+	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.cable.ICable#setSignalSaturated(boolean)
+	 */
+	public void setSignalSaturated(boolean saturated) {
+		this.saturated = saturated;
+		
+	}
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.cable.ICable#isSignalSaturated()
+	 */
+	public boolean isSignalSaturated() {
+		return this.saturated;
+	}
+
 }

@@ -17,11 +17,13 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 	protected double amax;
 	protected List<IFilterAmplitudeObserver> observers;
 	protected boolean previouswarned;
+	protected boolean truncate;
 	
-	public FilterAmplitude(double maxvolt){
+	public FilterAmplitude(double maxvolt, boolean truncate){
 		this.amax = maxvolt / Signal.AMAX;
 		this.observers = new ArrayList<IFilterAmplitudeObserver>();
 		this.previouswarned = false;
+		this.truncate = false;
 	}
 	
 	@Override
@@ -35,14 +37,16 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 			double x = inputs[i];
 			if(x > amax){
 				isSatured = true;
-				x = amax;				
+				if (truncate)
+					x = amax;				
 			}
 			if(x < -amax ){
 				isSatured = true;
-				x = -amax;			
+				if (truncate)
+					x = -amax;			
 			}
 			else 
-			outputs[i] = x;
+				outputs[i] = x;
 		}
 		if (previouswarned && !isSatured) {
 			updateAll(false);

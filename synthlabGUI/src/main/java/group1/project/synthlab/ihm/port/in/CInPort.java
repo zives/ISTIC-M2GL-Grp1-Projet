@@ -8,6 +8,7 @@ import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.workspace.CWorkspace;
 import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.port.in.InPort;
+import group1.project.synthlab.unitExtensions.FilterAmplitude.IFilterAmplitudeObservable;
 
 import com.jsyn.ports.ConnectableInput;
 
@@ -66,6 +67,8 @@ public class CInPort extends InPort implements ICInPort {
 			cable.disconnect();
 		presentation.setForbidden();
 	}
+
+	
 	
 	
 }

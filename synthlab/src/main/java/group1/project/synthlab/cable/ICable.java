@@ -52,4 +52,13 @@ public interface ICable {
 	 * detruit les connexions du cable
 	 */
 	public void disconnect();
+	
+	
+	/** Défini sir l'amplitude du signal est trop elevée */
+	public void setSignalSaturated(boolean saturated);
+	
+	/**
+	 * @return si le signal est saturé
+	 */
+	public boolean isSignalSaturated();
 }
