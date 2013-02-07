@@ -40,7 +40,7 @@ public class VCOModule extends Module implements IVCOModule {
 	/** Amplitude a l'arret */
 	public static final double amin = 0;
 	/** Amplitude par defaut */
-	public static final double a0 = 1;
+	public static final double a0 = 0.7;
 
 	/** Frequence min */
 	public static final double fmin = Signal.FMIN;

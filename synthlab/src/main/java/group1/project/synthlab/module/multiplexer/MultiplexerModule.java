@@ -6,6 +6,7 @@ import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Signal;
+import group1.project.synthlab.signal.Tools;
 import group1.project.synthlab.unitExtensions.FilterAttenuator.FilterAttenuator;
 
 import javax.swing.JFrame;
@@ -32,22 +33,16 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 
 	protected static int moduleCount = 0;
 
-
 	/* Defintion des ports */
-	protected IInPort inPort1;
-	protected IInPort inPort2;
-	protected IInPort inPort3;
-	protected IInPort inPort4;
-	protected IOutPort outPort1;
-	protected IOutPort outPort2;
-	protected IOutPort outPort3;
-	protected IOutPort outPort4;
+	protected IInPort[] inPorts;
+	protected IOutPort[] outPorts;
+
+	// Filtres
+	protected FilterAttenuator[] attenuators;
 
 	/* Variables internes */
 	private PassThrough passThrough;
 	private boolean isOn;
-
-
 
 	/**
 	 * Initialise le circuit (attenuateur, port, ...)
@@ -55,102 +50,56 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 	public MultiplexerModule(Factory factory) {
 		super("Multiplexer-" + ++moduleCount, factory);
 
-
 		passThrough = new PassThrough();
 		circuit.add(passThrough);
 
-		
-		inPort1 = factory.createInPort("in port 1", passThrough.input,
-				this);
-		inPort2 = factory.createInPort("in port 2", passThrough.input,
-				this);
-		inPort3 = factory.createInPort("in port 3", passThrough.input,
-				this);
-		inPort4 = factory.createInPort("in port 4", passThrough.input,
-				this);
-		outPort1 = factory.createOutPort("out port 1", passThrough.output,
-				this);
-		outPort2 = factory.createOutPort("out port 2", passThrough.output,
-				this);
-		outPort3 = factory.createOutPort("out port 3", passThrough.output,
-				this);
-		outPort4 = factory.createOutPort("out port 4", passThrough.output,
-				this);
+		attenuators = new FilterAttenuator[4];
+		inPorts = new IInPort[4];
+		outPorts = new IOutPort[4];
+		for (int i = 0; i < 4; ++i) {
+			attenuators[i] = new FilterAttenuator();
+			inPorts[i] = factory.createInPort("in port " + String.valueOf(i),
+					attenuators[i].input, this);
+			outPorts[i] = factory.createOutPort(
+					"out port " + String.valueOf(i), passThrough.output, this);
 
+			attenuators[i].output.connect(passThrough.input);
+		}
 
 		isOn = true;
 
 	}
 
-	
 	public void destruct() {
-		if (inPort1.isUsed())
-			inPort1.getCable().disconnect();
-		
-		if (inPort2.isUsed())
-			inPort2.getCable().disconnect();
-		
-		if (inPort3.isUsed())
-			inPort3.getCable().disconnect();
-		
-		if (inPort4.isUsed())
-			inPort4.getCable().disconnect();
-		
-		if (outPort1.isUsed())
-			outPort1.getCable().disconnect();
-		
-		if (outPort2.isUsed())
-			outPort2.getCable().disconnect();
-		
-		if (outPort3.isUsed())
-			outPort3.getCable().disconnect();
-		
-		if (outPort4.isUsed())
-			outPort4.getCable().disconnect();
-		
-		
-	}
-
+		for (int i = 0; i < 4; ++i) {
+			if (inPorts[i].isUsed())
+				inPorts[i].getCable().disconnect();
+			if (outPorts[i].isUsed())
+				outPorts[i].getCable().disconnect();
+		}
 	
-	public IInPort getInPort1() {
-		return inPort1;
+
 	}
 
-
-	public IInPort getInPort2() {
-		return inPort2;
+	public IInPort getInPort(int i) {
+		if (i > inPorts.length)
+			return null;
+		return inPorts[i];
 	}
 
-
-	public IInPort getInPort3() {
-		return inPort3;
+	public IOutPort getOutPort(int i) {
+		if (i > outPorts.length)
+			return null;
+		return outPorts[i];
 	}
-
-
-	public IInPort getInPort4() {
-		return inPort4;
+	
+	public IInPort[] getInPorts() {
+		return inPorts;
 	}
-
-
-	public IOutPort getOutPort1() {
-		return outPort1;
+	
+	public IInPort[] getOutPorts() {
+		return inPorts;
 	}
-
-
-	public IOutPort getOutPort2() {
-		return outPort2;
-	}
-
-
-	public IOutPort getOutPort3() {
-		return outPort3;
-	}
-
-
-	public IOutPort getOutPort4() {
-		return outPort4;
-	}
-
 
 	public void start() {
 		circuit.start();
@@ -187,6 +136,11 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 
 	}
 
-	
+	@Override
+	public void setAttenuation(double db, int port) {
+		if (port > attenuators.length)
+			return;
+		attenuators[port].setAttenuation(Tools.dBToV(db) - 1);		
+	}
 
 }

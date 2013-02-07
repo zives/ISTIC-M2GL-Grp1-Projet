@@ -12,47 +12,15 @@ import group1.project.synthlab.port.out.IOutPort;
 public interface IMultiplexerModule extends IModule {
 
 
-	/**
-	 * @return le port d'entree 1.
-	 */
-	public IInPort getInPort1();
+	public IInPort getInPort(int i) ;
 
-	/**
-	 * @return le port d'entree 2.
-	 */
-	public IInPort getInPort2();
+	public IOutPort getOutPort(int i);
 	
-	/**
-	 * @return le port d'entree 3.
-	 */
-	public IInPort getInPort3();
+	public IInPort[] getInPorts() ;
 	
-	/**
-	 * @return le port d'entree 4.
-	 */
-	public IInPort getInPort4();
-	
-	
-	/**
-	 * @return le port de sortie 1.
-	 */
-	public IOutPort getOutPort1();
-
-	/**
-	 * @return le port de sortie 2.
-	 */
-	public IOutPort getOutPort2();
-	
-	/**
-	 * @return le port de sortie 3.
-	 */
-	public IOutPort getOutPort3();
-	
-	/**
-	 * @return le port de sortie 4.
-	 */
-	public IOutPort getOutPort4();
+	public IInPort[] getOutPorts();
 
 
+	public void setAttenuation(double db, int port);
 
 }
