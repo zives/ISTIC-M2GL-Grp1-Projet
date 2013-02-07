@@ -46,6 +46,7 @@ public interface IModule extends IPortObserver {
 	public void setFactory(Factory factory);
 	
 
+	
 
 	
 	/**

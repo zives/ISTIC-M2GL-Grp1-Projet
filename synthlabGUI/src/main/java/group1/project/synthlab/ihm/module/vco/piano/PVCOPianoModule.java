@@ -1,12 +1,9 @@
 package group1.project.synthlab.ihm.module.vco.piano;
 
-import group1.project.synthlab.cable.Cable;
 import group1.project.synthlab.ihm.module.PModule;
-import group1.project.synthlab.ihm.module.vco.IPVCOModule;
 import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.in.ICInPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
-import group1.project.synthlab.module.vca.VCAModule;
 import group1.project.synthlab.unitExtensions.FilterAmplitude.IFilterAmplitudeObservable;
 
 import java.awt.BasicStroke;
@@ -26,6 +23,8 @@ import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 
@@ -42,6 +41,7 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 	protected Rectangle2D pressedButton;
 	protected Rectangle2D overflownButton;
 	protected boolean selectedButtonIsSharp;
+	protected boolean interact;
 
 	public PVCOPianoModule(final ICVCOPianoModule controller) {
 		super(controller);
@@ -72,19 +72,19 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 		// Ports
 		PPort pportFM = (PPort) (((ICInPort) controller.getFm())
 				.getPresentation());
-		pportFM.setLocation(10, 40);
+		pportFM.setLocation(10, 240);
 		PPort pportSin = (PPort) (((ICOutPort) controller.getOutSine())
 				.getPresentation());
-		pportSin.setLocation(70, 40);
+		pportSin.setLocation(70, 240);
 		PPort pportTri = (PPort) (((ICOutPort) controller.getOutTriangle())
 				.getPresentation());
-		pportTri.setLocation(130, 40);
+		pportTri.setLocation(130, 240);
 		PPort pportSqu = (PPort) (((ICOutPort) controller.getOutSquare())
 				.getPresentation());
-		pportSqu.setLocation(190, 40);
+		pportSqu.setLocation(190, 240);
 
 		// Sliders
-		JSlider octaveSlider = new JSlider();
+		final JSlider octaveSlider = new JSlider();
 		octaveSlider.setMaximum(3);
 		octaveSlider.setMinimum(1);
 		octaveSlider.setOrientation(JSlider.HORIZONTAL);
@@ -96,7 +96,8 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 		octaveSlider.setOpaque(false);
 		octaveSlider.setFocusable(false);
 		octaveSlider.setBorder(null);
-		octaveSlider.setLocation(getWidth() / 2 - octaveSlider.getWidth() / 2, 90);
+		octaveSlider.setLocation(getWidth() / 2 - octaveSlider.getWidth() / 2,
+				30);
 		octaveSlider.setPaintTicks(false);
 
 		JLabel octaveMinLabel = new JLabel("0-3");
@@ -106,7 +107,7 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 		octaveMinLabel.setBorder(null);
 		octaveMinLabel.setHorizontalTextPosition(JLabel.RIGHT);
 		octaveMinLabel.setPreferredSize(octaveMinLabel.getSize());
-		octaveMinLabel.setLocation(octaveSlider.getX() -17, 115);
+		octaveMinLabel.setLocation(octaveSlider.getX() - 17, 55);
 		octaveMinLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 
 		JLabel octaveMiddleLabel = new JLabel("2-5");
@@ -116,7 +117,9 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 		octaveMiddleLabel.setBorder(null);
 		octaveMinLabel.setHorizontalTextPosition(JLabel.CENTER);
 		octaveMiddleLabel.setPreferredSize(octaveMiddleLabel.getSize());
-		octaveMiddleLabel.setLocation(octaveSlider.getX()  + octaveSlider.getWidth() / 2 - octaveMiddleLabel.getWidth() / 2, 115);
+		octaveMiddleLabel.setLocation(
+				octaveSlider.getX() + octaveSlider.getWidth() / 2
+						- octaveMiddleLabel.getWidth() / 2, 55);
 		octaveMiddleLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 
 		JLabel octaveMaxLabel = new JLabel("4-7");
@@ -125,7 +128,8 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 		octaveMaxLabel.setSize(60, 20);
 		octaveMaxLabel.setBorder(null);
 		octaveMaxLabel.setPreferredSize(octaveMaxLabel.getSize());
-		octaveMaxLabel.setLocation(octaveSlider.getX() + octaveSlider.getWidth(), 115);
+		octaveMaxLabel.setLocation(
+				octaveSlider.getX() + octaveSlider.getWidth(), 55);
 		octaveMaxLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 
 		// Ajouts des composants
@@ -177,6 +181,15 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 				mouseEvent(ev);
 			}
 		});
+		octaveSlider.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void stateChanged(ChangeEvent ev) {
+				controller.changeoctave(octaveSlider.getValue());
+
+			}
+		});
+
 		repaint();
 
 	}
@@ -185,6 +198,9 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 		seekButton(me.getX(), me.getY());
 		switch (me.getID()) {
 
+		case MouseEvent.MOUSE_EXITED:
+			canMove = true;
+			break;
 		case MouseEvent.MOUSE_DRAGGED:
 		case MouseEvent.MOUSE_PRESSED:
 			if (overflownButton != null) {
@@ -204,7 +220,7 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 				repaint();
 			} else {
 				setCursor(new Cursor(Cursor.MOVE_CURSOR));
-				canMove = true;
+				// canMove = true;
 			}
 			if (neutralZone.contains(me.getX(), me.getY()))
 				canMove = false;
@@ -227,7 +243,6 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 
 		default:
 		}
-
 	}
 
 	private void seekButton(int x, int y) {
@@ -265,7 +280,7 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 		double w = getWidth() - 22;
 
 		double x = (getWidth() - w) / 2;
-		double y = 140;
+		double y = 80;
 
 		// Calculs
 		double wButton = w / (7 * nbO);
@@ -302,9 +317,8 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 		// Création graphique des touches standard
 
 		for (Rectangle2D button : buttonsN) {
-			if (button != pressedButton)
-				g2d.setStroke(new BasicStroke(2f, BasicStroke.CAP_ROUND,
-						BasicStroke.JOIN_ROUND));
+			g2d.setStroke(new BasicStroke(2f, BasicStroke.CAP_ROUND,
+					BasicStroke.JOIN_ROUND));
 			if (button != overflownButton)
 				g.setColor(new Color(190, 190, 190));
 			else
