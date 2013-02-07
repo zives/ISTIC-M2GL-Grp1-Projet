@@ -2,6 +2,11 @@ package group1.project.synthlab.unitExtensions.FilterAttenuator;
 
 import com.jsyn.unitgen.UnitFilter;
 
+/**
+ * Applique la formule de modulation de frequence : f = f0 * 2^Vfm
+ * @author Groupe 1
+ * 
+ */
 public class FilterFrequencyModulation extends UnitFilter {
 	
 	private double f0;
@@ -25,14 +30,14 @@ public class FilterFrequencyModulation extends UnitFilter {
 
 	/**
 	 * 
-	 * @return the amplitude attenuation 
+	 * @return la frequence de base
 	 */
 	public double getf0() {
 		return f0;
 	}
 
 	/**
-	 * @param attenuation  the amplitude attenuation 
+	 * @param la nouvelle frequence de base
 	 */
 	public void setf0(double f0) {
 		this.f0 = f0;

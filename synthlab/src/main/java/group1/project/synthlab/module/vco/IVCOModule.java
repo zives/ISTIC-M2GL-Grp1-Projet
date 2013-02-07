@@ -24,7 +24,7 @@ public interface IVCOModule extends IModule {
 	public double getf0();
 	
 	/**
-	 * définie une fréquence personnalisée
+	 * Definit une frequence de base personnalisee
 	 */
 	public void setf0(double freq);
 	
@@ -98,7 +98,7 @@ public interface IVCOModule extends IModule {
 	
 	
 	/**
-	 * Met à jour les valeurs d'ajustements en fonction de la fréquence 
+	 * Met à jour les valeurs d'ajustements en fonction de la frequence 
 	 */
 	public void redefAdjustments() ;
 	

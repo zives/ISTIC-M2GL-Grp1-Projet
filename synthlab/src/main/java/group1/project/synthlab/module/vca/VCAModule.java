@@ -28,11 +28,11 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 	/** Modulation d'amplitude connectee ou pas */
 	protected boolean amConnected;
 	
-	/** Gain min */
-	public static final double amin = 0;
-	/** Gain max */
-	public static final double amax = 6000;
-	/** Gain par defaut */
+	/** Gain min en dB*/
+	public static final double amin = -30;
+	/** Gain max en dB*/
+	public static final double amax = 12;
+	/** Gain par defaut en dB */
 	protected double a0 = 0; // Valeur en dB, a diviser par 60 avant de brancher dans le filtre (12dB => 1V => 0.2JSyn)
 	
 	/** Filtre d'attenuation en fonction de a0 */
@@ -41,8 +41,8 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 	/** Filtre d'attenuation en fonction de am */
 	protected FilterAmplitudeModulation filteram;
 	
-	/**  */
-	protected Multiply multiply = new Multiply();
+	/** Pour le on/off */
+	protected Multiply onoff = new Multiply();
 	
 	/** Port d'entree : entree de signal */
 	protected IInPort in;
@@ -62,8 +62,8 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 	public VCAModule(Factory factory) {
 		super("VCA-" + ++moduleCount, factory);
 		
-		filtera0 = new FilterAmplitudeModulation();
-		filteram = new FilterAmplitudeModulation();
+		filtera0 = new FilterAmplitudeModulation(); // filtera0 sert a modifier l'amplitude du signal en fonction de a0
+		filteram = new FilterAmplitudeModulation(); // filtera0 sert a modifier l'amplitude du signal en fonction de am
 
 		filtera0.inputB.set(a0/60);
 		
@@ -75,8 +75,12 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 		am = factory.createInPort("am", filteram.inputB, this);
 		filtera0.output.connect(filteram.inputA);
 		
-		// Ports de sortie
-		out = factory.createOutPort("out", filteram.output, this);
+		// Port de sortie
+		out = factory.createOutPort("out", onoff.output, this);
+		filteram.output.connect(onoff.inputA);
+		
+		// Lorsqu'il est cree, le VCA est eteint, on ne laisse donc passer aucun signal
+		onoff.inputB.set(0);
 	}
 	
 	/*
@@ -93,18 +97,24 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 			am.getCable().disconnect();
 	}
 	
-	// Fonction appelee lorsque les reglages de la frequence de coupure sont modifiees sur l'IHM
+	// Fonction appelee lorsque le reglage du gain est modifie sur l'IHM
 	/* (non-Javadoc)
-	 * @see group1.project.synthlab.module.IVCOModule#changeFrequency()
+	 * @see group1.project.synthlab.module.IVCAModule#changeGain()
 	 */
 	public void changeGain(){
 		filtera0.inputB.set(a0/60);
 	}
-		
+	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IVCAModule#geta0()
+	 */
 	public double geta0() {
 		return a0;
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IVCAModule#seta0()
+	 */
 	public void seta0(double a0) {
 		this.a0 = a0;
 	}
@@ -113,6 +123,7 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 	 * @see group1.project.synthlab.module.IModule#start()
 	 */
 	public void start() {
+		onoff.inputB.set(1);
 		isOn = true;
 	}
 
@@ -120,6 +131,7 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 	 * @see group1.project.synthlab.module.IModule#stop()
 	 */
 	public void stop() {
+		onoff.inputB.set(0);
 		isOn = false;
 	}
 	
@@ -131,7 +143,7 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 	}
 
 	/* (non-Javadoc)
-	 * @see group1.project.synthlab.module.IVCAModule#getFm()
+	 * @see group1.project.synthlab.module.IVCAModule#getAm()
 	 */
 	public IInPort getAm() {
 		return am;
@@ -160,7 +172,6 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 			System.out.println("Connexion d'un cable dans l'entree in");
 		}
 		else if(port == am){
-			filteram.inputB.connect(multiply.output);
 			System.out.println("Connexion d'un cable dans l'entree am");
 		}
 	}
@@ -202,7 +213,7 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 		// On cree un oscillateur que l'on connectera dans l'entree am
 		SquareOscillator amOsc = new SquareOscillator();
 		amOsc.frequency.set(0.5);
-		amOsc.amplitude.set(0.1);
+		amOsc.amplitude.set(0.2);
 		synth.add(amOsc);
 				
 		// LineOut remplace ici OutModule
@@ -277,6 +288,17 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 				e.printStackTrace();
 			}
 		}
+		
+		vca.stop();
+		try
+		{
+			double time = synth.getCurrentTime();
+			synth.sleepUntil( time + 2.0 );
+		} catch( InterruptedException e )
+		{
+			e.printStackTrace();
+		}
+		vca.start();
 	}
 
 }
