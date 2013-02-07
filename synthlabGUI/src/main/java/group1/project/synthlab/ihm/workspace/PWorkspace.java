@@ -3,6 +3,7 @@ package group1.project.synthlab.ihm.workspace;
 import group1.project.synthlab.ihm.cable.IPCable;
 import group1.project.synthlab.ihm.cable.PCable;
 import group1.project.synthlab.ihm.module.IPModule;
+import group1.project.synthlab.ihm.module.IPModuleObservable;
 import group1.project.synthlab.ihm.port.IPPort;
 
 import java.awt.AWTEvent;
@@ -117,7 +118,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 		quit = new JMenuItem("Quitter l'application");
 
-		setJMenuBar(menuBar);		  
+		setJMenuBar(menuBar);
 		menuBar.add(fichier);
 		fichier.add(quit);
 
@@ -133,22 +134,22 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		centerPanel = new JScrollPane(workspacePanel);
 
 		vcoButton = new JButton("VCO");
-		vcoButton.setBackground(new Color(150,150,150));
+		vcoButton.setBackground(new Color(150, 150, 150));
 		vcoButton.setForeground(Color.BLACK);
 		toolBar.add(vcoButton);
-		
+
 		vcaButton = new JButton("VCA");
-		vcaButton.setBackground(new Color(150,150,150));
+		vcaButton.setBackground(new Color(150, 150, 150));
 		vcaButton.setForeground(Color.BLACK);
 		toolBar.add(vcaButton);
 
 		outButton = new JButton("OUT");
-		outButton.setBackground(new Color(150,150,150));
+		outButton.setBackground(new Color(150, 150, 150));
 		outButton.setForeground(Color.BLACK);
 		toolBar.add(outButton);
-	
+
 		multiplexerButton = new JButton("MULTIPLEXER");
-		multiplexerButton.setBackground(new Color(150,150,150));
+		multiplexerButton.setBackground(new Color(150, 150, 150));
 		multiplexerButton.setForeground(Color.BLACK);
 		toolBar.add(multiplexerButton);
 
@@ -163,7 +164,9 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		setVisible(true);
 		setLocation(250, 100);
 
-		// Gestion des evenements du WS et de son contenu (evenements accepté par les controles dessous, ex sous le rectangle du cable on peut deplacer un module)
+		// Gestion des evenements du WS et de son contenu (evenements accepté
+		// par les controles dessous, ex sous le rectangle du cable on peut
+		// deplacer un module)
 		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
 
 			public void eventDispatched(AWTEvent e) {
@@ -172,7 +175,8 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 							(Component) e.getSource(), centerPanel)) {
 						MouseEvent m = (MouseEvent) e;
 						if (m.getID() == MouseEvent.MOUSE_MOVED) {
-							//On dessine le cable (meme si on mouse move sur le module en plus du ws)
+							// On dessine le cable (meme si on mouse move sur le
+							// module en plus du ws)
 							if (controller.isDrawingCable()) {
 								PCable cable = (PCable) controller
 										.getDrawingCable().getPresentation();
@@ -182,14 +186,18 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 								cable.setP2((int) finalPoint.getX(),
 										(int) finalPoint.getY());
 							}
-							//Les curseurs
-							if (e.getSource() instanceof IPPort && !controller.isDrawingCable())
-								workspacePanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-							else if (e.getSource() instanceof IPModule && !controller.isDrawingCable()) 
-								workspacePanel.setCursor(new Cursor(Cursor.MOVE_CURSOR));
-							
+							// Les curseurs
+							if (e.getSource() instanceof IPPort)
+								workspacePanel.setCursor(new Cursor(
+										Cursor.HAND_CURSOR));
+							else if (e.getSource() instanceof IPModule
+									&& !controller.isDrawingCable())
+								workspacePanel.setCursor(new Cursor(
+										Cursor.MOVE_CURSOR));
+
 							else
-								workspacePanel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+								workspacePanel.setCursor(new Cursor(
+										Cursor.DEFAULT_CURSOR));
 						}
 					}
 				}
@@ -203,7 +211,8 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 							(Component) e.getSource(), centerPanel)) {
 						MouseEvent m = (MouseEvent) e;
 						if (m.getID() == MouseEvent.MOUSE_WHEEL) {
-							//On dessine le cable (meme si on mouse move sur le module en plus du ws)
+							// On dessine le cable (meme si on mouse move sur le
+							// module en plus du ws)
 							if (controller.isDrawingCable()) {
 								PCable cable = (PCable) controller
 										.getDrawingCable().getPresentation();
@@ -215,7 +224,8 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 				}
 			}
 		}, AWTEvent.MOUSE_WHEEL_EVENT_MASK);
-		//La touche echap (accessible à l'application) pour retirer un cable encours de creation
+		// La touche echap (accessible à l'application) pour retirer un cable
+		// encours de creation
 		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
 			public void eventDispatched(AWTEvent e) {
 				if (e instanceof KeyEvent) {
@@ -254,7 +264,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 				controller.addOneVCOModule();
 			}
 		});
-		
+
 		vcaButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent ev) {
@@ -268,18 +278,18 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 				controller.addOneOutModule();
 			}
 		});
-		
+
 		multiplexerButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent ev) {
 				controller.addOneMultiplexer();
 			}
 		});
-		
-		quit.addActionListener(new ActionListener() {			
+
+		quit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
-				
+
 			}
 		});
 	}
@@ -311,15 +321,21 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		if (y < 0)
 			y = 0;
 		cModule.setLocation(x, y);
-
+		module.register(this);
 		workspacePanel.add(cModule);
 		workspacePanel.moveToFront(cModule);
 		repaint();
 	}
 
 	public void removeModule(IPModule module) {
+		module.unregister(this);
 		workspacePanel.remove((Component) module);
 		repaint();
+	}
+
+	public void moduleMove(IPModuleObservable subject) {
+		workspacePanel.moveToFront((Component) subject);
+
 	}
 
 	public static void main(String[] args) {

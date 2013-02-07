@@ -1,6 +1,7 @@
 package group1.project.synthlab.ihm.module;
 
 import group1.project.synthlab.ihm.workspace.CWorkspace;
+import group1.project.synthlab.module.Module;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

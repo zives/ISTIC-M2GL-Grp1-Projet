@@ -4,7 +4,7 @@ import group1.project.synthlab.signal.Tools;
 
 import com.jsyn.unitgen.UnitBinaryOperator;
 
-public class FilterModulationAmplitude extends UnitBinaryOperator {
+public class FilterAmplitudeModulation extends UnitBinaryOperator {
 	
 	@Override
 	public void generate(int start, int limit) {

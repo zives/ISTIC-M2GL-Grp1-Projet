@@ -8,16 +8,13 @@ import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.unitExtensions.FilterAmplitude.FilterAmplitude;
-
+import group1.project.synthlab.unitExtensions.FilterAttenuator.FilterFrequencyModulation;
 import javax.swing.JFrame;
-
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.scope.AudioScope;
 import com.jsyn.unitgen.LineOut;
-import com.jsyn.unitgen.Multiply;
 import com.jsyn.unitgen.PassThrough;
-import com.jsyn.unitgen.PowerOfTwo;
 import com.jsyn.unitgen.SineOscillator;
 import com.jsyn.unitgen.SquareOscillator;
 import com.jsyn.unitgen.TriangleOscillator;
@@ -27,6 +24,10 @@ import com.jsyn.unitgen.TriangleOscillator;
  * 
  * @author Groupe 1
  * 
+ */
+/**
+ * @author 10008808
+ *
  */
 public class VCOModule extends Module implements IPortObserver, IVCOModule {
 
@@ -61,11 +62,13 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	 */
 	protected FilterAmplitude filterAmplitude;
 
+	/**
+	 * Filtre pour appliquer la formule de modulation de frequence : f = f0 * 2^(Vfm)
+	 */
+	protected FilterFrequencyModulation filterFrequencyModulation;
+	
 	/** Port d'entree : modulation de frequence */
 	protected IInPort fm;
-
-	/** Pour l'application de la formule de modulation de frequence */
-	protected Multiply multiplyf0 = new Multiply();
 
 	/**
 	 * Un PassThrough pour envoyer la modulation de frequence vers l'entree des
@@ -103,6 +106,15 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		circuit.add(squareOsc);
 		circuit.add(triangleOsc);
 
+		// Filtre d'amplitude
+		// TODO : Tester lorsqu'on aura un VCA
+		filterAmplitude = new FilterAmplitude(Signal.AMAXMODULATION);
+		circuit.add(filterAmplitude);
+		
+		// Filtre de modulation de frequence
+		filterFrequencyModulation = new FilterFrequencyModulation(300);
+		circuit.add(filterFrequencyModulation);
+		
 		// Creation du PassThrough : on applique la formule f0 * 2 ^ (5Vfm) au
 		// signal en entree fm et on envoie la sortie dans un passThrough
 		// Cette formule garantit egalement que si un signal nul est connecte en
@@ -110,21 +122,12 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		// On doit multiplier Vfm par 5 car JSyn considere des amplitudes entre
 		// -1 et 1, et nous considerons des tensions entre -5V et +5V)
 		passThrough = new PassThrough();
-		Multiply multiply5 = new Multiply();
-		multiply5.inputB.set(Signal.AMAX);
-		PowerOfTwo poweroftwo = new PowerOfTwo();
-		multiply5.output.connect(poweroftwo.input);
-		multiplyf0.inputB.set(f0);
-		multiplyf0.inputA.connect(poweroftwo.output);
-		passThrough.input.connect(multiplyf0.output);
 
-		// Filtre d'amplitude
-		// TODO : Tester lorsqu'on aura un VCA
-		filterAmplitude = new FilterAmplitude(Signal.AMAXMODULATION);
-
+		passThrough.input.connect(filterFrequencyModulation.output);
+		
 		// Port d'entree :
 		fm = factory.createInPort("fm", filterAmplitude.input, this);
-		filterAmplitude.output.connect(multiply5.inputA);
+		filterAmplitude.output.connect(filterFrequencyModulation.input);
 
 		// Ports de sortie
 		outSine = factory.createOutPort("outsine", sineOsc.output, this);
@@ -179,7 +182,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		sineOsc.frequency.set(f0);
 		squareOsc.frequency.set(f0);
 		triangleOsc.frequency.set(f0);
-		multiplyf0.inputB.set(f0);
+		filterFrequencyModulation.setf0(f0);
 	}
 
 	public void redefAdjustments() {
@@ -246,7 +249,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 	}
 
 	/**
-	 * remet les paramètres initiaux du module
+	 * remet les parametres initiaux du module
 	 */
 	private void reset() {
 		sineOsc.amplitude.set(amin);
@@ -437,7 +440,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		// Ainsi, en theorie, quand on passe d'un sommet a un creux, la
 		// frequence du signal doit etre divisee par 2^2 et lorsqu'on passe d'un
 		// creux a un sommet la frequence doit etre multipliee par 2^2.
-		fm.squareOsc.amplitude.set(2.01);
+		fm.squareOsc.amplitude.set(0.2);
 
 		// Pour l'affichage des courbes
 		AudioScope scope = new AudioScope(synth);
@@ -536,9 +539,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		// reglee un peu plus haut
 		fm.squareOsc.output.disconnectAll();
 		vco.cableDisconnected(vco.getFm());
-		vco.setCoarseAdjustment(1);
-
-		vco.setFineAdjustment(0);
+		vco.setf0(600);
 		vco.changeFrequency();
 	}
 
