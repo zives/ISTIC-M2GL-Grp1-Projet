@@ -16,13 +16,15 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 	boolean isSatured = false;
 	protected double amax;
 	protected List<IFilterAmplitudeObserver> observers;
-	protected boolean previouswarned;
+	protected boolean previousSaturatedWarned;
+	protected boolean previousHasSignalWarned;
 	protected boolean truncate;
 	
-	public FilterAmplitude(double maxvolt, boolean truncate){
+	public FilterAmplitude (double maxvolt, boolean truncate){
 		this.amax = maxvolt / Signal.AMAX;
 		this.observers = new ArrayList<IFilterAmplitudeObserver>();
-		this.previouswarned = false;
+		this.previousSaturatedWarned = false;
+		this.previousHasSignalWarned = false;
 		this.truncate = false;
 	}
 	
@@ -30,7 +32,8 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 	public void generate(int start, int limit) {
 		double[] inputs = input.getValues();
 		double[] outputs = output.getValues();
-		
+
+		double moyenne = 0;
 
 			isSatured = false;
 		for (int i = start; i < limit; i++) {
@@ -47,13 +50,29 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 			}
 			else 
 				outputs[i] = x;
+			moyenne += x;
+			
 		}
-		if (previouswarned && !isSatured) {
-			updateAll(false);
-			previouswarned = false;
-		} else if( !previouswarned && isSatured) {
-			updateAll(true);
-			previouswarned = true;
+		
+		moyenne /= (limit - start);
+		
+		if (previousSaturatedWarned && !isSatured) {
+			updateWarnAll(false);
+			previousSaturatedWarned = false;
+		} else if( !previousSaturatedWarned && isSatured) {
+			updateWarnAll(true);
+			previousSaturatedWarned = true;
+		}
+		
+		boolean hasSignal = false;
+		if (Math.round(moyenne * 1000) / 1000 > 0)
+			hasSignal = true;
+		if (previousHasSignalWarned && !hasSignal) {
+			updateHasSignalAll(false);
+			previousHasSignalWarned = false;
+		} else if( !previousHasSignalWarned && hasSignal) {
+			updateHasSignalAll(true);
+			previousHasSignalWarned = true;
 		}
 	}
 	
@@ -90,9 +109,15 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.unitExtensions.FilterAmplitude.IFilterAmplitudeObservable#updateAll(boolean)
 	 */
-	public void updateAll(boolean tooHigh) {
+	public void updateWarnAll(boolean tooHigh) {
 		for(IFilterAmplitudeObserver observer: observers)
 			observer.warn(this, tooHigh);
+		
+	}
+	
+	public void updateHasSignalAll(boolean hasSignal) {
+		for(IFilterAmplitudeObserver observer: observers)
+			observer.hasSignal(this, hasSignal);
 		
 	}
 
@@ -100,5 +125,7 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 		this.amax = amplitudeMax;
 		
 	}
+
+
 	
 }

@@ -28,4 +28,9 @@ public interface IPort extends IPortObservable {
 	 * @return le module rattaché
 	 */
 	public IModule getModule();
+	
+	/**
+	 * @param amplitude le maximum autorisé
+	 */
+	public void setMaxForAmplitudeSupervisor(double amplitude);
 }

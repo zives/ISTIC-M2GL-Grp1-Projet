@@ -13,13 +13,14 @@ public class OutPort extends Port implements IOutPort {
 	public OutPort(String label, ConnectableOutput jSynPort, IModule module,  Factory factory){
 		super(label, module, factory);
 		this.jSynPort = jSynPort;
+		this.supervisor.input.connect(jSynPort);
 	}
 
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.port.out.IOutPort#getJSynPort()
 	 */
 	public ConnectableOutput getJSynPort() {
-		return jSynPort;
+		return this.supervisor.output;
 	}
 
 

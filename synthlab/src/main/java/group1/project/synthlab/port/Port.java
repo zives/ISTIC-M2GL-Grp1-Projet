@@ -3,6 +3,10 @@ package group1.project.synthlab.port;
 import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.IModule;
+import group1.project.synthlab.signal.Signal;
+import group1.project.synthlab.unitExtensions.FilterAmplitude.FilterAmplitude;
+import group1.project.synthlab.unitExtensions.FilterAmplitude.IFilterAmplitudeObservable;
+import group1.project.synthlab.unitExtensions.FilterAmplitude.IFilterAmplitudeObserver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,17 +16,21 @@ import java.util.List;
  * @author Groupe 1
  * Un port
  */
-public abstract class Port implements IPort {
+public abstract class Port implements IPort,  IFilterAmplitudeObserver {
 	protected List<IPortObserver> observers = new ArrayList<IPortObserver>();
 	protected ICable cable;
 	protected String label;	
 	protected Factory factory;
 	protected IModule module;
+	protected FilterAmplitude supervisor;
 
 	public Port(String label, IModule module, Factory factory){
 		this.label = label;
 		this.factory = factory;
 		this.module = module;
+		this.supervisor = new FilterAmplitude(Signal.AMAX, false);
+		
+		this.supervisor.register(this);
 		register(module);
 	}
 	
@@ -73,6 +81,23 @@ public abstract class Port implements IPort {
 
 	public IModule getModule() {
 		return module;
+	}
+	
+	
+	public void setMaxForAmplitudeSupervisor(double amplitudeMax) {
+		this.supervisor.setMax(amplitudeMax);
+	}
+
+	public void hasSignal(IFilterAmplitudeObservable subject, boolean hasSignal) {
+		
+		if(isUsed())
+			this.cable.setSignalNull(!hasSignal);		
+	}
+
+	public void warn(IFilterAmplitudeObservable subject, boolean tooHigh) {
+		if(isUsed())
+			this.cable.setSignalSaturated(tooHigh);		
+		
 	}
 	
 

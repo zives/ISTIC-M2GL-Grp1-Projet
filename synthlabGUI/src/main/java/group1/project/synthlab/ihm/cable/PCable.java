@@ -241,7 +241,7 @@ public class PCable extends JPanel implements IPCable {
 
 		// On trace une troisième ligne hashee si il y a animation (purement
 		// esthetique)
-		if (controller.outPortHasSignal()) {
+		if (controller.hasSignal()) {
 			// animation
 			g.setColor(new Color(
 					(int) (LINK_COLORS[currentColor].getRed() * 1.3),

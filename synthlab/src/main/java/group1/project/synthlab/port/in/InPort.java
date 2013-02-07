@@ -14,16 +14,15 @@ import com.jsyn.ports.ConnectableInput;
  * @author Groupe 1
  * Un port d'entree
  */
-public class InPort extends Port implements IInPort, IFilterAmplitudeObserver {
+public class InPort extends Port implements IInPort {
 	protected ConnectableInput jSynPort;
-	protected FilterAmplitude supervisor;
+
 	
 	public InPort(String label, ConnectableInput jSynPort, IModule module, Factory factory)  {
 		super(label, module,  factory);
 		this.jSynPort = jSynPort;
-		this.supervisor = new FilterAmplitude(Signal.AMAX, false);
 		this.supervisor.output.connect(jSynPort);
-		this.supervisor.register(this);
+		
 	}
 
 	/* (non-Javadoc)
@@ -33,13 +32,6 @@ public class InPort extends Port implements IInPort, IFilterAmplitudeObserver {
 		return this.supervisor.input;
 	}
 
-	public void warn(IFilterAmplitudeObservable subject, boolean tooHigh) {
-		if(isUsed())
-			this.cable.setSignalSaturated(tooHigh);		
-	}
 
-	public void setMaxForAmplitudeSupervisor(double amplitudeMax) {
-		this.supervisor.setMax(amplitudeMax);
-	}
  
 }
