@@ -26,7 +26,7 @@ import com.jsyn.unitgen.TriangleOscillator;
  * 
  */
 /**
- * @author 10008808
+ * @author Groupe 1
  *
  */
 public class VCOModule extends Module implements IPortObserver, IVCOModule {
@@ -128,7 +128,7 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 		// Port d'entree :
 		fm = factory.createInPort("fm", filterAmplitude.input, this);
 		filterAmplitude.output.connect(filterFrequencyModulation.input);
-
+		
 		// Ports de sortie
 		outSine = factory.createOutPort("outsine", sineOsc.output, this);
 		outSquare = factory.createOutPort("outsquare", squareOsc.output, this);
@@ -277,7 +277,14 @@ public class VCOModule extends Module implements IPortObserver, IVCOModule {
 			freq = fmin;
 		f0 = freq;
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IVCOModule#getFiltera0()
+	 */
+	public FilterFrequencyModulation getFilterFrequencyModulation() {
+		return filterFrequencyModulation;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

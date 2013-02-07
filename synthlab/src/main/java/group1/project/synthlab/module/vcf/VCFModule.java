@@ -1,19 +1,15 @@
 package group1.project.synthlab.module.vcf;
 
 import javax.swing.JFrame;
-
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
-
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.scope.AudioScope;
-import com.jsyn.unitgen.FilterBiquadCommon;
-import com.jsyn.unitgen.FilterLowPass;
 import com.jsyn.unitgen.FilterStateVariable;
 import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.Multiply;

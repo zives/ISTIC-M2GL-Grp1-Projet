@@ -136,6 +136,20 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 	}
 	
 	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IVCAModule#getFiltera0()
+	 */
+	public FilterAmplitudeModulation getFiltera0() {
+		return filtera0;
+	}
+	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IVCAModule#getFilteram()
+	 */
+	public FilterAmplitudeModulation getFilteram() {
+		return filteram;
+	}
+	
+	/* (non-Javadoc)
 	 * @see group1.project.synthlab.module.IVCAModule#getIn()
 	 */
 	public IInPort getIn() {
