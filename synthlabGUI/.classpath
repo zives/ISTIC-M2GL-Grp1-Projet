@@ -17,8 +17,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/jsyn-beta-16.5.14.jar"/>
-	<classpathentry kind="lib" path="libs/JTattoo.jar"/>
-	<classpathentry kind="lib" path="libs/MacMetrics.jar"/>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
@@ -35,5 +33,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/JTattoo.jar"/>
+	<classpathentry kind="lib" path="libs/MacMetrics.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -7,7 +7,6 @@ import group1.project.synthlab.port.in.IInPort;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
@@ -89,7 +88,7 @@ public class FileInModule extends Module implements IFileInModule{
 		LineOut lineOut;
 		File sampleFile;
 		
-		sampleFile = new File("W:/S4/ISTIC-M2GL-Grp1-Projet/synthlab/resources/music.wav");
+		sampleFile = new File(ClassLoader.getSystemResource("music.wav").getFile());
 		
 		synth = JSyn.createSynthesizer();
 			// Add an output mixer.
