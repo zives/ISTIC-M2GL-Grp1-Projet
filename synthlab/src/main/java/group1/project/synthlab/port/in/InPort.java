@@ -37,5 +37,9 @@ public class InPort extends Port implements IInPort, IFilterAmplitudeObserver {
 		if(isUsed())
 			this.cable.setSignalSaturated(tooHigh);		
 	}
+
+	public void setMaxForAmplitudeSupervisor(double amplitudeMax) {
+		this.supervisor.setMax(amplitudeMax);
+	}
  
 }

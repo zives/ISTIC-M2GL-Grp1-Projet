@@ -95,5 +95,10 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 			observer.warn(this, tooHigh);
 		
 	}
+
+	public void setMax(double amplitudeMax) {
+		this.amax = amplitudeMax;
+		
+	}
 	
 }

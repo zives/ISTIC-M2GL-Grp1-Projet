@@ -14,5 +14,7 @@ public interface IInPort extends IPort {
 	 * @return le port JSyn
 	 */
 	public ConnectableInput getJSynPort();
+	
+	public void setMaxForAmplitudeSupervisor(double amplitude);
 		
 }
