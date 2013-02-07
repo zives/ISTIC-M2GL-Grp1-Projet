@@ -4,6 +4,7 @@ import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
+import group1.project.synthlab.unitExtensions.FilterAttenuator.FilterAmplitudeModulation;
 
 public interface IVCAModule extends IModule {
 	
@@ -21,6 +22,16 @@ public interface IVCAModule extends IModule {
 	 * Definit une valeur de gain de base personnalisee
 	 */
 	public void seta0(double a0) ;
+	
+	/**
+	 * @return le filtre de changement d'amplitude en fonction de a0
+	 */
+	public FilterAmplitudeModulation getFiltera0();	
+	
+	/**
+	 * @return le filtre de changement d'amplitude en fonction de am
+	 */
+	public FilterAmplitudeModulation getFilteram();	
 	
 	/**
 	 * @return le port d'entree In (signal d'entree)

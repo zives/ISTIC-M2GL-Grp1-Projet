@@ -1,6 +1,5 @@
 package group1.project.synthlab.test;
 
-
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.vco.IVCOModule;
 import group1.project.synthlab.module.vco.VCOModule;
@@ -9,6 +8,13 @@ import junit.framework.TestCase;
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.Circuit;
+
+/**
+ * Tests unitaires VCO
+ * 
+ * @author Groupe 1
+ * 
+ */
 
 public class TestVCOModule extends TestCase {
 	
@@ -36,34 +42,67 @@ public class TestVCOModule extends TestCase {
 	 * Test method for {@link group1.project.synthlab.module.vco.VCOModule#VCOModule(group1.project.synthlab.factory.Factory)}.
 	 */
 	public void testVCOModule() {
-		assert (vco.getSineOsc() != null);
-		assert (vco.getSquareOsc() != null);
-		assert (vco.getTriangleOsc() != null);
-		assert (vco.getFm() != null);
-		assert (vco.getCircuit() != null);
-		assert (vco.getOutSine() != null);
-		assert (vco.getOutSquare() != null);
-		assert (vco.getOutTriangle() != null);
-		assert (vco.getOutSine() != null);
-		assert (vco.getFmConnected() == false);
-		assert (vco.getSineOsc().amplitude.get() == VCOModule.a0);
-		assert (vco.getSquareOsc().amplitude.get() == VCOModule.a0);
-		assert (vco.getTriangleOsc().amplitude.get() == VCOModule.a0);
-		assert (vco.getSineOsc().frequency.get() == vco.getf0());
-		assert (vco.getSquareOsc().frequency.get() == vco.getf0());
-		assert (vco.getTriangleOsc().frequency.get() == vco.getf0());
+		assertNotNull(vco.getSineOsc());
+		assertNotNull (vco.getSquareOsc());
+		assertNotNull (vco.getTriangleOsc());
+		assertNotNull (vco.getFm());
+		assertNotNull (vco.getCircuit());
+		assertNotNull (vco.getOutSine());
+		assertNotNull (vco.getOutSquare());
+		assertNotNull (vco.getOutTriangle());
+		assertNotNull (vco.getOutSine());
+		assertEquals (VCOModule.amin, vco.getSineOsc().amplitude.get());
+		assertEquals (VCOModule.amin, vco.getSquareOsc().amplitude.get());
+		assertEquals (VCOModule.amin, vco.getTriangleOsc().amplitude.get());
+		assertEquals (vco.getf0(), vco.getSineOsc().frequency.get());
+		assertEquals (vco.getf0(), vco.getSquareOsc().frequency.get());
+		assertEquals (vco.getf0(), vco.getTriangleOsc().frequency.get());
+		assertTrue (!vco.getSineOsc().output.isConnected());
+		assertTrue (!vco.getSquareOsc().output.isConnected());
+		assertTrue (!vco.getTriangleOsc().output.isConnected());
+		assertTrue (!vco.getSineOsc().frequency.isConnected());
+		assertTrue (!vco.getSquareOsc().frequency.isConnected());
+		assertTrue (!vco.getTriangleOsc().frequency.isConnected());
+		assertTrue (!vco.getFmConnected());
+		assertTrue (vco.getFilterFrequencyModulation().input.isConnected());
+		assertTrue (vco.getFilterFrequencyModulation().output.isConnected());
 	}
 
+	/**
+	 * Test method for {@link group1.project.synthlab.module.vco.VCOModule#destruct()}.
+	 */
+	public void testDestruct() {
+		vco.destruct();
+		assertTrue (!vco.getFm().isUsed());
+		assertTrue (!vco.getOutSine().isUsed());
+		assertTrue (!vco.getOutSquare().isUsed());
+		assertTrue (!vco.getOutTriangle().isUsed());
+	}
+	
+	/**
+	 * Test method for {@link group1.project.synthlab.module.vco.VCOModule#destruct()}.
+	 */
+	public void testRedefAdjustments() {
+		vco.setf0(630);
+		vco.redefAdjustments();
+		assertEquals (vco.getCoarseAdjustment(), 10);
+		assertEquals (vco.getFineAdjustment(), 0.5);
+		vco.setf0(660);
+		vco.redefAdjustments();
+		assertEquals (vco.getCoarseAdjustment(), 11);
+		assertEquals (vco.getFineAdjustment(), 0.0);
+	}
+	
 	/**
 	 * Test method for {@link group1.project.synthlab.module.vco.VCOModule#changeFrequency()}.
 	 */
 	public void testChangeFrequency() {
-		vco.setCoarseAdjustment(1);
+		vco.setCoarseAdjustment(11);
 		vco.setFineAdjustment(0);
 		vco.changeFrequency();
-		assert (vco.getSineOsc().frequency.get() == (VCOModule.fmax - VCOModule.fmin)/50);
-		assert (vco.getSquareOsc().frequency.get() == (VCOModule.fmax - VCOModule.fmin)/50);
-		assert (vco.getTriangleOsc().frequency.get() == (VCOModule.fmax - VCOModule.fmin)/50);
+		assertEquals (660.0, vco.getSineOsc().frequency.get());
+		assertEquals (660.0, vco.getSquareOsc().frequency.get());
+		assertEquals (660.0, vco.getTriangleOsc().frequency.get());
 	}
 
 	/**
@@ -71,7 +110,10 @@ public class TestVCOModule extends TestCase {
 	 */
 	public void testCableConnected() {
 		vco.cableConnected(vco.getFm());
-		assert (vco.getFmConnected() == true);
+		assertTrue (vco.getFmConnected());
+		assertTrue (vco.getSineOsc().frequency.isConnected());
+		assertTrue (vco.getSquareOsc().frequency.isConnected());
+		assertTrue (vco.getTriangleOsc().frequency.isConnected());
 	}
 
 	/**
@@ -79,7 +121,10 @@ public class TestVCOModule extends TestCase {
 	 */
 	public void testCableDisconnected() {
 		vco.cableDisconnected(vco.getFm());
-		assert (vco.getFmConnected() == false);
+		assertTrue (!vco.getFmConnected());
+		assertTrue (!vco.getSineOsc().frequency.isConnected());
+		assertTrue (!vco.getSquareOsc().frequency.isConnected());
+		assertTrue (!vco.getTriangleOsc().frequency.isConnected());
 	}
 
 	/**
@@ -87,10 +132,10 @@ public class TestVCOModule extends TestCase {
 	 */
 	public void testStart() {
 		vco.start();
-		assert(vco.isStarted());
-		assert (vco.getSineOsc().amplitude.get() == VCOModule.a0);
-		assert (vco.getSquareOsc().amplitude.get() == VCOModule.a0);
-		assert (vco.getTriangleOsc().amplitude.get() == VCOModule.a0);
+		assertTrue (vco.isStarted());
+		assertEquals (VCOModule.a0, vco.getSineOsc().amplitude.get());
+		assertEquals (VCOModule.a0, vco.getSquareOsc().amplitude.get());
+		assertEquals (VCOModule.a0, vco.getTriangleOsc().amplitude.get());
 		System.err.println("Start...");
 	}
 
@@ -101,10 +146,10 @@ public class TestVCOModule extends TestCase {
 		System.err.println("Preparation au stop...");
 		vco.start();
 		vco.stop();
-		assert(!vco.isStarted());
-		assert (vco.getSineOsc().amplitude.get() == VCOModule.amin);
-		assert (vco.getSquareOsc().amplitude.get() == VCOModule.amin);
-		assert (vco.getTriangleOsc().amplitude.get() == VCOModule.amin);
+		assertTrue (!vco.isStarted());
+		assertEquals (VCOModule.amin, vco.getSineOsc().amplitude.get());
+		assertEquals (VCOModule.amin, vco.getSquareOsc().amplitude.get());
+		assertEquals (VCOModule.amin, vco.getTriangleOsc().amplitude.get());
 		System.err.println("Stop...");
 		
 		synth.stop();

@@ -1,15 +1,14 @@
 package group1.project.synthlab.module.vco;
 
-import com.jsyn.unitgen.SineOscillator;
-
-
-import com.jsyn.unitgen.SquareOscillator;
-import com.jsyn.unitgen.TriangleOscillator;
-
 import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
+import group1.project.synthlab.unitExtensions.FilterAttenuator.FilterFrequencyModulation;
+
+import com.jsyn.unitgen.SineOscillator;
+import com.jsyn.unitgen.SquareOscillator;
+import com.jsyn.unitgen.TriangleOscillator;
 
 /**
  * Interface du module VCO
@@ -47,6 +46,11 @@ public interface IVCOModule extends IModule {
 	 * @return l'etat de l'entree fm (signal modulant connecte ou non)
 	 */
 	public boolean getFmConnected();
+	
+	/**
+	 * @return le filtre de modulation de frequence
+	 */
+	public FilterFrequencyModulation getFilterFrequencyModulation();	
 	
 	/**
 	 * @return le port d'entree Fm
