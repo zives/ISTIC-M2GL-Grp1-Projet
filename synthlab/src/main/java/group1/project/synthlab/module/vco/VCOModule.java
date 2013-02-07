@@ -40,7 +40,7 @@ public class VCOModule extends Module implements IVCOModule {
 	/** Amplitude a l'arret */
 	public static final double amin = 0;
 	/** Amplitude par defaut */
-	public static final double a0 = 0.5;
+	public static final double a0 = 1;
 
 	/** Frequence min */
 	public static final double fmin = Signal.FMIN;
@@ -181,6 +181,13 @@ public class VCOModule extends Module implements IVCOModule {
 		double newFrequency = ((coarseAdjustment + fineAdjustment)
 				* ((fmax - fmin) + fmin) / 100);
 		f0 = newFrequency;
+		refreshFrequencies();
+	}
+	
+	/**
+	 * redéfini la fréquence aux oscillateurs
+	 */
+	private void refreshFrequencies() {
 		sineOsc.frequency.set(f0);
 		squareOsc.frequency.set(f0);
 		triangleOsc.frequency.set(f0);
@@ -278,6 +285,7 @@ public class VCOModule extends Module implements IVCOModule {
 		else if (freq < fmin)
 			freq = fmin;
 		f0 = freq;
+		refreshFrequencies();
 	}
 	
 	/* (non-Javadoc)

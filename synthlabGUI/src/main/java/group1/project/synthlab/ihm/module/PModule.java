@@ -34,6 +34,7 @@ public abstract class PModule extends JPanel implements IPModule {
 	private Point locationComponentOnDrag = new Point();
 	protected List<IPModuleObserver> observers = new ArrayList<IPModuleObserver>();
 	protected final JToggleButton onOffButton;
+	protected boolean canMove;
 
 	public PModule(final ICModule controller) {
 		self = this;
@@ -44,6 +45,7 @@ public abstract class PModule extends JPanel implements IPModule {
 		this.setSize(300, 300);
 		this.setPreferredSize(this.getSize());
 		this.setMaximumSize(this.getSize());
+		this.canMove = true;
 
 		// Label
 		JLabel label = new JLabel(controller.getName());
@@ -144,7 +146,7 @@ public abstract class PModule extends JPanel implements IPModule {
 			public void mouseDragged(MouseEvent ev) {
 				// On déplace le module si on n'est pas en train de leir un
 				// cable
-				if (!CWorkspace.getInstance().isDrawingCable()) {
+				if (canMove && !CWorkspace.getInstance().isDrawingCable()) {
 					Point loc = new Point(
 							(int) (self.getX() + ev.getX() - locationComponentOnDrag
 									.getX()),

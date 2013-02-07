@@ -29,9 +29,9 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 	protected boolean amConnected;
 	
 	/** Gain min en dB*/
-	public static final double amin = -30;
+	public static final double amin = -50;
 	/** Gain max en dB*/
-	public static final double amax = 12;
+	public static final double amax = 24;
 	/** Gain par defaut en dB */
 	protected double a0 = 0; // Valeur en dB, a diviser par 60 avant de brancher dans le filtre (12dB => 1V => 0.2JSyn)
 	

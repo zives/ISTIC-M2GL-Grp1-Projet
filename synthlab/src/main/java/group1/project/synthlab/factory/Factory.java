@@ -79,4 +79,8 @@ public class Factory {
 		return new EGModule(this);
 	}
 
+	public IVCOModule createVCOPianoModule() {
+		return new VCOModule(this);
+	}
+
 }

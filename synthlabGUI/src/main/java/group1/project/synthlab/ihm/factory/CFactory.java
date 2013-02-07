@@ -7,6 +7,7 @@ import group1.project.synthlab.ihm.module.multiplexer.CMultiplexerModule;
 import group1.project.synthlab.ihm.module.out.COutModule;
 import group1.project.synthlab.ihm.module.vca.CVCAModule;
 import group1.project.synthlab.ihm.module.vco.CVCOModule;
+import group1.project.synthlab.ihm.module.vco.piano.CVCOPianoModule;
 import group1.project.synthlab.ihm.port.in.CInPort;
 import group1.project.synthlab.ihm.port.out.COutPort;
 import group1.project.synthlab.ihm.workspace.CWorkspace;
@@ -48,7 +49,12 @@ public class CFactory extends Factory {
 	public IVCOModule createVCOModule() {
 		return new CVCOModule(this);
 	}
-
+	
+	@Override
+	public IVCOModule createVCOPianoModule() {
+		return new CVCOPianoModule(this);
+	}
+	
 	@Override
 	public IOutModule createOutModule() {
 		return new COutModule(this);

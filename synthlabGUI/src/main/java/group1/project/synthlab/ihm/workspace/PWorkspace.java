@@ -4,11 +4,11 @@ import group1.project.synthlab.ihm.cable.IPCable;
 import group1.project.synthlab.ihm.cable.PCable;
 import group1.project.synthlab.ihm.module.IPModule;
 import group1.project.synthlab.ihm.module.IPModuleObservable;
+import group1.project.synthlab.ihm.module.vco.piano.IPVCOPianoModule;
 import group1.project.synthlab.ihm.port.IPPort;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -53,6 +53,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	protected JButton vcoButton;
 	protected JButton outButton;
 	protected JButton vcaButton;
+	protected JButton vcoPianoButton;
 	protected JButton multiplexerButton;
 
 	public PWorkspace(ICWorkspace controller) {
@@ -133,6 +134,11 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		workspacePanel.setSize(workspacePanel.getPreferredSize());
 		centerPanel = new JScrollPane(workspacePanel);
 
+		vcoPianoButton = new JButton("PIANO");
+		vcoPianoButton.setBackground(new Color(150, 150, 150));
+		vcoPianoButton.setForeground(Color.BLACK);
+		toolBar.add(vcoPianoButton);
+
 		vcoButton = new JButton("VCO");
 		vcoButton.setBackground(new Color(150, 150, 150));
 		vcoButton.setForeground(Color.BLACK);
@@ -190,12 +196,16 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 							if (e.getSource() instanceof IPPort)
 								workspacePanel.setCursor(new Cursor(
 										Cursor.HAND_CURSOR));
-							else if (e.getSource() instanceof IPModule
-									&& !controller.isDrawingCable())
-								workspacePanel.setCursor(new Cursor(
+							else if (e.getSource() instanceof IPModule 
+									&& !controller.isDrawingCable()){							
+								if (e.getSource() instanceof IPVCOPianoModule) 
+									workspacePanel.setCursor(((Component) e
+										.getSource()).getCursor());
+								else {
+									workspacePanel.setCursor(new Cursor(
 										Cursor.MOVE_CURSOR));
-
-							else
+								}
+							} else
 								workspacePanel.setCursor(new Cursor(
 										Cursor.DEFAULT_CURSOR));
 						}
@@ -262,6 +272,13 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 			public void actionPerformed(ActionEvent ev) {
 				controller.addOneVCOModule();
+			}
+		});
+
+		vcoPianoButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent ev) {
+				controller.addOneVCOPianoModule();
 			}
 		});
 

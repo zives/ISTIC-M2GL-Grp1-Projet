@@ -5,6 +5,7 @@ import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.in.ICInPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
 import group1.project.synthlab.ihm.tools.FloatTextField;
+import group1.project.synthlab.ihm.tools.PTools;
 import group1.project.synthlab.unitExtensions.FilterAmplitude.IFilterAmplitudeObservable;
 
 import java.awt.Color;
@@ -110,7 +111,6 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		warnLabel.setSize(180, 20);
 		warnLabel.setForeground(Color.RED);
 		warnLabel.setBorder(null);
-		warnLabel.setPreferredSize(freqLabel.getSize());
 		warnLabel.setLocation(this.getWidth() / 2 - warnLabel.getWidth() / 2, 190);
 		warnLabel.setFont(new Font("Arial", 0, 15));
 		warnLabel.setVisible(false);
@@ -151,16 +151,16 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		coarseSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				controller.setCoarseAdjustment((int) coarseSlider.getValue() / 10);
-				freqLabel.setText(freqToString(controller.getf0()) + " Hz");
-				textFreq.setText(freqToString(controller.getf0()));
+				freqLabel.setText(PTools.freqToString(controller.getf0()) + " Hz");
+				textFreq.setText(PTools.freqToString(controller.getf0()));
 			}
 		});
 
 		fineSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				controller.setFineAdjustment(fineSlider.getValue() / 10000.0);
-				freqLabel.setText(freqToString(controller.getf0()) + " Hz");
-				textFreq.setText(freqToString(controller.getf0()));
+				freqLabel.setText(PTools.freqToString(controller.getf0()) + " Hz");
+				textFreq.setText(PTools.freqToString(controller.getf0()));
 			}
 		});
 		textFreq.addKeyListener(new KeyListener() {
@@ -188,8 +188,8 @@ public class PVCOModule extends PModule implements IPVCOModule {
 					controller.redefAdjustments();
 					coarseSlider.setValue(controller.getCoarseAdjustment() * 10);
 					fineSlider.setValue((int) (controller.getFineAdjustment() * 10000.0));
-					freqLabel.setText(freqToString(val) + " Hz");
-					textFreq.setText(freqToString(val));
+					freqLabel.setText(PTools.freqToString(val) + " Hz");
+					textFreq.setText(PTools.freqToString(val));
 					
 				}
 			}
@@ -198,21 +198,7 @@ public class PVCOModule extends PModule implements IPVCOModule {
 
 	}
 
-	private String freqToString(double freq) {
-		String val = String.valueOf(freq);
-		if (val.indexOf(".") < 0)
-			val += ".00";
-		else {
-			int pos = val.indexOf(".") + 1;
-			String tronq = val.substring(pos);
-			if (tronq.length() == 1)
-				tronq += "0";
-			val = val.substring(0, pos) + tronq.substring(0, 2);
-		}
-		if (val.length() > 7)
-			val = val.substring(0, 7);
-		return val;
-	}
+
 
 	public void setSlidersEnabled(boolean value) {
 		coarseSlider.setEnabled(value);

@@ -282,13 +282,6 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 		scope.getView().setShowControls(true);
 		scope.start();
 
-		// Les amplitudes en JSyn varient entre -1 et 1, ce qui correspond dans
-		// notre modele a -5V +5V
-		// Une amplitude de 0.2 correspond donc a une amplitude crete a crete de
-		// 2V
-		// Ainsi, en theorie, quand on passe d'un sommet a un creux, la
-		// frequence du signal doit etre divisee par 2^2 et lorsqu'on passe d'un
-		// creux a un sommet la frequence doit etre multipliee par 2^2.
 
 		JFrame frame = new JFrame();
 		frame.add(scope.getView());
