@@ -4,6 +4,8 @@ import group1.project.synthlab.factory.Factory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
@@ -33,9 +35,12 @@ public class FilterFrequencySupervisor extends UnitFilter {
 	private double lastMin; // Dernier min correspondant à un creux
 	private double max; // dernière amplitude max trouvée
 	private double min; // dernière amplitude min trouvée
-	private long lastTime; // dernier temps trouvé au dernier lastMax enregistré
+	private double lastTime; // dernier temps trouvé au dernier lastMax enregistré
+	private double freq; //real time frequency
+	
+	private Synthesizer synth; //le synthetiseur
 
-	public FilterFrequencySupervisor() {
+	public FilterFrequencySupervisor(Synthesizer synth) {
 		super();
 		this.startFrequency = 0;
 		this.intervals = new ArrayList<Double>();
@@ -47,7 +52,9 @@ public class FilterFrequencySupervisor extends UnitFilter {
 		this.lastValue = 0;
 		this.max = 0;
 		this.min = 0;
-		this.lastTime = System.nanoTime();
+		
+		this.synth = synth;
+		this.lastTime = synth.getCurrentTime();
 
 	}
 
@@ -83,6 +90,10 @@ public class FilterFrequencySupervisor extends UnitFilter {
 	public void setMaxCountAvg(int maxCountAvg) {
 		this.maxCountAvg = maxCountAvg;
 	}
+	
+	public double getRealTimeFrequency() {
+		return freq;		
+	}
 
 	@Override
 	public void generate(int start, int limit) {
@@ -97,18 +108,19 @@ public class FilterFrequencySupervisor extends UnitFilter {
 
 		for (int i = start; i < limit; i++) {
 			double x = inputs[i];
-			
+			System.err.println(x);
 			if (x > max && lastValue < x)
 				max = x;
 			else if (x < max && lastValue > x) {
 				// calc freq
-				long timeElapsed = System.nanoTime() - lastTime;
-				double freq = 1.0 / (timeElapsed * 1.0E-9);
-				System.err.println(lastValue);
+				double time = synth.getCurrentTime() ;
+				double timeElapsed = time - lastTime;
+				lastTime = time;
+				freq = 1.0 / (timeElapsed);
+				//System.err.println(timeElapsed);
 				if (freq > startFrequency) {
 					// calc avg amplitutde
-					double avg = (lastMax + -lastMin + lastValue) / 3.0;
-
+					double avg = (lastMax + -lastMin + max) / 3.0;
 					// on trouve l'interval de fréquence où enregistrer la
 					// moyenne de l'amplitude
 					int f = 0;
@@ -121,15 +133,16 @@ public class FilterFrequencySupervisor extends UnitFilter {
 				
 				}
 
-				lastTime = System.nanoTime();
-				lastMax = lastValue;
-				max = 0;
-
-			} else if (x < min && lastValue > x) {
+				lastMax = max;
+				max = -99999999;	//out of bounds			
+			}
+			 if (x < min && lastValue > x) {
 				min = x;
+				
 			} else if (x > min && lastValue < x) {
-				lastMin = x;
-				min = 0;
+				lastMin = min;
+				
+				min = 99999999; //out of bounds
 			}
 
 			lastValue = x;
@@ -141,6 +154,7 @@ public class FilterFrequencySupervisor extends UnitFilter {
 			for(List<Double> list : avgIntervals)
 				list.clear();
 		}
+		
 		
 		
 
@@ -164,7 +178,7 @@ public class FilterFrequencySupervisor extends UnitFilter {
 		SineOscillator oscS  = new SineOscillator();
 		
 		// Reglage des oscillateurs
-		oscS.frequency.set(0.5);
+		oscS.frequency.set(10000);
 		oscS.amplitude.set(1);
 	
 		
@@ -172,7 +186,7 @@ public class FilterFrequencySupervisor extends UnitFilter {
 		oscS.start();
 
 		//Création du filtre
-		FilterFrequencySupervisor filter = new FilterFrequencySupervisor();
+		final FilterFrequencySupervisor filter = new FilterFrequencySupervisor(synth);
 		
 		
 		// Ajout de notre module au synthetiseur et connexion aux oscillateur
@@ -182,7 +196,19 @@ public class FilterFrequencySupervisor extends UnitFilter {
 		
 		filter.output.connect(out.input);
 		
+		Timer t = new Timer();
+		t.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				//System.err.println(filter.getRealTimeFrequency());
+				
+			}
+		}, 1000, 1000);
+		
 		
 	
 	}
+
+	
 }
