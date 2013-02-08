@@ -58,6 +58,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	protected JButton fileInButton;
 	protected JButton vcoPianoButton;
 	protected JButton multiplexerButton;
+	protected JButton egButton;
 
 	public PWorkspace(ICWorkspace controller) {
 		super("Synthetiseur");
@@ -152,6 +153,11 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		vcoButton.setBackground(new Color(150, 150, 150));
 		vcoButton.setForeground(Color.BLACK);
 		toolBar.add(vcoButton);
+		
+		egButton = new JButton("EG");
+		egButton.setBackground(new Color(150, 150, 150));
+		egButton.setForeground(Color.BLACK);
+		toolBar.add(egButton);
 
 		vcaButton = new JButton("VCA");
 		vcaButton.setBackground(new Color(150, 150, 150));
@@ -168,7 +174,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		multiplexerButton.setForeground(Color.BLACK);
 		toolBar.add(multiplexerButton);
 
-		fileInButton = new JButton("File In");
+		fileInButton = new JButton("FILEIN");
 		fileInButton.setBackground(new Color(150, 150, 150));
 		fileInButton.setForeground(Color.BLACK);
 		toolBar.add(fileInButton);
@@ -303,6 +309,13 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 			}
 		});
 
+		egButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent ev) {
+				controller.addOneEGModule();
+			}
+		});
+		
 		outButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent ev) {
