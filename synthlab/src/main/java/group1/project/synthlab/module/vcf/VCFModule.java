@@ -9,9 +9,7 @@ import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Tools;
 import group1.project.synthlab.unitExtensions.FilterAmplitude.FilterRecordMinMaxAmplitude;
 import group1.project.synthlab.unitExtensions.FilterFrequency.FilterFrequencyModulation;
-
 import javax.swing.JFrame;
-
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.scope.AudioScope;
@@ -39,7 +37,7 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 	/** Frequence de coupure max */
 	public static final double fmax = 6000;
 	/** Frequence de coupure */
-	protected double f0 = 440;
+	protected double f0 = 880;
 	
 	/** Facteur de qualite */
 	protected double q = 1;
@@ -92,12 +90,10 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 		// Les filtres (ici : passe-bas)
 		// TODO : proposer d'autres types de filtres
 		filter1 = new FilterLowPass();
-		filter1.amplitude.set(1);
-		//filter1.Q.set(0.75);
+		filter1.Q.set(0.7);
 		circuit.add(filter1);
 		filter2 = new FilterLowPass();
-		filter2.amplitude.set(1);
-		//filter2.Q.set(0.75);
+		filter2.Q.set(1);
 		circuit.add(filter2);
 		filter1.output.connect(filter2.input);
 		filter2.output.connect(filterPrintMinMaxAmplitude.input); // Pour afficher les valeurs min et max d'amplitude
@@ -249,12 +245,12 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 		// On cree un oscillateur que l'on connectera dans l'entree in
 		SineOscillator inOsc = new SineOscillator();
 		inOsc.amplitude.set(1);
-		inOsc.frequency.set(20);
+		inOsc.frequency.set(3520);
 		synth.add(inOsc);
 		
 		// On cree un oscillateur que l'on connectera dans l'entree fm
 		SquareOscillator fmOsc = new SquareOscillator();
-		fmOsc.frequency.set(0.1);
+		fmOsc.frequency.set(0.5);
 		fmOsc.amplitude.set(0.2);
 		synth.add(fmOsc);
 				
@@ -281,6 +277,7 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 		frame.pack();
 		frame.setVisible(true);
 		
+		vcf.filterPrintMinMaxAmplitude.reset();
 		// Sans modulation de frequence au debut, on compare 4 frequences de inOsc
 		System.out.println("Sans modulation de signal, fc = 440 Hz, inOsc 20 Hz : le signal ne doit pas etre filtre (amplitude en sortie de 1)");
 		Tools.wait(synth, 2);
@@ -289,7 +286,6 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 		System.out.println("Amplitude min : " + vcf.filterPrintMinMaxAmplitude.getMin() + "\nAmplitude max : " + vcf.filterPrintMinMaxAmplitude.getMax());
 		
 		System.out.println("Sans modulation de signal, fc = 440 Hz, inOsc 880 Hz : on est une octave au dessus de la frequence de coupure, le signal doit donc etre attenue de 24dB (soit une amplitude en sortie d'environ 0,07)");
-		vcf.filterPrintMinMaxAmplitude.reset();
 		inOsc.frequency.set(880);
 		Tools.wait(synth, 1);
 		vcf.filterPrintMinMaxAmplitude.reset();
@@ -299,7 +295,6 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 		System.out.println("Amplitude min : " + vcf.filterPrintMinMaxAmplitude.getMin() + "\nAmplitude max : " + vcf.filterPrintMinMaxAmplitude.getMax());
 		
 		System.out.println("Sans modulation de signal, fc = 440 Hz, inOsc 1760 Hz : on est deux octave au dessus de la frequence de coupure, le signal doit donc etre attenue de 48dB (soit une amplitude en sortie d'environ 0,005)");
-		vcf.filterPrintMinMaxAmplitude.reset();
 		inOsc.frequency.set(1760);
 		Tools.wait(synth, 1);
 		vcf.filterPrintMinMaxAmplitude.reset();
@@ -309,7 +304,6 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 		System.out.println("Amplitude min : " + vcf.filterPrintMinMaxAmplitude.getMin() + "\nAmplitude max : " + vcf.filterPrintMinMaxAmplitude.getMax());
 		
 		System.out.println("Sans modulation de signal, fc = 440 Hz, inOsc 440 Hz : on est a la frequence de coupure, le signal ne doit donc pas etre attenue)");
-		vcf.filterPrintMinMaxAmplitude.reset();
 		inOsc.frequency.set(440);
 		Tools.wait(synth, 1);
 		vcf.filterPrintMinMaxAmplitude.reset();
@@ -318,13 +312,13 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 		System.out.println("Frequence de coupure du filtre 2 : " + vcf.filter2.frequency.getValue());
 		System.out.println("Amplitude min : " + vcf.filterPrintMinMaxAmplitude.getMin() + "\nAmplitude max : " + vcf.filterPrintMinMaxAmplitude.getMax());
 		
-		/*
+		
 		// On connecte l'oscillateur fmOsc a l'entree fm du VCF
 		fmOsc.output.connect(vcf.getFm().getJSynPort());
 		// On verifie que la frequence de coupure est bien divisee par 2 ou multipliee par 2 quand on passe d'une crete a la suivante
 		// Avec un signal modulant carre, la valeur de la frequence du signal modulee va alternee entre 2 valeurs
 		// Il suffit donc d'afficher ces valeurs pour verifier le rapport de 1 a 4.
-		i = 0;
+		int i = 0;
 		while(i<30) {
 			System.out.println("Frequence filtre 1= " + vcf.filter1.frequency.getValue());
 			System.out.println("Frequence filtre 1= " + vcf.filter2.frequency.getValue());
@@ -337,7 +331,7 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 		}
 		
 		// On verifie egalement dans cette phase que l'amplitude du signal en sortie est bien aux alentours de 1 lorsque la frequence de coupure est de 800 et 0,07 (attenuation de 24dB) lorsque la frequence de coupure est de 200
-		*/
+		
 	}
 
 }
