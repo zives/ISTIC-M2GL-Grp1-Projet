@@ -89,6 +89,12 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		
 	}
 
+	@Override
+	public void addFileInModule() {
+		addModule(factory.createFileInModule());
+		
+	}
+
 	
 	
 	

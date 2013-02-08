@@ -14,5 +14,6 @@ public interface ICWorkspace extends IWorkspace {
 	public void addOneMultiplexer();
 	public void addOneVCAModule();
 	public void addOneVCOPianoModule();
+	public void addFileInModule();
 
 }
