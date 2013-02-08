@@ -6,7 +6,8 @@ import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
-import group1.project.synthlab.unitExtensions.FilterAttenuator.FilterAmplitudeModulation;
+import group1.project.synthlab.unitExtensions.FilterAmplitude.FilterAmplitudeModulation;
+
 import javax.swing.JFrame;
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
