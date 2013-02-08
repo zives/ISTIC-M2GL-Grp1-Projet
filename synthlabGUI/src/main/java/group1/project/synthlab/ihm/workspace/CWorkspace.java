@@ -112,6 +112,12 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		
 	}
 
+	@Override
+	public void addOneEGModule() {
+		addModule(factory.createEGModule());
+		
+	}
+
 	
 	
 	
