@@ -55,6 +55,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	protected JButton vcoButton;
 	protected JButton outButton;
 	protected JButton vcaButton;
+	protected JButton fileInButton;
 	protected JButton vcoPianoButton;
 	protected JButton multiplexerButton;
 
@@ -167,6 +168,11 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		multiplexerButton.setForeground(Color.BLACK);
 		toolBar.add(multiplexerButton);
 
+		fileInButton = new JButton("File In");
+		fileInButton.setBackground(new Color(150, 150, 150));
+		fileInButton.setForeground(Color.BLACK);
+		toolBar.add(fileInButton);
+		
 		add(toolBar, BorderLayout.NORTH);
 		add(centerPanel, BorderLayout.CENTER);
 
@@ -308,6 +314,13 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 			public void actionPerformed(ActionEvent ev) {
 				controller.addOneMultiplexer();
+			}
+		});
+		
+		fileInButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent ev) {
+				controller.addFileInModule();
 			}
 		});
 

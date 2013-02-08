@@ -107,6 +107,10 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 			}
 		}
 	}
+	public void addFileInModule() {
+		addModule(factory.createFileInModule());
+		
+	}
 
 	
 	

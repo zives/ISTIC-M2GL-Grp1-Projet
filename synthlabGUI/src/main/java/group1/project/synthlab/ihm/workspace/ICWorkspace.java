@@ -15,5 +15,6 @@ public interface ICWorkspace extends IWorkspace {
 	public void addOneVCAModule();
 	public void addOneVCOPianoModule();
 	public void saveConfiguration();
+	public void addFileInModule();
 
 }
