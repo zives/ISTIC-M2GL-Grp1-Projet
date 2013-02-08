@@ -89,6 +89,25 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		
 	}
 
+	@Override
+	public void saveConfiguration() {
+		// TODO Auto-generated method stub
+		//on demande le nom de fichier
+		String name = presentation.askFileName();
+		if(name!=null){
+			//bouton cancel non appuyé
+			if(name.length()>0){
+				//sauvegarde
+				//Workspace
+				
+				//cable
+			}
+			else{
+				presentation.showError("Erreur lors de la sauvegarde : le nom de fichier doit contenir au moins un caractère");
+			}
+		}
+	}
+
 	
 	
 	

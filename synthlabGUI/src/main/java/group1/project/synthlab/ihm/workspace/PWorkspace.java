@@ -29,6 +29,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
@@ -42,6 +43,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	protected JMenuBar menuBar;
 	protected JMenu fichier;
 	protected JMenuItem quit;
+	protected JMenuItem save;
 
 	private static final long serialVersionUID = 1L;
 
@@ -117,6 +119,12 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		menuBar = new JMenuBar();
 		fichier = new JMenu("Fichier");
 
+		//bouton sauvegarde pour la configuration
+		save = new JMenuItem("sauvegarder configuration");
+		
+		fichier.add(save);
+		
+		
 		quit = new JMenuItem("Quitter l'application");
 
 		setJMenuBar(menuBar);
@@ -309,6 +317,12 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 			}
 		});
+		
+		save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.saveConfiguration();
+			}
+		});
 	}
 
 	public JLayeredPane getWorkspacePanel() {
@@ -358,6 +372,19 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	public static void main(String[] args) {
 		CWorkspace ws = (CWorkspace) CWorkspace.getInstance();
 
+	}
+
+	@Override
+	public String askFileName() {
+		// TODO Auto-generated method stub
+		String s = JOptionPane.showInputDialog("Entrer le nom de la sauvegarde.\nExemple : configuration_1");
+		return s;
+	}
+
+	@Override
+	public void showError(String s) {
+		// TODO Auto-generated method stub
+		JOptionPane.showMessageDialog(null, s);
 	}
 
 }
