@@ -73,24 +73,24 @@ public interface IVCOModule extends IModule {
 	public IOutPort getOutTriangle();
 	
 	/**
-	 * Reglage grossier (dixieme de la plage de frequences)
-	 * @return la valeur du reglage grossier de la frequence f0 (entier de 0 a 9)
+	 * Reglage grossier
+	 * @return la valeur du reglage grossier de la frequence f0
 	 */
 	public int getCoarseAdjustment();
 
 	/**
-	 * @param coarseadjustment : la nouvelle valeur du reglage grossier de la frequence f0 (entier de 0 a 9)
+	 * @param coarseadjustment : la nouvelle valeur du reglage grossier de la frequence f0
 	 */
 	public void setCoarseAdjustment(int coarseadjustment);
 
 	/**
 	 * Reglage fin
-	 * @return la valeur du reglage fin de la frequence f0 (double entre 0 et 1)
+	 * @return la valeur du reglage fin de la frequence f0
 	 */
 	public double getFineAdjustment();
 
 	/**
-	 * @param fineAdjustment : la nouvelle valeur du reglage fin de la frequence f0 (double entre 0 et 1)
+	 * @param fineAdjustment : la nouvelle valeur du reglage fin de la frequence f0
 	 */
 	public void setFineAdjustment(double fineAdjustment);
 
@@ -102,7 +102,7 @@ public interface IVCOModule extends IModule {
 	
 	
 	/**
-	 * Met Ã  jour les valeurs d'ajustements en fonction de la frequence 
+	 * Met a  jour les valeurs d'ajustements en fonction de la frequence 
 	 */
 	public void redefAdjustments() ;
 	
@@ -113,7 +113,7 @@ public interface IVCOModule extends IModule {
 	public void cableConnected(IPort port);
 	
 	/**
-	 * Si un cable est deconnecte du port d'entree fm, le VCO doit desactiver la modulation de frequence et remettre les 3 signaux a la frequence f0
+	 * Si un cable est deconnecte du port d'entree fm, le VCO doit desactiver la modulation de frequence
 	 * @param port : le port du VCO duquel on vient de deconnecter un cable
 	 */
 	public void cableDisconnected(IPort port);

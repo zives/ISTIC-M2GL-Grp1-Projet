@@ -47,11 +47,11 @@ public class TestVCAModule extends TestCase {
 		assertTrue (!vca.getIn().isUsed());
 		assertTrue (!vca.getAm().isUsed());
 		assertTrue (!vca.getOut().isUsed());
-		assertTrue (vca.getFiltera0().inputA.isConnected());
+		assertTrue (!vca.getFiltera0().inputA.isConnected());
 		assertEquals (vca.geta0()/60, vca.getFiltera0().inputB.get());
 		assertTrue (vca.getFiltera0().output.isConnected());
 		assertTrue (vca.getFilteram().inputA.isConnected());
-		assertTrue (vca.getFilteram().inputB.isConnected());
+		assertTrue (!vca.getFilteram().inputB.isConnected());
 		assertTrue (vca.getFilteram().output.isConnected());
 		assertTrue (!vca.isStarted());
 	}

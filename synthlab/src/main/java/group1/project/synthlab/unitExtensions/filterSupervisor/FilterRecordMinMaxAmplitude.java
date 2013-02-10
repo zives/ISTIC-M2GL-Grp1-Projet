@@ -4,13 +4,11 @@ import com.jsyn.unitgen.UnitFilter;
 
 public class FilterRecordMinMaxAmplitude extends UnitFilter {
 	
-	private boolean print;
 	private double min;
 	private double max;
 	
 	public FilterRecordMinMaxAmplitude() {
 		super();
-		this.print = false;
 		this.min = 0;
 		this.max = 0;
 	}
@@ -53,21 +51,6 @@ public class FilterRecordMinMaxAmplitude extends UnitFilter {
 	 */
 	public double getMax() {
 		return max;
-	}
-	
-	/**
-	 * 
-	 * @return si on doit afficher les valeurs ou pas
-	 */
-	public boolean getPrint() {
-		return print;
-	}
-
-	/**
-	 * @param si on doit afficher les valeurs ou pas
-	 */
-	public void setPrint(boolean print) {
-		this.print = print;
 	}
 	
 }

@@ -6,8 +6,10 @@ import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
+import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
 import group1.project.synthlab.unitExtensions.filterModulation.FilterFrequencyModulation;
+import group1.project.synthlab.unitExtensions.filterSupervisor.FilterAmplitude;
 import group1.project.synthlab.unitExtensions.filterSupervisor.FilterRecordMinMaxAmplitude;
 import javax.swing.JFrame;
 import com.jsyn.JSyn;
@@ -62,6 +64,12 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
      */
     protected FilterFrequencyModulation filterFrequencyModulation;
     
+	/**
+	 * Filtre pour ramener l'amplitude du signal modulant a amax si elle est au
+	 * dessus
+	 */
+	protected FilterAmplitude filterAmplitude;
+	
     /**
      * Filtre pour recuperer les valeurs max et min d'un signal
      */
@@ -79,6 +87,11 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
     public VCFModule(Factory factory) {
         super("VCF-" + ++moduleCount, factory);
         
+		// Filtre d'amplitude
+		// TODO : Tester lorsqu'on aura un VCA
+		filterAmplitude = new FilterAmplitude(Signal.AMAXMODULATION, true);
+		circuit.add(filterAmplitude);
+		
         filterFrequencyModulation = new FilterFrequencyModulation(f0); // Filtre de modulation de la frequence de coupure
         filterPrintMinMaxAmplitude = new FilterRecordMinMaxAmplitude(); // Filtre pour afficher les valeurs min et max d'amplitude
         circuit.add(filterFrequencyModulation);
@@ -87,9 +100,11 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
         // Les 2 filtres en serie (ici : passe-bas)
         // TODO : proposer d'autres types de filtres (si une User Story le demande)
         filter1 = new FilterLowPass();
+        filter1.frequency.set(f0);
         filter1.Q.set(q);
         circuit.add(filter1);
         filter2 = new FilterLowPass();
+        filter2.frequency.set(f0);
         filter2.Q.set(q);
         circuit.add(filter2);
         filter1.output.connect(filter2.input);
@@ -104,8 +119,9 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
         
         // Port d'entree : 
         in = factory.createInPort("in", filter1.input, this);
-        fm = factory.createInPort("fm", filterFrequencyModulation.input, this);
-
+        fm = factory.createInPort("fm", filterAmplitude.input, this);
+        filterAmplitude.output.connect(filterFrequencyModulation.input);
+        
         // Ports de sortie
         out = factory.createOutPort("out", onoff.output, this);
         
@@ -140,12 +156,41 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
 				* ((fmax - fmin) + fmin) / 100);
 		f0 = newFrequency;
         filterFrequencyModulation.setf0(f0);
+
     }
     
+    /* (non-Javadoc)
+     * @see group1.project.synthlab.module.IVCFModule#getFilterFrequencyModulation()
+     */
+	public FilterFrequencyModulation getFilterFrequencyModulation() {
+		return filterFrequencyModulation;
+	}
+
+	/* (non-Javadoc)
+     * @see group1.project.synthlab.module.IVCFModule#getFilterAmplitude()
+     */
+	public FilterAmplitude getFilterAmplitude() {
+		return filterAmplitude;
+	}
+	
+	/* (non-Javadoc)
+     * @see group1.project.synthlab.module.IVCFModule#getFilter1()
+     */
+	public FilterLowPass getFilter1() {
+		return filter1;
+	}
+
+	/* (non-Javadoc)
+     * @see group1.project.synthlab.module.IVCFModule#getFilter2()
+     */
+	public FilterLowPass getFilter2() {
+		return filter2;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see group1.project.synthlab.module.IVCOModule#redefAdjustments()
+	 * @see group1.project.synthlab.module.IVCFModule#redefAdjustments()
 	 */
 	public void redefAdjustments() {
 		coarseAdjustment = (int) ((f0 - fmin) / (fmax - fmin) * 100);
@@ -158,7 +203,7 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
     /* (non-Javadoc)
      * @see group1.project.synthlab.module.IVCFModule#changeQFactor()
      */
-    private void changeQFactor(){
+    public void changeQFactor(){
         filter1.Q.set(q);
         filter2.Q.set(q);
     }
@@ -228,9 +273,11 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
         return out;
     }
     
-    /* (non-Javadoc)
-     * @see group1.project.synthlab.module.IModule#isStarted()
-     */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see group1.project.synthlab.module.IModule#isStarted()
+	 */
     public boolean isStarted() {
         return isOn;
     }
@@ -387,6 +434,31 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
         System.out.println("Frequence de coupure du filtre 1 : " + vcf.filter1.frequency.getValue());
         System.out.println("Frequence de coupure du filtre 2 : " + vcf.filter2.frequency.getValue());
         System.out.println("Amplitude min : " + vcf.filterPrintMinMaxAmplitude.getMin() + "\nAmplitude max : " + vcf.filterPrintMinMaxAmplitude.getMax());
+        
+        System.out.println("\n\nLorsque le filtre est totalement ouvert (frequence de coupure infinie) le signal de sortie est identique au signal d'entree");
+        System.out.println("REMARQUE : en fait cela depend aussi du facteur de qualite qui peut entrainer un changement d'amplitude par rapport au signal d'entree.");
+        vcf.setf0(Double.MAX_VALUE);
+        vcf.redefAdjustments();
+        vcf.changeFrequency();
+        Tools.wait(synth, 1);
+        vcf.filterPrintMinMaxAmplitude.reset();
+        Tools.wait(synth, 4);
+        System.out.println("Frequence de coupure du filtre 1 : " + vcf.filter1.frequency.getValue());
+        System.out.println("Frequence de coupure du filtre 2 : " + vcf.filter2.frequency.getValue());
+        System.out.println("Amplitude min : " + vcf.filterPrintMinMaxAmplitude.getMin() + "\nAmplitude max : " + vcf.filterPrintMinMaxAmplitude.getMax());
+        
+        System.out.println("\n\nLorsque le filtre est totalement ferme (frequence de coupure nulle) le signal de sortie est nul");
+        // TODO : TESTS NE PASSE PAS
+        vcf.setf0(0);
+        vcf.redefAdjustments();
+        vcf.changeFrequency();
+        Tools.wait(synth, 1);
+        vcf.filterPrintMinMaxAmplitude.reset();
+        Tools.wait(synth, 4);
+        System.out.println("Frequence de coupure du filtre 1 : " + vcf.filter1.frequency.getValue());
+        System.out.println("Frequence de coupure du filtre 2 : " + vcf.filter2.frequency.getValue());
+        System.out.println("Amplitude min : " + vcf.filterPrintMinMaxAmplitude.getMin() + "\nAmplitude max : " + vcf.filterPrintMinMaxAmplitude.getMax());
+        
         
         System.out.println("\n\nOn remet f0 a 440 et la frequence de inOsc a 440 Hz");
         inOsc.frequency.set(440);

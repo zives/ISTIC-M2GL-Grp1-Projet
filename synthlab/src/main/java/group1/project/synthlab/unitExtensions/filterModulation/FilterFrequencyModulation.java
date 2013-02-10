@@ -24,7 +24,7 @@ public class FilterFrequencyModulation extends UnitFilter {
 
 		for (int i = start; i < limit; i++) {
 			double Vfm = inputs[i] * 5; // On multiplie par 5 pour passer des JSyn ([-1 ; 1]) aux Volts ([-5 ; 5])
-			outputs[i] = f0 * Math.pow(2, Vfm) ;
+			outputs[i] = this.f0 * Math.pow(2, Vfm) ;
 		}
 	}
 
