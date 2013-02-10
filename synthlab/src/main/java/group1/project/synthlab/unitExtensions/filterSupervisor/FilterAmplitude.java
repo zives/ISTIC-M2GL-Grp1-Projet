@@ -1,4 +1,4 @@
-package group1.project.synthlab.unitExtensions.FilterAmplitude;
+package group1.project.synthlab.unitExtensions.filterSupervisor;
 
 import group1.project.synthlab.signal.Signal;
 

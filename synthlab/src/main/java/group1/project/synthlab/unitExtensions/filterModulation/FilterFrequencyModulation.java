@@ -1,4 +1,4 @@
-package group1.project.synthlab.unitExtensions.FilterFrequency;
+package group1.project.synthlab.unitExtensions.filterModulation;
 
 import com.jsyn.unitgen.UnitFilter;
 

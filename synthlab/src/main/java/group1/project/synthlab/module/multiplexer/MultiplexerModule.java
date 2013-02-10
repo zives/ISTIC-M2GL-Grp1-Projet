@@ -7,7 +7,7 @@ import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
-import group1.project.synthlab.unitExtensions.FilterAttenuator.FilterAttenuator;
+import group1.project.synthlab.unitExtensions.filterAttenuator.FilterAttenuator;
 
 import javax.swing.JFrame;
 

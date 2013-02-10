@@ -8,7 +8,7 @@ import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.workspace.CWorkspace;
 import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.port.in.InPort;
-import group1.project.synthlab.unitExtensions.FilterAmplitude.IFilterAmplitudeObservable;
+import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterAmplitudeObservable;
 
 import com.jsyn.ports.ConnectableInput;
 

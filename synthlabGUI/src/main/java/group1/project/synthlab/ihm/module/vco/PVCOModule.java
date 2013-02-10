@@ -6,7 +6,7 @@ import group1.project.synthlab.ihm.port.in.ICInPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
 import group1.project.synthlab.ihm.tools.FloatTextField;
 import group1.project.synthlab.ihm.tools.PTools;
-import group1.project.synthlab.unitExtensions.FilterAmplitude.IFilterAmplitudeObservable;
+import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterAmplitudeObservable;
 
 import java.awt.Color;
 import java.awt.Font;

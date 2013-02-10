@@ -4,9 +4,9 @@ import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.port.Port;
 import group1.project.synthlab.signal.Signal;
-import group1.project.synthlab.unitExtensions.FilterAmplitude.FilterAmplitude;
-import group1.project.synthlab.unitExtensions.FilterAmplitude.IFilterAmplitudeObservable;
-import group1.project.synthlab.unitExtensions.FilterAmplitude.IFilterAmplitudeObserver;
+import group1.project.synthlab.unitExtensions.filterSupervisor.FilterAmplitude;
+import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterAmplitudeObservable;
+import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterAmplitudeObserver;
 
 import com.jsyn.ports.ConnectableInput;
 

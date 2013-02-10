@@ -4,7 +4,7 @@ import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
-import group1.project.synthlab.unitExtensions.FilterAmplitude.FilterAmplitudeModulation;
+import group1.project.synthlab.unitExtensions.filterModulation.FilterAmplitudeModulation;
 
 public interface IVCAModule extends IModule {
 	

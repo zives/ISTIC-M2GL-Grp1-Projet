@@ -7,8 +7,9 @@ import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Tools;
-import group1.project.synthlab.unitExtensions.FilterAmplitude.FilterRecordMinMaxAmplitude;
-import group1.project.synthlab.unitExtensions.FilterFrequency.FilterFrequencyModulation;
+import group1.project.synthlab.unitExtensions.filterModulation.FilterFrequencyModulation;
+import group1.project.synthlab.unitExtensions.filterSupervisor.FilterRecordMinMaxAmplitude;
+
 import javax.swing.JFrame;
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;

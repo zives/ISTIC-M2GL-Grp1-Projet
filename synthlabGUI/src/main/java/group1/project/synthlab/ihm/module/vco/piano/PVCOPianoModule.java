@@ -4,7 +4,7 @@ import group1.project.synthlab.ihm.module.PModule;
 import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.in.ICInPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
-import group1.project.synthlab.unitExtensions.FilterAmplitude.IFilterAmplitudeObservable;
+import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterAmplitudeObservable;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
