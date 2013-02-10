@@ -201,6 +201,7 @@ public class PVCFModule extends PModule implements IPVCFModule {
 
 		qualitySlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
+				controller.changeQFactor();
 				controller.setq((int) qualitySlider.getValue()/10.0);
 			}
 		});
