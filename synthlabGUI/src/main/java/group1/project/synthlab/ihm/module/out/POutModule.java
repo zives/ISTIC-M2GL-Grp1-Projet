@@ -39,14 +39,17 @@ public class POutModule extends PModule implements IPOutModule {
 		//Taille et couleur définie dans la super classe
 
 		//Label et onoff boutons déjà rajoutés dans la super classe
+		
+		this.setSize(getWidth(), getHeight() - 70);
+		this.setPreferredSize(this.getSize());
 
 		// Ports
 		PPort pportLeft = (PPort) (((ICInPort) controller.getLeftPort())
 				.getPresentation());
-		pportLeft.setLocation(10, 245);
+		pportLeft.setLocation(getWidth() - pportLeft.getWidth() - 10, getHeight() - pportLeft.getHeight() -5);
 		PPort pportRight = (PPort) (((ICInPort) controller.getRightPort())
 				.getPresentation());
-		pportRight.setLocation(70, 245);
+		pportRight.setLocation(pportLeft.getX() - 60, pportLeft.getY());
 
 		// Label volume
 		final JLabel volumeLabel = new JLabel(controller.getAttenuation() + " dB");
@@ -133,6 +136,8 @@ public class POutModule extends PModule implements IPOutModule {
 		add(attenuatorMinValueLabel);
 		add(distributionButton);
 		add(gradient);
+		
+		
 
 		this.repaint();
 

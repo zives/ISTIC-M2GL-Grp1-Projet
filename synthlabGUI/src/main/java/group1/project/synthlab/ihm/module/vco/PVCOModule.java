@@ -35,6 +35,9 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		// Taille et couleur définie dans la super classe
 
 		// Label et onoff boutons déjà rajoutés dans la super classe
+		
+		this.setSize(getWidth(), getHeight() - 40);
+		this.setPreferredSize(this.getSize());
 
 		// Label fréquence
 		final JLabel freqLabel = new JLabel(controller.getf0() + " Hz");
@@ -118,16 +121,16 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		// Ports
 		PPort pportFM = (PPort) (((ICInPort) controller.getFm())
 				.getPresentation());
-		pportFM.setLocation(10, 245);
+		pportFM.setLocation(10, getHeight() - pportFM.getHeight() -5);
 		PPort pportSin = (PPort) (((ICOutPort) controller.getOutSine())
 				.getPresentation());
-		pportSin.setLocation(70, 245);
+		pportSin.setLocation( pportFM.getX() + 60, pportFM.getY());
 		PPort pportTri = (PPort) (((ICOutPort) controller.getOutTriangle())
 				.getPresentation());
-		pportTri.setLocation(130, 245);
+		pportTri.setLocation(pportFM.getX() + 120,  pportFM.getY());
 		PPort pportSqu = (PPort) (((ICOutPort) controller.getOutSquare())
 				.getPresentation());
-		pportSqu.setLocation(190, 245);
+		pportSqu.setLocation(pportFM.getX() + 180,  pportFM.getY());
 
 		// Ajouts des composants
 		add(freqLabel);

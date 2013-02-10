@@ -28,11 +28,14 @@ public class PMicroModule extends PModule implements IPMicroModule {
 		//Taille et couleur définie dans la super classe
 
 		//Label et onoff boutons déjà rajoutés dans la super classe
+		
+		this.setSize(getWidth(), getHeight() - 70);
+		this.setPreferredSize(this.getSize());
 
 		// Ports
 		PPort pportOut = (PPort) (((ICOutPort) controller.getOutPort())
 				.getPresentation());
-		pportOut.setLocation(getWidth() - pportOut.getWidth() - 10, 245);
+		pportOut.setLocation(getWidth() - pportOut.getWidth() - 10, getHeight() - pportOut.getHeight() -5);
 
 		// Label volume
 		final JLabel volumeLabel = new JLabel(controller.getAttenuation() + " dB");
