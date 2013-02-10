@@ -77,9 +77,9 @@ public class OutModule extends Module implements IOutModule {
 		lineOut.input.setMaximum(1); // MAX_VOLTAGE
 		lineOut.input.setMinimum(-1); // -MAX_VOLTAGE
 
-		leftPort = factory.createInPort("Source left", attenuatorLeft.input,
+		leftPort = factory.createInPort("in left", attenuatorLeft.input,
 				this);
-		rightPort = factory.createInPort("Source right", attenuatorRight.input,
+		rightPort = factory.createInPort("in right", attenuatorRight.input,
 				this);
 
 		attenuatorLeft.output.connect(passThroughLeft.input);

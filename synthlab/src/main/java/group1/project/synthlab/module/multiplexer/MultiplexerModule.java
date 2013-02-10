@@ -58,7 +58,7 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 		outPorts = new IOutPort[4];
 		for (int i = 0; i < 4; ++i) {
 			attenuators[i] = new FilterAttenuator();
-			inPorts[i] = factory.createInPort("in port " + String.valueOf(i),
+			inPorts[i] = factory.createInPort("in port " + String.valueOf(i + 1),
 					attenuators[i].input, this);
 			outPorts[i] = factory.createOutPort(
 					"out port " + String.valueOf(i), passThrough.output, this);
