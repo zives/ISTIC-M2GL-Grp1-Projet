@@ -55,6 +55,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	protected JButton vcoButton;
 	protected JButton outButton;
 	protected JButton vcaButton;
+	protected JButton vcfButton;
 	protected JButton fileInButton;
 	protected JButton vcoPianoButton;
 	protected JButton multiplexerButton;
@@ -167,6 +168,11 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		vcaButton.setForeground(Color.BLACK);
 		toolBar.add(vcaButton);
 
+		vcfButton = new JButton("VCF");
+		vcfButton.setBackground(new Color(150, 150, 150));
+		vcfButton.setForeground(Color.BLACK);
+		toolBar.add(vcfButton);
+		
 		outButton = new JButton("OUT");
 		outButton.setBackground(new Color(150, 150, 150));
 		outButton.setForeground(Color.BLACK);
@@ -324,6 +330,13 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 			public void actionPerformed(ActionEvent ev) {
 				controller.addOneVCAModule();
+			}
+		});
+		
+		vcfButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent ev) {
+				controller.addOneVCFModule();
 			}
 		});
 

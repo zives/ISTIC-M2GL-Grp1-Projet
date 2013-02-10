@@ -20,5 +20,6 @@ public interface ICWorkspace extends IWorkspace {
 	public void addEQViewModule();
 	public void addMicroModule();
 	public void addEQModule();
+	public void addOneVCFModule();
 
 }

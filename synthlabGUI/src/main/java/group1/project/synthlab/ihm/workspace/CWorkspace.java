@@ -84,6 +84,11 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 	}
 
 	@Override
+	public void addOneVCFModule() {
+		addModule(factory.createVCFModule());	
+	}
+	
+	@Override
 	public void addOneVCOPianoModule() {
 		addModule(factory.createVCOPianoModule());
 		
@@ -135,6 +140,7 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		addModule(factory.createEQModule());
 		
 	}
+
 
 	
 	

@@ -1,13 +1,10 @@
 package group1.project.synthlab.workspace;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.management.InstanceAlreadyExistsException;
-
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.IModule;
-import group1.project.synthlab.module.out.OutModule;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;

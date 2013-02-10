@@ -11,6 +11,7 @@ import group1.project.synthlab.ihm.module.micro.CMicroModule;
 import group1.project.synthlab.ihm.module.multiplexer.CMultiplexerModule;
 import group1.project.synthlab.ihm.module.out.COutModule;
 import group1.project.synthlab.ihm.module.vca.CVCAModule;
+import group1.project.synthlab.ihm.module.vcf.CVCFModule;
 import group1.project.synthlab.ihm.module.vco.CVCOModule;
 import group1.project.synthlab.ihm.module.vco.piano.CVCOPianoModule;
 import group1.project.synthlab.ihm.port.in.CInPort;
@@ -75,8 +76,7 @@ public class CFactory extends Factory {
 	
 	@Override
 	public IVCFModule createVCFModule() {
-		//return new CVCFModule(this); // TODO
-		return null;
+		return new CVCFModule(this);
 	}
 	
 	@Override
