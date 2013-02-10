@@ -1,5 +1,7 @@
 package group1.project.synthlab.workspace;
 
+import com.jsyn.Synthesizer;
+
 import group1.project.synthlab.module.IModule;
 
 /**
@@ -15,4 +17,7 @@ public interface IWorkspace {
 	 * @param module le module a supprimer
 	 */
 	public void removeModule(IModule module);
+	public Synthesizer getSynthetizer();
+	
+
 }

@@ -17,5 +17,8 @@ public interface ICWorkspace extends IWorkspace {
 	public void saveConfiguration();
 	public void addFileInModule();
 	public void addOneEGModule();
+	public void addEQViewModule();
+	public void addMicroModule();
+	public void addEQModule();
 
 }

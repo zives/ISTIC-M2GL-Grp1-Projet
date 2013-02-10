@@ -31,8 +31,6 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 	private static final long serialVersionUID = 9202805048987933945L;
 
 	protected ICVCOPianoModule controller;
-	protected JSlider coarseSlider;
-	protected JSlider fineSlider;
 	protected JLabel warnLabel;
 
 	protected Rectangle2D neutralZone;

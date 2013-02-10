@@ -59,6 +59,9 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	protected JButton vcoPianoButton;
 	protected JButton multiplexerButton;
 	protected JButton egButton;
+	protected JButton eqViewButton;
+	protected JButton microButton;
+	protected JButton eqButton;
 
 	public PWorkspace(ICWorkspace controller) {
 		super("Synthetiseur");
@@ -174,10 +177,25 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		multiplexerButton.setForeground(Color.BLACK);
 		toolBar.add(multiplexerButton);
 
-		fileInButton = new JButton("FILEIN");
+		fileInButton = new JButton("FILE IN");
 		fileInButton.setBackground(new Color(150, 150, 150));
 		fileInButton.setForeground(Color.BLACK);
 		toolBar.add(fileInButton);
+		
+		eqViewButton= new JButton("EQ VIEW");
+		eqViewButton.setBackground(new Color(150, 150, 150));
+		eqViewButton.setForeground(Color.BLACK);
+		toolBar.add(eqViewButton);
+		
+		microButton= new JButton("MICRO");
+		microButton.setBackground(new Color(150, 150, 150));
+		microButton.setForeground(Color.BLACK);
+		toolBar.add(microButton);
+		
+		eqButton= new JButton("EQ");
+		eqButton.setBackground(new Color(150, 150, 150));
+		eqButton.setForeground(Color.BLACK);
+		toolBar.add(eqButton);
 		
 		add(toolBar, BorderLayout.NORTH);
 		add(centerPanel, BorderLayout.CENTER);
@@ -336,6 +354,28 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 				controller.addFileInModule();
 			}
 		});
+		eqViewButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent ev) {
+				controller.addEQViewModule();
+			}
+		});
+		microButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent ev) {
+				controller.addMicroModule();
+			}
+		});
+		eqButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent ev) {
+				controller.addEQModule();
+			}
+		});
+		
+		
+		
+		//Menu bar
 
 		quit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

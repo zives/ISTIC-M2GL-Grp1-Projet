@@ -118,6 +118,24 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		
 	}
 
+	@Override
+	public void addEQViewModule() {
+		addModule(factory.createEQViewModule());
+		
+	}
+
+	@Override
+	public void addMicroModule() {
+		addModule(factory.createMicroModule());
+		
+	}
+
+	@Override
+	public void addEQModule() {
+		addModule(factory.createEQModule());
+		
+	}
+
 	
 	
 	

@@ -11,6 +11,7 @@ import group1.project.synthlab.module.out.OutModule;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
+import com.jsyn.devices.AudioDeviceManager;
 
 /**
  * @author Groupe 1
@@ -26,7 +27,7 @@ public class Workspace implements IWorkspace {
 		this.factory = factory;
 		this.modules = new ArrayList<IModule>();
 		synthesizer = JSyn.createSynthesizer();
-		synthesizer.start();
+		synthesizer.start(96000, AudioDeviceManager.USE_DEFAULT_DEVICE, 2, AudioDeviceManager.USE_DEFAULT_DEVICE, 2);
 				
 	}
 
@@ -58,6 +59,11 @@ public class Workspace implements IWorkspace {
 
 		}
 		return instance;
+	}
+
+	@Override
+	public Synthesizer getSynthetizer() {
+		return synthesizer;
 	}
 
 }

@@ -13,13 +13,13 @@ import com.jsyn.unitgen.UnitFilter;
  */
 public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObservable{
 
-	boolean isSatured = false; //Défini si le son est saturé (c.a.d qui dépasse amax)
-	protected double amax; //L'amplitude maximale autorisée
+	boolean isSatured = false; //Defini si le son est sature(c.a.d qui depasse amax)
+	protected double amax; //L'amplitude maximale autorisee
 	protected List<IFilterAmplitudeObserver> observers; 
-	protected boolean previousSaturatedWarned; //Défini si on a déjà prévenu d'une saturation ou non
-	protected boolean previousHasSignalWarned; //Défini si on a déjà prévenu d'un signal null ou non
-	protected boolean truncate; //Défini s'il font tronquer l'amplitude saturé à amax
-	protected int countNoSignal; //Nombre de fois où le signal était null
+	protected boolean previousSaturatedWarned; //Defini si on a deja� prevenu d'une saturation ou non
+	protected boolean previousHasSignalWarned; //Defini si on a deja� prevenu d'un signal null ou non
+	protected boolean truncate; //Defini s'il font tronquer l'amplitude sature a� amax
+	protected int countNoSignal; //Nombre de fois ou le signal etait null
 	protected final int MAX_COUNT_NO_SIGNAL = 100; //Nombre maximum de fois ou on autorise un signal null avant d'avertir les observers
 	protected boolean hasSignal;
 	
@@ -56,7 +56,7 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 				outputs[i] = x;
 			sum += Math.abs(x);
 		}
-		//Préviens d'une saturation
+		//Previens d'une saturation
 		if (previousSaturatedWarned && !isSatured) {
 			updateWarnAll(false);
 			previousSaturatedWarned = false;
@@ -65,7 +65,7 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 			previousSaturatedWarned = true;
 		}
 		
-		//Détermine si on doit prévenir d'un signal ou non
+		//Determine si on doit prevenir d'un signal ou non
 		if (sum > 0) {
 			this.countNoSignal = 0;
 			hasSignal = true;
