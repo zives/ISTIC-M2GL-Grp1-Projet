@@ -32,11 +32,11 @@ public class PVCAModule extends PModule implements IPVCAModule {
 
 		// Ports
 		PPort pportIn = (PPort) (((ICInPort) controller.getIn()).getPresentation());
-		pportIn.setLocation(10, 220);
+		pportIn.setLocation(10, 245);
 		PPort pportAm = (PPort) (((ICInPort) controller.getAm()).getPresentation());
-		pportAm.setLocation(70, 220);
+		pportAm.setLocation(70, 245);
 		PPort pportOut = (PPort) (((ICOutPort) controller.getOut()).getPresentation());
-		pportOut.setLocation(130, 220);
+		pportOut.setLocation(130, 245);
 
 		// Label gain
 		final JLabel gainLabel = new JLabel(controller.geta0() + " dB");

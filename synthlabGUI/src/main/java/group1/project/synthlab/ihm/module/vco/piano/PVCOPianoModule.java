@@ -70,16 +70,16 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 		// Ports
 		PPort pportFM = (PPort) (((ICInPort) controller.getFm())
 				.getPresentation());
-		pportFM.setLocation(10, 240);
+		pportFM.setLocation(10, 245);
 		PPort pportSin = (PPort) (((ICOutPort) controller.getOutSine())
 				.getPresentation());
-		pportSin.setLocation(70, 240);
+		pportSin.setLocation(70, 245);
 		PPort pportTri = (PPort) (((ICOutPort) controller.getOutTriangle())
 				.getPresentation());
-		pportTri.setLocation(130, 240);
+		pportTri.setLocation(130, 245);
 		PPort pportSqu = (PPort) (((ICOutPort) controller.getOutSquare())
 				.getPresentation());
-		pportSqu.setLocation(190, 240);
+		pportSqu.setLocation(190, 245);
 
 		// Sliders
 		final JSlider octaveSlider = new JSlider();

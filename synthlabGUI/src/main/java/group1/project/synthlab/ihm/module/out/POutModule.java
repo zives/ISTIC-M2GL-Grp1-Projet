@@ -43,10 +43,10 @@ public class POutModule extends PModule implements IPOutModule {
 		// Ports
 		PPort pportLeft = (PPort) (((ICInPort) controller.getLeftPort())
 				.getPresentation());
-		pportLeft.setLocation(10, 220);
+		pportLeft.setLocation(10, 245);
 		PPort pportRight = (PPort) (((ICInPort) controller.getRightPort())
 				.getPresentation());
-		pportRight.setLocation(70, 220);
+		pportRight.setLocation(70, 245);
 
 		// Label volume
 		final JLabel volumeLabel = new JLabel(controller.getAttenuation() + " dB");

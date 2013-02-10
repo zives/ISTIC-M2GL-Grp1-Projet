@@ -32,7 +32,7 @@ public class PMicroModule extends PModule implements IPMicroModule {
 		// Ports
 		PPort pportOut = (PPort) (((ICOutPort) controller.getOutPort())
 				.getPresentation());
-		pportOut.setLocation(getWidth() - pportOut.getWidth() - 10, 220);
+		pportOut.setLocation(getWidth() - pportOut.getWidth() - 10, 245);
 
 		// Label volume
 		final JLabel volumeLabel = new JLabel(controller.getAttenuation() + " dB");
