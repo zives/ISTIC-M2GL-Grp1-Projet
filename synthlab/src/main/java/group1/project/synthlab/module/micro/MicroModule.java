@@ -6,10 +6,8 @@ import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
-import group1.project.synthlab.unitExtensions.filterAttenuator.FilterAttenuator;
-
+import group1.project.synthlab.unitExtensions.FilterAttenuator.FilterAttenuator;
 import javax.swing.JFrame;
-
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.scope.AudioScope;

@@ -6,24 +6,16 @@ import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
-import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
-import group1.project.synthlab.unitExtensions.FilterAmplitude.FilterAmplitude;
-import group1.project.synthlab.unitExtensions.FilterFrequency.FilterFrequencyModulation;
-
+import group1.project.synthlab.unitExtensions.filterSupervisor.FilterAmplitude;
 import javax.swing.JFrame;
-
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
-import com.jsyn.ports.UnitInputPort;
-import com.jsyn.ports.UnitOutputPort;
 import com.jsyn.scope.AudioScope;
 import com.jsyn.unitgen.EnvelopeDAHDSR;
 import com.jsyn.unitgen.LineOut;
-import com.jsyn.unitgen.PassThrough;
 import com.jsyn.unitgen.SineOscillator;
 import com.jsyn.unitgen.SquareOscillator;
-import com.jsyn.unitgen.TriangleOscillator;
 
 /**
  * Module VCO
