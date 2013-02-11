@@ -27,6 +27,7 @@ import group1.project.synthlab.module.vcf.IVCFModule;
 import group1.project.synthlab.module.vcf.VCFModule;
 import group1.project.synthlab.module.vco.IVCOModule;
 import group1.project.synthlab.module.vco.VCOModule;
+import group1.project.synthlab.module.vco.piano.VCOPianoModule;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.in.InPort;
 import group1.project.synthlab.port.out.IOutPort;
@@ -90,7 +91,7 @@ public class Factory {
 	}
 
 	public IVCOModule createVCOPianoModule() {
-		return new VCOModule(this);
+		return new VCOPianoModule(this);
 	}
 
 	public IEQViewModule createEQViewModule() {

@@ -12,8 +12,11 @@ import group1.project.synthlab.workspace.Workspace;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JFrame;
+
 import com.jsyn.Synthesizer;
 import com.jsyn.data.FloatSample;
+import com.jsyn.scope.AudioScope;
 import com.jsyn.unitgen.LineIn;
 import com.jsyn.unitgen.PassThrough;
 import com.jsyn.unitgen.VariableRateDataReader;
@@ -90,7 +93,6 @@ public class FileInModule extends Module implements IFileInModule{
 
 		Workspace.getInstance().getSynthetizer().add(samplePlayer);
 
-
 		samplePlayer.rate.set(sample.getFrameRate());
 		//samplePlayer.dataQueue.queue(sample );
 		samplePlayer.dataQueue.queueLoop(sample, 0, sample.getNumFrames ());
@@ -155,6 +157,8 @@ public class FileInModule extends Module implements IFileInModule{
 		Factory factory = new Factory();
 		IFileInModule fileIn = factory.createFileInModule();
 		fileIn.loadFile(new File(ClassLoader.getSystemResource("music.wav").getFile()));
+		
+	
 
 	}
 

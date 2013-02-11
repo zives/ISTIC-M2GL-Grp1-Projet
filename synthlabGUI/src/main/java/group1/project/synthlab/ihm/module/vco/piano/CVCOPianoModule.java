@@ -1,31 +1,44 @@
 package group1.project.synthlab.ihm.module.vco.piano;
 
-import java.awt.event.MouseEvent;
-
 import group1.project.synthlab.ihm.factory.CFactory;
-import group1.project.synthlab.ihm.module.vco.CVCOModule;
-import group1.project.synthlab.ihm.module.vco.ICVCOModule;
+import group1.project.synthlab.ihm.module.IPModuleObserver;
 import group1.project.synthlab.ihm.module.vco.IPVCOModule;
+import group1.project.synthlab.module.vco.piano.VCOPianoModule;
+import group1.project.synthlab.port.IPort;
 
-public class CVCOPianoModule extends CVCOModule implements ICVCOPianoModule {
+public class CVCOPianoModule extends VCOPianoModule implements ICVCOPianoModule {
 
 	protected double[] gamme0 = { 32.7, 36.71, 41.20, 43.65, 49, 55, 61.74 };
 
 	protected double[] gamme0Sharp = { 34.65, 38.89, 46.25, 51.91, 58.27 };
+	
 	protected int octaveStart;
+	protected IPVCOPianoModule presentation;
 
 	public CVCOPianoModule(CFactory factory) {
 		super(factory);
 		this.presentation = new PVCOPianoModule(this);
 		this.filterAmplitude.register(this.presentation);
 		this.octaveStart = 2;
-
 	}
 
-	public IPVCOModule getPresentation() {
+	public IPVCOPianoModule getPresentation() {
 		return presentation;
 	}
 
+	@Override
+	public void cableConnected(IPort port) {		
+		super.cableConnected(port);
+		presentation.register((IPModuleObserver) port.getCable());
+	}
+
+	@Override
+	public void cableDisconnected(IPort port) {		
+		presentation.unregister((IPModuleObserver) port.getCable());
+		super.cableDisconnected(port);
+	}
+
+	
 	@Override
 	public void play(int note, int octave, boolean sharp) {
 		if (note > gamme0.length)

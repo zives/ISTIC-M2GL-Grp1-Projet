@@ -6,7 +6,7 @@ import group1.project.synthlab.module.Module;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
-import group1.project.synthlab.unitExtensions.filterBuffer.FilterInterception;
+import group1.project.synthlab.unitExtensions.filterInterception.FilterInterception;
 import group1.project.synthlab.workspace.Workspace;
 
 import java.util.List;

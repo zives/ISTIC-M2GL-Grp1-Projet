@@ -13,6 +13,10 @@ import com.jsyn.unitgen.EnvelopeDAHDSR;
  * @author Groupe 1
  * 
  */
+/**
+ * @author 13010902
+ *
+ */
 public interface IEGModule extends IModule {
 
 
@@ -24,49 +28,49 @@ public interface IEGModule extends IModule {
 	/**
 	 * @return le temps de montee en milliseconde
 	 */
-	public int getAttack();
+	public double getAttack();
 	
 
 	/**
 	 * @param definit le temps de montee en milliseconde
 	 */
-	public void setAttack(int attack);
+	public void setAttack(double attack);
 	
 	
 	/**
 	 * @return le temps d'extinction en milliseconde
 	 */
-	public int getDecay();
+	public double getDecay();
 	
 
 	/**
 	 * @param definit le temps d'extinction en milliseconde
 	 */
-	public void setDecay(int decay);
+	public void setDecay(double decay);
 
 
 	/**
 	 * @return le temps de relachement en milliseconde
 	 */
-	public int getRelease();
+	public double getRelease();
 	
 	
 	/**
 	 * @param le temps de relachement en milliseconde
 	 */
-	public void setRelease(int release);
+	public void setRelease(double release);
 	
 
 	/**
 	 * @return le temps entre le temps de montee et le temps de relachement en milliseconde
 	 */
-	public int getHold();
+	public double getHold();
 	
 	
 	/**
 	 * @param definit le temps entre le temps de montee et le temps de relachement en milliseconde
 	 */
-	public void setHold(int hold);
+	public void setHold(double hold);
 	
 	
 	/**
@@ -79,6 +83,12 @@ public interface IEGModule extends IModule {
 	 * @param l'attenuation en dB du niveau maximum atteint en fin de phase de montee
 	 */
 	public void setSustain(double sustain);
+	
+	
+	/**
+	 * @return la valeur en decibel de sustain
+	 */
+	public double getDecibel();
 	
 
 	/**
