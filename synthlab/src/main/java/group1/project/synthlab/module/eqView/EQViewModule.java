@@ -4,6 +4,7 @@ import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
+import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.workspace.Workspace;
 
 import java.util.Timer;
@@ -13,7 +14,6 @@ import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.scope.AudioScope;
 import com.jsyn.unitgen.FilterBandPass;
-import com.jsyn.unitgen.FilterPeakingEQ;
 import com.jsyn.unitgen.PassThrough;
 import com.jsyn.unitgen.PeakFollower;
 import com.jsyn.unitgen.SineOscillator;
@@ -33,8 +33,10 @@ public class EQViewModule extends Module implements IEQViewModule {
 	protected PeakFollower[] filtersMax;
 	protected PassThrough ptIn;
 	protected PassThrough ptOut;
+	protected PassThrough ptOnOff;
 	/* Defintion des ports */
 	protected IInPort inPort;
+	protected IOutPort outPort;
 
 	/* Variables internes */
 	protected AudioScope os ;
@@ -53,8 +55,9 @@ public class EQViewModule extends Module implements IEQViewModule {
 		filtersMax = new PeakFollower[15];
 		ptIn = new PassThrough();
 		ptOut = new PassThrough();
+		ptOnOff = new PassThrough();
 		inPort = factory.createInPort("in", ptIn.input, this);
-		
+		outPort = factory.createOutPort("out", ptOnOff.output, this);
 		
 		os = new AudioScope(Workspace.getInstance().getSynthetizer());
 
@@ -88,6 +91,7 @@ public class EQViewModule extends Module implements IEQViewModule {
 		}
 		os.addProbe(ptIn.output); //It's the input because output is a corrupted signal
 		isOn = false;
+		circuit.add(ptIn);
 
 	}
 	
@@ -110,6 +114,8 @@ public class EQViewModule extends Module implements IEQViewModule {
 	public void destruct() {
 		if (inPort.isUsed())
 			inPort.getCable().disconnect();
+		if (outPort.isUsed())
+			outPort.getCable().disconnect();
 
 	}
 
@@ -120,6 +126,10 @@ public class EQViewModule extends Module implements IEQViewModule {
 		return inPort;
 	}
 
+	public IOutPort getOutPort() {
+		return outPort;
+	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -128,6 +138,7 @@ public class EQViewModule extends Module implements IEQViewModule {
 	 */
 	public void start() {
 		circuit.start();;
+		ptOnOff.input.connect(ptIn.output);
 		os.start();
 		isOn = true;
 	}
@@ -139,7 +150,9 @@ public class EQViewModule extends Module implements IEQViewModule {
 	 */
 	public void stop() {
 		circuit.stop();
+		ptOnOff.input.disconnect(ptIn.output);
 		os.stop();
+		ptIn.stop();
 		for (int i = 0; i < FREQUENCIES.length; ++i) 
 			filtersMax[i].output.setValueInternal(0);
 		isOn = false;

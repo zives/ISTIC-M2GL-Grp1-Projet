@@ -45,9 +45,13 @@ public class PEQViewModule extends PModule implements IPEQViewModule {
 		// Ports
 		PPort pportIn = (PPort) ((ICInPort) controller.getInPort()).getPresentation();
 		pportIn.setLocation(10, 215);
+		PPort pportOut = (PPort) ((ICOutPort) controller.getOutPort()).getPresentation();
+		pportOut.setLocation(getWidth() - pportOut.getWidth() - 10, 215);
+
 
 		// Ajouts des composants
 		add(pportIn);
+		add(pportOut);
 
 		initLines();
 

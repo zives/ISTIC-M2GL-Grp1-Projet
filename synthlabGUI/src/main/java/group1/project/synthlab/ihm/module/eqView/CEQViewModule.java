@@ -26,7 +26,7 @@ public class CEQViewModule extends EQViewModule implements ICEQViewModule {
 					((Component) presentation).repaint();
 				
 			}
-		}, 0, 30);
+		}, 0, 40);
 
 		((Component) presentation).repaint();
 		

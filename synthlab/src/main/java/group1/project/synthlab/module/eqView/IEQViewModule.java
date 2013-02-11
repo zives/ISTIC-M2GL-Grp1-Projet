@@ -1,14 +1,8 @@
 package group1.project.synthlab.module.eqView;
 
 import group1.project.synthlab.module.IModule;
-import group1.project.synthlab.module.out.OutModule.Distribution;
-import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
-
-import com.jsyn.unitgen.FilterBandPass;
-import com.jsyn.unitgen.LineOut;
-import com.jsyn.unitgen.PassThrough;
-import com.jsyn.unitgen.PeakFollower;
+import group1.project.synthlab.port.out.IOutPort;
 
 /**
  * Interface de creation du module de sortie.
@@ -34,5 +28,9 @@ public interface IEQViewModule extends IModule {
 	 * @return le port d'entree
 	 */
 	public IInPort getInPort();
+	/**
+	 * @return le port de sortie
+	 */
+	public IOutPort getOutPort();
 
 }
