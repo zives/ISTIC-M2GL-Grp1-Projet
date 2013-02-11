@@ -75,7 +75,9 @@ protected int cmptPaint = 0;
 			while (cmpt < max) {
 				++cmpt;
 				//valuesToDrawBuffer.add(this.buffer.poll());
+				System.err.println(this.buffer.peek());
 				valuesToDraw.add(this.buffer.poll());
+				
 			}
 			if (++cmptPaint>= maxCmptPaint) {
 			((Component) presentation).repaint();

@@ -69,10 +69,10 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 		envelope.sustain.set(Tools.dBToV(sustain));
 		this.decibel = getDecibel();
 		this.volt = getVolt();
-		envelope.attack.set(attack / 1000.0);
-		envelope.decay.set(decay / 1000.0);
-		envelope.release.set(release / 1000.0);
-		envelope.hold.set(hold / 1000.0);
+		envelope.attack.set(attack);
+		envelope.decay.set(decay);
+		envelope.release.set(release);
+		envelope.hold.set(hold);
 		envelope.delay.set(0);
 		envelope.attack.setMinimum(0);
 		envelope.attack.setMaximum(5);
@@ -167,7 +167,7 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	 */
 	public void setAttack(double attack) {
 		this.attack = attack;
-		this.envelope.attack.set(attack / 1000.0);
+		this.envelope.attack.set(attack);
 		// TODO a enlever
 		System.err.println("  setAttack : attack = " + attack + "; release = " + release + "; decay = " + decay + "; hold = " + hold + "; sustain = " + volt + "; decibel = " + decibel);
 
@@ -189,7 +189,7 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	 */
 	public void setDecay(double decay) {
 		this.decay = decay;
-		this.envelope.decay.set(decay / 1000.0);
+		this.envelope.decay.set(decay);
 		// TODO a enlever
 		System.err.println("  setDecay : attack = " + attack + "; release = " + release + "; decay = " + decay + "; hold = " + hold + "; sustain = " + volt + "; decibel = " + decibel);
 
@@ -211,7 +211,7 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	 */
 	public void setRelease(double release) {
 		this.release = release;
-		this.envelope.release.set(release / 1000.0);
+		this.envelope.release.set(release);
 		// TODO a enlever
 		System.err.println("  setRelease : attack = " + attack + "; release = " + release + "; decay = " + decay + "; hold = " + hold + "; sustain = " + volt + "; decibel = " + decibel);
 
@@ -233,7 +233,7 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	 */
 	public void setHold(double hold) {
 		this.hold = hold;
-		this.envelope.hold.set(hold / 1000.0);
+		this.envelope.hold.set(hold);
 		// TODO a enlever
 		System.err.println("  setHold : attack = " + attack + "; release = " + release + "; decay = " + decay + "; hold = " + hold + "; sustain = " + volt + "; decibel = " + decibel);
 	}

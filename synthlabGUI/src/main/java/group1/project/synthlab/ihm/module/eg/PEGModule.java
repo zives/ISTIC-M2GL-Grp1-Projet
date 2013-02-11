@@ -38,14 +38,8 @@ public class PEGModule extends PModule implements IPEGModule {
 	protected JLabel warnLabel;
 
 	protected Component pportGate;
-
 	protected Component pportOut;
-	
-//	this.attack = 1000;
-//	this.decay = 1000;
-//	this.release = 1000;
-//	this.sustain = 0.3;
-//	this.hold = 0;
+
 
 	public PEGModule(final ICEGModule controller) {
 		super(controller);
@@ -57,7 +51,7 @@ public class PEGModule extends PModule implements IPEGModule {
 		this.decay = controller.getDecay();
 		this.hold = controller.getHold();
 		this.sustain = controller.getSustain();
-		this.decibel = controller.getDecibel() * 10;
+		this.decibel = controller.getDecibel() ;
 		
 		// Taille et couleur définie dans la super classe
 
@@ -93,7 +87,7 @@ public class PEGModule extends PModule implements IPEGModule {
 		sustainSlider.setPaintTicks(true);
 		sustainSlider.setMajorTickSpacing(100);
 		sustainSlider.setMinorTickSpacing(100);
-		sustainSlider.setValue((int) (decibel));
+		sustainSlider.setValue((int) (decibel * 10));
 		
 
 		JLabel sustainMaxValueLabel = new JLabel("0");
