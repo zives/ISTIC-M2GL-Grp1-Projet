@@ -1,4 +1,4 @@
-package group1.project.synthlab.unitExtensions.FilterAttenuator;
+package group1.project.synthlab.unitExtensions.filterAttenuator;
 
 import com.jsyn.unitgen.UnitFilter;
 
@@ -16,7 +16,6 @@ public class FilterAttenuator extends UnitFilter {
 		super();
 		attenuationV = 0;
 	}
-	 
 	
 	@Override
 	public void generate(int start, int limit) {

@@ -136,6 +136,12 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		
 	}
 
+	@Override
+	public void addOSCModule() {
+		addModule(factory.createOSCModule());
+		
+	}
+
 	
 	
 	

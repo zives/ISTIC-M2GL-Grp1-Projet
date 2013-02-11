@@ -62,6 +62,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	protected JButton eqViewButton;
 	protected JButton microButton;
 	protected JButton eqButton;
+	protected JButton oscButton;
 
 	public PWorkspace(ICWorkspace controller) {
 		super("Synthetiseur");
@@ -196,6 +197,11 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		eqButton.setBackground(new Color(150, 150, 150));
 		eqButton.setForeground(Color.BLACK);
 		toolBar.add(eqButton);
+		
+		oscButton= new JButton("OSC");
+		oscButton.setBackground(new Color(150, 150, 150));
+		oscButton.setForeground(Color.BLACK);
+		toolBar.add(oscButton);
 		
 		add(toolBar, BorderLayout.NORTH);
 		add(centerPanel, BorderLayout.CENTER);
@@ -370,6 +376,12 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 			public void actionPerformed(ActionEvent ev) {
 				controller.addEQModule();
+			}
+		});
+		oscButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent ev) {
+				controller.addOSCModule();
 			}
 		});
 		
