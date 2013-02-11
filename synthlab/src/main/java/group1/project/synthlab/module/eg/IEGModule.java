@@ -5,6 +5,8 @@ import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 
+import com.jsyn.unitgen.EnvelopeDAHDSR;
+
 /**
  * Module EG
  * 
@@ -13,6 +15,12 @@ import group1.project.synthlab.port.out.IOutPort;
  */
 public interface IEGModule extends IModule {
 
+
+	/**
+	 * @return le generateur d'enveloppe de JSyn
+	 */
+	public EnvelopeDAHDSR getEnvelope();
+	
 	/**
 	 * @return le temps de montee en milliseconde
 	 */

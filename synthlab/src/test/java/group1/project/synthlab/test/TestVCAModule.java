@@ -31,7 +31,6 @@ public class TestVCAModule extends TestCase {
 		
 		synth = JSyn.createSynthesizer();
 		synth.add(vca.getCircuit());
-
 	}
 
 	protected void tearDown() throws Exception {
@@ -88,6 +87,7 @@ public class TestVCAModule extends TestCase {
 	 * Test method for {@link group1.project.synthlab.module.vca.VCAModule#stop()}.
 	 */
 	public void testStop() {
+		vca.start();
 		vca.stop();
 		assertTrue (!vca.isStarted());
 		System.err.println("Stop...");

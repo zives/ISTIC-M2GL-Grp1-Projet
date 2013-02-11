@@ -41,7 +41,7 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	/** Temps entre attack et decay */
 	protected int hold = 0;
 	/** attenuation du niveau maximum atteint en fin de phase de montee, comprise entre 0 et -60dB */
-	protected double sustain = -20;
+	protected double sustain = -6;
 
 	/** Le generateur d'enveloppe */
 	protected EnvelopeDAHDSR envelope;
@@ -128,6 +128,15 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 		isOn = false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see group1.project.synthlab.module.IEGModule#getEnvelope()
+	 */
+	public EnvelopeDAHDSR getEnvelope() {
+		return envelope;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
