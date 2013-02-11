@@ -38,7 +38,7 @@ public class Workspace implements IWorkspace {
 			}
 		}
 		
-		if(microphoneConnected){
+		if(synthesizer.getAudioDeviceManager().getDefaultInputDeviceID() != -1){
 			System.out.println("Un microphone est connecté");
 			synthesizer.start(41000, AudioDeviceManager.USE_DEFAULT_DEVICE, 2, AudioDeviceManager.USE_DEFAULT_DEVICE, 2);
 		}
@@ -46,6 +46,9 @@ public class Workspace implements IWorkspace {
 			System.out.println("Aucun microphone de connecté");
 			synthesizer.start();
 		}	
+		
+		 
+		
 	}
 
 	/* (non-Javadoc)

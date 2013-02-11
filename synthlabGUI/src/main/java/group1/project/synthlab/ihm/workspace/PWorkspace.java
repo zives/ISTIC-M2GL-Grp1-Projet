@@ -404,7 +404,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 		quit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				controller.quitApp();
 
 			}
 		});

@@ -30,7 +30,7 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 	protected boolean amConnected;
 	
 	/** Gain min en dB*/
-	public static final double amin = -50;
+	public static final double amin = -60;
 	/** Gain max en dB*/
 	public static final double amax = 24;
 	/** Gain par defaut en dB */

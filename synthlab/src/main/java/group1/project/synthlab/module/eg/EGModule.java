@@ -41,10 +41,10 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	/** Temps entre attack et decay */
 	protected double hold = 0;
 	/** attenuation du niveau maximum atteint en fin de phase de montee, comprise entre 0 et -60dB */
-	protected double sustain = -6;
+	protected double sustain;
 	
 	/** sauvegarde de sustain en decibel et en volt */
-	protected double decibel;
+	protected double decibel = -2;
 	protected double volt;
 
 	/** Le generateur d'enveloppe */
@@ -66,7 +66,7 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 		circuit.add(envelope);
 
 		// On regle l'eg aux valeurs par defaut
-		envelope.sustain.set(Tools.dBToV(sustain));
+		envelope.sustain.set(Tools.dBToV(decibel));
 		this.decibel = getDecibel();
 		this.volt = getVolt();
 		envelope.attack.set(attack);
@@ -75,19 +75,19 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 		envelope.hold.set(hold);
 		envelope.delay.set(0);
 		envelope.attack.setMinimum(0);
-		envelope.attack.setMaximum(5);
+		envelope.attack.setMaximum(2);
 		envelope.decay.setMinimum(0);
-		envelope.decay.setMaximum(5);
+		envelope.decay.setMaximum(2);
 		envelope.release.setMinimum(0);
-		envelope.release.setMaximum(5);
+		envelope.release.setMaximum(2);
 		envelope.hold.setMinimum(0);
-		envelope.hold.setMaximum(5);
+		envelope.hold.setMaximum(2);
 
 		gate = factory.createInPort("gate", envelope.input, this);
 		out = factory.createOutPort("out", envelope.output, this);
 		
-		System.err.println("attack = " + attack + "; release = " + release + "; decay = " + decay + "; hold = " + hold + "; sustain = " + volt + "; decibel = " + decibel);
-
+		sustain = getVolt();
+		
 	}
 
 	private double getVolt() {
@@ -168,9 +168,6 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	public void setAttack(double attack) {
 		this.attack = attack;
 		this.envelope.attack.set(attack);
-		// TODO a enlever
-		System.err.println("  setAttack : attack = " + attack + "; release = " + release + "; decay = " + decay + "; hold = " + hold + "; sustain = " + volt + "; decibel = " + decibel);
-
 	}
 
 	/*
@@ -190,9 +187,6 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	public void setDecay(double decay) {
 		this.decay = decay;
 		this.envelope.decay.set(decay);
-		// TODO a enlever
-		System.err.println("  setDecay : attack = " + attack + "; release = " + release + "; decay = " + decay + "; hold = " + hold + "; sustain = " + volt + "; decibel = " + decibel);
-
 	}
 
 	/*
@@ -212,9 +206,7 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	public void setRelease(double release) {
 		this.release = release;
 		this.envelope.release.set(release);
-		// TODO a enlever
-		System.err.println("  setRelease : attack = " + attack + "; release = " + release + "; decay = " + decay + "; hold = " + hold + "; sustain = " + volt + "; decibel = " + decibel);
-
+	
 	}
 
 	/*
@@ -234,8 +226,6 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	public void setHold(double hold) {
 		this.hold = hold;
 		this.envelope.hold.set(hold);
-		// TODO a enlever
-		System.err.println("  setHold : attack = " + attack + "; release = " + release + "; decay = " + decay + "; hold = " + hold + "; sustain = " + volt + "; decibel = " + decibel);
 	}
 
 	/*
@@ -257,9 +247,6 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 		this.sustain = Tools.dBToV(decibel);
 		volt = sustain;
 		envelope.sustain.set(sustain);
-		// TODO a enlever
-		System.err.println("  setSustain : attack = " + attack + "; release = " + release + "; decay = " + decay + "; hold = " + hold + "; sustain = " + volt + "; decibel = " + decibel);
-
 	}
 
 	/*

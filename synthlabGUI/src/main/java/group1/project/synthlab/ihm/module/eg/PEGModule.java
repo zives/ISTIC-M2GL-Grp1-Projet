@@ -4,15 +4,16 @@ import group1.project.synthlab.ihm.module.PModule;
 import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.in.ICInPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
+import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterAmplitudeObservable;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
-import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -57,20 +58,21 @@ public class PEGModule extends PModule implements IPEGModule {
 
 		// Label et onoff boutons déjà rajoutés dans la super classe
 
-		// Label fréquence
+		this.setSize(getWidth(), getHeight() - 60);
+		this.setPreferredSize(this.getSize());
 
 		//Ports
 		PPort pportGate = (PPort) (((ICInPort) controller.getGate()).getPresentation());
-		pportGate.setLocation(10, 220);
+		pportGate.setLocation(10, getHeight() - pportGate.getHeight() - 5);
 		PPort pportOut = (PPort) (((ICOutPort) controller.getOut()).getPresentation());
-		pportOut.setLocation(240, 220);
+		pportOut.setLocation(240, getHeight() - pportGate.getHeight() - 5);
 		
-		// Sliders
-
 		
+		
+		// Sliders	
 		sustainSlider = new JSlider();
 		sustainSlider.setMaximum(0);
-		sustainSlider.setMinimum(-600);
+		sustainSlider.setMinimum(-60);
 		sustainSlider.setOrientation(JSlider.VERTICAL);
 		sustainSlider.setSize(15, 180);
 		sustainSlider.setFont(new Font("Arial", 0, 8));
@@ -82,11 +84,11 @@ public class PEGModule extends PModule implements IPEGModule {
 		sustainSlider.setOpaque(false);
 		sustainSlider.setSize(30, 100);
 		sustainSlider.setBorder(null);
-		sustainSlider.setLocation(20,80);
+		sustainSlider.setLocation(25,60);
 		sustainSlider.setFont(new Font("Arial", Font.ITALIC, 10));
 		sustainSlider.setPaintTicks(true);
-		sustainSlider.setMajorTickSpacing(100);
-		sustainSlider.setMinorTickSpacing(100);
+		sustainSlider.setMajorTickSpacing(10);
+		sustainSlider.setMinorTickSpacing(10);
 		sustainSlider.setValue((int) (decibel * 10));
 		
 
@@ -96,49 +98,49 @@ public class PEGModule extends PModule implements IPEGModule {
 		sustainMaxValueLabel.setSize(30, 20);
 		sustainMaxValueLabel.setBorder(null);
 		sustainMaxValueLabel.setPreferredSize(sustainMaxValueLabel.getSize());
-		sustainMaxValueLabel.setLocation(sustainSlider.getX() + 30, 80);
+		sustainMaxValueLabel.setLocation(sustainSlider.getX() + 33, sustainSlider.getY() - 5);
 		sustainMaxValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		
-		JLabel sustain0ValueLabel = new JLabel("-60");
+		JLabel sustain0ValueLabel = new JLabel(String.valueOf(sustainSlider.getMinimum() / 10));
 		sustain0ValueLabel.setForeground(Color.LIGHT_GRAY);
 		sustain0ValueLabel.setOpaque(false);
 		sustain0ValueLabel.setSize(30, 20);
 		sustain0ValueLabel.setBorder(null);
 		sustain0ValueLabel.setPreferredSize(sustain0ValueLabel.getSize());
-		sustain0ValueLabel.setLocation(sustainSlider.getX() + 30, 165);
+		sustain0ValueLabel.setLocation(sustainSlider.getX() + 33, sustainSlider.getY() + sustainSlider.getHeight() - 18);
 		sustain0ValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		
 		attackSlider = new JSlider();
-		attackSlider.setMaximum(50);
+		attackSlider.setMaximum(20);
 		attackSlider.setMinimum(0);
 		attackSlider.setOrientation(JSlider.HORIZONTAL);
-		attackSlider.setSize(80, 20);
+		attackSlider.setSize(80, 25);
 		attackSlider.setFont(new Font("Arial", 0, 8));
 		attackSlider.setForeground(Color.LIGHT_GRAY);
 		attackSlider.setPreferredSize(attackSlider.getSize());
 		attackSlider.setOpaque(false);
 		attackSlider.setFocusable(false);
-		attackSlider.setLocation(sustainSlider.getX() + 65, 80);
-		JLabel attackLabel = new JLabel("attack adj");
+		attackSlider.setLocation(sustainSlider.getX() + 65, 65);
+		JLabel attackLabel = new JLabel("attack adj.");
 		attackLabel.setForeground(Color.LIGHT_GRAY);
 		attackLabel.setOpaque(false);
 		attackLabel.setSize(100, 20);
 		attackLabel.setBorder(null);
 		attackLabel.setPreferredSize(attackSlider.getSize());
-		attackLabel.setLocation(sustainSlider.getX() + 80, 60);
+		attackLabel.setLocation(attackSlider.getX(), 45);
 		attackLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		attackSlider.setPaintTicks(true);
-		attackSlider.setMajorTickSpacing(10);
-		attackSlider.setMinorTickSpacing(10);
+		attackSlider.setMajorTickSpacing(5);
+		attackSlider.setMinorTickSpacing(5);
 		attackSlider.setValue((int) (attack * 10));
 		
-		JLabel attackMaxValueLabel = new JLabel("5");
+		JLabel attackMaxValueLabel = new JLabel(String.valueOf(attackSlider.getMaximum() /10));
 		attackMaxValueLabel.setForeground(Color.LIGHT_GRAY);
 		attackMaxValueLabel.setOpaque(false);
-		attackMaxValueLabel.setSize(30, 20);
+		attackMaxValueLabel.setSize(20, 20);
 		attackMaxValueLabel.setBorder(null);
 		attackMaxValueLabel.setPreferredSize(attackMaxValueLabel.getSize());
-		attackMaxValueLabel.setLocation(attackSlider.getX() + 70, 95);
+		attackMaxValueLabel.setLocation(attackSlider.getX() + 70, 90);
 		attackMaxValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		
 		JLabel attack0ValueLabel = new JLabel("0");
@@ -147,40 +149,40 @@ public class PEGModule extends PModule implements IPEGModule {
 		attack0ValueLabel.setSize(30, 20);
 		attack0ValueLabel.setBorder(null);
 		attack0ValueLabel.setPreferredSize(attack0ValueLabel.getSize());
-		attack0ValueLabel.setLocation(attackSlider.getX() + 5, 95);
+		attack0ValueLabel.setLocation(attackSlider.getX() + 5, 90);
 		attack0ValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		
 		decaySlider = new JSlider();
-		decaySlider.setMaximum(50);
+		decaySlider.setMaximum(20);
 		decaySlider.setMinimum(0);
 		decaySlider.setOrientation(JSlider.HORIZONTAL);
-		decaySlider.setSize(80, 20);
+		decaySlider.setSize(80, 25);
 		decaySlider.setFont(new Font("Arial", 0, 8));
 		decaySlider.setForeground(Color.LIGHT_GRAY);
 		decaySlider.setPreferredSize(attackSlider.getSize());
 		decaySlider.setOpaque(false);
 		decaySlider.setFocusable(false);
-		decaySlider.setLocation(attackSlider.getX(), 140);
-		final JLabel decayLabel = new JLabel("decay adj");
+		decaySlider.setLocation(attackSlider.getX(), 130);
+		final JLabel decayLabel = new JLabel("decay adj.");
 		decayLabel.setForeground(Color.LIGHT_GRAY);
 		decayLabel.setOpaque(false);
 		decayLabel.setSize(100, 20);
 		decayLabel.setBorder(null);
-		decayLabel.setPreferredSize(attackLabel.getSize());
-		decayLabel.setLocation(attackLabel.getX(), 120);
+		decayLabel.setPreferredSize(decaySlider.getSize());
+		decayLabel.setLocation(decaySlider.getX(), 110);
 		decayLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		decaySlider.setPaintTicks(true);
-		decaySlider.setMajorTickSpacing(10);
-		decaySlider.setMinorTickSpacing(10);
+		decaySlider.setMajorTickSpacing(5);
+		decaySlider.setMinorTickSpacing(5);
 		decaySlider.setValue((int) (decay * 10));
 		
-		JLabel decayMaxValueLabel = new JLabel("5");
+		JLabel decayMaxValueLabel = new JLabel(String.valueOf(decaySlider.getMaximum() /10));
 		decayMaxValueLabel.setForeground(Color.LIGHT_GRAY);
 		decayMaxValueLabel.setOpaque(false);
 		decayMaxValueLabel.setSize(30, 20);
 		decayMaxValueLabel.setBorder(null);
 		decayMaxValueLabel.setPreferredSize(decayMaxValueLabel.getSize());
-		decayMaxValueLabel.setLocation(decaySlider.getX() + 70, 155);
+		decayMaxValueLabel.setLocation(decaySlider.getX() + 70 , 155);
 		decayMaxValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		
 		JLabel decay0ValueLabel = new JLabel("0");
@@ -193,36 +195,36 @@ public class PEGModule extends PModule implements IPEGModule {
 		decay0ValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		
 		releaseSlider = new JSlider();
-		releaseSlider.setMaximum(60);
+		releaseSlider.setMaximum(20);
 		releaseSlider.setMinimum(0);
 		releaseSlider.setOrientation(JSlider.HORIZONTAL);
-		releaseSlider.setSize(80, 20);
+		releaseSlider.setSize(80, 25);
 		releaseSlider.setFont(new Font("Arial", 0, 8));
 		releaseSlider.setForeground(Color.LIGHT_GRAY);
 		releaseSlider.setPreferredSize(attackSlider.getSize());
 		releaseSlider.setOpaque(false);
 		releaseSlider.setFocusable(false);
-		releaseSlider.setLocation(attackSlider.getX() + 100, 80);
-		final JLabel releaseLabel = new JLabel("release adj");
+		releaseSlider.setLocation(attackSlider.getX() + 100, 65);
+		final JLabel releaseLabel = new JLabel("release adj.");
 		releaseLabel.setForeground(Color.LIGHT_GRAY);
 		releaseLabel.setOpaque(false);
 		releaseLabel.setSize(100, 20);
 		releaseLabel.setBorder(null);
 		releaseLabel.setPreferredSize(attackLabel.getSize());
-		releaseLabel.setLocation(attackLabel.getX() + 110, 60);
+		releaseLabel.setLocation(releaseSlider.getX(), 45);
 		releaseLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		releaseSlider.setPaintTicks(true);
-		releaseSlider.setMajorTickSpacing(10);
-		releaseSlider.setMinorTickSpacing(10);
+		releaseSlider.setMajorTickSpacing(5);
+		releaseSlider.setMinorTickSpacing(5);
 		releaseSlider.setValue((int) (release * 10));
 		
-		JLabel releaseMaxValueLabel = new JLabel("5");
+		JLabel releaseMaxValueLabel = new JLabel(String.valueOf(releaseSlider.getMaximum() /10));
 		releaseMaxValueLabel.setForeground(Color.LIGHT_GRAY);
 		releaseMaxValueLabel.setOpaque(false);
 		releaseMaxValueLabel.setSize(30, 20);
 		releaseMaxValueLabel.setBorder(null);
 		releaseMaxValueLabel.setPreferredSize(releaseMaxValueLabel.getSize());
-		releaseMaxValueLabel.setLocation(releaseSlider.getX()+ 70, 95);
+		releaseMaxValueLabel.setLocation(releaseSlider.getX()+ 70, 90);
 		releaseMaxValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		
 		JLabel release0ValueLabel = new JLabel("0");
@@ -231,34 +233,34 @@ public class PEGModule extends PModule implements IPEGModule {
 		release0ValueLabel.setSize(30, 20);
 		release0ValueLabel.setBorder(null);
 		release0ValueLabel.setPreferredSize(release0ValueLabel.getSize());
-		release0ValueLabel.setLocation(releaseSlider.getX() + 5 , 95);
+		release0ValueLabel.setLocation(releaseSlider.getX() + 5 , 90);
 		release0ValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		
 		holdSlider = new JSlider();
-		holdSlider.setMaximum(50);
+		holdSlider.setMaximum(20);
 		holdSlider.setMinimum(0);
 		holdSlider.setOrientation(JSlider.HORIZONTAL);
-		holdSlider.setSize(80, 20);
+		holdSlider.setSize(80, 25);
 		holdSlider.setFont(new Font("Arial", 0, 8));
 		holdSlider.setForeground(Color.LIGHT_GRAY);
 		holdSlider.setPreferredSize(attackSlider.getSize());
 		holdSlider.setOpaque(false);
 		holdSlider.setFocusable(false);
-		holdSlider.setLocation(decaySlider.getX() + 100, 140);
+		holdSlider.setLocation(decaySlider.getX() + 100, 130);
 		final JLabel holdLabel = new JLabel("hold adj");
 		holdLabel.setForeground(Color.LIGHT_GRAY);
 		holdLabel.setOpaque(false);
-		holdLabel.setSize(100, 20);
+		holdLabel.setSize(100, 10);
 		holdLabel.setBorder(null);
 		holdLabel.setPreferredSize(attackLabel.getSize());
-		holdLabel.setLocation(decayLabel.getX() + 100, 120);
+		holdLabel.setLocation(holdSlider.getX(), 115);
 		holdLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		holdSlider.setPaintTicks(true);
-		holdSlider.setMajorTickSpacing(10);
-		holdSlider.setMinorTickSpacing(10);
+		holdSlider.setMajorTickSpacing(5);
+		holdSlider.setMinorTickSpacing(5);
 		holdSlider.setValue((int) (hold * 10));
 		
-		JLabel holdMaxValueLabel = new JLabel("5");
+		JLabel holdMaxValueLabel = new JLabel(String.valueOf(holdSlider.getMaximum() /10));
 		holdMaxValueLabel.setForeground(Color.LIGHT_GRAY);
 		holdMaxValueLabel.setOpaque(false);
 		holdMaxValueLabel.setSize(30, 20);
@@ -288,25 +290,16 @@ public class PEGModule extends PModule implements IPEGModule {
 		maxAttackValueLabel.setFont(new Font("Monospaced", Font.ITALIC, 26));
 		
 		//Affichage des valeurs
-		final JLabel txtEgValueLabel = new JLabel("");
+		final JLabel txtEgValueLabel = new JLabel("", JLabel.CENTER);
 		txtEgValueLabel.setForeground(Color.LIGHT_GRAY);
 		txtEgValueLabel.setOpaque(false);
-		txtEgValueLabel.setSize(70, 20);
+		txtEgValueLabel.setSize(100, 20);
 		txtEgValueLabel.setBorder(null);
-		txtEgValueLabel.setLocation(130, 190);
+		txtEgValueLabel.setLocation(getWidth() / 2 - txtEgValueLabel.getWidth() / 2, 180);
 		txtEgValueLabel.setVisible(false);
-		txtEgValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
+		txtEgValueLabel.setFont(new Font("Monospaced", Font.ITALIC, 22));
 		
-		//Warn
-		warnLabel = new JLabel("Amplitude out of bounds!");
-		warnLabel.setForeground(Color.LIGHT_GRAY);
-		warnLabel.setOpaque(false);
-		warnLabel.setSize(180, 20);
-		warnLabel.setForeground(Color.RED);
-		warnLabel.setBorder(null);
-		warnLabel.setLocation(this.getWidth() / 2 - warnLabel.getWidth() / 2, 190);
-		warnLabel.setFont(new Font("Arial", 0, 15));
-		warnLabel.setVisible(false);
+
 		
 
 		// Ajouts des composants
@@ -323,7 +316,6 @@ public class PEGModule extends PModule implements IPEGModule {
 		add(holdLabel);
 		add(holdSlider);
 
-		add(warnLabel);
 		add(sustainMaxValueLabel);
 		add(sustain0ValueLabel);
 		add(attackMaxValueLabel);
@@ -337,48 +329,99 @@ public class PEGModule extends PModule implements IPEGModule {
 		add(txtEgValueLabel);
 		
 		// Events
+		sustainSlider.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				txtEgValueLabel.setVisible(true);
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				txtEgValueLabel.setVisible(false);
+			}
+		});
+		attackSlider.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				txtEgValueLabel.setVisible(true);
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				txtEgValueLabel.setVisible(false);
+			}
+		});
+		decaySlider.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				txtEgValueLabel.setVisible(true);
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				txtEgValueLabel.setVisible(false);
+			}
+		});
+		releaseSlider.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				txtEgValueLabel.setVisible(true);
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				txtEgValueLabel.setVisible(false);
+			}
+		});
+		holdSlider.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				txtEgValueLabel.setVisible(true);
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				txtEgValueLabel.setVisible(false);
+			}
+		});
+		
 		sustainSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				controller.setSustain((int) sustainSlider.getValue() / 10.0);
-				txtEgValueLabel.setVisible(true);
-				txtEgValueLabel.setFont(font);
 				txtEgValueLabel.setText( sustainSlider.getValue()/ 10.0 + " dB");
-				//textFreq.setText(PTools.freqToString(controller.getf0()) + " Hz");
-				//textFreq.setText(PTools.freqToString(controller.getf0()));
 			}
 		});
 
 		attackSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				controller.setAttack((double) attackSlider.getValue() / 10.0);
-				txtEgValueLabel.setVisible(true);
-				txtEgValueLabel.setFont(font);
-				txtEgValueLabel.setText( attackSlider.getValue() / 10.0 + "");
+				txtEgValueLabel.setText( attackSlider.getValue() / 10.0 + " s");
 			}
 		});
 		
 		decaySlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				controller.setDecay((double) decaySlider.getValue() / 10.0);
-				txtEgValueLabel.setVisible(true);
-				txtEgValueLabel.setFont(font);
-				txtEgValueLabel.setText(decaySlider.getValue() / 10.0 + "");
+				txtEgValueLabel.setText(decaySlider.getValue() / 10.0 + " s");
 			}
 		});
 		
 		releaseSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				controller.setRelease((double) releaseSlider.getValue() / 10.0);
-				txtEgValueLabel.setVisible(true);
-				txtEgValueLabel.setText( releaseSlider.getValue() / 10.0 + "");
+				txtEgValueLabel.setText( releaseSlider.getValue() / 10.0 + " s");
 			}
 		});
 		
 		holdSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				controller.setHold((double) holdSlider.getValue() / 10.0);
-				txtEgValueLabel.setVisible(true);
-				txtEgValueLabel.setText(  holdSlider.getValue() / 10.0 + "");
+				txtEgValueLabel.setText(  holdSlider.getValue() / 10.0 + " s");
 			}
 		});
 		
@@ -390,20 +433,5 @@ public class PEGModule extends PModule implements IPEGModule {
 		
 	}
 
-	@Override
-	public void warn(
-			group1.project.synthlab.unitExtensions.filterSupervisor.IFilterAmplitudeObservable subject,
-			boolean tooHigh) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void hasSignal(
-			group1.project.synthlab.unitExtensions.filterSupervisor.IFilterAmplitudeObservable subject,
-			boolean hasSignal) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }

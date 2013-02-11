@@ -148,6 +148,12 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		
 	}
 
+	@Override
+	public void quitApp() {
+		System.exit(0);
+		
+	}
+
 	
 	
 	

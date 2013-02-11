@@ -24,5 +24,7 @@ public interface ICWorkspace extends IWorkspace {
 	public void addOSCModule();
 
 	public void addOneVCFModule();
+	
+	public void quitApp();
 
 }
