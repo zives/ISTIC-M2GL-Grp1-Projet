@@ -25,8 +25,8 @@ public class Workspace implements IWorkspace {
 		this.factory = factory;
 		this.modules = new ArrayList<IModule>();
 		synthesizer = JSyn.createSynthesizer();
-
-		synthesizer.start(41000, AudioDeviceManager.USE_DEFAULT_DEVICE, 2, AudioDeviceManager.USE_DEFAULT_DEVICE, 2);
+//		synthesizer.start(41000, AudioDeviceManager.USE_DEFAULT_DEVICE, 2, AudioDeviceManager.USE_DEFAULT_DEVICE, 2);
+		synthesizer.start();
 	
 	}
 
