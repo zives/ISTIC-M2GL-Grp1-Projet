@@ -7,7 +7,6 @@ import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Tools;
-import group1.project.synthlab.unitExtensions.filterSupervisor.FilterAmplitude;
 import javax.swing.JFrame;
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
@@ -18,13 +17,9 @@ import com.jsyn.unitgen.SineOscillator;
 import com.jsyn.unitgen.SquareOscillator;
 
 /**
- * Module VCO
+ * Module EG
  * 
  * @author Groupe 1
- * 
- */
-/**
- * @author 10008808
  * 
  */
 public class EGModule extends Module implements IPortObserver, IEGModule {
@@ -34,47 +29,43 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	/** Port d'entree : une entree de declenchement */
 	protected IInPort gate;
 
-	/** Pour de sortie pour le signal out */
+	/** Port de sortie out */
 	protected IOutPort out;
 
 	/** Temps de montee en milliseconde */
-	protected int attack;
-	/** Temps de maintien en milliseconde */
-	protected int decay;
+	protected int attack = 200;
+	/** Temps de declin en milliseconde */
+	protected int decay = 200;
 	/** Temps de relachement en milliseconde */
-	protected int release;
+	protected int release = 300;
 	/** Temps entre attack et decay */
-	protected int hold;
-	/** amplitude comprise entre 0(pas d'atténuation et moins 60) */
-	protected double sustain;
+	protected int hold = 0;
+	/** attenuation du niveau maximum atteint en fin de phase de montee, comprise entre 0 et -60dB */
+	protected double sustain = -20;
 
+	/** Le generateur d'enveloppe */
 	protected EnvelopeDAHDSR envelope;
+	
 	/** Etat du module (allume ou eteint) */
 	protected boolean isOn;
 
 	/**
-	 * 
+	 * Constructeur : initialise l'EG (ports, valeurs par defaut des parametres...)
 	 */
 	public EGModule(Factory factory) {
 		super("EG-" + ++moduleCount, factory);
-		this.attack = 1000;
-		this.decay = 1000;
-		this.release = 1000;
-		this.sustain = 0.3;
-		this.hold = 0;
 	
 		envelope = new EnvelopeDAHDSR();
 
 		circuit.add(envelope);
 
-		// On regle les frequences des oscillateurs aux valeurs par defaut
+		// On regle l'eg aux valeurs par defaut
 		envelope.sustain.set(Tools.dBToV(sustain));
 		envelope.attack.set(attack / 1000.0);
 		envelope.decay.set(decay / 1000.0);
 		envelope.release.set(release / 1000.0);
 		envelope.hold.set(hold / 1000.0);
 		envelope.delay.set(0);
-		
 		envelope.attack.setMinimum(0);
 		envelope.attack.setMaximum(5);
 		envelope.decay.setMinimum(0);
@@ -101,29 +92,18 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 			out.getCable().disconnect();
 	}
 
-	// Fonction appelee lorsque les reglages sont modifiees sur l'IHM
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see group1.project.synthlab.module.IVCOModule#changeFrequency()
-	 */
-
-	// Fonction qui gere la connexion a l'entree FM, et donc le passage a la
-	// modulation de frequence par un signal en entree
-	// La fonction sera donc appelee lorsqu'on connectera un cable au port fm
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IVCOModule#cableConnected()
+	 * @see group1.project.synthlab.module.IEGModule#cableConnected()
 	 */
 	public void cableConnected(IPort port) {
 	}
 
-	// Fonction qui gere la deconnexion a l'entree FM
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see group1.project.synthlab.module.IVCOModule#cableDisconnected()
+	 * @see group1.project.synthlab.module.IEGModule#cableDisconnected()
 	 */
 	public void cableDisconnected(IPort port) {
 	}
@@ -134,10 +114,7 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	 * @see group1.project.synthlab.module.IModule#start()
 	 */
 	public void start() {
-		 circuit.start();
 		circuit.start();
-		envelope.start();
-	
 		isOn = true;
 	}
 
@@ -148,59 +125,118 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	 */
 	public void stop() {
 		circuit.stop();
-		envelope.stop();
 		isOn = false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see group1.project.synthlab.module.IEGModule#getAttack()
+	 */
 	public int getAttack() {
 		return attack;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see group1.project.synthlab.module.IEGModule#setAttack()
+	 */
 	public void setAttack(int attack) {
 		this.attack = attack;
 		this.envelope.attack.set(attack / 1000.0);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see group1.project.synthlab.module.IEGModule#getDecay()
+	 */
 	public int getDecay() {
 		return decay;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see group1.project.synthlab.module.IEGModule#setDecay()
+	 */
 	public void setDecay(int decay) {
 		this.decay = decay;
 		this.envelope.decay.set(decay / 1000.0);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see group1.project.synthlab.module.IEGModule#getRelease()
+	 */
 	public int getRelease() {
 		return release;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see group1.project.synthlab.module.IEGModule#setRelease()
+	 */
 	public void setRelease(int release) {
 		this.release = release;
 		this.envelope.release.set(release / 1000.0);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see group1.project.synthlab.module.IEGModule#getHold()
+	 */
 	public int getHold() {
 		return hold;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see group1.project.synthlab.module.IEGModule#setHold()
+	 */
 	public void setHold(int hold) {
 		this.hold = hold;
 		this.envelope.hold.set(hold / 1000.0);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see group1.project.synthlab.module.IEGModule#getSustain()
+	 */
 	public double getSustain() {
 		return sustain;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see group1.project.synthlab.module.IEGModule#setSustain()
+	 */
 	public void setSustain(double sustain) {
 		this.sustain = sustain;
 		envelope.sustain.set(Tools.dBToV(sustain));
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see group1.project.synthlab.module.IEGModule#getGate()
+	 */
 	public IInPort getGate() {
 		return gate;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see group1.project.synthlab.module.IEGModule#getOut()
+	 */
 	public IOutPort getOut() {
 		return out;
 	}
@@ -227,66 +263,76 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 		// On cree notre eg et on ajoute le circuit cree au Synthesizer
 		EGModule eg = (EGModule) factory.createEGModule();
 		synth.add(eg.getCircuit());
+		eg.setAttack(200);
+		eg.setDecay(200);
+		eg.setRelease(10000);
+		eg.setSustain(-6);
 		eg.start();
-		
+
 		// LineOut remplace ici OutModule
 		LineOut out = new LineOut();
 		synth.add(out);
 		out.start();
 
-		// Creation d'oscillateurs arbitraire
-		SineOscillator oscS = null;
-		synth.add(oscS = new SineOscillator());
+		// On cree l'oscillateur qui sera connecte a l'entree gate de l'EG
+		SquareOscillator oscGate = new SquareOscillator();
+		oscGate.frequency.set(0.5);		// La frequence doit etre tres faible pour pouvoir observer la sortie de l'enveloppe a chaque front montant
+		oscGate.amplitude.set(0.5);
+		synth.add(oscGate);
+		oscGate.start();
+		oscGate.output.connect(eg.getGate().getJSynPort());
 		
-		oscS.frequency.set(700);
-		oscS.amplitude.set(1);
-		oscS.start();
-		
-		//Filte amplitude
-		FilterAmplitude filter = new FilterAmplitude(5, false);
-		
-		filter.input.connect(eg.getOut().getJSynPort());
-		filter.output.connect(oscS.amplitude);
-		//connecte la sortie de l oscillateur a l entree du module eg
-		//eg.getOut().getJSynPort().connect(oscS.amplitude);
-		
-		SquareOscillator oscC = null;
-		synth.add(oscC = new SquareOscillator());
-		oscC.output.connect(eg.getGate().getJSynPort());
-		oscC.frequency.set(1/10);
-		oscC.amplitude.set(1);
-		oscC.start();
-	//((UnitInputPort)	eg.getGate().getJSynPort()).set(1);
-		
-		
-		// On connecte la sortie de notre eg a la sortie
-		out.input.connect(oscS.output);
-		
-		//eg.envelope.frequence.set(0.1);
+		// On cree l'oscillateur dont l'amplitude sera controlee par l'enveloppe
+		SineOscillator osc = new SineOscillator();
+		osc.frequency.set(440);
+		eg.getOut().getJSynPort().connect(osc.amplitude);
+		out.input.connect(osc.output);
+		synth.add(osc);
+		osc.start();
 		
 		// Pour l'affichage des courbes
 		AudioScope scope = new AudioScope(synth);
-		scope.addProbe(oscS.output);
+		scope.addProbe(osc.output);
 		
 		scope.setTriggerMode(AudioScope.TriggerMode.AUTO);
 		scope.getModel().getTriggerModel().getLevelModel()
 				.setDoubleValue(0.0001);
 		scope.getView().setShowControls(true);
 		scope.start();
-
-
 		JFrame frame = new JFrame();
 		frame.add(scope.getView());
 		frame.pack();
 		frame.setVisible(true);
+
+		System.out.println("\n\nTest Module EG, avec differents parametres");
 		
-		eg.setAttack(3000);
-		eg.setHold(4000);
-		eg.setDecay(10000);
-		eg.setRelease(20000);
-		eg.setSustain(-20);
-	
-
-
+		System.out.println("\nAttack = 0.2s, Decay = 0.2s, Sustain = -6dB, Release = 1s");
+		Tools.wait(synth, 10);
+		
+		System.out.println("\nAttack = 1s, Decay = 0.2s, Sustain = -6dB, Release = 1s");
+		eg.setAttack(1000);
+		Tools.wait(synth, 10);
+		
+		System.out.println("\nAttack = 0.2s, Decay = 1s, Sustain = -6dB, Release = 1s");
+		eg.setAttack(200);
+		eg.setDecay(1000);
+		Tools.wait(synth, 10);
+		
+		System.out.println("\nAttack = 0.2s, Decay = 0.2s, Sustain = -24dB, Release = 1s");
+		eg.setDecay(200);
+		eg.setSustain(-24);
+		Tools.wait(synth, 10);
+		
+		System.out.println("\nAttack = 0.2s, Decay = 0.2s, Sustain = -6dB, Release = 10s");
+		eg.setSustain(-6);
+		eg.setRelease(10000);
+		Tools.wait(synth, 10);
+		
+		System.out.println("\nArret de l'EG pendant quelques secondes");
+		eg.stop();
+		Tools.wait(synth, 3);
+		
+		System.out.println("\nRedemarrage de l'EG");
+		eg.start();
 	}
 }
