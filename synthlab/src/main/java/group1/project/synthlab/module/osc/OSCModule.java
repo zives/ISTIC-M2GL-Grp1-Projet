@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import javax.swing.JFrame;
+
 import com.jsyn.scope.AudioScope;
 import com.jsyn.unitgen.PassThrough;
 
@@ -58,6 +60,11 @@ public class OSCModule extends Module implements IOSCModule {
 		passThrough.output.connect(filter.input);
 		circuit.add(passThrough);
 		scope.addProbe(passThrough.output);
+		
+		JFrame frame = new JFrame();
+		frame.add(scope.getView());
+		frame.pack();
+		frame.setVisible(true);
 
 	}
 

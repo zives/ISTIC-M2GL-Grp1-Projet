@@ -9,6 +9,7 @@ import java.util.List;
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.devices.AudioDeviceManager;
+import com.softsynth.jsyn.AudioDevice;
 
 /**
  * @author Groupe 1
@@ -24,8 +25,9 @@ public class Workspace implements IWorkspace {
 		this.factory = factory;
 		this.modules = new ArrayList<IModule>();
 		synthesizer = JSyn.createSynthesizer();
+
 		synthesizer.start(41000, AudioDeviceManager.USE_DEFAULT_DEVICE, 2, AudioDeviceManager.USE_DEFAULT_DEVICE, 2);
-				
+	
 	}
 
 	/* (non-Javadoc)
