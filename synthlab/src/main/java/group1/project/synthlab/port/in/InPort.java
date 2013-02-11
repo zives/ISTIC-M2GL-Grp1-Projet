@@ -21,15 +21,19 @@ public class InPort extends Port implements IInPort {
 	public InPort(String label, ConnectableInput jSynPort, IModule module, Factory factory)  {
 		super(label, module,  factory);
 		this.jSynPort = jSynPort;
-				
+		
+		
 	}
 
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.port.in.IInPort#getJSynPort()
 	 */
 	public ConnectableInput getJSynPort() {
+		
 		return jSynPort;
 	}
+
+	
 
 
  

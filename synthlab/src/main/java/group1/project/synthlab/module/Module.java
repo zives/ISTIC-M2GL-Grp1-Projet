@@ -1,6 +1,7 @@
 package group1.project.synthlab.module;
 
 import group1.project.synthlab.factory.Factory;
+import group1.project.synthlab.port.IPort;
 
 import com.jsyn.unitgen.Circuit;
 
@@ -44,6 +45,8 @@ public abstract class Module implements IModule {
 	public void setFactory(Factory factory) {
 		this.factory = factory;
 	}
+
+
 	
 	
 }

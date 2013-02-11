@@ -19,5 +19,10 @@ public interface IWorkspace {
 	public void removeModule(IModule module);
 	public Synthesizer getSynthetizer();
 	
+	/**
+	 * @return si un microphone a été branché lors de la creation du workspace
+	 */
+	public boolean isMicrophoneSupported();
+	
 
 }

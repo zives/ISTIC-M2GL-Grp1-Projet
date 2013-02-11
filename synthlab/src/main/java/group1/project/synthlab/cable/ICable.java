@@ -54,21 +54,13 @@ public interface ICable {
 	public void disconnect();
 	
 	
-	/** Défini si l'amplitude du signal est trop elevée */
-	public void setSignalSaturated(boolean saturated);
-	
-	/**
-	 * @return si le signal est saturé
-	 */
-	public boolean isSignalSaturated();
-
-	/**
-	 * @return si le signal est null
-	 */
-	public void setSignalNull(boolean b);
-	
 	/**
 	 * @return si il y a un signal
 	 */
 	public boolean hasSignal();
+	
+	/**
+	 * @return si le signal est satur�
+	 */
+	public boolean isSignalSaturated();
 }

@@ -1,16 +1,15 @@
 package group1.project.synthlab.ihm.module;
 
 import group1.project.synthlab.ihm.workspace.CWorkspace;
-import group1.project.synthlab.module.Module;
+import group1.project.synthlab.ihm.workspace.ICWorkspace;
+import group1.project.synthlab.workspace.IWorkspace;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Composite;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Paint;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
@@ -105,6 +104,11 @@ public abstract class PModule extends JPanel implements IPModule {
 		removeButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent ev) {
+				if (CWorkspace.getInstance().isDrawingCable()) {
+					ICWorkspace ws =  CWorkspace.getInstance();
+					ws.removeCable(ws.getDrawingCable());
+					ws.setDrawingCable(null);
+				}
 				CWorkspace.getInstance().removeModule(controller);
 			}
 		});
@@ -125,8 +129,9 @@ public abstract class PModule extends JPanel implements IPModule {
 			}
 
 			public void mouseEntered(MouseEvent arg0) {
-				if (!CWorkspace.getInstance().isDrawingCable()) 
-					self.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+				if (!CWorkspace.getInstance().isDrawingCable())
+					self.setCursor(Cursor
+							.getPredefinedCursor(Cursor.MOVE_CURSOR));
 
 			}
 
@@ -184,27 +189,28 @@ public abstract class PModule extends JPanel implements IPModule {
 
 	}
 
-	
 	@Override
 	public void paint(Graphics g) {
-		  super.paint(g);
+		super.paint(g);
 		Graphics2D gi = (Graphics2D) g;
 		gi.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		gi.setStroke(new BasicStroke(6f));
-		g.setColor(getParent().getBackground()	);
-		 RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float(0, 0, getWidth() , getHeight() , 0, 0);
-	        gi.draw(roundedRectangle); 
-	      
+		g.setColor(getParent().getBackground());
+		RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float(0, 0,
+				getWidth(), getHeight(), 0, 0);
+		gi.draw(roundedRectangle);
+
 		g.setColor(new Color(150, 150, 150));
-		  roundedRectangle = new RoundRectangle2D.Float(4, 4, getWidth() - 8, getHeight() - 8, 3, 3);
-	        gi.draw(roundedRectangle); 
-	        
-	    	gi.setStroke(new BasicStroke(2f));
-	        g.setColor(new Color(30, 30, 30));
-			  roundedRectangle = new RoundRectangle2D.Float(5, 5, getWidth() - 10, getHeight() - 10, 5, 5);
-		        gi.draw(roundedRectangle); 
-	      
-		
+		roundedRectangle = new RoundRectangle2D.Float(4, 4, getWidth() - 8,
+				getHeight() - 8, 3, 3);
+		gi.draw(roundedRectangle);
+
+		gi.setStroke(new BasicStroke(2f));
+		g.setColor(new Color(30, 30, 30));
+		roundedRectangle = new RoundRectangle2D.Float(5, 5, getWidth() - 10,
+				getHeight() - 10, 5, 5);
+		gi.draw(roundedRectangle);
+
 	}
 }

@@ -14,4 +14,8 @@ public interface IOutPort extends IPort {
 	 * @return le port JSyn
 	 */
 	public ConnectableOutput getJSynPort();
+
+
+
+	
 }

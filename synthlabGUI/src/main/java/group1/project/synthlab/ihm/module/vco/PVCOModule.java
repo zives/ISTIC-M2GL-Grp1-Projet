@@ -114,7 +114,7 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		warnLabel.setSize(180, 20);
 		warnLabel.setForeground(Color.RED);
 		warnLabel.setBorder(null);
-		warnLabel.setLocation(this.getWidth() / 2 - warnLabel.getWidth() / 2, 190);
+		warnLabel.setLocation(this.getWidth() / 2 - warnLabel.getWidth() / 2, 182);
 		warnLabel.setFont(new Font("Arial", 0, 15));
 		warnLabel.setVisible(false);
 

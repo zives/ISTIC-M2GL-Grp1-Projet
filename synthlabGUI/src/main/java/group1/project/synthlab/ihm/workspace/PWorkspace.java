@@ -148,6 +148,9 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		workspacePanel.setPreferredSize(new Dimension(3000, 3000));
 		workspacePanel.setSize(workspacePanel.getPreferredSize());
 		centerPanel = new JScrollPane(workspacePanel);
+		centerPanel.setDoubleBuffered(true);
+		centerPanel.setWheelScrollingEnabled(false);
+		centerPanel.getViewport().setIgnoreRepaint(false);
 
 		vcoPianoButton = new JButton("PIANO");
 		vcoPianoButton.setBackground(new Color(150, 150, 150));
@@ -197,7 +200,8 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		microButton= new JButton("MICRO");
 		microButton.setBackground(new Color(150, 150, 150));
 		microButton.setForeground(Color.BLACK);
-		toolBar.add(microButton);
+		if (controller.isMicrophoneSupported())
+			toolBar.add(microButton);
 		
 		eqButton= new JButton("EQ");
 		eqButton.setBackground(new Color(150, 150, 150));

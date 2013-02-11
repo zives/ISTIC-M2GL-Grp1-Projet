@@ -7,16 +7,19 @@ import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.unitExtensions.filterSupervisor.FilterAmplitude;
 import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterAmplitudeObservable;
 import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterAmplitudeObserver;
+import group1.project.synthlab.workspace.Workspace;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.jsyn.Synthesizer;
 
 
 /**
  * @author Groupe 1
  * Un port
  */
-public abstract class Port implements IPort,  IFilterAmplitudeObserver {
+public abstract class Port implements IPort {
 	protected List<IPortObserver> observers = new ArrayList<IPortObserver>();
 	protected ICable cable;
 	protected String label;	
@@ -28,9 +31,7 @@ public abstract class Port implements IPort,  IFilterAmplitudeObserver {
 		this.label = label;
 		this.factory = factory;
 		this.module = module;
-		this.supervisor = new FilterAmplitude(Signal.AMAX, false);
-		
-		this.supervisor.register(this);
+		this.supervisor = new FilterAmplitude(Signal.AMAX, false);		
 		register(module);
 	}
 	
@@ -73,6 +74,7 @@ public abstract class Port implements IPort,  IFilterAmplitudeObserver {
 		for(IPortObserver observer: observers)
 			observer.cableConnected(this);
 		
+		
 	}
 	public void cableDisconnected() {
 		for(IPortObserver observer: observers)
@@ -88,17 +90,14 @@ public abstract class Port implements IPort,  IFilterAmplitudeObserver {
 		this.supervisor.setMax(amplitudeMax);
 	}
 
-	public void hasSignal(IFilterAmplitudeObservable subject, boolean hasSignal) {
-		
-		if(isUsed())
-			this.cable.setSignalNull(!hasSignal);
+	
+	public boolean detectSignalSaturated() {
+		return supervisor.isSatured();
 	}
 
-	public void warn(IFilterAmplitudeObservable subject, boolean tooHigh) {
-		if(isUsed())
-			this.cable.setSignalSaturated(tooHigh);		
-		
+	public boolean detectSignal() {
+		return supervisor.hasSignal();
 	}
-	
+
 
 }

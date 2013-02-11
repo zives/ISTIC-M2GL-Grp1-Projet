@@ -13,42 +13,41 @@ import com.jsyn.devices.AudioDeviceManager;
 
 /**
  * @author Groupe 1
- *
+ * Le workspace (singleton)
  */
 public class Workspace implements IWorkspace {
 	protected static IWorkspace instance;
 	protected Synthesizer synthesizer;
 	protected Factory factory;
 	protected List<IModule> modules;
+	protected boolean microphoneSupported;
+	
 
 	public Workspace(Factory factory) {
 		this.factory = factory;
 		this.modules = new ArrayList<IModule>();
 		synthesizer = JSyn.createSynthesizer();
 		
-		boolean microphoneConnected = false;
-		
-		Mixer.Info[] mixerInfos = AudioSystem.getMixerInfo();
-		for (Mixer.Info info: mixerInfos){
-			Mixer m = AudioSystem.getMixer(info);
-			Line.Info[] lineInfos = m.getSourceLineInfo();
-			for (Line.Info lineInfo:lineInfos){
-				if(lineInfo.toString().contains("source port"))
-				microphoneConnected = true;
-			}
-		}
 		
 		if(synthesizer.getAudioDeviceManager().getDefaultInputDeviceID() != -1){
 			System.out.println("Un microphone est connecté");
 			synthesizer.start(41000, AudioDeviceManager.USE_DEFAULT_DEVICE, 2, AudioDeviceManager.USE_DEFAULT_DEVICE, 2);
+			microphoneSupported = true;
 		}
 		else{
 			System.out.println("Aucun microphone de connecté");
 			synthesizer.start();
+			microphoneSupported = false;
 		}	
+		
+		
 		
 		 
 		
+	}
+
+	public boolean isMicrophoneSupported() {
+		return microphoneSupported;
 	}
 
 	/* (non-Javadoc)

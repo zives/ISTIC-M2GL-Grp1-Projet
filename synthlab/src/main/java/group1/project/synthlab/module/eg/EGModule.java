@@ -88,6 +88,8 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 		
 		sustain = getVolt();
 		
+		envelope.setEnabled(false);
+		
 	}
 
 	private double getVolt() {
@@ -129,6 +131,8 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	 */
 	public void start() {
 		circuit.start();
+		envelope.setEnabled(true);
+		envelope.start();
 		isOn = true;
 	}
 
@@ -139,6 +143,8 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	 */
 	public void stop() {
 		circuit.stop();
+		envelope.stop();
+		envelope.setEnabled(false);
 		isOn = false;
 	}
 

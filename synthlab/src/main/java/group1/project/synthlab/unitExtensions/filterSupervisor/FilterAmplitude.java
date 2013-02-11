@@ -87,6 +87,10 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 		}
 	}
 	
+	public boolean hasSignal() {
+		return hasSignal;
+	}
+
 	/**
 	 * @return si le son est sature
 	 */

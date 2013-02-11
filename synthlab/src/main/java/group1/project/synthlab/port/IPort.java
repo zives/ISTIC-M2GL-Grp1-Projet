@@ -33,4 +33,9 @@ public interface IPort extends IPortObservable {
 	 * @param amplitude le maximum autorisé
 	 */
 	public void setMaxForAmplitudeSupervisor(double amplitude);
+	
+
+	public boolean detectSignalSaturated();
+
+	public boolean detectSignal();
 }

@@ -103,30 +103,19 @@ public class Cable implements ICable {
 		disconnect();
 		super.finalize();		
 	}
-	
-	/* (non-Javadoc)
-	 * @see group1.project.synthlab.cable.ICable#setSignalSaturated(boolean)
-	 */
-	public void setSignalSaturated(boolean saturated) {
-		this.saturated = saturated;
-		
-	}
+
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.cable.ICable#isSignalSaturated()
 	 */
 	public boolean isSignalSaturated() {
-		return this.saturated;
+		return outPort.detectSignalSaturated();
 	}
 
-	public void setSignalNull(boolean b) {
-		this.hasSignal = !b;
-		
-	}
 
 	public boolean hasSignal() {
 		if (outPort == null)
 			return false;
-		return outPort.getModule().isStarted() &&  hasSignal;
+		return outPort.getModule().isStarted() &&  outPort.detectSignal() ;
 	
 	}
 
