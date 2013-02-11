@@ -2,14 +2,14 @@ package group1.project.synthlab.workspace;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.IModule;
-
 import java.util.ArrayList;
 import java.util.List;
-
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Line;
+import javax.sound.sampled.Mixer;
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.devices.AudioDeviceManager;
-import com.softsynth.jsyn.AudioDevice;
 
 /**
  * @author Groupe 1
@@ -25,12 +25,27 @@ public class Workspace implements IWorkspace {
 		this.factory = factory;
 		this.modules = new ArrayList<IModule>();
 		synthesizer = JSyn.createSynthesizer();
-
-//		synthesizer.start(41000, AudioDeviceManager.USE_DEFAULT_DEVICE, 2, AudioDeviceManager.USE_DEFAULT_DEVICE, 2);
-		synthesizer.start();
-
 		
-	
+		boolean microphoneConnected = false;
+		
+		Mixer.Info[] mixerInfos = AudioSystem.getMixerInfo();
+		for (Mixer.Info info: mixerInfos){
+			Mixer m = AudioSystem.getMixer(info);
+			Line.Info[] lineInfos = m.getSourceLineInfo();
+			for (Line.Info lineInfo:lineInfos){
+				if(lineInfo.toString().contains("source port"))
+				microphoneConnected = true;
+			}
+		}
+		
+		if(microphoneConnected){
+			System.out.println("Un microphone est connecté");
+			synthesizer.start(41000, AudioDeviceManager.USE_DEFAULT_DEVICE, 2, AudioDeviceManager.USE_DEFAULT_DEVICE, 2);
+		}
+		else{
+			System.out.println("Aucun microphone de connecté");
+			synthesizer.start();
+		}	
 	}
 
 	/* (non-Javadoc)

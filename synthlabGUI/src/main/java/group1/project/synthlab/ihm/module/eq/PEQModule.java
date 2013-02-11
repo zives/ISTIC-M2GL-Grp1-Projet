@@ -94,15 +94,14 @@ public class PEQModule extends PModule implements IPEQModule {
 		}
 		
 		// Label volume
-		final JLabel volumeLabel = new JLabel("" /*controller.getAttenuation() + " dB"*/);
+		final JLabel volumeLabel = new JLabel("" ,JLabel.CENTER /*controller.getAttenuation() + " dB"*/);
 		volumeLabel.setForeground(Color.LIGHT_GRAY);
 		volumeLabel.setOpaque(false);
-		volumeLabel.setSize(100, 20);
-		volumeLabel.setHorizontalTextPosition(JLabel.LEFT);
+		volumeLabel.setSize(130, 30);
 		volumeLabel.setBorder(null);
 		volumeLabel.setPreferredSize(volumeLabel.getSize());
-		volumeLabel.setLocation(getWidth() / 2 - volumeLabel.getWidth() / 2 + 17, 230);
-		volumeLabel.setFont(new Font("Monospaced", Font.ITALIC, 18));
+		volumeLabel.setLocation(getWidth() / 2 - volumeLabel.getWidth() / 2, 245);
+		volumeLabel.setFont(new Font("Monospaced", Font.ITALIC, 24));
 		volumeLabel.setVisible(false);
 				  
 		// Ajouts des composants

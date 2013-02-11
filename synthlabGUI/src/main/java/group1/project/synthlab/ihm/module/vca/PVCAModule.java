@@ -49,13 +49,13 @@ public class PVCAModule extends PModule implements IPVCAModule {
 		gainLabel.setHorizontalTextPosition(JLabel.CENTER);
 		gainLabel.setBorder(null);
 		gainLabel.setPreferredSize(gainLabel.getSize());
-		gainLabel.setLocation(getWidth()/2 - gainLabel.getWidth() / 2 + 30, 50);
+		gainLabel.setLocation(getWidth()/2 - gainLabel.getWidth() / 2 , 50);
 		gainLabel.setFont(new Font("Monospaced", Font.ITALIC, 26));
 
 		// Sliders
 		gainSlider = new JSlider();
-		gainSlider.setMaximum((int) VCAModule.amax);
-		gainSlider.setMinimum((int) VCAModule.amin);
+		gainSlider.setMaximum((int) VCAModule.amax * 10);
+		gainSlider.setMinimum((int) VCAModule.amin * 10);
 		gainSlider.setOrientation(JSlider.HORIZONTAL);
 		gainSlider.setValue((int) controller.geta0());
 		gainSlider.setSize(230, 80);
@@ -66,8 +66,8 @@ public class PVCAModule extends PModule implements IPVCAModule {
 		gainSlider.setFocusable(false);
 		gainSlider.setBorder(null);
 		gainSlider.setLocation(35, 75);
-		gainSlider.setMajorTickSpacing(10);
-		gainSlider.setMinorTickSpacing(2);
+		gainSlider.setMajorTickSpacing(100);
+		gainSlider.setMinorTickSpacing(20);
 		gainSlider.setPaintTicks(true);
 		
 		final JLabel gainMinValueLabel = new JLabel(String.valueOf(VCAModule.amin));
@@ -119,9 +119,9 @@ public class PVCAModule extends PModule implements IPVCAModule {
 		// Events
 		gainSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				controller.seta0(gainSlider.getValue());
+				controller.seta0(gainSlider.getValue() / 10.0);
 				controller.changeGain();
-				gainLabel.setText(Math.round(controller.geta0()) + " dB");
+				gainLabel.setText(Math.round(controller.geta0() * 10) / 10.0 + " dB");
 			}
 		});	
 	}
