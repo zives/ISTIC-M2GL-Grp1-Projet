@@ -4,14 +4,11 @@ import group1.project.synthlab.ihm.module.PModule;
 import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JButton;
-import javax.swing.JToggleButton;
 
 public class PFileInModule extends PModule implements IPFileInModule{
 
