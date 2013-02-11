@@ -161,6 +161,10 @@ public class PVCFModule extends PModule implements IPVCFModule {
 		quality0ValueLabel.setPreferredSize(quality0ValueLabel.getSize());
 		quality0ValueLabel.setLocation(qualitySlider.getX() + 40, 210);
 		quality0ValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
+		
+		onOffButton.setLocation(getWidth() - onOffButton.getWidth() - 13, 13);
+		removeButton.setLocation(getWidth() - removeButton.getWidth()
+				- onOffButton.getWidth() - 15, 13);
 
 		// Ajouts des composants
 		add(freqLabel);
