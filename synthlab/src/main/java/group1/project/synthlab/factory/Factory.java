@@ -19,6 +19,8 @@ import group1.project.synthlab.module.osc.IOSCModule;
 import group1.project.synthlab.module.osc.OSCModule;
 import group1.project.synthlab.module.out.IOutModule;
 import group1.project.synthlab.module.out.OutModule;
+import group1.project.synthlab.module.sequencer.ISequencerModule;
+import group1.project.synthlab.module.sequencer.SequencerModule;
 import group1.project.synthlab.module.vca.IVCAModule;
 import group1.project.synthlab.module.vca.VCAModule;
 import group1.project.synthlab.module.vcf.IVCFModule;
@@ -105,6 +107,10 @@ public class Factory {
 
 	public IOSCModule createOSCModule() {
 		return new OSCModule(this);
+	}
+
+	public ISequencerModule createSequencerModule() {
+		return new SequencerModule(this);
 	}
 
 }
