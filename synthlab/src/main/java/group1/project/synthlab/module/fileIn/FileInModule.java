@@ -92,7 +92,9 @@ public class FileInModule extends Module implements IFileInModule{
 
 
 		samplePlayer.rate.set(sample.getFrameRate());
-		samplePlayer.dataQueue.queue(sample );
+		//samplePlayer.dataQueue.queue(sample );
+		samplePlayer.dataQueue.queueLoop(sample, 0, sample.getNumFrames ());
+		
 	}
 
 	public FloatSample getSample() {
