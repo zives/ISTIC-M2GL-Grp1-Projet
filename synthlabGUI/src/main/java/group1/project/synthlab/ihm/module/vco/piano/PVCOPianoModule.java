@@ -73,13 +73,17 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 		pportFM.setLocation(10, 245);
 		PPort pportSin = (PPort) (((ICOutPort) controller.getOutSine())
 				.getPresentation());
-		pportSin.setLocation(70, 245);
+		pportSin.setLocation(55, 245);
 		PPort pportTri = (PPort) (((ICOutPort) controller.getOutTriangle())
 				.getPresentation());
-		pportTri.setLocation(130, 245);
+		pportTri.setLocation(100, 245);
 		PPort pportSqu = (PPort) (((ICOutPort) controller.getOutSquare())
 				.getPresentation());
-		pportSqu.setLocation(190, 245);
+		pportSqu.setLocation(145, 245);
+		
+		PPort pportSinalOn = (PPort) (((ICOutPort) controller.getOutSignalOn())
+				.getPresentation());
+		pportSinalOn.setLocation(getWidth() - pportSinalOn.getWidth() - 10, 245);
 
 		// Sliders
 		final JSlider octaveSlider = new JSlider();
@@ -135,6 +139,7 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 		add(pportSin);
 		add(pportTri);
 		add(pportSqu);
+		add(pportSinalOn);
 		add(warnLabel);
 		add(octaveSlider);
 		add(octaveMinLabel);
