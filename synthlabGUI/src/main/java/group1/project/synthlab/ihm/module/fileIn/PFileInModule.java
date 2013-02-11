@@ -1,17 +1,24 @@
 package group1.project.synthlab.ihm.module.fileIn;
 
-import java.awt.TextField;
-import java.io.File;
-
 import group1.project.synthlab.ihm.module.PModule;
 import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+
+import javax.swing.JButton;
+import javax.swing.JToggleButton;
+
 public class PFileInModule extends PModule implements IPFileInModule{
 
-	private ICFileInModule controller;
+	protected ICFileInModule controller;
+	JButton sampleFile;
 
-	public PFileInModule(ICFileInModule controller) {
+	public PFileInModule(final ICFileInModule controller) {
 		super(controller);
 		this.controller = controller;
 		this.setLayout(null);
@@ -20,25 +27,30 @@ public class PFileInModule extends PModule implements IPFileInModule{
 		//Label et onoff boutons déjà rajoutés dans la super classe
 
 		// Ports
-		PPort pportLeft = (PPort) (((ICOutPort) controller.getLeftPort()).getPresentation());
-		pportLeft.setLocation(10, 220);
-		PPort pportRight = (PPort) (((ICOutPort) controller.getRightPort()).getPresentation());
-		pportRight.setLocation(70, 220);
-		PPort pportMono = (PPort) (((ICOutPort) controller.getMonoPort()).getPresentation());
-		pportMono.setLocation(130, 220);
-		
+		PPort pportOut = (PPort) (((ICOutPort) controller.getOutPort()).getPresentation());
+		pportOut.setLocation(10, 220);
+
 		// inputText
-		TextField sampleFile = new TextField();
-		sampleFile.setLocation(80, 100);
-		
+		sampleFile = new JButton("File");
+		sampleFile.setLocation(50, 100);
+		sampleFile.setSize(20, 20);
+		sampleFile.setBorder(null);
+		sampleFile.setPreferredSize(onOffButton.getSize());
+
+
 		// Ajouts des composants
-		add(pportLeft);
-		add(pportRight);
-		add(pportMono);
+		add(pportOut);
 		add(sampleFile);
-		
+
 		this.repaint();
-		
-		controller.loadFile(new File(ClassLoader.getSystemResource(sampleFile.getText()).getFile()));
+
+		sampleFile.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent ev) {
+				if (controller.getSample() == null) {
+					controller.loadFile(new File(ClassLoader.getSystemResource("music.wav").getFile()));
+				}
+			}
+		});
 	}
 }
