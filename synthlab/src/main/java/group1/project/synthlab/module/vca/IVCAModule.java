@@ -56,7 +56,7 @@ public interface IVCAModule extends IModule {
 	
 	/**
 	 * Fonction qui gere la deconnexion d'un cable d'un port d'entree
-	 * @param port : le port du VCA auquel on vient de connecter un cable
+	 * @param port : le port du VCA duquel on vient de deconnecter un cable
 	 */
 	public void cableDisconnected(IPort port);
 }
