@@ -41,7 +41,6 @@ public class OSCModule extends Module implements IOSCModule {
 	protected double lastTime;
 	protected AudioScope scope;
 	protected PassThrough passThrough;
-	protected PassThrough passThroughOnOff;
 
 	/**
 	 * Initialise le circuit (attenuateur, port, ...)
@@ -50,7 +49,6 @@ public class OSCModule extends Module implements IOSCModule {
 		super("OSC-" + ++moduleCount, factory);
 		self = this;
 		passThrough = new PassThrough();
-		passThroughOnOff = new PassThrough();
 		filter = new FilterInterception();
 		inPort = factory.createInPort("in", passThrough.input, this);
 		outPort = factory.createOutPort("out", filter.output, this);
@@ -58,9 +56,8 @@ public class OSCModule extends Module implements IOSCModule {
 		isOn = false;
 		scope = new AudioScope(Workspace.getInstance().getSynthetizer());
 		filter.register(this);
-		passThrough.output.connect(passThroughOnOff.input);
 		circuit.add(filter);		
-		scope.addProbe( passThrough.output);
+		scope.addProbe( filter.output);
 	}
 
 	/*
@@ -90,7 +87,7 @@ public class OSCModule extends Module implements IOSCModule {
 	 * @see group1.project.synthlab.module.IModule#start()
 	 */
 	public void start() {
-		passThroughOnOff.output.connect(filter.input);
+		passThrough.output.connect(filter.input);
 		filter.start();
 		scope.start();
 		isOn = true;
@@ -104,7 +101,7 @@ public class OSCModule extends Module implements IOSCModule {
 	 */
 	public void stop() {
 		isOn = false;		
-		passThroughOnOff.output.disconnect(filter.input);
+		passThrough.output.disconnect(filter.input);
 		scope.stop();
 		buffer.clear();
 	}
