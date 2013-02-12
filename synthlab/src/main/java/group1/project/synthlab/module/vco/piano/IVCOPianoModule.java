@@ -13,8 +13,11 @@ public interface IVCOPianoModule extends IVCOModule {
 	/**
 	 * @return le port de sortie pour savoir s'il y a un signal
 	 */
-	public IOutPort getOutSignalOn();
+	public IOutPort getOutEG();
 
 	
-
+	/**
+	 * Joue une note à f0
+	 */
+	public void play();
 }

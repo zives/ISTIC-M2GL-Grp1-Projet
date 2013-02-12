@@ -47,7 +47,7 @@ public class CVCOPianoModule extends VCOPianoModule implements ICVCOPianoModule 
 			this.setf0(gamme0[note] * Math.pow(2, octave + octaveStart));
 		else 
 			this.setf0(gamme0Sharp[note] * Math.pow(2, octave + octaveStart));
-		start();
+		super.play();
 	}
 
 	@Override

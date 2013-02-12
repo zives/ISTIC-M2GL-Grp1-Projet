@@ -81,7 +81,7 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 				.getPresentation());
 		pportSqu.setLocation(145, 245);
 		
-		PPort pportSinalOn = (PPort) (((ICOutPort) controller.getOutSignalOn())
+		PPort pportSinalOn = (PPort) (((ICOutPort) controller.getOutEG())
 				.getPresentation());
 		pportSinalOn.setLocation(getWidth() - pportSinalOn.getWidth() - 10, 245);
 

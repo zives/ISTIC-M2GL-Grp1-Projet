@@ -7,11 +7,13 @@ import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Tools;
+import group1.project.synthlab.unitExtensions.envelope.Envelope;
+
 import javax.swing.JFrame;
+
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.scope.AudioScope;
-import com.jsyn.unitgen.EnvelopeDAHDSR;
 import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.SineOscillator;
 import com.jsyn.unitgen.SquareOscillator;
@@ -48,7 +50,7 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	protected double volt;
 
 	/** Le generateur d'enveloppe */
-	protected EnvelopeDAHDSR envelope;
+	protected Envelope envelope;
 	
 	/** Etat du module (allume ou eteint) */
 	protected boolean isOn;
@@ -61,7 +63,7 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	public EGModule(Factory factory) {
 		super("EG-" + ++moduleCount, factory);
 	
-		envelope = new EnvelopeDAHDSR();
+		envelope = new Envelope();
 
 		circuit.add(envelope);
 
@@ -73,7 +75,6 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 		envelope.decay.set(decay);
 		envelope.release.set(release);
 		envelope.hold.set(hold);
-		envelope.delay.set(0);
 		envelope.attack.setMinimum(0);
 		envelope.attack.setMaximum(2);
 		envelope.decay.setMinimum(0);
@@ -153,7 +154,7 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	 * 
 	 * @see group1.project.synthlab.module.IEGModule#getEnvelope()
 	 */
-	public EnvelopeDAHDSR getEnvelope() {
+	public Envelope getEnvelope() {
 		return envelope;
 	}
 	
