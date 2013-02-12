@@ -84,6 +84,7 @@ public class VCOPianoModule extends VCOModule implements IVCOPianoModule {
 		filterBinary.input.set(0);
 		filterBinary.generate();	
 		sqrOsc.amplitude.set(amin);
+		
 	}
 
 

@@ -62,7 +62,7 @@ public class Envelope extends UnitGate {
 				lastTime = synth.getCurrentTime();
 				//Calculer le step d'amplitude par rapport au temps
 				stepTime = (int) (synth.getFrameRate() *  attack.get());
-				stepAmp =  (1 - currentAmp) / stepTime;
+				stepAmp =  1 / stepTime;
 				countTime = 0;
 				currentAmp = 0;
 			}
@@ -127,10 +127,10 @@ public class Envelope extends UnitGate {
 					break;
 					
 			}
-			System.out.println("-----------------");
-			System.out.println("state:" + state);
-			System.out.println("current amp:" + currentAmp);
-			System.out.println("input:" + inputs[i]);
+//			System.out.println("-----------------");
+//			System.out.println("state:" + state);
+//			System.out.println("current amp:" + currentAmp);
+//			System.out.println("input:" + inputs[i]);
 			
 			previousGateAmp = inputs[i];
 			outputs[i] = currentAmp;
