@@ -115,6 +115,8 @@ public class Cable implements ICable {
 	public boolean hasSignal() {
 		if (outPort == null)
 			return false;
+		if (inPort == null)
+			return false;
 		return outPort.getModule().isStarted() &&   inPort.getModule().isStarted() && outPort.detectSignal() ;
 	
 	}
