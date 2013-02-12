@@ -24,5 +24,6 @@ public interface ICWorkspace extends IWorkspace {
 	public void addOneVCFModule();
 	public void quitApp();
 	public void addOneSequencer();
+	public void loadConfiguration();
 
 }

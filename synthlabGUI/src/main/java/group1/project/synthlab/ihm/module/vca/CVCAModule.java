@@ -30,6 +30,11 @@ public class CVCAModule extends VCAModule implements ICVCAModule {
 		super.cableDisconnected(port);
 	}
 	
-
+	@Override
+	public String saveConfiguration() {
+		// TODO Auto-generated method stub
+		return "";
+	}
+	
 	 
 }

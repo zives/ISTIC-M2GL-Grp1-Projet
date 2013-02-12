@@ -65,6 +65,17 @@ public class CVCOPianoModule extends VCOPianoModule implements ICVCOPianoModule 
 		else octaveStart = 0;
 		
 	}
+	
+	@Override
+	public String saveConfiguration() {
+		// TODO Auto-generated method stub
+		String save = "<VCOPianoModule>\n";
+		save+="<OcatveStart>"+this.octaveStart+"</OcatveStart>\n";
+		save+="<Location x=\""+presentation.getLocation().getX()+
+				"\" y=\""+presentation.getLocation().getY()+"\" />\n";
+		save+="</VCOPianoModule>\n";
+		return save;
+	}
 
 
 }

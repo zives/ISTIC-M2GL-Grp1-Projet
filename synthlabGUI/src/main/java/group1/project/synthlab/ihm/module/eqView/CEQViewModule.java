@@ -59,6 +59,11 @@ public class CEQViewModule extends EQViewModule implements ICEQViewModule {
 		super.cableDisconnected(port);
 	}
 
+	@Override
+	public String saveConfiguration() {
+		// TODO Auto-generated method stub
+		return "";
+	}
 	
 
 

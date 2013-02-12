@@ -365,4 +365,17 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 
 	}
 
+	@Override
+	public void updateCoarseAdjustment(int coarseAdjustment) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateFineAdjustment(double fineAdjustment) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }

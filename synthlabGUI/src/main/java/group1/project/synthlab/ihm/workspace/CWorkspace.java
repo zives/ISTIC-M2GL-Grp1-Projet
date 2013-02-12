@@ -1,15 +1,34 @@
 package group1.project.synthlab.ihm.workspace;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+
+import javax.swing.JPanel;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.ihm.cable.ICCable;
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.module.ICModule;
+import group1.project.synthlab.ihm.module.out.COutModule;
+import group1.project.synthlab.ihm.module.vco.CVCOModule;
+import group1.project.synthlab.ihm.module.vco.piano.CVCOPianoModule;
 import group1.project.synthlab.module.IModule;
+import group1.project.synthlab.module.out.OutModule;
 import group1.project.synthlab.workspace.Workspace;
 
 public class CWorkspace extends Workspace implements ICWorkspace {
 	protected ICCable drawingCable;
 	protected IPWorkspace presentation;
+	private String save;
 
 	public CWorkspace(CFactory factory) {
 		super(factory);
@@ -106,16 +125,150 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		if(name!=null){
 			//bouton cancel non appuyé
 			if(name.length()>0){
-				//sauvegarde
-				//Workspace
+				//on sauvegarde
+				save="";
+				save+="<Configuration>\n";
+				for(IModule m : modules){
+					ICModule cm = (ICModule) m;
+					save+=cm.saveConfiguration();
+				}
+				save+="</Configuration>";
+				System.out.println(save);
+				try {
+					FileWriter f = new FileWriter(name+".synt");
+					f.write(save);
+					f.close();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
-				//cable
 			}
 			else{
 				presentation.showError("Erreur lors de la sauvegarde : le nom de fichier doit contenir au moins un caractère");
 			}
 		}
 	}
+	@Override
+	public void loadConfiguration(){
+		//on demande le fichier à l'utilisateur
+		File f = presentation.askFileChooser();
+		if(f!=null){
+			try {
+				DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder builder = null;		
+			    builder = builderFactory.newDocumentBuilder();
+			    Document document = builder.parse(new FileInputStream(f));
+			    configuration = document.getFirstChild();
+			    
+			} catch (Exception e) {
+			    e.printStackTrace();  
+			}
+			//on supprime tous les modules
+			for(IModule m : modules){
+				ICModule cm = (ICModule) m;
+				presentation.removeModule(cm.getPresentation());
+			}
+			modules.clear();
+			COutModule.resetModuleCount();
+			CVCOModule.resetModuleCount();
+			parcourirTous();
+		}
+	}
+	
+	//variables pour le chargement
+	private Node configuration;
+	
+	public void parcourirTous(){
+		NodeList listModules = configuration.getChildNodes();
+		for(int i=0; i<listModules.getLength(); i++){
+			Node node = listModules.item(i);
+			if(node.getNodeName().equals("OutModule")){
+				COutModule com = parcourirOutModule(node);
+				addModule(com);
+			}
+			else if(node.getNodeName().equals("VCOModule")){
+				CVCOModule com = parcourirVCOModule(node);
+				addModule(com);
+			}else if(node.getNodeName().equals("VCOPianoModule")){
+				CVCOPianoModule com = parcourirVCOPianoModule(node);
+				addModule(com);
+			}
+		}
+	}
+	
+	private CVCOPianoModule parcourirVCOPianoModule(Node node) {
+		// TODO Auto-generated method stub
+		CVCOPianoModule cvcop = (CVCOPianoModule) factory.createVCOPianoModule();
+		NodeList l = node.getChildNodes();
+		for(int i = 0;i<l.getLength();i++){
+			if(l.item(i).getNodeName().equals("CoarseAdjustment")){
+				//cvco.updateCoarseAdjustment(Integer.parseInt(l.item(i).getFirstChild().getNodeValue()));
+			}
+			else if(l.item(i).getNodeName().equals("FineAdjustment")){
+					//System.out.println("db="+l.item(i).getFirstChild().getNodeValue());
+					Double d = Double.parseDouble(l.item(i).getFirstChild().getNodeValue());
+				//	cvco.updateFineAdjustment(d);
+			}else if(l.item(i).getNodeName().equals("Location")){
+				Element e = (Element) l.item(i);
+				double x = Double.parseDouble(e.getAttribute("x"));
+				double y = Double.parseDouble(e.getAttribute("y"));
+			}
+		}
+		return cvcop;
+	}
+
+	private CVCOModule parcourirVCOModule(Node node) {
+		// TODO Auto-generated method stub
+		CVCOModule cvco = (CVCOModule) factory.createVCOModule();
+		NodeList l = node.getChildNodes();
+		for(int i = 0;i<l.getLength();i++){
+			if(l.item(i).getNodeName().equals("CoarseAdjustment")){
+				cvco.updateCoarseAdjustment(Integer.parseInt(l.item(i).getFirstChild().getNodeValue()));
+			}
+			else if(l.item(i).getNodeName().equals("FineAdjustment")){
+					//System.out.println("db="+l.item(i).getFirstChild().getNodeValue());
+					Double d = Double.parseDouble(l.item(i).getFirstChild().getNodeValue());
+					cvco.updateFineAdjustment(d);
+			}else if(l.item(i).getNodeName().equals("Location")){
+				Element e = (Element) l.item(i);
+				double x = Double.parseDouble(e.getAttribute("x"));
+				double y = Double.parseDouble(e.getAttribute("y"));
+			}
+		}
+		return cvco;
+	}
+
+	private COutModule parcourirOutModule(Node node) {
+		// TODO Auto-generated method stub
+		COutModule com = (COutModule) factory.createOutModule();
+		NodeList l = node.getChildNodes();
+		for(int i = 0;i<l.getLength();i++){
+			if(l.item(i).getNodeName().equals("Distribution")){
+				//System.out.println(l.item(i).getFirstChild().getNodeValue());	
+				if(l.item(i).getFirstChild().getNodeValue().equals("NORMAL")){
+					com.updateDistribution(OutModule.Distribution.NORMAL);
+				}
+				else{
+					com.updateDistribution(OutModule.Distribution.DISTRIBUTED);
+				}
+			}
+			else if(l.item(i).getNodeName().equals("AttenuationDB")){
+					//System.out.println("db="+l.item(i).getFirstChild().getNodeValue());
+					Double db = Double.parseDouble(l.item(i).getFirstChild().getNodeValue());
+					System.out.println(db);
+					com.updateAttenuation(db);
+					System.out.println(com.getAttenuation());
+			}else if(l.item(i).getNodeName().equals("Location")){
+				Element e = (Element) l.item(i);
+				double x = Double.parseDouble(e.getAttribute("x"));
+				double y = Double.parseDouble(e.getAttribute("y"));
+			}
+		}
+		return com;
+	}
+	
+	
 	public void addFileInModule() {
 		addModule(factory.createFileInModule());
 		

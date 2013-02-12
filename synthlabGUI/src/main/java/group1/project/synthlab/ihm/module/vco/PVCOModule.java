@@ -10,6 +10,7 @@ import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterAmplitudeO
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.NumberFormat;
@@ -28,6 +29,8 @@ public class PVCOModule extends PModule implements IPVCOModule {
 	protected JSlider coarseSlider;
 	protected JSlider fineSlider;
 	protected JLabel warnLabel;
+	protected final JFormattedTextField textFreq ;
+	protected final JLabel freqLabel ;
 
 	public PVCOModule(final ICVCOModule controller) {
 		super(controller);
@@ -40,7 +43,7 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		this.setPreferredSize(this.getSize());
 
 		// Label fréquence
-		final JLabel freqLabel = new JLabel(controller.getf0() + " Hz");
+		freqLabel = new JLabel(controller.getf0() + " Hz");
 		freqLabel.setForeground(Color.LIGHT_GRAY);
 		freqLabel.setOpaque(false);
 		freqLabel.setSize(230, 20);
@@ -91,7 +94,7 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		fineLabel.setLocation(coarseSlider.getX(), 140);
 		fineLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 
-		final JFormattedTextField textFreq = new FloatTextField(
+		textFreq = new FloatTextField(
 				NumberFormat.getInstance());
 		textFreq.setOpaque(false);
 		textFreq.setSize(40, 20);
@@ -218,6 +221,29 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		
 		
 	}
+
+
+
+	@Override
+	public void updateCoarseAdjustment(int coarseAdjustment) {
+		// TODO Auto-generated method stub
+		coarseSlider.setValue(controller.getCoarseAdjustment() * 10);
+		fineSlider.setValue((int) (controller.getFineAdjustment() * 10000.0));
+		freqLabel.setText(PTools.freqToString(controller.getf0()) + " Hz");
+		textFreq.setText(PTools.freqToString(controller.getf0()));
+	}
+
+
+
+	@Override
+	public void updateFineAdjustment(double fineAdjustment) {
+		// TODO Auto-generated method stub
+		coarseSlider.setValue(controller.getCoarseAdjustment() * 10);
+		fineSlider.setValue((int) (controller.getFineAdjustment() * 10000.0));
+		freqLabel.setText(PTools.freqToString(controller.getf0()) + " Hz");
+		textFreq.setText(PTools.freqToString(controller.getf0()));
+	}
+	
 
 
 

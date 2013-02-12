@@ -30,5 +30,10 @@ public class CMicroModule extends MicroModule implements ICMicroModule {
 		super.cableDisconnected(port);
 	}
 	
+	@Override
+	public String saveConfiguration() {
+		// TODO Auto-generated method stub
+		return "";
+	}
 	 
 }

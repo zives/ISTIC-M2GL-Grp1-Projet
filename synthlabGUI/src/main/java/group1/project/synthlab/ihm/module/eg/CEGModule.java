@@ -30,5 +30,10 @@ public class CEGModule extends EGModule implements ICEGModule {
 		super.cableDisconnected(port);
 	}
 	
+	@Override
+	public String saveConfiguration() {
+		// TODO Auto-generated method stub
+		return "";
+	}
 	
 }
