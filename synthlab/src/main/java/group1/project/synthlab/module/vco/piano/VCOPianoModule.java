@@ -6,6 +6,7 @@ import com.jsyn.unitgen.SquareOscillator;
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.osc.OSCModule;
 import group1.project.synthlab.module.vco.VCOModule;
+import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.unitExtensions.filterModulation.FilterBinaryModulation;
 
@@ -23,11 +24,12 @@ public class VCOPianoModule extends VCOModule implements IVCOPianoModule {
 
 	
 	/** Pour de sortie pour le signal triangulaire */
-	protected IOutPort outSignalOn;
+	protected IOutPort outEG;
 	
 	/* Variables internes */
 	protected FilterBinaryModulation filterBinary;
 	protected SquareOscillator sqrOsc;
+	protected boolean continuousSound;
 
 	
 	/**
@@ -38,26 +40,28 @@ public class VCOPianoModule extends VCOModule implements IVCOPianoModule {
 		filterBinary = new FilterBinaryModulation(0.001);
 		sqrOsc =new SquareOscillator();
 		
-		outSignalOn = factory.createOutPort("signal on", filterBinary.output, this);		
+		outEG = factory.createOutPort("eg out", filterBinary.output, this);		
 		circuit.add(filterBinary);
 		circuit.add(sqrOsc);
 		sqrOsc.frequency.set(0);
 		sqrOsc.amplitude.set(amin);
 		
 		sqrOsc.output.connect(filterBinary.input);
+		
+		continuousSound = false;
 	}
 
 
 	@Override
-	public IOutPort getOutSignalOn() {
-		return outSignalOn;
+	public IOutPort getOutEG() {
+		return outEG;
 	}
 
 
 	@Override
 	public void destruct() {
-		if (outSignalOn.isUsed())
-			outSignalOn.getCable().disconnect();
+		if (outEG.isUsed())
+			outEG.getCable().disconnect();
 		super.destruct();
 	}
 
@@ -74,10 +78,33 @@ public class VCOPianoModule extends VCOModule implements IVCOPianoModule {
 
 	@Override
 	public void stop() {		
+		if (!continuousSound) {			
+			super.stop();
+		}
 		filterBinary.input.set(0);
-		filterBinary.generate();		
-		super.stop();
+		filterBinary.generate();	
 		sqrOsc.amplitude.set(amin);
+	}
+
+
+	@Override
+	public void cableConnected(IPort port) {
+		super.cableConnected(port);
+		if (port == outEG)
+			continuousSound = true;
+	}
+
+
+	@Override
+	public void cableDisconnected(IPort port) {
+		if (port == outEG)
+			continuousSound = false;
+		super.cableDisconnected(port);
+	}
+
+
+	public void play() {
+		start();
 	}
 
 	

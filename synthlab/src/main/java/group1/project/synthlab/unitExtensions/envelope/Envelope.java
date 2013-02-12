@@ -11,13 +11,13 @@ public class Envelope extends UnitGate {
 	public final double EDGE_DETECTION_ACCURACY = 0.01;
 	
 	// En secondes
-	protected UnitInputPort attack;
-	protected UnitInputPort hold;
-	protected UnitInputPort decay;
-	protected UnitInputPort release;
+	public UnitInputPort attack;
+	public UnitInputPort hold;
+	public UnitInputPort decay;
+	public UnitInputPort release;
 
 	// En amplitude entre 0 et 1
-	protected UnitInputPort sustain;
+	public UnitInputPort sustain;
 
 	public enum ENVELOPE_STATE {
 		NOTHING, ATTACK, HOLD, DECAY, SUSTAIN, RELEASE
@@ -37,7 +37,7 @@ public class Envelope extends UnitGate {
 	public Envelope() {
 		addPort(attack = new UnitInputPort("attack"));
 		addPort(hold = new UnitInputPort("hold"));
-		addPort(hold = new UnitInputPort("decay"));
+		addPort(decay = new UnitInputPort("decay"));
 		addPort(release = new UnitInputPort("release"));
 		addPort(sustain = new UnitInputPort("sustain"));
 
@@ -47,6 +47,8 @@ public class Envelope extends UnitGate {
 		stepAmp = 0;
 		stepTime = 0;
 		countTime = 0;
+		state = ENVELOPE_STATE.NOTHING;
+		
 	}
 
 	@Override
@@ -60,8 +62,9 @@ public class Envelope extends UnitGate {
 				lastTime = synth.getCurrentTime();
 				//Calculer le step d'amplitude par rapport au temps
 				stepTime = (int) (synth.getFrameRate() *  attack.get());
-				stepAmp =  1.0 / stepTime;
+				stepAmp =  (1 - currentAmp) / stepTime;
 				countTime = 0;
+				currentAmp = 0;
 			}
 			
 			//Calcul
@@ -91,7 +94,7 @@ public class Envelope extends UnitGate {
 						currentAmp = 1;
 						state = ENVELOPE_STATE.DECAY;
 						stepTime = (int) (synth.getFrameRate() *  decay.get());
-						stepAmp =  (1 - sustain.get()) / stepTime;
+						stepAmp = -(1 - sustain.get()) / stepTime;
 						countTime = 0;
 					}
 					break;
@@ -105,11 +108,11 @@ public class Envelope extends UnitGate {
 					}
 					break;
 				case SUSTAIN:
-					if ((previousGateAmp - input.get()) > EDGE_DETECTION_ACCURACY ) {						
+					if ((previousGateAmp - inputs[i]) > EDGE_DETECTION_ACCURACY  || inputs[i] < EDGE_DETECTION_ACCURACY ) {						
 						currentAmp = sustain.get();
 						state = ENVELOPE_STATE.RELEASE;
 						stepTime = (int) (synth.getFrameRate() *  release.get());
-						stepAmp =  sustain.get() / stepTime;
+						stepAmp =  -(sustain.get() / stepTime);
 						countTime = 0;
 					}
 					break;
@@ -124,10 +127,12 @@ public class Envelope extends UnitGate {
 					break;
 					
 			}
+			System.out.println("-----------------");
+			System.out.println("state:" + state);
+			System.out.println("current amp:" + currentAmp);
+			System.out.println("input:" + inputs[i]);
 			
-			System.out.println(state);
-			
-			previousGateAmp = input.get();
+			previousGateAmp = inputs[i];
 			outputs[i] = currentAmp;
 		}
 		
