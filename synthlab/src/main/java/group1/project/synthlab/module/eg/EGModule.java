@@ -34,11 +34,11 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	/** Port de sortie out */
 	protected IOutPort out;
 
-	/** Temps de montee en milliseconde */
+	/** Temps de montee en secondes */
 	protected double attack = 0.2;
-	/** Temps de declin en milliseconde */
+	/** Temps de declin en secondes */
 	protected double decay = 0.2;
-	/** Temps de relachement en milliseconde */
+	/** Temps de relachement en secondes */
 	protected double release = 0.3;
 	/** Temps entre attack et decay */
 	protected double hold = 0;
