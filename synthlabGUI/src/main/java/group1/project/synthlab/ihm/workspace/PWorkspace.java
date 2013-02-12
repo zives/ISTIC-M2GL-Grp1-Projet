@@ -64,6 +64,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	protected JButton microButton;
 	protected JButton eqButton;
 	protected JButton oscButton;
+	protected JButton sequencerButton;
 
 	public PWorkspace(ICWorkspace controller) {
 		super("Synthetiseur");
@@ -186,6 +187,11 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		multiplexerButton.setBackground(new Color(150, 150, 150));
 		multiplexerButton.setForeground(Color.BLACK);
 		toolBar.add(multiplexerButton);
+		
+		sequencerButton= new JButton("SEQ");
+		sequencerButton.setBackground(new Color(150, 150, 150));
+		sequencerButton.setForeground(Color.BLACK);
+		toolBar.add(sequencerButton);
 
 		fileInButton = new JButton("FILE IN");
 		fileInButton.setBackground(new Color(150, 150, 150));
@@ -368,6 +374,13 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 			public void actionPerformed(ActionEvent ev) {
 				controller.addOneMultiplexer();
+			}
+		});
+		
+		sequencerButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent ev) {
+				controller.addOneSequencer();
 			}
 		});
 		
