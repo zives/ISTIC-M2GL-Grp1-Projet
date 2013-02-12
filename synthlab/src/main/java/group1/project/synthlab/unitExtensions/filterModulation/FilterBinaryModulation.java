@@ -31,7 +31,7 @@ public class FilterBinaryModulation extends UnitFilter {
 
 		for (int i = start; i < limit; i++) {
 			if (inputs[i] <= sensibility)
-				outputs[i] = 0;
+				outputs[i] = -1;
 			else 
 				outputs[i] = 1;
 

@@ -10,6 +10,7 @@ import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
+import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.unitExtensions.filterSupervisor.FilterRisingEdge;
 import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterObserver;
 
@@ -63,10 +64,10 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		
 		multiply = new Multiply();
 		multiply.inputA.set(0);
-		multiply.inputB.set(1);
+		multiply.inputB.set(1.0 / Signal.AMAX); // On divise par AMAX pour avoir une coherence entre les valeurs reglees en Volt et les valeurs transmises en JSyn
 		circuit.add(multiply);
 		
-		currentStep = 1;
+		currentStep = 8; // Le premier front montant passera au pas 1, ce qui est conforme à la User Story
 		
 		// Port d'entree : 
 		gate = factory.createInPort("gate", filterSequencer.input, this);
@@ -77,63 +78,92 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		isOn = false;
 	}
 
-
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.ISequencerModule#resetSteps()
+	 */
 	public void resetSteps(){
 		currentStep = 1;
+		multiply.inputA.set(steps[0]);
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.ISequencerModule#setStepValue()
+	 */
+	public void setStepValue(int step, double value){
+		steps[step - 1] = value;
+		if (currentStep == step)
+			multiply.inputA.set(steps[currentStep-1]);
+	}
+	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.ISequencerModule#update()
+	 */
 	public void update() {
 		if(currentStep == 8)
 			currentStep = 1;
 		else
 			currentStep++;
 		multiply.inputA.set(steps[currentStep-1]);
-		System.out.println("currentStep = " + currentStep);
+		//System.out.println("currentStep = " + currentStep);
 	}
 	
-	@Override
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#start()
+	 */
 	public void start() {
 		circuit.start();
 		isOn = true;
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#stop()
+	 */
 	public void stop() {
 		circuit.stop();
 		isOn = false;
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.ISequencerModule#getGate()
+	 */
 	public IInPort getGate() {
 		return gate;
 	}
 
-
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.ISequencerModule#getOut()
+	 */
 	public IOutPort getOut() {
 		return out;
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#isStarted()
+	 */
 	public boolean isStarted() {
-		// TODO Auto-generated method stub
-		return false;
+		return isOn;
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#destruct()
+	 */
 	public void destruct() {
-		// TODO Auto-generated method stub
-		
+		if (out.isUsed())
+			out.getCable().disconnect();
+		if (gate.isUsed())
+			gate.getCable().disconnect();
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.ISequencerModule#cableConnected()
+	 */
 	public void cableConnected(IPort port) {
-		// TODO Auto-generated method stub
-		
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.ISequencerModule#cableDisonnected()
+	 */
 	public void cableDisconnected(IPort port) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	public static void main(String[] args){
@@ -147,6 +177,14 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		// On cree notre Sequenceur et on ajoute le circuit cree au Synthesizer
 		SequencerModule sequencer = (SequencerModule) factory.createSequencerModule();
 		synth.add(sequencer.getCircuit());
+		sequencer.setStepValue(1, 0.01);
+		sequencer.setStepValue(2, 0.02);
+		sequencer.setStepValue(3, 0.03);
+		sequencer.setStepValue(4, 0.04);
+		sequencer.setStepValue(5, 0.05);
+		sequencer.setStepValue(6, 0.06);
+		sequencer.setStepValue(7, 0.07);
+		sequencer.setStepValue(8, 0.08);
 		sequencer.start();
 		
 		// On cree un oscillateur que l'on connectera dans l'entree in
@@ -159,13 +197,36 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 
 		synth.start();
 		
-		while(true){
+		int i = 0;
+		while(i<100){
 			System.out.println("Out = " + sequencer.multiply.output.get());
 			try {
-				synth.sleepUntil(synth.getCurrentTime() + 0.1);
+				synth.sleepUntil(synth.getCurrentTime() + 0.3);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			i++;
+		}
+
+		System.out.println("On met toutes les valeurs des pas à 0.33 et on remet a 1");
+		sequencer.resetSteps();
+		sequencer.setStepValue(1, 0.33);
+		sequencer.setStepValue(2, 0.33);
+		sequencer.setStepValue(3, 0.33);
+		sequencer.setStepValue(4, 0.33);
+		sequencer.setStepValue(5, 0.33);
+		sequencer.setStepValue(6, 0.33);
+		sequencer.setStepValue(7, 0.33);
+		sequencer.setStepValue(8, 0.33);
+		
+		while(true){
+			System.out.println("Out = " + sequencer.multiply.output.get());
+			try {
+				synth.sleepUntil(synth.getCurrentTime() + 0.3);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			i++;
 		}
 	}
 	
