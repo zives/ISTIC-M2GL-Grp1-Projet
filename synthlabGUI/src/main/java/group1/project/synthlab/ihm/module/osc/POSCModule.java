@@ -123,7 +123,7 @@ public class POSCModule extends PModule implements IPOSCModule {
 		// Font
 		Font font = new Font("Arial", 0, 7);
 		g.setFont(font);
-		g.setColor(new Color(200, 200, 200));
+		g.setColor(new Color(220, 220, 220));
 		// Création graphique des lignes
 		List<Double> values = controller.getValuesToDraw();
 		if (values == null)
@@ -146,7 +146,7 @@ public class POSCModule extends PModule implements IPOSCModule {
 				last = p;
 				continue;
 			}
-			if (value <= 1) {
+			if (value <= 1 && value >= -1) {
 				Line2D line = new Line2D.Double(last, p);
 				g2d.draw(line);
 			}
