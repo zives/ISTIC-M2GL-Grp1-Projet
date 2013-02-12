@@ -1,8 +1,5 @@
 package group1.project.synthlab.unitExtensions.filterModulation;
 
-import group1.project.synthlab.signal.Tools;
-
-import com.jsyn.unitgen.UnitBinaryOperator;
 import com.jsyn.unitgen.UnitFilter;
 
 /**
@@ -12,15 +9,18 @@ import com.jsyn.unitgen.UnitFilter;
  */
 public class FilterBinaryModulation extends UnitFilter {
 	protected double sensibility;
+	protected double previousState;
 	
 	public FilterBinaryModulation() {
 		super();
 		this.sensibility = 0;
+		this.previousState = 0;
 	}
 	
 	public FilterBinaryModulation(double sensibility) {
 		super();
 		this.sensibility = sensibility;
+		this.previousState = 0;
 	}
 
 	@Override
@@ -29,13 +29,17 @@ public class FilterBinaryModulation extends UnitFilter {
 		double[] inputs = input.getValues();	
 		double[] outputs = output.getValues();
 
-		for (int i = start; i < limit; i++) {
+		double nextState = 0;
+		for (int i = start; i < limit - 1; i++) {
 			if (inputs[i] <= sensibility)
 				outputs[i] = -1;
 			else 
-				outputs[i] = 1;
+				nextState = 1;
+			outputs[i] =  previousState;
 
 		}
+		previousState = nextState;
+		outputs[limit - 1] = nextState;
 	}
 
 }
