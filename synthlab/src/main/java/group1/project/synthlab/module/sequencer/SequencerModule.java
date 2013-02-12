@@ -45,7 +45,7 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	private double[] steps = new double[8];
 	
 	public SequencerModule(Factory factory) {
-		super("VCA-" + ++moduleCount, factory);
+		super("Sequencer-" + ++moduleCount, factory);
 		
 		filterSequencer = new FilterRisingEdge();
 		filterSequencer.register(this);
@@ -101,6 +101,15 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	public void stop() {
 		circuit.stop();
 		isOn = false;
+	}
+	
+	public IInPort getGate() {
+		return gate;
+	}
+
+
+	public IOutPort getOut() {
+		return out;
 	}
 
 	@Override

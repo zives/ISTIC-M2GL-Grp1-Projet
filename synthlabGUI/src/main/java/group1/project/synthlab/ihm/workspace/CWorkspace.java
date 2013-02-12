@@ -76,7 +76,11 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 	
 	public void addOneMultiplexer() {
 		addModule(factory.createMultiplexerModule());
-		
+	}
+	
+	@Override
+	public void addOneSequencer() {
+		addModule(factory.createSequencerModule());
 	}
 
 	public void addOneVCAModule() {
@@ -153,6 +157,8 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		System.exit(0);
 		
 	}
+
+	
 
 	
 	
