@@ -153,7 +153,7 @@ public class PEGModule extends PModule implements IPEGModule {
 		attack0ValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		
 		decaySlider = new JSlider();
-		decaySlider.setMaximum(20);
+		decaySlider.setMaximum(50);
 		decaySlider.setMinimum(0);
 		decaySlider.setOrientation(JSlider.HORIZONTAL);
 		decaySlider.setSize(80, 25);
@@ -195,7 +195,7 @@ public class PEGModule extends PModule implements IPEGModule {
 		decay0ValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		
 		releaseSlider = new JSlider();
-		releaseSlider.setMaximum(20);
+		releaseSlider.setMaximum(80);
 		releaseSlider.setMinimum(0);
 		releaseSlider.setOrientation(JSlider.HORIZONTAL);
 		releaseSlider.setSize(80, 25);

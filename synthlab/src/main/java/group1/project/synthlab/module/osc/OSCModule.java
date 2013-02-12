@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 
 import com.jsyn.scope.AudioScope;
 import com.jsyn.unitgen.PassThrough;
+import com.jsyn.util.AutoCorrelator;
 
 /**
  * Module de sortie
@@ -40,6 +41,7 @@ public class OSCModule extends Module implements IOSCModule {
 	protected double lastTime;
 	protected AudioScope scope;
 	protected PassThrough passThrough;
+	protected PassThrough passThroughOnOff;
 
 	/**
 	 * Initialise le circuit (attenuateur, port, ...)
@@ -48,6 +50,7 @@ public class OSCModule extends Module implements IOSCModule {
 		super("OSC-" + ++moduleCount, factory);
 		self = this;
 		passThrough = new PassThrough();
+		passThroughOnOff = new PassThrough();
 		filter = new FilterInterception();
 		inPort = factory.createInPort("in", passThrough.input, this);
 		outPort = factory.createOutPort("out", filter.output, this);
@@ -55,17 +58,9 @@ public class OSCModule extends Module implements IOSCModule {
 		isOn = false;
 		scope = new AudioScope(Workspace.getInstance().getSynthetizer());
 		filter.register(this);
-		circuit.add(filter);
-		
-		passThrough.output.connect(filter.input);
-		circuit.add(passThrough);
-		scope.addProbe(passThrough.output);
-		
-		JFrame frame = new JFrame();
-		frame.add(scope.getView());
-		frame.pack();
-		frame.setVisible(true);
-
+		passThrough.output.connect(passThroughOnOff.input);
+		circuit.add(filter);		
+		scope.addProbe( passThrough.output);
 	}
 
 	/*
@@ -95,11 +90,11 @@ public class OSCModule extends Module implements IOSCModule {
 	 * @see group1.project.synthlab.module.IModule#start()
 	 */
 	public void start() {
-		circuit.start();
-		filter.start();	
+		passThroughOnOff.output.connect(filter.input);
+		filter.start();
 		scope.start();
 		isOn = true;
-		
+
 	}
 
 	/*
@@ -108,9 +103,8 @@ public class OSCModule extends Module implements IOSCModule {
 	 * @see group1.project.synthlab.module.IModule#stop()
 	 */
 	public void stop() {
-		isOn = false;
-		filter.stop();
-		circuit.stop();
+		isOn = false;		
+		passThroughOnOff.output.disconnect(filter.input);
 		scope.stop();
 		buffer.clear();
 	}
@@ -144,9 +138,11 @@ public class OSCModule extends Module implements IOSCModule {
 	}
 
 	@Override
-	public void interceptionResult(final List<Double> buffer, double time) throws BufferTooBig {
+	public void interceptionResult(final List<Double> buffer, double time)
+			throws BufferTooBig {
 		if (this.buffer.size() + buffer.size() > 100000)
-			throw new BufferTooBig("Le buffer du module OSC est trop rempli, pensez à le vider régulierement de l'ordre de la ms...");
+			throw new BufferTooBig(
+					"Le buffer du module OSC est trop rempli, pensez à le vider régulierement de l'ordre de la ms...");
 		this.buffer.addAll(buffer);
 		this.lastTime = time;
 	}

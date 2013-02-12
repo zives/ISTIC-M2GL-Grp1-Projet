@@ -219,7 +219,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		pack();
 		setBackground(Color.BLACK);
 		setVisible(true);
-		setSize(1024, 600);
+		setSize(1224, 650);
 		setResizable(true);
 		setVisible(true);
 		setLocation(250, 100);

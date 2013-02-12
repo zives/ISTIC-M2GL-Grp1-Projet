@@ -137,7 +137,7 @@ public class EQViewModule extends Module implements IEQViewModule {
 	 * @see group1.project.synthlab.module.IModule#start()
 	 */
 	public void start() {
-		circuit.start();;
+		circuit.start();
 		ptOnOff.input.connect(ptIn.output);
 		os.start();
 		isOn = true;
