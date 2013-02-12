@@ -1,8 +1,5 @@
 package group1.project.synthlab.unitExtensions.filterModulation;
 
-import group1.project.synthlab.signal.Tools;
-
-import com.jsyn.unitgen.UnitBinaryOperator;
 import com.jsyn.unitgen.UnitFilter;
 
 /**

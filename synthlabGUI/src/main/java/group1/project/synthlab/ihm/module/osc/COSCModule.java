@@ -96,6 +96,12 @@ protected int cmptPaint = 0;
 	public List<Double> getValuesToDraw() {
 		return valuesToDraw;
 	}
+	
+	@Override
+	public String saveConfiguration() {
+		// TODO Auto-generated method stub
+		return "";
+	}
 
 
 }

@@ -31,6 +31,7 @@ public class POutModule extends PModule implements IPOutModule {
 
 	protected ICOutModule controller;
 	protected JSlider attenuatorSlider;
+	protected final JToggleButton distributionButton;
 
 	public POutModule(final ICOutModule controller) {
 		super(controller);
@@ -111,7 +112,7 @@ public class POutModule extends PModule implements IPOutModule {
 		attenuatorMinValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 
 		// Distribution
-		final JToggleButton distributionButton = new JToggleButton("DISTRIBUTED");
+		distributionButton = new JToggleButton("DISTRIBUTED");
 		distributionButton.setOpaque(false);
 		distributionButton.setForeground(new Color(70, 70, 70));
 		distributionButton.setSelected(false);
@@ -162,5 +163,25 @@ public class POutModule extends PModule implements IPOutModule {
 			}
 		});
 	}
+
+	@Override
+	public void updateSlider() {
+		// TODO Auto-generated method stub
+
+		attenuatorSlider.setValue((int) controller.getAttenuation()*10);
+	}
+
+	@Override
+	public void updateDistribution(){
+		// TODO Auto-generated method stub
+		if(controller.getDistribution() == Distribution.NORMAL){
+			distributionButton.setText("DISTRIBUTED");
+			distributionButton.setSelected(false);
+		}else{
+			distributionButton.setText("NORMAL");
+			distributionButton.setSelected(true);
+		}
+	}
+
 
 }
