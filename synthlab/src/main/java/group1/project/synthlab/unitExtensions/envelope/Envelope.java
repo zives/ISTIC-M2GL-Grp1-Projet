@@ -62,9 +62,10 @@ public class Envelope extends UnitGate {
 				lastTime = synth.getCurrentTime();
 				//Calculer le step d'amplitude par rapport au temps
 				stepTime = (int) (synth.getFrameRate() *  attack.get());
-				stepAmp =  1 / stepTime;
+				stepAmp =  1.0 / stepTime;
 				countTime = 0;
 				currentAmp = 0;
+				
 			}
 			
 			//Calcul

@@ -21,9 +21,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.Properties;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
@@ -44,6 +46,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	protected JMenu fichier;
 	protected JMenuItem quit;
 	protected JMenuItem save;
+	protected JMenuItem load;
 
 	private static final long serialVersionUID = 1L;
 
@@ -131,7 +134,10 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		save = new JMenuItem("sauvegarder configuration");
 		
 		fichier.add(save);
+		//bouton charger
+		load = new JMenuItem("charger configuration");
 		
+		fichier.add(load);
 		
 		quit = new JMenuItem("Quitter l'application");
 
@@ -431,6 +437,12 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 				controller.saveConfiguration();
 			}
 		});
+		
+		load.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.loadConfiguration();
+			}
+		});
 	}
 
 	public JLayeredPane getWorkspacePanel() {
@@ -493,6 +505,15 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	public void showError(String s) {
 		// TODO Auto-generated method stub
 		JOptionPane.showMessageDialog(null, s);
+	}
+
+	@Override
+	public File askFileChooser() {
+		// TODO Auto-generated method stub
+		JFileChooser j = new JFileChooser();
+		j.showOpenDialog(null);
+		return j.getSelectedFile();
+		
 	}
 
 }

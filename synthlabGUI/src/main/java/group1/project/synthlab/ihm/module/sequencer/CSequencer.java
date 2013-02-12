@@ -29,5 +29,10 @@ public class CSequencer extends SequencerModule implements ICSequencer {
 		super.cableDisconnected(port);
 	}
 	
+	@Override
+	public String saveConfiguration() {
+		// TODO Auto-generated method stub
+		return "";
+	}
 	
 }

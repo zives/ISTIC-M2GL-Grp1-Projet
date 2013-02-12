@@ -29,6 +29,37 @@ public class CVCOModule extends VCOModule implements ICVCOModule {
 		presentation.unregister((IPModuleObserver) port.getCable());
 		super.cableDisconnected(port);
 	}
+
+	@Override
+	public String saveConfiguration() {
+		// TODO Auto-generated method stub
+		
+		String save = "<VCOModule>\n";
+		save+="<CoarseAdjustment>"+this.coarseAdjustment+"</CoarseAdjustment>\n";
+		save+="<FineAdjustment>"+this.fineAdjustment+"</FineAdjustment>\n";
+		save+="<Location x=\""+presentation.getLocation().getX()+
+				"\" y=\""+presentation.getLocation().getY()+"\" />\n";
+		save+="</VCOModule>\n";
+		return save;
+	}
+
+	public void updateCoarseAdjustment(int parseInt) {
+		// TODO Auto-generated method stub
+		super.setCoarseAdjustment(parseInt);
+		presentation.updateCoarseAdjustment(this.coarseAdjustment);
+	}
+
+	public void updateFineAdjustment(Double d) {
+		// TODO Auto-generated method stub
+		super.setFineAdjustment(d);
+		presentation.updateFineAdjustment(this.fineAdjustment);
+		
+	}
+
+	public static void resetModuleCount() {
+		// TODO Auto-generated method stub
+		moduleCount = 0;
+	}
 	
 	
 }

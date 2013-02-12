@@ -30,4 +30,10 @@ public class CFileInModule extends FileInModule implements ICFileInModule{
 		super.cableDisconnected(port);
 	}
 	
+	@Override
+	public String saveConfiguration() {
+		// TODO Auto-generated method stub
+		return "";
+	}
+	
 }

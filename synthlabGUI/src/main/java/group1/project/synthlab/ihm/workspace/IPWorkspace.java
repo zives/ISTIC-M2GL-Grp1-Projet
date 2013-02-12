@@ -1,5 +1,7 @@
 package group1.project.synthlab.ihm.workspace;
 
+import java.io.File;
+
 import group1.project.synthlab.ihm.cable.IPCable;
 import group1.project.synthlab.ihm.module.IPModule;
 import group1.project.synthlab.ihm.module.IPModuleObserver;
@@ -15,4 +17,5 @@ public interface IPWorkspace extends IPModuleObserver {
 	public JLayeredPane getWorkspacePanel();
 	public String askFileName();
 	public void showError(String s);
+	public File askFileChooser();
 }

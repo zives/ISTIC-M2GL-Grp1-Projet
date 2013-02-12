@@ -29,6 +29,12 @@ public class CVCFModule extends VCFModule implements ICVCFModule {
 		presentation.unregister((IPModuleObserver) port.getCable());
 		super.cableDisconnected(port);
 	}
+
+	@Override
+	public String saveConfiguration() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 	 

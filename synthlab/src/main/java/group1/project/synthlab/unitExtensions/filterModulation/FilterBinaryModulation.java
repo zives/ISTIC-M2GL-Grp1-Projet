@@ -28,18 +28,15 @@ public class FilterBinaryModulation extends UnitFilter {
 		
 		double[] inputs = input.getValues();	
 		double[] outputs = output.getValues();
-
-		double nextState = 0;
-		for (int i = start; i < limit - 1; i++) {
+		
+		for (int i = start; i < limit; i++) {
 			if (inputs[i] <= sensibility)
-				outputs[i] = -1;
+				outputs[i] = 0;
 			else 
-				nextState = 1;
-			outputs[i] =  previousState;
+				outputs[i] = 1;
+			
 
 		}
-		previousState = nextState;
-		outputs[limit - 1] = nextState;
 	}
 
 }

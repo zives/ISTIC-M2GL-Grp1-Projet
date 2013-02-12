@@ -30,5 +30,10 @@ public class CMultiplexerModule extends MultiplexerModule implements ICMultiplex
 		super.cableDisconnected(port);
 	}
 	
+	@Override
+	public String saveConfiguration() {
+		// TODO Auto-generated method stub
+		return "";
+	}
 	 
 }

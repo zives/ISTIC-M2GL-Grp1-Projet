@@ -30,5 +30,10 @@ public class CEQModule extends EQModule implements ICEQModule {
 		super.cableDisconnected(port);
 	}
 	
+	@Override
+	public String saveConfiguration() {
+		// TODO Auto-generated method stub
+		return "";
+	}
 	 
 }
