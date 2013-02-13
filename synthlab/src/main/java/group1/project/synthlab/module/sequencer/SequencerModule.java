@@ -13,6 +13,8 @@ import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Signal;
+import group1.project.synthlab.signal.Tools;
+import group1.project.synthlab.unitExtensions.filterSupervisor.FilterASupprimer;
 import group1.project.synthlab.unitExtensions.filterSupervisor.FilterRisingEdge;
 import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterObserver;
 import group1.project.synthlab.workspace.Workspace;
@@ -87,8 +89,6 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		// Port de sortie
 		out = factory.createOutPort("out", multiply.output, this);
 		
-		
-				
 		isOn = false;
 	}
 
@@ -126,9 +126,9 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	 */
 	public void start() {
 		//circuit.start();
-		osc.start();
-		filterSequencer.start();
-		multiply.start();
+		//osc.start();
+		//filterSequencer.start();
+		//multiply.start();
 		scope.start();
 		isOn = true;
 	}
@@ -216,18 +216,13 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		oscGate.start();
 		oscGate.output.connect(sequencer.gate.getJSynPort());
 
+		FilterASupprimer filterASupprimer = new FilterASupprimer();
+		sequencer.out.getJSynPort().connect(filterASupprimer.input);
+		synth.add(filterASupprimer);
+		filterASupprimer.start();
 		synth.start();
 		
-		int i = 0;
-		while(i<100){
-			System.out.println("Out = " + sequencer.multiply.output.get());
-			try {
-				synth.sleepUntil(synth.getCurrentTime() + 0.3);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			i++;
-		}
+		Tools.wait(synth, 30);
 
 		System.out.println("On met toutes les valeurs des pas à 0.33 et on remet a 1");
 		sequencer.resetSteps();
@@ -239,16 +234,7 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		sequencer.setStepValue(6, 0.33);
 		sequencer.setStepValue(7, 0.33);
 		sequencer.setStepValue(8, 0.33);
-		
-		while(true){
-			System.out.println("Out = " + sequencer.multiply.output.get());
-			try {
-				synth.sleepUntil(synth.getCurrentTime() + 0.3);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			i++;
-		}
+
 	}
 	
 }
