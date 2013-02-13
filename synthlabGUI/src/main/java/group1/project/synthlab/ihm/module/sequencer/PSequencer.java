@@ -54,8 +54,6 @@ public class PSequencer extends PModule implements IPSequencer{
 		int y = 50;
 		int y1 = 0;
 		for(int i = 0; i < 8; ++i) {
-//			if (i == 4 )
-//				y1 =  tensionSlider[i - 1].getHeight() + 10;
 			// Sliders
 			tensionSlider[i] = new JSlider();
 			tensionSlider[i].setMaximum(10);
@@ -104,7 +102,7 @@ public class PSequencer extends PModule implements IPSequencer{
 			tension0ValueLabel.setBorder(null);
 			tension0ValueLabel.setFont(font);
 			tension0ValueLabel.setPreferredSize(tensionLabel.getSize());
-			tension0ValueLabel.setLocation(tensionSlider[i].getWidth() + tensionSlider[i].getX(), tensionSlider[i].getY()+40);
+			tension0ValueLabel.setLocation(tensionSlider[i].getWidth() + tensionSlider[i].getX(), tensionSlider[i].getY()+tensionSlider[i].getHeight()/2);
 			System.out.println(tensionSlider[i].getY());
 			
 			JLabel tensionMinValueLabel = new JLabel("-1");
@@ -114,8 +112,7 @@ public class PSequencer extends PModule implements IPSequencer{
 			tensionMinValueLabel.setBorder(null);
 			tensionMinValueLabel.setFont(font);
 			tensionMinValueLabel.setPreferredSize(tensionLabel.getSize());
-			tensionMinValueLabel.setLocation(tensionSlider[i].getWidth() + tensionSlider[i].getX()-1, tensionSlider[i].getY()+80);
-			System.out.println(tensionSlider[i].getY());
+			tensionMinValueLabel.setLocation(tensionSlider[i].getWidth() + tensionSlider[i].getX()-1, tensionSlider[i].getY()+tensionSlider[i].getHeight()-10);
 			
 			add(tensionLabel);
 			add(tensionSlider[i]);
