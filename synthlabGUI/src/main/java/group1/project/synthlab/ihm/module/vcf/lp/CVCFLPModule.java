@@ -5,6 +5,8 @@ import group1.project.synthlab.ihm.module.IPModuleObserver;
 import group1.project.synthlab.module.vcf.lp.VCFLPModule;
 import group1.project.synthlab.port.IPort;
 
+import com.jsyn.unitgen.FilterHighPass;
+
 public class CVCFLPModule extends VCFLPModule implements ICVCFLPModule {
 
 	protected IPVCFLPModule presentation;
@@ -32,6 +34,12 @@ public class CVCFLPModule extends VCFLPModule implements ICVCFLPModule {
 
 	@Override
 	public String saveConfiguration() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public FilterHighPass getFilter() {
 		// TODO Auto-generated method stub
 		return null;
 	}

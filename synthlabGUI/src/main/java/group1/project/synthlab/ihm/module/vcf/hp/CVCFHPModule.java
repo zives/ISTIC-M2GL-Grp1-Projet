@@ -1,13 +1,13 @@
 package group1.project.synthlab.ihm.module.vcf.hp;
 
-import com.jsyn.unitgen.FilterHighPass;
-
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.ihm.module.IPModuleObserver;
-import group1.project.synthlab.module.vcf.lp.VCFLPModule;
+import group1.project.synthlab.module.vcf.hp.VCFHPModule;
 import group1.project.synthlab.port.IPort;
 
-public class CVCFHPModule extends VCFLPModule implements ICVCFHPModule {
+import com.jsyn.unitgen.FilterHighPass;
+
+public class CVCFHPModule extends VCFHPModule implements ICVCFHPModule {
 
 	protected IPVCFHPModule presentation;
 	
