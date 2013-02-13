@@ -1,5 +1,7 @@
 package group1.project.synthlab.unitExtensions.filterModulation;
 
+import group1.project.synthlab.signal.Signal;
+
 import com.jsyn.unitgen.UnitFilter;
 
 /**
@@ -23,7 +25,7 @@ public class FilterFrequencyModulation extends UnitFilter {
 		double[] outputs = output.getValues();
 
 		for (int i = start; i < limit; i++) {
-			double Vfm = inputs[i] * 5; // On multiplie par 5 pour passer des JSyn ([-1 ; 1]) aux Volts ([-5 ; 5])
+			double Vfm = inputs[i] * Signal.AMAX; // On multiplie par 5 pour passer des JSyn ([-1 ; 1]) aux Volts ([-5 ; 5])
 			outputs[i] = this.f0 * Math.pow(2, Vfm) ;
 		}
 	}

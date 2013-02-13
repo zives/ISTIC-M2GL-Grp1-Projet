@@ -31,9 +31,7 @@ public class CVCOModule extends VCOModule implements ICVCOModule {
 	}
 
 	@Override
-	public String saveConfiguration() {
-		// TODO Auto-generated method stub
-		
+	public String saveConfiguration() {		
 		String save = "<VCOModule>\n";
 		save+="<CoarseAdjustment>"+this.coarseAdjustment+"</CoarseAdjustment>\n";
 		save+="<FineAdjustment>"+this.fineAdjustment+"</FineAdjustment>\n";
@@ -44,20 +42,17 @@ public class CVCOModule extends VCOModule implements ICVCOModule {
 	}
 
 	public void updateCoarseAdjustment(int parseInt) {
-		// TODO Auto-generated method stub
 		super.setCoarseAdjustment(parseInt);
 		presentation.updateCoarseAdjustment(this.coarseAdjustment);
 	}
 
 	public void updateFineAdjustment(Double d) {
-		// TODO Auto-generated method stub
 		super.setFineAdjustment(d);
 		presentation.updateFineAdjustment(this.fineAdjustment);
 		
 	}
 
 	public static void resetModuleCount() {
-		// TODO Auto-generated method stub
 		moduleCount = 0;
 	}
 	

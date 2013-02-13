@@ -57,6 +57,7 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 	/** Etat du module (allume ou eteint) */
 	protected boolean isOn;
 	
+	
 	/**
 	 * Constructeur : initialise le VCA (, port, ...)
 	 */
@@ -67,6 +68,7 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 		filteram = new FilterAmplitudeModulation(); // filtera0 sert a modifier l'amplitude du signal en fonction de am
 
 		filtera0.inputB.set(a0/60);
+		amConnected = false;
 		
 		circuit.add(filtera0);
 		circuit.add(filteram);
@@ -104,7 +106,10 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 	 * @see group1.project.synthlab.module.IVCAModule#changeGain()
 	 */
 	public void changeGain(){
-		filtera0.inputB.set(a0/60);
+		if (amConnected)
+			filtera0.inputB.set((a0-60)/60);
+		else	
+			filtera0.inputB.set(a0/60);
 	}
 	
 	/* (non-Javadoc)
@@ -188,6 +193,8 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 			System.out.println("Connexion d'un cable dans l'entree in");
 		}
 		else if(port == am){
+			amConnected  =true;
+			changeGain();
 			System.out.println("Connexion d'un cable dans l'entree am");
 		}
 	}
@@ -201,6 +208,8 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 			System.out.println("Deconnexion d'un cable de l'entree in");
 		}
 		else if(port == am){
+			amConnected = false;
+			changeGain();
 			System.out.println("Deconnexion d'un cable de l'entree am");
 		}
 	}

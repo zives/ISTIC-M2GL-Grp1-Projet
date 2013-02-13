@@ -19,8 +19,8 @@ import group1.project.synthlab.ihm.cable.ICCable;
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.module.ICModule;
 import group1.project.synthlab.ihm.module.out.COutModule;
+import group1.project.synthlab.ihm.module.piano.CPianoModule;
 import group1.project.synthlab.ihm.module.vco.CVCOModule;
-import group1.project.synthlab.ihm.module.vco.piano.CVCOPianoModule;
 import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.module.out.OutModule;
 import group1.project.synthlab.workspace.Workspace;
@@ -112,8 +112,8 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 	}
 	
 	@Override
-	public void addOneVCOPianoModule() {
-		addModule(factory.createVCOPianoModule());
+	public void addOnePianoModule() {
+		addModule(factory.createPianoModule());
 		
 	}
 
@@ -191,15 +191,15 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 				CVCOModule com = parcourirVCOModule(node);
 				addModule(com);
 			}else if(node.getNodeName().equals("VCOPianoModule")){
-				CVCOPianoModule com = parcourirVCOPianoModule(node);
+				CPianoModule com = parcourirVCOPianoModule(node);
 				addModule(com);
 			}
 		}
 	}
 	
-	private CVCOPianoModule parcourirVCOPianoModule(Node node) {
+	private CPianoModule parcourirVCOPianoModule(Node node) {
 		// TODO Auto-generated method stub
-		CVCOPianoModule cvcop = (CVCOPianoModule) factory.createVCOPianoModule();
+		CPianoModule cvcop = (CPianoModule) factory.createPianoModule();
 		NodeList l = node.getChildNodes();
 		for(int i = 0;i<l.getLength();i++){
 			if(l.item(i).getNodeName().equals("CoarseAdjustment")){

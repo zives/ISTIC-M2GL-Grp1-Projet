@@ -15,6 +15,8 @@ public class Signal {
 	
 	/**	Amplitude maximale */
 	public static final double AMAX = 5;
+	/**	Amplitude neutre */
+	public static final double AMIN = 0;
 	/**	Amplitude maximale pour un signal modulant */
 	public static final double AMAXMODULATION = 10;
 	

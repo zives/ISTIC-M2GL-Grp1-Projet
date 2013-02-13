@@ -1,10 +1,8 @@
-package group1.project.synthlab.ihm.module.vco.piano;
+package group1.project.synthlab.ihm.module.piano;
 
 import group1.project.synthlab.ihm.module.PModule;
 import group1.project.synthlab.ihm.port.PPort;
-import group1.project.synthlab.ihm.port.in.ICInPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
-import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterAmplitudeObservable;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -26,12 +24,11 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
+public class PPianoModule extends PModule implements IPPianoModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
 
-	protected ICVCOPianoModule controller;
-	protected JLabel warnLabel;
+	protected ICPianoModule controller;
 
 	protected Rectangle2D neutralZone;
 	protected List<Rectangle2D> buttonsN;
@@ -41,7 +38,7 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 	protected boolean selectedButtonIsSharp;
 	protected boolean interact;
 
-	public PVCOPianoModule(final ICVCOPianoModule controller) {
+	public PPianoModule(final ICPianoModule controller) {
 		super(controller);
 		this.controller = controller;
 		// Taille et couleur définie dans la super classe
@@ -56,34 +53,13 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 		this.buttonsSharp = new ArrayList<Rectangle2D>();
 		this.selectedButtonIsSharp = false;
 
-		// Warn
-		warnLabel = new JLabel("Amplitude out of bounds!");
-		warnLabel.setForeground(Color.LIGHT_GRAY);
-		warnLabel.setOpaque(false);
-		warnLabel.setSize(180, 20);
-		warnLabel.setForeground(Color.RED);
-		warnLabel.setBorder(null);
-		warnLabel.setLocation(13, 90);
-		warnLabel.setFont(new Font("Arial", 0, 15));
-		warnLabel.setVisible(false);
-
 		// Ports
-		PPort pportFM = (PPort) (((ICInPort) controller.getFm())
+		PPort pportOut = (PPort) (((ICOutPort) controller.getOut())
 				.getPresentation());
-		pportFM.setLocation(10, 245);
-		PPort pportSin = (PPort) (((ICOutPort) controller.getOutSine())
+		pportOut.setLocation(getWidth() - pportOut.getWidth() - 10, 245);
+		PPort pportSinalOn = (PPort) (((ICOutPort) controller.getOutGate())
 				.getPresentation());
-		pportSin.setLocation(55, 245);
-		PPort pportTri = (PPort) (((ICOutPort) controller.getOutTriangle())
-				.getPresentation());
-		pportTri.setLocation(100, 245);
-		PPort pportSqu = (PPort) (((ICOutPort) controller.getOutSquare())
-				.getPresentation());
-		pportSqu.setLocation(145, 245);
-		
-		PPort pportSinalOn = (PPort) (((ICOutPort) controller.getOutEG())
-				.getPresentation());
-		pportSinalOn.setLocation(getWidth() - pportSinalOn.getWidth() - 10, 245);
+		pportSinalOn.setLocation(pportOut.getX() - pportSinalOn.getWidth() - 10, 245);
 
 		// Sliders
 		final JSlider octaveSlider = new JSlider();
@@ -135,12 +111,8 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 		octaveMaxLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 
 		// Ajouts des composants
-		add(pportFM);
-		add(pportSin);
-		add(pportTri);
-		add(pportSqu);
+		add(pportOut);
 		add(pportSinalOn);
-		add(warnLabel);
 		add(octaveSlider);
 		add(octaveMinLabel);
 		add(octaveMiddleLabel);
@@ -213,10 +185,10 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 				int pos = -1;
 				if (!selectedButtonIsSharp) {
 					pos = buttonsN.indexOf(pressedButton);
-					controller.play(pos % 7, pos / 7, false);
+					controller.playFromPresentation(pos % 7, pos / 7, false);
 				} else {
 					pos = buttonsSharp.indexOf(pressedButton);
-					controller.play(pos % 5, pos / 5, true);
+					controller.playFromPresentation(pos % 5, pos / 5, true);
 				}
 				if (pos == -1)
 					return;
@@ -352,30 +324,6 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 
 	}
 
-	public void setSlidersEnabled(boolean value) {
-
-	}
-
-	public void warn(IFilterAmplitudeObservable subject, boolean tooHigh) {
-		warnLabel.setVisible(tooHigh);
-
-	}
-
-	public void hasSignal(IFilterAmplitudeObservable subject, boolean hasSignal) {
-
-	}
-
-	@Override
-	public void updateCoarseAdjustment(int coarseAdjustment) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateFineAdjustment(double fineAdjustment) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 }

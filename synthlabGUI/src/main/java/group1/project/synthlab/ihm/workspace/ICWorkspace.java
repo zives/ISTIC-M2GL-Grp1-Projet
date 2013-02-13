@@ -13,7 +13,7 @@ public interface ICWorkspace extends IWorkspace {
 	public void removeCable(ICable cCable);
 	public void addOneMultiplexer();
 	public void addOneVCAModule();
-	public void addOneVCOPianoModule();
+	public void addOnePianoModule();
 	public void saveConfiguration();
 	public void addFileInModule();
 	public void addOneEGModule();

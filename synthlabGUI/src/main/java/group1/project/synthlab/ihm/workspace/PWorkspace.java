@@ -4,7 +4,7 @@ import group1.project.synthlab.ihm.cable.IPCable;
 import group1.project.synthlab.ihm.cable.PCable;
 import group1.project.synthlab.ihm.module.IPModule;
 import group1.project.synthlab.ihm.module.IPModuleObservable;
-import group1.project.synthlab.ihm.module.vco.piano.IPVCOPianoModule;
+import group1.project.synthlab.ihm.module.piano.IPPianoModule;
 import group1.project.synthlab.ihm.port.IPPort;
 
 import java.awt.AWTEvent;
@@ -34,6 +34,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -60,7 +61,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	protected JButton vcaButton;
 	protected JButton vcfButton;
 	protected JButton fileInButton;
-	protected JButton vcoPianoButton;
+	protected JButton pianoButton;
 	protected JButton multiplexerButton;
 	protected JButton egButton;
 	protected JButton eqViewButton;
@@ -159,72 +160,122 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		centerPanel.setWheelScrollingEnabled(false);
 		centerPanel.getViewport().setIgnoreRepaint(false);
 
-		vcoPianoButton = new JButton("PIANO");
-		vcoPianoButton.setBackground(new Color(150, 150, 150));
-		vcoPianoButton.setForeground(Color.BLACK);
-		toolBar.add(vcoPianoButton);
-
-		vcoButton = new JButton("VCO");
-		vcoButton.setBackground(new Color(150, 150, 150));
-		vcoButton.setForeground(Color.BLACK);
-		toolBar.add(vcoButton);
 		
-		egButton = new JButton("EG");
-		egButton.setBackground(new Color(150, 150, 150));
-		egButton.setForeground(Color.BLACK);
-		toolBar.add(egButton);
-
-		vcaButton = new JButton("VCA");
-		vcaButton.setBackground(new Color(150, 150, 150));
-		vcaButton.setForeground(Color.BLACK);
-		toolBar.add(vcaButton);
-
-		vcfButton = new JButton("VCF");
-		vcfButton.setBackground(new Color(150, 150, 150));
-		vcfButton.setForeground(Color.BLACK);
-		toolBar.add(vcfButton);
-		
+		//---------------------------------------------------------------------
+				JSeparator separatorOut = new JSeparator(JSeparator.VERTICAL);
+				separatorOut.setSize(2, 20);
+				separatorOut.setBackground(new Color(70,70,70));
+				separatorOut.setPreferredSize(separatorOut.getSize());
+				toolBar.add(separatorOut);
+		//---------------------------------------------------------------------
+		Color colorButton = new Color(50, 50, 75);		
+				
 		outButton = new JButton("OUT");
-		outButton.setBackground(new Color(150, 150, 150));
-		outButton.setForeground(Color.BLACK);
+		outButton.setBackground(colorButton);
+		outButton.setForeground(Color.LIGHT_GRAY);
+		outButton.setFocusable(false);
 		toolBar.add(outButton);
-
-		multiplexerButton = new JButton("MULTIPLEXER");
-		multiplexerButton.setBackground(new Color(150, 150, 150));
-		multiplexerButton.setForeground(Color.BLACK);
-		toolBar.add(multiplexerButton);
-		
-		sequencerButton= new JButton("SEQ");
-		sequencerButton.setBackground(new Color(150, 150, 150));
-		sequencerButton.setForeground(Color.BLACK);
-		toolBar.add(sequencerButton);
-
-		fileInButton = new JButton("FILE IN");
-		fileInButton.setBackground(new Color(150, 150, 150));
-		fileInButton.setForeground(Color.BLACK);
-		toolBar.add(fileInButton);
 		
 		eqViewButton= new JButton("EQ VIEW");
-		eqViewButton.setBackground(new Color(150, 150, 150));
-		eqViewButton.setForeground(Color.BLACK);
+		eqViewButton.setBackground(colorButton);
+		eqViewButton.setForeground(Color.LIGHT_GRAY);
+		eqViewButton.setFocusable(false);
 		toolBar.add(eqViewButton);
 		
+		oscButton= new JButton("OSC");
+		oscButton.setBackground(colorButton);
+		oscButton.setForeground(Color.LIGHT_GRAY);
+		oscButton.setFocusable(false);
+		toolBar.add(oscButton);		
+		
+		//---------------------------------------------------------------------
+				JSeparator separatorGenerators = new JSeparator(JSeparator.VERTICAL);
+				separatorGenerators.setSize(2, 20);
+				separatorGenerators.setBackground(new Color(70,70,70));
+				separatorGenerators.setPreferredSize(separatorOut.getSize());
+				toolBar.add(separatorGenerators);
+		//---------------------------------------------------------------------
+		colorButton = new Color(50, 75, 50);	
+		
+		pianoButton = new JButton("PIANO");
+		pianoButton.setBackground(colorButton);
+		pianoButton.setForeground(Color.LIGHT_GRAY);
+		pianoButton.setFocusable(false);
+		toolBar.add(pianoButton);
+
+		vcoButton = new JButton("VCO");
+		vcoButton.setBackground(colorButton);
+		vcoButton.setForeground(Color.LIGHT_GRAY);
+		vcoButton.setFocusable(false);
+		toolBar.add(vcoButton);
+		
+		fileInButton = new JButton("FILE IN");
+		fileInButton.setBackground(colorButton);
+		fileInButton.setForeground(Color.LIGHT_GRAY);
+		fileInButton.setFocusable(false);
+		toolBar.add(fileInButton);		
+		
 		microButton= new JButton("MICRO");
-		microButton.setBackground(new Color(150, 150, 150));
-		microButton.setForeground(Color.BLACK);
+		microButton.setBackground(colorButton);
+		microButton.setForeground(Color.LIGHT_GRAY);
+		microButton.setFocusable(false);
 		if (controller.isMicrophoneSupported())
 			toolBar.add(microButton);
 		
+		//---------------------------------------------------------------------
+				JSeparator separatorFilters= new JSeparator(JSeparator.VERTICAL);
+				separatorFilters.setSize(2, 20);
+				separatorFilters.setBackground(new Color(70,70,70));
+				separatorFilters.setPreferredSize(separatorOut.getSize());
+				toolBar.add(separatorFilters);
+		//---------------------------------------------------------------------
+		colorButton = new Color(90, 90, 90);	
+				
+		egButton = new JButton("EG");
+		egButton.setBackground(colorButton);
+		egButton.setForeground(Color.LIGHT_GRAY);
+		egButton.setFocusable(false);
+		toolBar.add(egButton);
+
+		vcaButton = new JButton("VCA");
+		vcaButton.setBackground(colorButton);
+		vcaButton.setForeground(Color.LIGHT_GRAY);
+		vcaButton.setFocusable(false);
+		toolBar.add(vcaButton);
+
+		vcfButton = new JButton("VCF");
+		vcfButton.setBackground(colorButton);
+		vcfButton.setForeground(Color.LIGHT_GRAY);
+		vcfButton.setFocusable(false);
+		toolBar.add(vcfButton);
+		
 		eqButton= new JButton("EQ");
-		eqButton.setBackground(new Color(150, 150, 150));
-		eqButton.setForeground(Color.BLACK);
+		eqButton.setBackground(colorButton);
+		eqButton.setForeground(Color.LIGHT_GRAY);
+		eqButton.setFocusable(false);
 		toolBar.add(eqButton);
 		
-		oscButton= new JButton("OSC");
-		oscButton.setBackground(new Color(150, 150, 150));
-		oscButton.setForeground(Color.BLACK);
-		toolBar.add(oscButton);
+		sequencerButton= new JButton("SEQ");
+		sequencerButton.setBackground(colorButton);
+		sequencerButton.setForeground(Color.LIGHT_GRAY);
+		sequencerButton.setFocusable(false);
+		toolBar.add(sequencerButton);
 		
+		//---------------------------------------------------------------------
+				JSeparator separatorOthers = new JSeparator(JSeparator.VERTICAL);
+				separatorOthers.setSize(2, 20);
+				separatorOthers.setBackground(new Color(70,70,70));
+				separatorOthers.setPreferredSize(separatorOut.getSize());
+				toolBar.add(separatorOthers);
+		//---------------------------------------------------------------------	
+		colorButton = new Color(55, 30, 20);	
+
+		multiplexerButton = new JButton("MULTIPLEXER");
+		multiplexerButton.setBackground(colorButton);
+		multiplexerButton.setForeground(Color.LIGHT_GRAY);
+		multiplexerButton.setFocusable(false);
+		toolBar.add(multiplexerButton);			
+	
 		add(toolBar, BorderLayout.NORTH);
 		add(centerPanel, BorderLayout.CENTER);
 
@@ -264,7 +315,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 										Cursor.HAND_CURSOR));
 							else if (e.getSource() instanceof IPModule 
 									&& !controller.isDrawingCable()){							
-								if (e.getSource() instanceof IPVCOPianoModule) 
+								if (e.getSource() instanceof IPPianoModule) 
 									workspacePanel.setCursor(((Component) e
 										.getSource()).getCursor());
 								else {
@@ -341,10 +392,10 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 			}
 		});
 
-		vcoPianoButton.addActionListener(new ActionListener() {
+		pianoButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent ev) {
-				controller.addOneVCOPianoModule();
+				controller.addOnePianoModule();
 			}
 		});
 
