@@ -33,7 +33,7 @@ public class TestSequencerModule extends TestCase {
 		assertTrue (!sequencer.getGate().isUsed());
 		assertTrue (!sequencer.getOut().isUsed());
 		assertTrue (!sequencer.getFilterRisingEdge().input.isConnected());
-		assertTrue (sequencer.getFilterRisingEdge().output.isConnected());
+		assertTrue (!sequencer.getFilterRisingEdge().output.isConnected());
 		assertTrue (!sequencer.isStarted());
 		assertEquals (1, sequencer.getCurrentStep());
 	}
@@ -44,7 +44,7 @@ public class TestSequencerModule extends TestCase {
 	}
 
 	public void testUpdate() {
-		double previousStep = sequencer.getCurrentStep();
+		int previousStep = sequencer.getCurrentStep();
 		sequencer.update();
 		if(previousStep == 8)
 			assertEquals(1, sequencer.getCurrentStep());
