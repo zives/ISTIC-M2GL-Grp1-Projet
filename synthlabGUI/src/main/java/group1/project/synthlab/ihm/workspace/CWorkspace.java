@@ -378,7 +378,20 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 	}
 
 	
-
+	public void saveReflexion(String filename){
+		for(IModule m : modules){
+			for(Field f : m.getClass().getFields()){
+				if(f.getType().isPrimitive()){
+					System.out.println(f.getName()+" "+f.get(m));
+				}
+				switch(f.getType()){
+				case : ;break;
+				default:;
+				}
+			}
+		}
+		
+	}
 	
 	
 	
