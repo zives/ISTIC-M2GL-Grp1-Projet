@@ -117,7 +117,7 @@ public class PVCFModule extends PModule implements IPVCFModule {
 
 		// Sliders
 		qualitySlider = new JSlider();
-		qualitySlider.setMaximum(10);
+		qualitySlider.setMaximum(300);
 		qualitySlider.setMinimum(0);
 		qualitySlider.setOrientation(JSlider.VERTICAL);
 		qualitySlider.setValue((int) controller.getq()*10);
@@ -129,9 +129,9 @@ public class PVCFModule extends PModule implements IPVCFModule {
 		qualitySlider.setOpaque(false);
 		qualitySlider.setFocusable(false);
 		qualitySlider.setBorder(null);
-		qualitySlider.setLocation(270, 80);
-		qualitySlider.setMajorTickSpacing(5);
-		qualitySlider.setMinorTickSpacing(1);
+		qualitySlider.setLocation(270, 75);
+		qualitySlider.setMajorTickSpacing(50);
+		qualitySlider.setMinorTickSpacing(10);
 		qualitySlider.setPaintTicks(true);
 
 		//Labels qualitySlider
@@ -144,13 +144,23 @@ public class PVCFModule extends PModule implements IPVCFModule {
 		qualityLabel.setLocation(qualitySlider.getX(), 50);
 		qualityLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		
-		JLabel qualityMaxValueLabel = new JLabel("1");
+		final JLabel qualityValue = new JLabel("1");
+		qualityValue.setForeground(Color.LIGHT_GRAY);
+		qualityValue.setOpaque(false);
+		qualityValue.setSize(qualitySlider.getX(), qualitySlider.getY());
+		qualityValue.setHorizontalAlignment(JLabel.LEFT);
+		qualityValue.setBorder(null);
+		qualityValue.setPreferredSize(qualityValue.getSize());
+		qualityValue.setLocation(qualitySlider.getX()+10, 200);
+		qualityValue.setFont(new Font("Monospaced", Font.ITALIC, 12));
+		
+		JLabel qualityMaxValueLabel = new JLabel("30");
 		qualityMaxValueLabel.setForeground(Color.LIGHT_GRAY);
 		qualityMaxValueLabel.setOpaque(false);
 		qualityMaxValueLabel.setSize(30, 20);
 		qualityMaxValueLabel.setBorder(null);
 		qualityMaxValueLabel.setPreferredSize(qualityMaxValueLabel.getSize());
-		qualityMaxValueLabel.setLocation(qualitySlider.getX() + 40, 70);
+		qualityMaxValueLabel.setLocation(qualitySlider.getX() + 40, 65);
 		qualityMaxValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 
 		JLabel quality0ValueLabel = new JLabel("0");
@@ -159,7 +169,7 @@ public class PVCFModule extends PModule implements IPVCFModule {
 		quality0ValueLabel.setSize(30, 20);
 		quality0ValueLabel.setBorder(null);
 		quality0ValueLabel.setPreferredSize(quality0ValueLabel.getSize());
-		quality0ValueLabel.setLocation(qualitySlider.getX() + 40, 210);
+		quality0ValueLabel.setLocation(qualitySlider.getX() + 40, 205);
 		quality0ValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		
 		onOffButton.setLocation(getWidth() - onOffButton.getWidth() - 13, 13);
@@ -178,6 +188,7 @@ public class PVCFModule extends PModule implements IPVCFModule {
 		add(txtFreqLabel);
 		add(textFreq);
 		add(qualitySlider);
+		add(qualityValue);
 		add(qualityLabel);
 		add(qualityMaxValueLabel);
 		add(quality0ValueLabel);
@@ -207,6 +218,7 @@ public class PVCFModule extends PModule implements IPVCFModule {
 			public void stateChanged(ChangeEvent arg0) {
 				controller.changeQFactor();
 				controller.setq((int) qualitySlider.getValue()/10.0);
+				qualityValue.setText(PTools.freqToString(controller.getq()));
 			}
 		});
 		textFreq.addKeyListener(new KeyListener() {

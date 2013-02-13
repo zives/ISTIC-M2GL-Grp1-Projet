@@ -63,13 +63,13 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		scope.addProbe(filterRisingEdge.output);
 		circuit.add(filterRisingEdge);
 		
-		steps[0] = 1;
-		steps[1] = -0.3;
-		steps[2] = 0.5;
-		steps[3] = -1;
-		steps[4] = -0.8;
-		steps[5] = -1;
-		steps[6] = 0.7;
+		steps[0] = 0;
+		steps[1] = 0;
+		steps[2] = 0;
+		steps[3] = 0;
+		steps[4] = 0;
+		steps[5] = 0;
+		steps[6] = 0;
 		steps[7] = 0;
 		
 		multiply = new Multiply();
@@ -81,7 +81,7 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		osc.output.connect(multiply.inputB);
 		circuit.add(osc);
 		
-		currentStep = 8; // Le premier front montant passera au pas 1, ce qui est conforme à la User Story
+		currentStep = 1;
 		
 		// Port d'entree : 
 		gate = factory.createInPort("gate", filterRisingEdge.input, this);
@@ -110,6 +110,13 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	}
 	
 	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.ISequencerModule#getStepValue()
+	 */
+	public double getStepValue(int step){
+		return steps[step-1];
+	}
+	
+	/* (non-Javadoc)
 	 * @see group1.project.synthlab.module.ISequencerModule#update()
 	 */
 	public void update() {
@@ -125,10 +132,6 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	 * @see group1.project.synthlab.module.IModule#start()
 	 */
 	public void start() {
-		//circuit.start();
-		//osc.start();
-		//filterSequencer.start();
-		//multiply.start();
 		scope.start();
 		isOn = true;
 	}
@@ -137,7 +140,6 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	 * @see group1.project.synthlab.module.IModule#stop()
 	 */
 	public void stop() {
-		//circuit.stop();
 		scope.stop();
 		isOn = false;
 	}
