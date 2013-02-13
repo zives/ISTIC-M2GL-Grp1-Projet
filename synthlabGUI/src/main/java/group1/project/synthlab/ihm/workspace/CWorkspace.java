@@ -108,7 +108,7 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 
 	@Override
 	public void addOneVCFModule() {
-		addModule(factory.createVCFModule());	
+		addModule(factory.createVCFLPModule());	
 	}
 	
 	@Override

@@ -7,8 +7,6 @@ import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.unitExtensions.filterModulation.FilterFrequencyModulation;
 import group1.project.synthlab.unitExtensions.filterSupervisor.FilterAmplitude;
 
-import com.jsyn.unitgen.FilterLowPass;
-
 public interface IVCFModule extends IModule {
 
 	/**
@@ -20,11 +18,6 @@ public interface IVCFModule extends IModule {
 	 * Met a  jour les valeurs d'ajustements en fonction de la frequence de coupure
 	 */
 	public void redefAdjustments();
-	
-	/**
-	 * Met a jour le facteur de qualite q au niveau des filtres
-	 */
-    public void changeQFactor();
     
     /**
 	 * @return le filtre pour le calcul de la modulation de frequence
@@ -36,16 +29,6 @@ public interface IVCFModule extends IModule {
 	 */
     public FilterAmplitude getFilterAmplitude();
     
-    /**
-	 * @return le premier filtre passe-bas
-	 */
-    public FilterLowPass getFilter1();
-    
-    /**
-	 * @return le second filtre passe-bas
-	 */
-    public FilterLowPass getFilter2();
-    
 	/**
 	 * @return la valeur actuelle de la frequence de coupure
 	 */
@@ -55,16 +38,6 @@ public interface IVCFModule extends IModule {
 	 * Change la valeur de la frequence de coupure
 	 */
     public void setf0(double f0);
-    
-    /**
-	 * @return la valeur actuelle du facteur de qualite
-	 */
-    public double getq();
-    
-    /**
-	 * Change la valeur du facteur de qualite
-	 */
-    public void setq(double q);
     
 	/**
 	 * @return le port d'entree In

@@ -20,16 +20,16 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class PVCFModule extends PModule implements IPVCFModule {
+public class PVCFLPModule extends PModule implements IPVCFLPModule {
 
-	protected ICVCFModule controller;
+	protected ICVCFLPModule controller;
 
 	protected JSlider coarseSlider;
 	protected JSlider fineSlider;
 	protected JLabel warnLabel;
 	protected JSlider qualitySlider;
 
-	public PVCFModule(final ICVCFModule controller) {
+	public PVCFLPModule(final ICVCFLPModule controller) {
 		super(controller);
 		this.controller = controller;
 		// Taille et couleur définie dans la super classe
