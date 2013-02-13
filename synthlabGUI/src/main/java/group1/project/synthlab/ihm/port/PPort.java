@@ -19,7 +19,7 @@ public class PPort extends JPanel implements IPPort {
 	private static final long serialVersionUID = -7576041067842211961L;
 	public final static int SIZE = 32;
 	protected static int MARGIN = 1;
-	protected ICPort controller;
+	protected transient ICPort controller;
 	protected boolean mouseEntered;
 	protected Color mouseEnteredColor;
 

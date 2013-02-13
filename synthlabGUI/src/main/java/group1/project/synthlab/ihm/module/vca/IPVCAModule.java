@@ -1,10 +1,8 @@
 package group1.project.synthlab.ihm.module.vca;
 
-import java.awt.Point;
-
-import javax.swing.JComponent;
-
 import group1.project.synthlab.ihm.module.IPModule;
+
+import java.awt.Point;
 
 public interface IPVCAModule extends IPModule{
 	public void setSlidersEnabled(boolean value);

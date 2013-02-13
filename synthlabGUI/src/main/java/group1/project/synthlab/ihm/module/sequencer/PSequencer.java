@@ -1,5 +1,10 @@
 package group1.project.synthlab.ihm.module.sequencer;
 
+import group1.project.synthlab.ihm.module.PModule;
+import group1.project.synthlab.ihm.port.PPort;
+import group1.project.synthlab.ihm.port.in.ICInPort;
+import group1.project.synthlab.ihm.port.out.ICOutPort;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -11,14 +16,9 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import group1.project.synthlab.ihm.module.PModule;
-import group1.project.synthlab.ihm.port.PPort;
-import group1.project.synthlab.ihm.port.in.ICInPort;
-import group1.project.synthlab.ihm.port.out.ICOutPort;
-
 public class PSequencer extends PModule implements IPSequencer{
 
-	protected ICSequencer controller;
+	protected transient ICSequencer controller;
 	protected JSlider[] tensionSlider;
 	protected JSlider tensionSlider1;
 	protected JSlider tensionSlider2;

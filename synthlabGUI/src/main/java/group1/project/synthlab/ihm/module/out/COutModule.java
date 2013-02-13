@@ -1,6 +1,5 @@
 package group1.project.synthlab.ihm.module.out;
 
-import group1.project.synthlab.ihm.cable.ICCable;
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.module.IPModuleObserver;
 import group1.project.synthlab.module.out.OutModule;

@@ -19,7 +19,7 @@ public class PVCAModule extends PModule implements IPVCAModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
 
-	protected ICVCAModule controller;
+	protected transient ICVCAModule controller;
 	protected JSlider gainSlider;
 	protected final JLabel gainLabel ;
 

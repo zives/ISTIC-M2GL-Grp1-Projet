@@ -4,7 +4,6 @@ import group1.project.synthlab.ihm.module.PModule;
 import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.in.ICInPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
-import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterAmplitudeObservable;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -21,7 +20,7 @@ public class PEGModule extends PModule implements IPEGModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
 
-	protected ICEGModule controller;
+	protected transient ICEGModule controller;
 	protected JSlider attackSlider;
 	protected JSlider decaySlider;
 	protected JSlider releaseSlider;

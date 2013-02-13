@@ -22,7 +22,7 @@ public class POutModule extends PModule implements IPOutModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
 
-	protected ICOutModule controller;
+	protected transient ICOutModule controller;
 	protected JSlider attenuatorSlider;
 	protected final JToggleButton distributionButton;
 

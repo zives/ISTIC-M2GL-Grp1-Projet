@@ -7,9 +7,6 @@ import group1.project.synthlab.ihm.port.out.ICOutPort;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -23,7 +20,7 @@ public class PEQModule extends PModule implements IPEQModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
 
-	protected ICEQModule controller;
+	protected transient ICEQModule controller;
 	protected JSlider[] attenuatorSlider;
 
 	public PEQModule(final ICEQModule controller) {

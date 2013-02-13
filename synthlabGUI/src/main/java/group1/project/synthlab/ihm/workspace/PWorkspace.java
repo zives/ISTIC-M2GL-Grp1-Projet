@@ -51,7 +51,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 	private static final long serialVersionUID = 1L;
 
-	protected ICWorkspace controller;
+	protected transient ICWorkspace controller;
 	protected JPanel toolBar;
 	protected JLayeredPane workspacePanel;
 	protected JScrollPane centerPanel;

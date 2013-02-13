@@ -1,9 +1,9 @@
 package group1.project.synthlab.ihm.module.osc;
 
-import java.util.List;
-
 import group1.project.synthlab.ihm.module.ICModule;
 import group1.project.synthlab.module.osc.IOSCModule;
+
+import java.util.List;
 
 public interface ICOSCModule extends ICModule, IOSCModule {
 

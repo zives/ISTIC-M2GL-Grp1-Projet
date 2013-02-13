@@ -4,7 +4,6 @@ import group1.project.synthlab.ihm.module.PModule;
 import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.TextArea;
@@ -23,7 +22,7 @@ import javax.swing.JLabel;
 
 public class PFileInModule extends PModule implements IPFileInModule, DropTargetListener{
 
-	protected ICFileInModule controller;
+	protected transient ICFileInModule controller;
 	protected TextArea sampleFile;
 	protected DropTarget dropTarget;
 	protected JLabel fileLabel;

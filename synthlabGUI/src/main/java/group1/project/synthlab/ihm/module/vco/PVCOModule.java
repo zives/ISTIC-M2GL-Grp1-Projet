@@ -10,7 +10,6 @@ import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterAmplitudeO
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.NumberFormat;
@@ -25,7 +24,7 @@ public class PVCOModule extends PModule implements IPVCOModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
 
-	protected ICVCOModule controller;
+	protected transient ICVCOModule controller;
 	protected JSlider coarseSlider;
 	protected JSlider fineSlider;
 	protected JLabel warnLabel;

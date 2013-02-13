@@ -7,8 +7,6 @@ import group1.project.synthlab.ihm.port.out.ICOutPort;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.JLabel;
 import javax.swing.JSlider;
@@ -19,7 +17,7 @@ public class PMultiplexerModule extends PModule implements IPMultiplexerModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
 
-	protected ICMultiplexerModule controller;
+	protected transient ICMultiplexerModule controller;
 	protected JSlider attenuatorSlider;
 
 	public PMultiplexerModule(final ICMultiplexerModule controller) {

@@ -4,10 +4,12 @@ import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.ihm.cable.ICCable;
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.module.ICModule;
+import group1.project.synthlab.ihm.module.IPModule;
 import group1.project.synthlab.ihm.tools.CTools;
 import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.workspace.Workspace;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -138,6 +140,7 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 
 	@Override
 	public void loadConfiguration() {
+
 //		// on demande le fichier à l'utilisateur
 //		File f = presentation.askFileChooser();
 //		if (f != null) {
@@ -163,6 +166,7 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 //
 //			parcourirTous();
 //		}
+
 	}
 //
 //	// variables pour le chargement
@@ -378,8 +382,6 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 
 	}
 
-	
-
 	public void saveConfiguration(String name) {
 		String save = "<Configuration name=\"" + name + "\">\n";
 		for (IModule m : modules) {
@@ -444,8 +446,17 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 			tmp += "		</Controller>\n";
 			// /!\ajouter presentation/!\
 			ICModule icm = (ICModule) m;
-			icm.getPresentation();
-
+			IPModule ipm = icm.getPresentation();
+			try {
+				String presentationString = CTools.toString(ipm);
+				tmp+="		<Presentation>\n"+
+						"			"+presentationString+
+						"\n		</Presentation>\n";
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			tmp += "	</Module>\n";
 			save += tmp;
 		}

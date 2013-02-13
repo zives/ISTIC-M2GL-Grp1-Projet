@@ -1,12 +1,11 @@
 package group1.project.synthlab.ihm.module.piano;
 
-import java.awt.Component;
-
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.module.IPModuleObserver;
-import group1.project.synthlab.module.piano.IPianoModule;
 import group1.project.synthlab.module.piano.PianoModule;
 import group1.project.synthlab.port.IPort;
+
+import java.awt.Component;
 
 public class CPianoModule extends PianoModule implements ICPianoModule {
 	

@@ -3,28 +3,18 @@ package group1.project.synthlab.ihm.cable;
 import group1.project.synthlab.ihm.port.IPPort;
 import group1.project.synthlab.ihm.port.PPort;
 
-import java.awt.AWTEvent;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
-import java.awt.Toolkit;
-import java.awt.event.AWTEventListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelListener;
-import java.awt.geom.Line2D;
 import java.awt.geom.QuadCurve2D;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 /**
  * @author Groupe 1 Presentation du cable

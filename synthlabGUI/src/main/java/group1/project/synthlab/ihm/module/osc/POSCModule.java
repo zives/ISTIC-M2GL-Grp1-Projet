@@ -13,15 +13,12 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JSlider;
-import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -29,7 +26,7 @@ public class POSCModule extends PModule implements IPOSCModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
 
-	protected ICOSCModule controller;
+	protected transient ICOSCModule controller;
 
 	public POSCModule(final ICOSCModule controller) {
 		super(controller);
