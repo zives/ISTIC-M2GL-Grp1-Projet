@@ -4,6 +4,7 @@ import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.Multiply;
 import com.jsyn.unitgen.SineOscillator;
+import com.jsyn.unitgen.SquareOscillator;
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
 import group1.project.synthlab.port.IPort;
@@ -63,9 +64,13 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		steps[7] = 0;
 		
 		multiply = new Multiply();
-		multiply.inputA.set(0);
-		multiply.inputB.set(1.0 / Signal.AMAX); // On divise par AMAX pour avoir une coherence entre les valeurs reglees en Volt et les valeurs transmises en JSyn
 		circuit.add(multiply);
+		
+		SquareOscillator osc = new SquareOscillator();
+		osc.frequency.set(0);
+		osc.amplitude.set(1.0 / Signal.AMAX);
+		osc.output.connect(multiply.inputB);
+		circuit.add(osc);
 		
 		currentStep = 8; // Le premier front montant passera au pas 1, ce qui est conforme à la User Story
 		
@@ -74,6 +79,8 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		
 		// Port de sortie
 		out = factory.createOutPort("out", multiply.output, this);
+		
+		
 				
 		isOn = false;
 	}
@@ -112,6 +119,7 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	 */
 	public void start() {
 		circuit.start();
+		filterSequencer.start();
 		isOn = true;
 	}
 
@@ -158,6 +166,8 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	 * @see group1.project.synthlab.module.ISequencerModule#cableConnected()
 	 */
 	public void cableConnected(IPort port) {
+		if(port == gate)
+			System.out.println("Cable connecté dans l'entrée gate, isOn = "+isOn+", input = "+filterSequencer.input.get());
 	}
 
 	/* (non-Javadoc)

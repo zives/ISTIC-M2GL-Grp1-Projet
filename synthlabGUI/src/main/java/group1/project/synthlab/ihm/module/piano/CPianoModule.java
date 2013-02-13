@@ -1,28 +1,27 @@
-package group1.project.synthlab.ihm.module.vco.piano;
+package group1.project.synthlab.ihm.module.piano;
+
+import java.awt.Component;
 
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.module.IPModuleObserver;
-import group1.project.synthlab.ihm.module.vco.IPVCOModule;
-import group1.project.synthlab.module.vco.piano.VCOPianoModule;
+import group1.project.synthlab.module.piano.IPianoModule;
+import group1.project.synthlab.module.piano.PianoModule;
 import group1.project.synthlab.port.IPort;
 
-public class CVCOPianoModule extends VCOPianoModule implements ICVCOPianoModule {
-
-	protected double[] gamme0 = { 32.7, 36.71, 41.20, 43.65, 49, 55, 61.74 };
-
-	protected double[] gamme0Sharp = { 34.65, 38.89, 46.25, 51.91, 58.27 };
+public class CPianoModule extends PianoModule implements ICPianoModule {
 	
 	protected int octaveStart;
-	protected IPVCOPianoModule presentation;
+	protected IPPianoModule presentation;
+	protected final NOTE[] NOTE_N = {NOTE.DO, NOTE.RE, NOTE.MI, NOTE.FA, NOTE.SOL, NOTE.LA, NOTE.SI};
+	protected final NOTE[] NOTE_D = {NOTE.DOd, NOTE.REd, NOTE.FAd, NOTE.SOLd, NOTE.LAd};
 
-	public CVCOPianoModule(CFactory factory) {
+	public CPianoModule(CFactory factory) {
 		super(factory);
-		this.presentation = new PVCOPianoModule(this);
-		this.filterAmplitude.register(this.presentation);
+		this.presentation = new PPianoModule(this);
 		this.octaveStart = 2;
 	}
 
-	public IPVCOPianoModule getPresentation() {
+	public IPPianoModule getPresentation() {
 		return presentation;
 	}
 
@@ -40,14 +39,16 @@ public class CVCOPianoModule extends VCOPianoModule implements ICVCOPianoModule 
 
 	
 	@Override
-	public void play(int note, int octave, boolean sharp) {
-		if (note > gamme0.length)
+	public void playFromPresentation(int note, int octave, boolean sharp) {
+		if (note > 7 && !sharp)
 			return;
+		else if (note > 5 && sharp)
+			return;
+		
 		if (!sharp)
-			this.setf0(gamme0[note] * Math.pow(2, octave + octaveStart));
+			super.play(NOTE_N[note], octave + octaveStart);
 		else 
-			this.setf0(gamme0Sharp[note] * Math.pow(2, octave + octaveStart));
-		super.play();
+			super.play(NOTE_D[note], octave + octaveStart);
 	}
 
 	@Override
@@ -68,11 +69,10 @@ public class CVCOPianoModule extends VCOPianoModule implements ICVCOPianoModule 
 	
 	@Override
 	public String saveConfiguration() {
-		// TODO Auto-generated method stub
 		String save = "<VCOPianoModule>\n";
-		save+="<OctaveStart>"+this.octaveStart+"</OctaveStart>\n";
-		save+="<Location x=\""+presentation.getLocation().getX()+
-				"\" y=\""+presentation.getLocation().getY()+"\" />\n";
+		save+="<OcatveStart>"+this.octaveStart+"</OcatveStart>\n";
+		save+="<Location x=\""+((Component) presentation).getLocation().getX()+
+				"\" y=\""+((Component) presentation).getLocation().getY()+"\" />\n";
 		save+="</VCOPianoModule>\n";
 		return save;
 	}
@@ -83,7 +83,6 @@ public class CVCOPianoModule extends VCOPianoModule implements ICVCOPianoModule 
 	}
 
 	public void updateOctaveStart(int parseInt) {
-		// TODO Auto-generated method stub
 		changeoctave(parseInt);
 		int position = 1 ;
 		if(octaveStart == 4){
@@ -96,7 +95,6 @@ public class CVCOPianoModule extends VCOPianoModule implements ICVCOPianoModule 
 	}
 	
 	public void updateLocation(double x, double y) {
-		// TODO Auto-generated method stub
 		presentation.updateLocation(x,y);
 	}
 

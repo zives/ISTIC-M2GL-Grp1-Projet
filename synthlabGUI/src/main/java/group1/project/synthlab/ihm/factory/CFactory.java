@@ -11,11 +11,11 @@ import group1.project.synthlab.ihm.module.micro.CMicroModule;
 import group1.project.synthlab.ihm.module.multiplexer.CMultiplexerModule;
 import group1.project.synthlab.ihm.module.osc.COSCModule;
 import group1.project.synthlab.ihm.module.out.COutModule;
+import group1.project.synthlab.ihm.module.piano.CPianoModule;
 import group1.project.synthlab.ihm.module.sequencer.CSequencer;
 import group1.project.synthlab.ihm.module.vca.CVCAModule;
 import group1.project.synthlab.ihm.module.vcf.CVCFModule;
 import group1.project.synthlab.ihm.module.vco.CVCOModule;
-import group1.project.synthlab.ihm.module.vco.piano.CVCOPianoModule;
 import group1.project.synthlab.ihm.port.in.CInPort;
 import group1.project.synthlab.ihm.port.out.COutPort;
 import group1.project.synthlab.ihm.workspace.CWorkspace;
@@ -28,6 +28,7 @@ import group1.project.synthlab.module.micro.IMicroModule;
 import group1.project.synthlab.module.multiplexer.IMultiplexerModule;
 import group1.project.synthlab.module.osc.IOSCModule;
 import group1.project.synthlab.module.out.IOutModule;
+import group1.project.synthlab.module.piano.IPianoModule;
 import group1.project.synthlab.module.sequencer.ISequencerModule;
 import group1.project.synthlab.module.vca.IVCAModule;
 import group1.project.synthlab.module.vcf.IVCFModule;
@@ -66,8 +67,8 @@ public class CFactory extends Factory {
 	}
 	
 	@Override
-	public IVCOModule createVCOPianoModule() {
-		return new CVCOPianoModule(this);
+	public IPianoModule createPianoModule() {
+		return new CPianoModule(this);
 	}
 	
 	@Override

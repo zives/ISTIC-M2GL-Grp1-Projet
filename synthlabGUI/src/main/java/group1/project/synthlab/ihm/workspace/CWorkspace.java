@@ -1,32 +1,29 @@
 package group1.project.synthlab.ihm.workspace;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-
-import javax.swing.JPanel;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.ihm.cable.ICCable;
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.module.ICModule;
 import group1.project.synthlab.ihm.module.eg.CEGModule;
 import group1.project.synthlab.ihm.module.out.COutModule;
+import group1.project.synthlab.ihm.module.piano.CPianoModule;
 import group1.project.synthlab.ihm.module.vca.CVCAModule;
 import group1.project.synthlab.ihm.module.vco.CVCOModule;
-import group1.project.synthlab.ihm.module.vco.piano.CVCOPianoModule;
 import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.module.out.OutModule;
-import group1.project.synthlab.module.vca.VCAModule;
 import group1.project.synthlab.workspace.Workspace;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class CWorkspace extends Workspace implements ICWorkspace {
 	protected ICCable drawingCable;
@@ -115,8 +112,8 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 	}
 	
 	@Override
-	public void addOneVCOPianoModule() {
-		addModule(factory.createVCOPianoModule());
+	public void addOnePianoModule() {
+		addModule(factory.createPianoModule());
 		
 	}
 
@@ -198,7 +195,7 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 				addModule(com);
 				com.updateLocation(tmp_x,tmp_y);
 			}else if(node.getNodeName().equals("VCOPianoModule")){
-				CVCOPianoModule com = parcourirVCOPianoModule(node);
+				CPianoModule com = parcourirVCOPianoModule(node);
 				addModule(com);
 				com.updateLocation(tmp_x,tmp_y);
 			}else if(node.getNodeName().equals("EGModule")){
@@ -213,6 +210,7 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		}
 	}
 	
+
 	private CVCAModule parcourirVCAModule(Node node) {
 		// TODO Auto-generated method stub
 		CVCAModule cvca = (CVCAModule) factory.createVCAModule();
@@ -259,9 +257,11 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		return ceg;
 	}
 
-	private CVCOPianoModule parcourirVCOPianoModule(Node node) {
+
+	private CPianoModule parcourirVCOPianoModule(Node node) {
+
 		// TODO Auto-generated method stub
-		CVCOPianoModule cvcop = (CVCOPianoModule) factory.createVCOPianoModule();
+		CPianoModule cvcop = (CPianoModule) factory.createPianoModule();
 		NodeList l = node.getChildNodes();
 		for(int i = 0;i<l.getLength();i++){
 			if(l.item(i).getNodeName().equals("OctaveStart")){

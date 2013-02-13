@@ -19,6 +19,8 @@ import group1.project.synthlab.module.osc.IOSCModule;
 import group1.project.synthlab.module.osc.OSCModule;
 import group1.project.synthlab.module.out.IOutModule;
 import group1.project.synthlab.module.out.OutModule;
+import group1.project.synthlab.module.piano.IPianoModule;
+import group1.project.synthlab.module.piano.PianoModule;
 import group1.project.synthlab.module.sequencer.ISequencerModule;
 import group1.project.synthlab.module.sequencer.SequencerModule;
 import group1.project.synthlab.module.vca.IVCAModule;
@@ -27,7 +29,6 @@ import group1.project.synthlab.module.vcf.IVCFModule;
 import group1.project.synthlab.module.vcf.VCFModule;
 import group1.project.synthlab.module.vco.IVCOModule;
 import group1.project.synthlab.module.vco.VCOModule;
-import group1.project.synthlab.module.vco.piano.VCOPianoModule;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.in.InPort;
 import group1.project.synthlab.port.out.IOutPort;
@@ -90,8 +91,8 @@ public class Factory {
 		return new EGModule(this);
 	}
 
-	public IVCOModule createVCOPianoModule() {
-		return new VCOPianoModule(this);
+	public IPianoModule createPianoModule() {
+		return new PianoModule(this);
 	}
 
 	public IEQViewModule createEQViewModule() {

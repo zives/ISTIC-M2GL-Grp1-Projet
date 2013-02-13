@@ -7,7 +7,7 @@ import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 
 /**
- * Création d'un cable
+ * Creation d'un cable
  * 
  * @author Groupe 1
  * 
@@ -36,7 +36,7 @@ public class Cable implements ICable {
 	 */
 	public void setOutPort(IOutPort outPort) throws BadConnection, PortAlreadyUsed {
 		if (outPort.isUsed())
-			throw new PortAlreadyUsed("Ce port " + outPort.getLabel() + " est deja utilise par un autre cable. Dettachez le cable avant d'en ajouter un autre !");
+			throw new PortAlreadyUsed("Ce port " + outPort.getLabel() + " est deja utilise par un autre cable. Detachez le cable avant d'en ajouter un autre !");
 		this.outPort = outPort;
 		
 	}
@@ -115,7 +115,9 @@ public class Cable implements ICable {
 	public boolean hasSignal() {
 		if (outPort == null)
 			return false;
-		return outPort.getModule().isStarted() &&  outPort.detectSignal() ;
+		if (inPort == null)
+			return false;
+		return outPort.getModule().isStarted() &&   inPort.getModule().isStarted() && outPort.detectSignal() ;
 	
 	}
 

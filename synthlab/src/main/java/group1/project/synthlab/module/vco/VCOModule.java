@@ -9,12 +9,15 @@ import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
 import group1.project.synthlab.unitExtensions.filterModulation.FilterFrequencyModulation;
 import group1.project.synthlab.unitExtensions.filterSupervisor.FilterAmplitude;
+
 import javax.swing.JFrame;
+
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.scope.AudioScope;
 import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.PassThrough;
+import com.jsyn.unitgen.SawtoothOscillator;
 import com.jsyn.unitgen.SineOscillator;
 import com.jsyn.unitgen.SquareOscillator;
 import com.jsyn.unitgen.TriangleOscillator;
@@ -37,7 +40,7 @@ public class VCOModule extends Module implements IVCOModule {
 	protected boolean fmConnected;
 
 	/** Amplitude a l'arret */
-	public static final double amin = 0;
+	public static final double amin = Signal.AMIN;
 	/** Amplitude par defaut */
 	public static final double a0 = 0.5;
 
@@ -47,7 +50,7 @@ public class VCOModule extends Module implements IVCOModule {
 	public static final double fmax = Signal.FMAXAUDIBLE;
 
 	/** Frequence de base */
-	protected double f0 = 300;
+	protected double f0 = 440;
 
 	/** Oscillateur generant le signal sinusoidale */
 	protected SineOscillator sineOsc;
@@ -55,6 +58,8 @@ public class VCOModule extends Module implements IVCOModule {
 	protected SquareOscillator squareOsc;
 	/** Oscillateur generant le signal triangulaire */
 	protected TriangleOscillator triangleOsc;
+	/** Oscillateur generant le signal dent de scie */
+	protected SawtoothOscillator sawToothOsc;
 
 	/**
 	 * Filtre pour ramener l'amplitude du signal modulant a amax si elle est au
@@ -82,6 +87,10 @@ public class VCOModule extends Module implements IVCOModule {
 	protected IOutPort outSquare;
 	/** Pour de sortie pour le signal triangulaire */
 	protected IOutPort outTriangle;
+	/** Pour de sortie pour le signal dent de scie */
+	protected IOutPort outSawTooth;
+	
+	
 
 	/** Reglage grossier de la frequence de base : entier de 0 a 990 */
 	protected int coarseAdjustment;
@@ -101,13 +110,14 @@ public class VCOModule extends Module implements IVCOModule {
 		sineOsc = new SineOscillator();
 		squareOsc = new SquareOscillator();
 		triangleOsc = new TriangleOscillator();
+		sawToothOsc = new SawtoothOscillator();
 
 		circuit.add(sineOsc);
 		circuit.add(squareOsc);
 		circuit.add(triangleOsc);
+		circuit.add(sawToothOsc);
 
 		// Filtre d'amplitude
-		// TODO : Tester lorsqu'on aura un VCA
 		filterAmplitude = new FilterAmplitude(Signal.AMAXMODULATION, true);
 		circuit.add(filterAmplitude);
 		
@@ -131,9 +141,11 @@ public class VCOModule extends Module implements IVCOModule {
 		filterAmplitude.output.connect(filterFrequencyModulation.input);
 		
 		// Ports de sortie
-		outSine = factory.createOutPort("outsine", sineOsc.output, this);
-		outSquare = factory.createOutPort("outsquare", squareOsc.output, this);
-		outTriangle = factory.createOutPort("outtriangle", triangleOsc.output,
+		outSine = factory.createOutPort("sine", sineOsc.output, this);
+		outSquare = factory.createOutPort("square", squareOsc.output, this);
+		outTriangle = factory.createOutPort("triangle", triangleOsc.output,
+				this);
+		outSawTooth = factory.createOutPort("sawTooth ", sawToothOsc.output,
 				this);
 
 		// Quand on cree notre VCO, il n'a pas de signal en entree, donc la
@@ -147,6 +159,7 @@ public class VCOModule extends Module implements IVCOModule {
 		sineOsc.frequency.set(f0);
 		squareOsc.frequency.set(f0);
 		triangleOsc.frequency.set(f0);
+		sawToothOsc.frequency.set(f0);
 
 		// On regle les amplitudes des oscillateurs au minimum, puisque le VCO
 		// n'est pas encore demarre
@@ -166,6 +179,8 @@ public class VCOModule extends Module implements IVCOModule {
 			outSquare.getCable().disconnect();
 		if (outTriangle.isUsed())
 			outTriangle.getCable().disconnect();
+		if (outSawTooth.isUsed())
+			outSawTooth.getCable().disconnect();
 		if (fm.isUsed())
 			fm.getCable().disconnect();
 	}
@@ -190,6 +205,7 @@ public class VCOModule extends Module implements IVCOModule {
 		sineOsc.frequency.set(f0);
 		squareOsc.frequency.set(f0);
 		triangleOsc.frequency.set(f0);
+		sawToothOsc.frequency.set(f0);
 		filterFrequencyModulation.setf0(f0);
 	}
 
@@ -216,6 +232,7 @@ public class VCOModule extends Module implements IVCOModule {
 			passThrough.output.connect(sineOsc.frequency);
 			passThrough.output.connect(squareOsc.frequency);
 			passThrough.output.connect(triangleOsc.frequency);
+			passThrough.output.connect(sawToothOsc.frequency);
 		}
 	}
 
@@ -243,6 +260,7 @@ public class VCOModule extends Module implements IVCOModule {
 		sineOsc.amplitude.set(a0);
 		squareOsc.amplitude.set(a0);
 		triangleOsc.amplitude.set(a0);
+		sawToothOsc.amplitude.set(a0);
 		isOn = true;
 	}
 
@@ -263,6 +281,7 @@ public class VCOModule extends Module implements IVCOModule {
 		sineOsc.amplitude.set(amin);
 		squareOsc.amplitude.set(amin);
 		triangleOsc.amplitude.set(amin);
+		sawToothOsc.amplitude.set(amin);
 		isOn = false;
 	}
 
@@ -320,6 +339,16 @@ public class VCOModule extends Module implements IVCOModule {
 	public TriangleOscillator getTriangleOsc() {
 		return triangleOsc;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see group1.project.synthlab.module.IVCOModule#getSawToothOsc()
+	 */
+	public SawtoothOscillator getSawToothOsc() {
+		return sawToothOsc;
+	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -365,6 +394,15 @@ public class VCOModule extends Module implements IVCOModule {
 	 */
 	public IOutPort getOutTriangle() {
 		return outTriangle;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see group1.project.synthlab.module.IVCOModule#getOutTriangle()
+	 */
+	public IOutPort getOutSawTooth() {
+		return outSawTooth;
 	}
 
 	/*

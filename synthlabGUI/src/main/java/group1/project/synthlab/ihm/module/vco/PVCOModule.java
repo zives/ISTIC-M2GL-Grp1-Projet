@@ -127,13 +127,17 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		pportFM.setLocation(10, getHeight() - pportFM.getHeight() -5);
 		PPort pportSin = (PPort) (((ICOutPort) controller.getOutSine())
 				.getPresentation());
-		pportSin.setLocation( pportFM.getX() + 60, pportFM.getY());
+		pportSin.setLocation( pportFM.getX() + 55, pportFM.getY());
 		PPort pportTri = (PPort) (((ICOutPort) controller.getOutTriangle())
 				.getPresentation());
-		pportTri.setLocation(pportFM.getX() + 120,  pportFM.getY());
+		pportTri.setLocation(pportFM.getX() + 110,  pportFM.getY());
 		PPort pportSqu = (PPort) (((ICOutPort) controller.getOutSquare())
 				.getPresentation());
-		pportSqu.setLocation(pportFM.getX() + 180,  pportFM.getY());
+		pportSqu.setLocation(pportFM.getX() + 165,  pportFM.getY());
+		
+		PPort pportST = (PPort) (((ICOutPort) controller.getOutSawTooth())
+				.getPresentation());
+		pportST.setLocation(pportFM.getX() + 220,  pportFM.getY());
 
 		// Ajouts des composants
 		add(freqLabel);
@@ -141,6 +145,7 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		add(pportSin);
 		add(pportTri);
 		add(pportSqu);
+		add(pportST);
 		add(coarseLabel);
 		add(coarseSlider);
 		add(fineLabel);

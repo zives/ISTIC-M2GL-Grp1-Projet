@@ -6,6 +6,7 @@ import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.unitExtensions.filterModulation.FilterFrequencyModulation;
 
+import com.jsyn.unitgen.SawtoothOscillator;
 import com.jsyn.unitgen.SineOscillator;
 import com.jsyn.unitgen.SquareOscillator;
 import com.jsyn.unitgen.TriangleOscillator;
@@ -43,6 +44,11 @@ public interface IVCOModule extends IModule {
 	public TriangleOscillator getTriangleOsc();
 	
 	/**
+	 * @return l'oscillateur JSyn qui genere le signal dent de scie
+	 */
+	public SawtoothOscillator getSawToothOsc();
+	
+	/**
 	 * @return l'etat de l'entree fm (signal modulant connecte ou non)
 	 */
 	public boolean getFmConnected();
@@ -71,6 +77,11 @@ public interface IVCOModule extends IModule {
 	 * @return le port de sortie pour le signal triangulaire
 	 */
 	public IOutPort getOutTriangle();
+	
+	/**
+	 * @return le port de sortie pour le signal dent de scie
+	 */
+	public IOutPort getOutSawTooth();
 	
 	/**
 	 * Reglage grossier
