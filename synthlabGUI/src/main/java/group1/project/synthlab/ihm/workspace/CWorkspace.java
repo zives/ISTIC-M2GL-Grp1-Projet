@@ -330,7 +330,7 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 //		return com;
 //	}
 
-	public void addFileInModule() {
+	public void addOneFileInModule() {
 		addModule(factory.createFileInModule());
 
 	}
@@ -342,25 +342,25 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 	}
 
 	@Override
-	public void addEQViewModule() {
+	public void addOneEQViewModule() {
 		addModule(factory.createEQViewModule());
 
 	}
 
 	@Override
-	public void addMicroModule() {
+	public void addOneMicroModule() {
 		addModule(factory.createMicroModule());
 
 	}
 
 	@Override
-	public void addEQModule() {
+	public void addOneEQModule() {
 		addModule(factory.createEQModule());
 
 	}
 
 	@Override
-	public void addOSCModule() {
+	public void addOneOSCModule() {
 		addModule(factory.createOSCModule());
 
 	}
@@ -470,6 +470,26 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 	public void clearAll() {
 		for (IModule module : modules)
 			removeModule(module);
+	}
+
+	@Override
+	public void allModulesOn() {
+		for (IModule module : modules) {
+			ICModule cModule = (ICModule) module;
+			cModule.start();
+			cModule.getPresentation().start();
+		}
+		
+	}
+
+	@Override
+	public void allModulesOff() {
+		for (IModule module : modules) {
+			ICModule cModule = (ICModule) module;
+			cModule.stop();
+			cModule.getPresentation().stop();
+		}
+		
 	}
 
 

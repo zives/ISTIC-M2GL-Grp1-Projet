@@ -72,6 +72,8 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	protected JButton sequencerButton;
 	protected JMenu workspaceMenu;
 	protected JMenuItem clear;
+	protected JMenuItem allOn;
+	protected JMenuItem allOff;
 
 	public PWorkspace(ICWorkspace controller) {
 		super("Synthetiseur");
@@ -138,6 +140,10 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		//Workspace
 		clear = new JMenuItem("Tout effacer");
 		workspaceMenu.add(clear);	
+		allOn = new JMenuItem("Tout demarrer");
+		workspaceMenu.add(allOn);
+		allOff = new JMenuItem("Tout arreter");
+		workspaceMenu.add(allOff);
 
 		//bouton sauvegarde pour la configuration
 		save = new JMenuItem("Sauvegarder configuration");		
@@ -175,7 +181,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 				separatorOut.setPreferredSize(separatorOut.getSize());
 				toolBar.add(separatorOut);
 		//---------------------------------------------------------------------
-		Color colorButton = new Color(50, 50, 75);		
+		Color colorButton = new Color(50, 50, 80);		
 				
 		outButton = new JButton("OUT");
 		outButton.setBackground(colorButton);
@@ -202,7 +208,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 				separatorGenerators.setPreferredSize(separatorOut.getSize());
 				toolBar.add(separatorGenerators);
 		//---------------------------------------------------------------------
-		colorButton = new Color(50, 75, 50);	
+		colorButton = new Color(50, 80, 50);	
 		
 		pianoButton = new JButton("PIANO");
 		pianoButton.setBackground(colorButton);
@@ -281,7 +287,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 				separatorOthers.setPreferredSize(separatorOut.getSize());
 				toolBar.add(separatorOthers);
 		//---------------------------------------------------------------------	
-		colorButton = new Color(55, 30, 20);	
+		colorButton = new Color(70, 40, 20);	
 
 		multiplexerButton = new JButton("MULTIPLEXER");
 		multiplexerButton.setBackground(colorButton);
@@ -382,21 +388,6 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 			}
 		}, AWTEvent.KEY_EVENT_MASK);
 
-		// workspacePanel.addMouseMotionListener(new MouseMotionListener() {
-		//
-		// public void mouseMoved(MouseEvent ev) {
-		// if (controller.isDrawingCable()) {
-		// PCable cable = (PCable) controller.getDrawingCable()
-		// .getPresentation();
-		// cable.setP2(ev.getX(), ev.getY());
-		// for (Component component : getComponents())
-		// component.repaint();
-		// }
-		// }
-		//
-		// public void mouseDragged(MouseEvent arg0) {
-		// }
-		// });
 
 		vcoButton.addActionListener(new ActionListener() {
 
@@ -463,31 +454,31 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		fileInButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent ev) {
-				controller.addFileInModule();
+				controller.addOneFileInModule();
 			}
 		});
 		eqViewButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent ev) {
-				controller.addEQViewModule();
+				controller.addOneEQViewModule();
 			}
 		});
 		microButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent ev) {
-				controller.addMicroModule();
+				controller.addOneMicroModule();
 			}
 		});
 		eqButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent ev) {
-				controller.addEQModule();
+				controller.addOneEQModule();
 			}
 		});
 		oscButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent ev) {
-				controller.addOSCModule();
+				controller.addOneOSCModule();
 			}
 		});
 		
@@ -516,6 +507,16 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		clear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.clearAll();
+			}
+		});
+		allOn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.allModulesOn();
+			}
+		});
+		allOff.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.allModulesOff();
 			}
 		});
 	}
@@ -571,20 +572,17 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 	@Override
 	public String askFileName() {
-		// TODO Auto-generated method stub
 		String s = JOptionPane.showInputDialog("Entrer le nom de la sauvegarde.\nExemple : configuration_1");
 		return s;
 	}
 
 	@Override
 	public void showError(String s) {
-		// TODO Auto-generated method stub
 		JOptionPane.showMessageDialog(null, s);
 	}
 
 	@Override
 	public File askFileChooser() {
-		// TODO Auto-generated method stub
 		JFileChooser j = new JFileChooser();
 		j.showOpenDialog(null);
 		return j.getSelectedFile();

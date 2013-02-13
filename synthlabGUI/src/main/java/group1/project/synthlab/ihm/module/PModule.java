@@ -181,6 +181,14 @@ public abstract class PModule extends JPanel implements IPModule {
 		observers.clear();
 
 	}
+	
+	public void start() {
+		onOffButton.setSelected(true);
+	}
+	
+	public void stop() {
+		onOffButton.setSelected(false);
+	}
 
 	@Override
 	public void paint(Graphics g) {
