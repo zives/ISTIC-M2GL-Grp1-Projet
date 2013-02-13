@@ -81,7 +81,7 @@ public class VCFHPModule extends Module implements IPortObserver, IVCFHPModule {
      * Constructeur : initialise le VCFHP (port, ...)
      */
     public VCFHPModule(Factory factory) {
-        super("VCF-LP-" + ++moduleCount, factory);
+        super("VCF-HP-" + ++moduleCount, factory);
 
 		// Filtre d'amplitude
 		// TODO : Tester lorsqu'on aura un VCA

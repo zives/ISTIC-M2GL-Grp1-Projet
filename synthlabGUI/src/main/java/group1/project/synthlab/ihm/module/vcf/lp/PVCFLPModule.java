@@ -1,4 +1,4 @@
-package group1.project.synthlab.ihm.module.vcf;
+package group1.project.synthlab.ihm.module.vcf.lp;
 
 import group1.project.synthlab.ihm.module.PModule;
 import group1.project.synthlab.ihm.port.PPort;

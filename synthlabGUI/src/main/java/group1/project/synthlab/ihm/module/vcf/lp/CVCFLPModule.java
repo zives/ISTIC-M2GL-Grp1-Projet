@@ -1,4 +1,4 @@
-package group1.project.synthlab.ihm.module.vcf;
+package group1.project.synthlab.ihm.module.vcf.lp;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.ihm.module.IPModuleObserver;

@@ -59,7 +59,8 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	protected JButton vcoButton;
 	protected JButton outButton;
 	protected JButton vcaButton;
-	protected JButton vcfButton;
+	protected JButton vcflpButton;
+	protected JButton vcfhpButton;
 	protected JButton fileInButton;
 	protected JButton pianoButton;
 	protected JButton multiplexerButton;
@@ -243,11 +244,17 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		vcaButton.setFocusable(false);
 		toolBar.add(vcaButton);
 
-		vcfButton = new JButton("VCF");
-		vcfButton.setBackground(colorButton);
-		vcfButton.setForeground(Color.LIGHT_GRAY);
-		vcfButton.setFocusable(false);
-		toolBar.add(vcfButton);
+		vcflpButton = new JButton("VCF-LP");
+		vcflpButton.setBackground(colorButton);
+		vcflpButton.setForeground(Color.LIGHT_GRAY);
+		vcflpButton.setFocusable(false);
+		toolBar.add(vcflpButton);
+		
+		vcfhpButton = new JButton("VCF-HP");
+		vcfhpButton.setBackground(colorButton);
+		vcfhpButton.setForeground(Color.LIGHT_GRAY);
+		vcfhpButton.setFocusable(false);
+		toolBar.add(vcfhpButton);
 		
 		eqButton= new JButton("EQ");
 		eqButton.setBackground(colorButton);
@@ -406,13 +413,19 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 			}
 		});
 		
-		vcfButton.addActionListener(new ActionListener() {
+		vcflpButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent ev) {
-				controller.addOneVCFModule();
+				controller.addOneVCFLPModule();
 			}
 		});
 
+		vcfhpButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent ev) {
+				controller.addOneVCFHPModule();
+			}
+		});
 		egButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent ev) {

@@ -14,7 +14,8 @@ import group1.project.synthlab.ihm.module.out.COutModule;
 import group1.project.synthlab.ihm.module.piano.CPianoModule;
 import group1.project.synthlab.ihm.module.sequencer.CSequencer;
 import group1.project.synthlab.ihm.module.vca.CVCAModule;
-import group1.project.synthlab.ihm.module.vcf.CVCFLPModule;
+import group1.project.synthlab.ihm.module.vcf.hp.CVCFHPModule;
+import group1.project.synthlab.ihm.module.vcf.lp.CVCFLPModule;
 import group1.project.synthlab.ihm.module.vco.CVCOModule;
 import group1.project.synthlab.ihm.port.in.CInPort;
 import group1.project.synthlab.ihm.port.out.COutPort;
@@ -31,7 +32,7 @@ import group1.project.synthlab.module.out.IOutModule;
 import group1.project.synthlab.module.piano.IPianoModule;
 import group1.project.synthlab.module.sequencer.ISequencerModule;
 import group1.project.synthlab.module.vca.IVCAModule;
-import group1.project.synthlab.module.vcf.IVCFModule;
+import group1.project.synthlab.module.vcf.hp.IVCFHPModule;
 import group1.project.synthlab.module.vcf.lp.IVCFLPModule;
 import group1.project.synthlab.module.vco.IVCOModule;
 import group1.project.synthlab.port.in.IInPort;
@@ -85,6 +86,11 @@ public class CFactory extends Factory {
 	@Override
 	public IVCFLPModule createVCFLPModule() {
 		return new CVCFLPModule(this);
+	}
+	
+	@Override
+	public IVCFHPModule createVCFHPModule() {
+		return new CVCFHPModule(this);
 	}
 	
 	@Override

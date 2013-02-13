@@ -105,11 +105,6 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 	public void addOneVCAModule() {
 		addModule(factory.createVCAModule());
 	}
-
-	@Override
-	public void addOneVCFModule() {
-		addModule(factory.createVCFLPModule());	
-	}
 	
 	@Override
 	public void addOnePianoModule() {
@@ -375,6 +370,17 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 	public void quitApp() {
 		System.exit(0);
 		
+	}
+
+	@Override
+	public void addOneVCFLPModule() {
+		addModule(factory.createVCFLPModule());
+		
+	}
+
+	@Override
+	public void addOneVCFHPModule() {
+		addModule(factory.createVCFHPModule());		
 	}
 
 	
