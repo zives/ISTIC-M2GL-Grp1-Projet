@@ -51,7 +51,7 @@ public class PSequencer extends PModule implements IPSequencer{
 		
 		// 8 sliders de réglages de tension entre -1 et +1V
 		tensionSlider = new JSlider[8];	
-		int y = 60;
+		int y = 50;
 		int y1 = 0;
 		for(int i = 0; i < 8; ++i) {
 //			if (i == 4 )
@@ -62,7 +62,7 @@ public class PSequencer extends PModule implements IPSequencer{
 			tensionSlider[i].setMinimum(-10);
 			tensionSlider[i].setOrientation(JSlider.VERTICAL);
 			tensionSlider[i].setValue((int) controller.getStepValue(i+1)*10);
-			tensionSlider[i].setSize(45, 90);
+			tensionSlider[i].setSize(45, 121);
 			tensionSlider[i].setFont(new Font("Arial", 0, 8));
 			tensionSlider[i].setForeground(Color.LIGHT_GRAY);
 			tensionSlider[i].setPreferredSize(tensionSlider[i].getSize());
@@ -70,7 +70,7 @@ public class PSequencer extends PModule implements IPSequencer{
 			tensionSlider[i].setOpaque(false);
 			tensionSlider[i].setFocusable(false);
 			tensionSlider[i].setBorder(null);
-			tensionSlider[i].setLocation((i%8 * tensionSlider[i].getWidth() + 20) + 10, y);
+			tensionSlider[i].setLocation(i%8 * (tensionSlider[i].getWidth() + 5) + 10, y);
 			tensionSlider[i].setMajorTickSpacing(5);
 			tensionSlider[i].setMinorTickSpacing(1);
 			tensionSlider[i].setPaintTicks(true);
@@ -117,8 +117,6 @@ public class PSequencer extends PModule implements IPSequencer{
 			tensionMinValueLabel.setLocation(tensionSlider[i].getWidth() + tensionSlider[i].getX()-1, tensionSlider[i].getY()+80);
 			System.out.println(tensionSlider[i].getY());
 			
-	
-			
 			add(tensionLabel);
 			add(tensionSlider[i]);
 			add(tensionMaxValueLabel);
@@ -128,7 +126,7 @@ public class PSequencer extends PModule implements IPSequencer{
 		}
 		// Bouton Reset
 		JButton resetButton = new JButton("RESET");
-		resetButton.setLocation(180, 180);
+		resetButton.setLocation(180, tensionSlider[1].getHeight()+70);
 		resetButton.setOpaque(false);
 		resetButton.setForeground(new Color(70, 70, 70));
 		resetButton.setSelected(false);

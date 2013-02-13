@@ -129,7 +129,7 @@ public class PVCFModule extends PModule implements IPVCFModule {
 		qualitySlider.setOpaque(false);
 		qualitySlider.setFocusable(false);
 		qualitySlider.setBorder(null);
-		qualitySlider.setLocation(270, 75);
+		qualitySlider.setLocation(260, 75);
 		qualitySlider.setMajorTickSpacing(50);
 		qualitySlider.setMinorTickSpacing(10);
 		qualitySlider.setPaintTicks(true);
