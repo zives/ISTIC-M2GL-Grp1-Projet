@@ -3,7 +3,6 @@ package group1.project.synthlab.module.osc;
 import group1.project.synthlab.exceptions.BufferTooBig;
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
-import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
@@ -12,11 +11,6 @@ import group1.project.synthlab.unitExtension.filter.filterInterception.FilterInt
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
-import com.jsyn.JSyn;
-import com.jsyn.Synthesizer;
-import com.jsyn.unitgen.Circuit;
-import com.jsyn.unitgen.Multiply;
 
 /**
  * Module de sortie
@@ -115,7 +109,7 @@ public class OSCModule extends Module implements IOSCModule {
 			throws BufferTooBig {
 		if (this.buffer.size() + buffer.size() > 100000)
 			throw new BufferTooBig(
-					"Le buffer du module OSC est trop rempli, pensez à le vider régulierement de l'ordre de la ms...");
+					"Le buffer du module OSC est trop rempli, pensez ï¿½ le vider rï¿½gulierement de l'ordre de la ms...");
 		this.buffer.addAll(buffer);
 		this.lastTime = time;
 	}

@@ -158,7 +158,7 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	 */
 	public void cableConnected(IPort port) {
 		if(port == gate)
-			System.out.println("Cable connecté dans l'entrée gate");
+			System.out.println("Cable connectï¿½ dans l'entrï¿½e gate");
 	}
 
 	/* (non-Javadoc)
@@ -167,7 +167,6 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	public void cableDisconnected(IPort port) {
 	}
 	
-	@Override
 	public void resetCounterInstance() {
 		SequencerModule.moduleCount = 0;		
 	}
@@ -205,7 +204,7 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		
 		Tools.wait(synth, 30);
 
-		System.out.println("On met toutes les valeurs des pas à 0.33 et on remet a 1");
+		System.out.println("On met toutes les valeurs des pas ï¿½ 0.33 et on remet a 1");
 		sequencer.resetSteps();
 		sequencer.setStepValue(1, 0.33);
 		sequencer.setStepValue(2, 0.33);

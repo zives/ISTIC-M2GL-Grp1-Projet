@@ -48,18 +48,15 @@ public class PianoModule extends Module implements IPianoModule {
 	}
 
 
-	@Override
 	public IOutPort getOutGate() {
 		return outGate;
 	}
 	
-	@Override
 	public IOutPort getOut() {
 		return out;
 	}
 
 
-	@Override
 	public void destruct() {
 		if (outGate.isUsed())
 			outGate.getCable().disconnect();
@@ -68,18 +65,15 @@ public class PianoModule extends Module implements IPianoModule {
 	}
 
 
-	@Override
 	public void cableConnected(IPort port) {
 
 	}
 
 
-	@Override
 	public void cableDisconnected(IPort port) {
 
 	}
 
-	@Override
 	public void play(NOTE note, int octave) {
 		int posLA = NOTE.LA.ordinal();
 		int posFinal = (octave - 3) * 12 + note.ordinal() - posLA;
@@ -94,7 +88,6 @@ public class PianoModule extends Module implements IPianoModule {
 		
 	}
 	
-	@Override
 	public void resetCounterInstance() {
 		PianoModule.moduleCount = 0;		
 	}

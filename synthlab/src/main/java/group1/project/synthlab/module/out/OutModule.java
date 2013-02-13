@@ -196,7 +196,6 @@ public class OutModule extends Module implements IOutModule {
 
 	}
 	
-	@Override
 	public void resetCounterInstance() {
 		OutModule.moduleCount = 0;		
 	}

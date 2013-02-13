@@ -36,7 +36,7 @@ public interface IModule extends IPortObserver {
 	public void setName(String name);
 	
 	/**
-	 * @return remet le compteur d'instances de classe à 0
+	 * @return remet le compteur d'instances de classe a 0
 	 */
 	public void resetCounterInstance();
 	

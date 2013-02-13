@@ -329,7 +329,6 @@ public class VCFLPModule extends Module implements IPortObserver, IVCFLPModule {
 		changeFrequency();
 	}
 	
-	@Override
 	public void resetCounterInstance() {
 		VCFLPModule.moduleCount = 0;		
 	}

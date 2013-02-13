@@ -197,7 +197,7 @@ public class VCOModule extends Module implements IVCOModule {
 	}
 	
 	/**
-	 * redéfini la fréquence aux oscillateurs
+	 * redï¿½fini la frï¿½quence aux oscillateurs
 	 */
 	private void refreshFrequencies() {
 		sineOsc.frequency.set(f0);
@@ -442,7 +442,6 @@ public class VCOModule extends Module implements IVCOModule {
 	}
 
 	
-	@Override
 	public void resetCounterInstance() {
 		VCOModule.moduleCount = 0;		
 	}

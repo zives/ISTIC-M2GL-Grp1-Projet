@@ -20,14 +20,16 @@ public interface IPianoModule extends IModule {
 	
 	/**
 	 * 
-	 * @return sortie de l'amplitude à brancher le plus souvent à l'entree fm d'un vco
+	 * @return sortie de l'amplitude ï¿½ brancher le plus souvent ï¿½ l'entree fm d'un vco
 	 */
 	public IOutPort getOut();
 
 
 	
 	/**
-	 * Attribue une tension de sortie liée à la note
+	 * Attribue une tension de sortie liï¿½e ï¿½ la note
 	 */
 	public void play(NOTE note, int octave);
+	
+	public void stopPlay();
 }

@@ -11,7 +11,7 @@ import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.UnitFilter;
 
 /**
- * Prend un snapshot pendant une durée determinée et préviens l'observeur
+ * Prend un snapshot pendant une duree determinee et previens l'observeur
  * 
  * @author Groupe 1
  * 
@@ -45,13 +45,11 @@ public class FilterInterception extends UnitFilter implements
 			}
 	}
 
-	@Override
 	public void register(IFilterInterceptionObserver observer) {
 		observers.add(observer);
 
 	}
 
-	@Override
 	public void unregister(IFilterAmplitudeObserver observer) {
 		observers.remove(observer);
 

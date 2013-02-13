@@ -180,7 +180,7 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 		}
 	}
 	
-	@Override
+
 	public void resetCounterInstance() {
 		VCAModule.moduleCount = 0;		
 	}
@@ -209,7 +209,7 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 		// On cree un oscillateur que l'on connectera dans l'entree am
 		SquareOscillator amOsc = new SquareOscillator();
 		amOsc.frequency.set(0.5);
-		amOsc.amplitude.set(0.1); // Amplitude de 0.1JSyn correspond à une amplitude de 1V crete a crete. En passant d'un pic a un creux on doit donc avoir une attenuation de 12dB (amplitude divisee par 4)
+		amOsc.amplitude.set(0.1); // Amplitude de 0.1JSyn correspond ï¿½ une amplitude de 1V crete a crete. En passant d'un pic a un creux on doit donc avoir une attenuation de 12dB (amplitude divisee par 4)
 		synth.add(amOsc);
 				
 		// LineOut remplace ici OutModule
