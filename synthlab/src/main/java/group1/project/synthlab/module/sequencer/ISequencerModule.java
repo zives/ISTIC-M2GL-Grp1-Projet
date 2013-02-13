@@ -4,6 +4,7 @@ import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
+import group1.project.synthlab.unitExtensions.filterSupervisor.FilterRisingEdge;
 
 public interface ISequencerModule extends IModule {
 
@@ -28,6 +29,16 @@ public interface ISequencerModule extends IModule {
 	 * Passe au pas suivant lorsqu'un front montant est detecte
 	 */
 	public void update();
+	
+	/**
+	 * @return le filtre de detection des fronts montants
+	 */
+	public FilterRisingEdge getFilterRisingEdge();
+	
+	/**
+	 * @return le pas courant
+	 */
+	public int getCurrentStep();
 	
 	/**
 	 * @return le port d'entree Gate
