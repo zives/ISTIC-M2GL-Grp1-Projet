@@ -2,6 +2,7 @@ package group1.project.synthlab.module.sequencer;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
+import com.jsyn.scope.AudioScope;
 import com.jsyn.unitgen.Multiply;
 import com.jsyn.unitgen.SineOscillator;
 import com.jsyn.unitgen.SquareOscillator;
@@ -14,6 +15,7 @@ import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.unitExtensions.filterSupervisor.FilterRisingEdge;
 import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterObserver;
+import group1.project.synthlab.workspace.Workspace;
 
 /**
  * Module Sequenceur
@@ -51,7 +53,9 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		
 		filterSequencer = new FilterRisingEdge();
 		filterSequencer.register(this);
-		
+		AudioScope scope = new AudioScope(Workspace.getInstance().getSynthetizer());
+		scope.addProbe(filterSequencer.output);
+		scope.start();
 		circuit.add(filterSequencer);
 		
 		steps[0] = 1;

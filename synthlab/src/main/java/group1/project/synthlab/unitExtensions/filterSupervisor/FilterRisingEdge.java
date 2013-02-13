@@ -9,10 +9,14 @@ public class FilterRisingEdge extends UnitGate implements IFilterObservable {
 
 	protected List<IFilterObserver> observers;
 	
-	public void generate(int start, int limit) {		
+	public void generate(int start, int limit) {	
+		double[] inputs = input.getValues();
+		double[] outputs = output.getValues();
+		
 		for (int i = start; i < limit; i++) {
 			if(input.checkGate(i))
 				notifyAllObservers();
+			outputs[i] = inputs[i];
 		}
 	}
 
