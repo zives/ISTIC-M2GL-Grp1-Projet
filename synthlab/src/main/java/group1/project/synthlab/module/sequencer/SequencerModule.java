@@ -27,6 +27,10 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	
 	protected static int moduleCount = 0;
 
+	protected AudioScope scope;
+	
+	protected SquareOscillator osc;
+	
 	/** Le pas courant */
 	protected int currentStep;
 	
@@ -53,9 +57,8 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		
 		filterSequencer = new FilterRisingEdge();
 		filterSequencer.register(this);
-		AudioScope scope = new AudioScope(Workspace.getInstance().getSynthetizer());
+		scope = new AudioScope(Workspace.getInstance().getSynthetizer());
 		scope.addProbe(filterSequencer.output);
-		scope.start();
 		circuit.add(filterSequencer);
 		
 		steps[0] = 1;
@@ -70,7 +73,7 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		multiply = new Multiply();
 		circuit.add(multiply);
 		
-		SquareOscillator osc = new SquareOscillator();
+		osc = new SquareOscillator();
 		osc.frequency.set(0);
 		osc.amplitude.set(1.0 / Signal.AMAX);
 		osc.output.connect(multiply.inputB);
@@ -115,15 +118,18 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		else
 			currentStep++;
 		multiply.inputA.set(steps[currentStep-1]);
-		//System.out.println("currentStep = " + currentStep);
+		System.out.println("currentStep = " + currentStep + ", value = "+steps[currentStep-1]);
 	}
 	
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.module.IModule#start()
 	 */
 	public void start() {
-		circuit.start();
+		//circuit.start();
+		osc.start();
 		filterSequencer.start();
+		multiply.start();
+		scope.start();
 		isOn = true;
 	}
 
@@ -131,7 +137,8 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	 * @see group1.project.synthlab.module.IModule#stop()
 	 */
 	public void stop() {
-		circuit.stop();
+		//circuit.stop();
+		scope.stop();
 		isOn = false;
 	}
 	
@@ -204,7 +211,7 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		// On cree un oscillateur que l'on connectera dans l'entree in
 		SineOscillator oscGate = new SineOscillator();
 		oscGate.amplitude.set(0.5);
-		oscGate.frequency.set(0.5);
+		oscGate.frequency.set(1);
 		synth.add(oscGate);
 		oscGate.start();
 		oscGate.output.connect(sequencer.gate.getJSynPort());
