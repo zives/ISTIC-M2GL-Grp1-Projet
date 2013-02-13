@@ -84,6 +84,10 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 
 	@Override
 	public void removeModule(IModule module) {
+		if (isDrawingCable()) {
+			removeCable(getDrawingCable());
+			setDrawingCable(null);
+		}
 		presentation.removeModule(((ICModule) module).getPresentation());
 		super.removeModule(module);
 	}
@@ -111,11 +115,8 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		addModule(factory.createVCAModule());
 	}
 
-	@Override
-	public void addOneVCFModule() {
-		addModule(factory.createVCFModule());
-	}
 
+	
 	@Override
 	public void addOnePianoModule() {
 		addModule(factory.createPianoModule());
@@ -380,6 +381,17 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		addModule(factory.createOSCModule());
 
 	}
+	
+	@Override
+	public void addOneVCFLPModule() {
+		addModule(factory.createVCFLPModule());
+		
+	}
+	
+	@Override
+	public void addOneVCFHPModule() {
+		addModule(factory.createVCFHPModule());		
+	}
 
 	@Override
 	public void quitApp() {
@@ -493,5 +505,33 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		System.out.println(save);
 
 	}
+	@Override
+	public void clearAll() {
+		for (IModule module: modules)
+			removeModule(module);
+	}
+
+	
+
+	
+
+	
+//	public void saveReflexion(String filename){
+//		for(IModule m : modules){
+//			for(Field f : m.getClass().getFields()){
+//				if(f.getType().isPrimitive()){
+//					System.out.println(f.getName()+" "+f.get(m));
+//				}
+//				switch(f.getType()){
+//				case : ;break;
+//				default:;
+//				}
+//			}
+//		}
+//		
+//	}
+	
+	
+	
 
 }

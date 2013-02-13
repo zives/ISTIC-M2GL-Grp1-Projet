@@ -52,8 +52,6 @@ public class FileInModule extends Module implements IFileInModule{
 		passThrough = new PassThrough();
 		outPort = factory.createOutPort("out", passThrough.output, this);
 		circuit.add(passThrough);
-
-
 	}
 
 	public void loadFile(File sampleFile) {
@@ -83,7 +81,6 @@ public class FileInModule extends Module implements IFileInModule{
 		{
 			samplePlayer = new VariableRateStereoReader();
 			samplePlayer.output.connect(passThrough.input);
-			//			samplePlayer.output.connect( 1, passThrough.input, 0 );
 		}
 		else
 		{
@@ -92,9 +89,9 @@ public class FileInModule extends Module implements IFileInModule{
 		}
 
 		Workspace.getInstance().getSynthetizer().add(samplePlayer);
-
 		samplePlayer.rate.set(sample.getFrameRate());
-		//samplePlayer.dataQueue.queue(sample );
+		
+		//Pour repeter en boucle
 		samplePlayer.dataQueue.queueLoop(sample, 0, sample.getNumFrames ());
 		
 	}
@@ -105,13 +102,11 @@ public class FileInModule extends Module implements IFileInModule{
 
 	@Override
 	public void start() {
-		//		circuit.start();
 		isOn = true;
 	}
 
 	@Override
 	public void stop() {
-//		Workspace.getInstance().getSynthetizer().stopUnit(samplePlayer);
 		isOn = false;
 	}
 

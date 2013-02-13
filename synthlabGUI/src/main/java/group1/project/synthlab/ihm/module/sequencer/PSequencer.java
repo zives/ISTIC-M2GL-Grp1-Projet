@@ -38,34 +38,31 @@ public class PSequencer extends PModule implements IPSequencer{
 
 		// Label et onoff boutons déjà rajoutés dans la super classe
 
-		this.setSize(getWidth(), getHeight());
+		this.setSize(getWidth()+130, getHeight()-50);
 		this.setPreferredSize(this.getSize());
 		
 		//Ports
 		PPort pportGate = (PPort) (((ICInPort) controller.getGate()).getPresentation());
 		pportGate.setLocation(10, getHeight() - pportGate.getHeight() - 5);
 		PPort pportOut = (PPort) (((ICOutPort) controller.getOut()).getPresentation());
-		pportOut.setLocation(240, getHeight() - pportGate.getHeight() - 5);
+		pportOut.setLocation(360, getHeight() - pportGate.getHeight() - 5);
 
-		// Bouton Reset
-		JButton resetButton = new JButton("RESET");
-		resetButton.setBackground(new Color(150, 150, 150));
-		resetButton.setForeground(Color.BLACK);
+
 		
 		// 8 sliders de réglages de tension entre -1 et +1V
 		tensionSlider = new JSlider[8];	
-		int y = 40;
+		int y = 50;
 		int y1 = 0;
 		for(int i = 0; i < 8; ++i) {
-			if (i == 4 )
-				y1 =  tensionSlider[i - 1].getHeight() + 10;
+//			if (i == 4 )
+//				y1 =  tensionSlider[i - 1].getHeight() + 10;
 			// Sliders
 			tensionSlider[i] = new JSlider();
 			tensionSlider[i].setMaximum(10);
 			tensionSlider[i].setMinimum(-10);
 			tensionSlider[i].setOrientation(JSlider.VERTICAL);
-//			tensionSlider[i].setValue((int) controller.getAttenuation(i)*10);
-			tensionSlider[i].setSize(40, 90);
+			tensionSlider[i].setValue((int) controller.getStepValue(i+1)*10);
+			tensionSlider[i].setSize(45, 121);
 			tensionSlider[i].setFont(new Font("Arial", 0, 8));
 			tensionSlider[i].setForeground(Color.LIGHT_GRAY);
 			tensionSlider[i].setPreferredSize(tensionSlider[i].getSize());
@@ -73,7 +70,7 @@ public class PSequencer extends PModule implements IPSequencer{
 			tensionSlider[i].setOpaque(false);
 			tensionSlider[i].setFocusable(false);
 			tensionSlider[i].setBorder(null);
-			tensionSlider[i].setLocation(i%5 * (tensionSlider[i].getWidth() + 20) + 10, y + y1);
+			tensionSlider[i].setLocation(i%8 * (tensionSlider[i].getWidth() + 5) + 10, y);
 			tensionSlider[i].setMajorTickSpacing(5);
 			tensionSlider[i].setMinorTickSpacing(1);
 			tensionSlider[i].setPaintTicks(true);
@@ -82,8 +79,6 @@ public class PSequencer extends PModule implements IPSequencer{
 			Font font = new Font("Arial", Font.ITALIC, 9);		
 			String text = "";
 			text = String.valueOf(i+1);
-			if (text.length() > 8)
-				text = text.substring(0, 8);
 			JLabel tensionLabel = new JLabel(text);
 			tensionLabel.setForeground(Color.LIGHT_GRAY);
 			tensionLabel.setOpaque(false);
@@ -91,44 +86,35 @@ public class PSequencer extends PModule implements IPSequencer{
 			tensionLabel.setBorder(null);
 			tensionLabel.setFont(font);
 			tensionLabel.setPreferredSize(tensionLabel.getSize());
-			tensionLabel.setLocation(tensionSlider[i].getX() + 20 - tensionLabel.getWidth() / 2, tensionSlider[i].getY() + tensionSlider[i].getHeight() - 4);
+			tensionLabel.setLocation(tensionSlider[i].getX() + 30 - tensionLabel.getWidth() / 2, tensionSlider[i].getY() + tensionSlider[i].getHeight());
 	
-			String maxValue = "+1";
-			if (text.length() > 8)
-				text = text.substring(0, 8);
-			JLabel tensionMaxValueLabel = new JLabel(maxValue);
+			JLabel tensionMaxValueLabel = new JLabel("+1");
 			tensionMaxValueLabel.setForeground(Color.LIGHT_GRAY);
 			tensionMaxValueLabel.setOpaque(false);
 			tensionMaxValueLabel.setSize(20, 10);
 			tensionMaxValueLabel.setBorder(null);
 			tensionMaxValueLabel.setFont(font);
 			tensionMaxValueLabel.setPreferredSize(tensionLabel.getSize());
-			tensionMaxValueLabel.setLocation(tensionSlider[i].getX() + 40, tensionSlider[i].getY());
+			tensionMaxValueLabel.setLocation(tensionSlider[i].getWidth() + tensionSlider[i].getX()-1, tensionSlider[i].getY());
 			
-			String value = "0";
-			if (text.length() > 8)
-				text = text.substring(0, 8);
-			JLabel tension0ValueLabel = new JLabel(value);
+			JLabel tension0ValueLabel = new JLabel("0");
 			tension0ValueLabel.setForeground(Color.LIGHT_GRAY);
 			tension0ValueLabel.setOpaque(false);
-			tension0ValueLabel.setSize(20, 10);
+			tension0ValueLabel.setSize(10, 10);
 			tension0ValueLabel.setBorder(null);
 			tension0ValueLabel.setFont(font);
 			tension0ValueLabel.setPreferredSize(tensionLabel.getSize());
-			tension0ValueLabel.setLocation(tensionSlider[i].getX() + 40, tensionSlider[i].getY()+40);
+			tension0ValueLabel.setLocation(tensionSlider[i].getWidth() + tensionSlider[i].getX(), tensionSlider[i].getY()+40);
 			System.out.println(tensionSlider[i].getY());
 			
-			String minValue = "-1";
-			if (text.length() > 8)
-				text = text.substring(0, 8);
-			JLabel tensionMinValueLabel = new JLabel(minValue);
+			JLabel tensionMinValueLabel = new JLabel("-1");
 			tensionMinValueLabel.setForeground(Color.LIGHT_GRAY);
 			tensionMinValueLabel.setOpaque(false);
 			tensionMinValueLabel.setSize(20, 10);
 			tensionMinValueLabel.setBorder(null);
 			tensionMinValueLabel.setFont(font);
 			tensionMinValueLabel.setPreferredSize(tensionLabel.getSize());
-			tensionMinValueLabel.setLocation(tensionSlider[i].getX() + 40, tensionSlider[i].getY()+80);
+			tensionMinValueLabel.setLocation(tensionSlider[i].getWidth() + tensionSlider[i].getX()-1, tensionSlider[i].getY()+80);
 			System.out.println(tensionSlider[i].getY());
 			
 			add(tensionLabel);
@@ -136,13 +122,29 @@ public class PSequencer extends PModule implements IPSequencer{
 			add(tensionMaxValueLabel);
 			add(tension0ValueLabel);
 			add(tensionMinValueLabel);
-		}
 
+		}
+		// Bouton Reset
+		JButton resetButton = new JButton("RESET");
+		resetButton.setLocation(180, tensionSlider[1].getHeight()+70);
+		resetButton.setOpaque(false);
+		resetButton.setForeground(new Color(70, 70, 70));
+		resetButton.setSelected(false);
+		resetButton.setFont(new Font("Arial", 0, 10));
+		resetButton.setSize(70, 20);
+		resetButton.setBorder(null);
+		resetButton.setPreferredSize(resetButton.getSize());
+		resetButton.setFocusPainted(false);
+		
 		
 		// Ajouts des composants
 		add(pportGate);
 		add(pportOut);
 		add(resetButton);
+		
+		onOffButton.setLocation(getWidth() - onOffButton.getWidth() - 13, 13);
+		removeButton.setLocation(getWidth() - removeButton.getWidth()
+				- onOffButton.getWidth() - 15, 13);
 		
 		this.repaint();
 

@@ -1,4 +1,4 @@
-package group1.project.synthlab.ihm.module.vcf;
+package group1.project.synthlab.ihm.module.vcf.hp;
 
 import group1.project.synthlab.ihm.module.PModule;
 import group1.project.synthlab.ihm.port.PPort;
@@ -20,23 +20,22 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class PVCFModule extends PModule implements IPVCFModule {
+public class PVCFHPModule extends PModule implements IPVCFHPModule {
 
-	protected ICVCFModule controller;
+	protected ICVCFHPModule controller;
 
 	protected JSlider coarseSlider;
 	protected JSlider fineSlider;
 	protected JLabel warnLabel;
-	protected JSlider qualitySlider;
 
-	public PVCFModule(final ICVCFModule controller) {
+	public PVCFHPModule(final ICVCFHPModule controller) {
 		super(controller);
 		this.controller = controller;
 		// Taille et couleur définie dans la super classe
 
 		// Label et onoff boutons déjà rajoutés dans la super classe
 
-		this.setSize(getWidth() + 30, getHeight() - 40);
+		this.setSize(getWidth(), getHeight() - 40);
 		this.setPreferredSize(this.getSize());
 
 		// Ports
@@ -115,57 +114,6 @@ public class PVCFModule extends PModule implements IPVCFModule {
 		txtFreqLabel.setLocation(textFreq.getX(), 140);
 		txtFreqLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 
-		// Sliders
-		qualitySlider = new JSlider();
-		qualitySlider.setMaximum(10);
-		qualitySlider.setMinimum(0);
-		qualitySlider.setOrientation(JSlider.VERTICAL);
-		qualitySlider.setValue((int) controller.getq()*10);
-		qualitySlider.setSize(40, 150);
-		qualitySlider.setFont(new Font("Arial", 0, 8));
-		qualitySlider.setForeground(Color.LIGHT_GRAY);
-		qualitySlider.setPreferredSize(qualitySlider.getSize());
-		qualitySlider.setBackground(getBackground());
-		qualitySlider.setOpaque(false);
-		qualitySlider.setFocusable(false);
-		qualitySlider.setBorder(null);
-		qualitySlider.setLocation(270, 80);
-		qualitySlider.setMajorTickSpacing(5);
-		qualitySlider.setMinorTickSpacing(1);
-		qualitySlider.setPaintTicks(true);
-
-		//Labels qualitySlider
-		JLabel qualityLabel = new JLabel("Facteur Q");
-		qualityLabel.setForeground(Color.LIGHT_GRAY);
-		qualityLabel.setOpaque(false);
-		qualityLabel.setSize(50, 20);
-		qualityLabel.setBorder(null);
-		qualityLabel.setPreferredSize(qualityLabel.getSize());
-		qualityLabel.setLocation(qualitySlider.getX(), 50);
-		qualityLabel.setFont(new Font("Arial", Font.ITALIC, 10));
-		
-		JLabel qualityMaxValueLabel = new JLabel("1");
-		qualityMaxValueLabel.setForeground(Color.LIGHT_GRAY);
-		qualityMaxValueLabel.setOpaque(false);
-		qualityMaxValueLabel.setSize(30, 20);
-		qualityMaxValueLabel.setBorder(null);
-		qualityMaxValueLabel.setPreferredSize(qualityMaxValueLabel.getSize());
-		qualityMaxValueLabel.setLocation(qualitySlider.getX() + 40, 70);
-		qualityMaxValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
-
-		JLabel quality0ValueLabel = new JLabel("0");
-		quality0ValueLabel.setForeground(Color.LIGHT_GRAY);
-		quality0ValueLabel.setOpaque(false);
-		quality0ValueLabel.setSize(30, 20);
-		quality0ValueLabel.setBorder(null);
-		quality0ValueLabel.setPreferredSize(quality0ValueLabel.getSize());
-		quality0ValueLabel.setLocation(qualitySlider.getX() + 40, 210);
-		quality0ValueLabel.setFont(new Font("Arial", Font.ITALIC, 10));
-		
-		onOffButton.setLocation(getWidth() - onOffButton.getWidth() - 13, 13);
-		removeButton.setLocation(getWidth() - removeButton.getWidth()
-				- onOffButton.getWidth() - 15, 13);
-
 		// Ajouts des composants
 		add(freqLabel);
 		add(pportIn);
@@ -177,10 +125,6 @@ public class PVCFModule extends PModule implements IPVCFModule {
 		add(fineSlider);
 		add(txtFreqLabel);
 		add(textFreq);
-		add(qualitySlider);
-		add(qualityLabel);
-		add(qualityMaxValueLabel);
-		add(quality0ValueLabel);
 
 		controller.redefAdjustments();
 		coarseSlider.setValue(controller.getCoarseAdjustment() * 10);
@@ -203,12 +147,6 @@ public class PVCFModule extends PModule implements IPVCFModule {
 			}
 		});
 
-		qualitySlider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent arg0) {
-				controller.changeQFactor();
-				controller.setq((int) qualitySlider.getValue()/10.0);
-			}
-		});
 		textFreq.addKeyListener(new KeyListener() {
 
 			public void keyTyped(KeyEvent ev) {
@@ -244,13 +182,9 @@ public class PVCFModule extends PModule implements IPVCFModule {
 
 	}
 
-
-
 	public void setSlidersEnabled(boolean value) {
 		coarseSlider.setEnabled(value);
 		fineSlider.setEnabled(value);
-		qualitySlider.setEnabled(value);
-
 	}
 
 	public void warn(IFilterAmplitudeObservable subject, boolean tooHigh) {	

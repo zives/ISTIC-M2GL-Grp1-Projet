@@ -2,6 +2,7 @@ package group1.project.synthlab.module.sequencer;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
+import com.jsyn.scope.AudioScope;
 import com.jsyn.unitgen.Multiply;
 import com.jsyn.unitgen.SineOscillator;
 import com.jsyn.unitgen.SquareOscillator;
@@ -12,8 +13,11 @@ import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Signal;
+import group1.project.synthlab.signal.Tools;
+import group1.project.synthlab.unitExtensions.filterSupervisor.FilterASupprimer;
 import group1.project.synthlab.unitExtensions.filterSupervisor.FilterRisingEdge;
 import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterObserver;
+import group1.project.synthlab.workspace.Workspace;
 
 /**
  * Module Sequenceur
@@ -25,11 +29,15 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	
 	protected static int moduleCount = 0;
 
+	protected AudioScope scope;
+	
+	protected SquareOscillator osc;
+	
 	/** Le pas courant */
 	protected int currentStep;
 	
 	/** Le filtre permettant de detecter des fronts montants */
-	protected FilterRisingEdge filterSequencer;
+	protected FilterRisingEdge filterRisingEdge;
 	
 	/** Port d'entree : une entree de declenchement */
 	protected IInPort gate;
@@ -49,39 +57,38 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	public SequencerModule(Factory factory) {
 		super("Sequencer-" + ++moduleCount, factory);
 		
-		filterSequencer = new FilterRisingEdge();
-		filterSequencer.register(this);
+		filterRisingEdge = new FilterRisingEdge();
+		filterRisingEdge.register(this);
+		scope = new AudioScope(Workspace.getInstance().getSynthetizer());
+		scope.addProbe(filterRisingEdge.output);
+		circuit.add(filterRisingEdge);
 		
-		circuit.add(filterSequencer);
-		
-		steps[0] = 1;
-		steps[1] = -0.3;
-		steps[2] = 0.5;
-		steps[3] = -1;
-		steps[4] = -0.8;
-		steps[5] = -1;
-		steps[6] = 0.7;
+		steps[0] = 0;
+		steps[1] = 0;
+		steps[2] = 0;
+		steps[3] = 0;
+		steps[4] = 0;
+		steps[5] = 0;
+		steps[6] = 0;
 		steps[7] = 0;
 		
 		multiply = new Multiply();
 		circuit.add(multiply);
 		
-		SquareOscillator osc = new SquareOscillator();
+		osc = new SquareOscillator();
 		osc.frequency.set(0);
 		osc.amplitude.set(1.0 / Signal.AMAX);
 		osc.output.connect(multiply.inputB);
 		circuit.add(osc);
 		
-		currentStep = 8; // Le premier front montant passera au pas 1, ce qui est conforme à la User Story
+		currentStep = 1;
 		
 		// Port d'entree : 
-		gate = factory.createInPort("gate", filterSequencer.input, this);
+		gate = factory.createInPort("gate", filterRisingEdge.input, this);
 		
 		// Port de sortie
 		out = factory.createOutPort("out", multiply.output, this);
 		
-		
-				
 		isOn = false;
 	}
 
@@ -103,6 +110,13 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	}
 	
 	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.ISequencerModule#getStepValue()
+	 */
+	public double getStepValue(int step){
+		return steps[step-1];
+	}
+	
+	/* (non-Javadoc)
 	 * @see group1.project.synthlab.module.ISequencerModule#update()
 	 */
 	public void update() {
@@ -111,15 +125,14 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		else
 			currentStep++;
 		multiply.inputA.set(steps[currentStep-1]);
-		//System.out.println("currentStep = " + currentStep);
+		System.out.println("currentStep = " + currentStep + ", value = "+steps[currentStep-1]);
 	}
 	
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.module.IModule#start()
 	 */
 	public void start() {
-		circuit.start();
-		filterSequencer.start();
+		scope.start();
 		isOn = true;
 	}
 
@@ -127,8 +140,22 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	 * @see group1.project.synthlab.module.IModule#stop()
 	 */
 	public void stop() {
-		circuit.stop();
+		scope.stop();
 		isOn = false;
+	}
+	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.ISequencerModule#getCurrentStep()
+	 */
+	public int getCurrentStep() {
+		return currentStep;
+	}
+	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.ISequencerModule#getFilterRisingEdge()
+	 */
+	public FilterRisingEdge getFilterRisingEdge() {
+		return filterRisingEdge;
 	}
 	
 	/* (non-Javadoc)
@@ -167,7 +194,7 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	 */
 	public void cableConnected(IPort port) {
 		if(port == gate)
-			System.out.println("Cable connecté dans l'entrée gate, isOn = "+isOn+", input = "+filterSequencer.input.get());
+			System.out.println("Cable connecté dans l'entrée gate, isOn = "+isOn+", input = "+filterRisingEdge.input.get());
 	}
 
 	/* (non-Javadoc)
@@ -200,23 +227,18 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		// On cree un oscillateur que l'on connectera dans l'entree in
 		SineOscillator oscGate = new SineOscillator();
 		oscGate.amplitude.set(0.5);
-		oscGate.frequency.set(0.5);
+		oscGate.frequency.set(1);
 		synth.add(oscGate);
 		oscGate.start();
 		oscGate.output.connect(sequencer.gate.getJSynPort());
 
+		FilterASupprimer filterASupprimer = new FilterASupprimer();
+		sequencer.out.getJSynPort().connect(filterASupprimer.input);
+		synth.add(filterASupprimer);
+		filterASupprimer.start();
 		synth.start();
 		
-		int i = 0;
-		while(i<100){
-			System.out.println("Out = " + sequencer.multiply.output.get());
-			try {
-				synth.sleepUntil(synth.getCurrentTime() + 0.3);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			i++;
-		}
+		Tools.wait(synth, 30);
 
 		System.out.println("On met toutes les valeurs des pas à 0.33 et on remet a 1");
 		sequencer.resetSteps();
@@ -228,16 +250,7 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		sequencer.setStepValue(6, 0.33);
 		sequencer.setStepValue(7, 0.33);
 		sequencer.setStepValue(8, 0.33);
-		
-		while(true){
-			System.out.println("Out = " + sequencer.multiply.output.get());
-			try {
-				synth.sleepUntil(synth.getCurrentTime() + 0.3);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			i++;
-		}
+
 	}
 	
 }

@@ -25,8 +25,10 @@ import group1.project.synthlab.module.sequencer.ISequencerModule;
 import group1.project.synthlab.module.sequencer.SequencerModule;
 import group1.project.synthlab.module.vca.IVCAModule;
 import group1.project.synthlab.module.vca.VCAModule;
-import group1.project.synthlab.module.vcf.IVCFModule;
-import group1.project.synthlab.module.vcf.VCFModule;
+import group1.project.synthlab.module.vcf.hp.IVCFHPModule;
+import group1.project.synthlab.module.vcf.hp.VCFHPModule;
+import group1.project.synthlab.module.vcf.lp.IVCFLPModule;
+import group1.project.synthlab.module.vcf.lp.VCFLPModule;
 import group1.project.synthlab.module.vco.IVCOModule;
 import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.in.IInPort;
@@ -70,10 +72,6 @@ public class Factory {
 	public IWorkspace createWorkSpace() {
 		return new Workspace(this);
 	}
-	
-	public IVCFModule createVCFModule() {
-		return new VCFModule(this);
-	}
 
 	public IMultiplexerModule createMultiplexerModule() {
 		return new MultiplexerModule(this);
@@ -115,4 +113,11 @@ public class Factory {
 		return new SequencerModule(this);
 	}
 
+	public IVCFLPModule createVCFLPModule() {
+		return new VCFLPModule(this);
+	}
+
+	public IVCFHPModule createVCFHPModule() {
+		return new VCFHPModule(this);
+	}
 }

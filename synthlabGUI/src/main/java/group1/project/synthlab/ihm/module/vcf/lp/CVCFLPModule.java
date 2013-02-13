@@ -1,20 +1,22 @@
-package group1.project.synthlab.ihm.module.vcf;
+package group1.project.synthlab.ihm.module.vcf.lp;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.ihm.module.IPModuleObserver;
-import group1.project.synthlab.module.vcf.VCFModule;
+import group1.project.synthlab.module.vcf.lp.VCFLPModule;
 import group1.project.synthlab.port.IPort;
 
-public class CVCFModule extends VCFModule implements ICVCFModule {
+import com.jsyn.unitgen.FilterHighPass;
 
-	protected IPVCFModule presentation;
+public class CVCFLPModule extends VCFLPModule implements ICVCFLPModule {
+
+	protected IPVCFLPModule presentation;
 	
-	public CVCFModule(Factory factory) {
+	public CVCFLPModule(Factory factory) {
 		super(factory);
-		this.presentation = new PVCFModule(this);
+		this.presentation = new PVCFLPModule(this);
 	}
 
-	public IPVCFModule getPresentation() {
+	public IPVCFLPModule getPresentation() {
 		return presentation;
 	}
 
@@ -32,6 +34,12 @@ public class CVCFModule extends VCFModule implements ICVCFModule {
 
 	@Override
 	public String saveConfiguration() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public FilterHighPass getFilter() {
 		// TODO Auto-generated method stub
 		return null;
 	}
