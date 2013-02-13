@@ -144,7 +144,7 @@ public class PVCFModule extends PModule implements IPVCFModule {
 		qualityLabel.setLocation(qualitySlider.getX(), 50);
 		qualityLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		
-		final JLabel qualityValue = new JLabel("1");
+		final JLabel qualityValue = new JLabel(controller.getq() + "");
 		qualityValue.setForeground(Color.LIGHT_GRAY);
 		qualityValue.setOpaque(false);
 		qualityValue.setSize(qualitySlider.getX(), qualitySlider.getY());
