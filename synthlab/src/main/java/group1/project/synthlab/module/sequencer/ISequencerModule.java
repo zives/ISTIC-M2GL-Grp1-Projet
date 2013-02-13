@@ -20,6 +20,11 @@ public interface ISequencerModule extends IModule {
 	public void setStepValue(int step, double value);
 	
 	/**
+	 * @return : la valeur courante d'un pas
+	 */
+	public double getStepValue(int step);
+	
+	/**
 	 * Passe au pas suivant lorsqu'un front montant est detecte
 	 */
 	public void update();
