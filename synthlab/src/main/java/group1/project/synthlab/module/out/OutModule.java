@@ -25,9 +25,7 @@ import com.jsyn.unitgen.TriangleOscillator;
  */
 public class OutModule extends Module implements IOutModule {
 
-	public enum Distribution {
-		NORMAL, DISTRIBUTED
-	}
+
 
 	protected static int moduleCount = 0;
 

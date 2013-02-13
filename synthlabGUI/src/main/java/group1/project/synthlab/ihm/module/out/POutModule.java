@@ -4,25 +4,18 @@ import group1.project.synthlab.ihm.module.PModule;
 import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.in.ICInPort;
 import group1.project.synthlab.ihm.tools.PGradient;
-import group1.project.synthlab.module.out.OutModule.Distribution;
+import group1.project.synthlab.module.out.IOutModule.Distribution;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Rectangle2D;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.plaf.SliderUI;
 
 
 public class POutModule extends PModule implements IPOutModule {

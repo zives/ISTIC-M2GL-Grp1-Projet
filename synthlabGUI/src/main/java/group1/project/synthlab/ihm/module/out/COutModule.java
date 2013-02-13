@@ -4,7 +4,6 @@ import group1.project.synthlab.ihm.cable.ICCable;
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.module.IPModuleObserver;
 import group1.project.synthlab.module.out.OutModule;
-import group1.project.synthlab.module.out.OutModule.Distribution;
 import group1.project.synthlab.port.IPort;
 
 public class COutModule extends OutModule implements ICOutModule {

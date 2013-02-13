@@ -45,8 +45,8 @@ public class EQModule extends Module implements IEQModule {
 	public EQModule(Factory factory) {
 		super("EQ-" + ++moduleCount, factory);
 
-		filtersEQ = new FilterPeakingEQ[15];
-		attenuations = new double[15];		
+		filtersEQ = new FilterPeakingEQ[10];
+		attenuations = new double[10];		
 		ptIn = new PassThrough();
 		ptOut = new PassThrough();
 		inPort = factory.createInPort("in", ptIn.input, this);

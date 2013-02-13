@@ -1,7 +1,6 @@
 package group1.project.synthlab.module.out;
 
 import group1.project.synthlab.module.IModule;
-import group1.project.synthlab.module.out.OutModule.Distribution;
 import group1.project.synthlab.port.in.IInPort;
 
 import com.jsyn.unitgen.LineOut;
@@ -12,6 +11,11 @@ import com.jsyn.unitgen.LineOut;
  *
  */
 public interface IOutModule extends IModule {
+	
+	public enum Distribution {
+		NORMAL, DISTRIBUTED
+	}
+	
 	public void setDistribution(Distribution distribution);
 
 	/**

@@ -144,8 +144,9 @@ public class PVCAModule extends PModule implements IPVCAModule {
 	@Override
 	public void updateGainSlider() {
 		// TODO Auto-generated method stub
+		Double d = Math.round(controller.geta0() * 10) / 10.0;
 		this.gainSlider.setValue((int) controller.geta0() * 10);
-		gainLabel.setText(Math.round(controller.geta0() * 10) / 10.0 + " dB");
+		gainLabel.setText(d + " dB");
 	}
 
 }
