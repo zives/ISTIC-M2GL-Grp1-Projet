@@ -49,7 +49,7 @@ public class TestVCFLPModule extends TestCase {
 		assertEquals (vcflp.getf0(), vcflp.getFilter2().frequency.getValue());
 		assertEquals (vcflp.getq(), vcflp.getFilter1().Q.get());
 		assertEquals (vcflp.getq(), vcflp.getFilter2().Q.get());
-		assertTrue (!vcflp.getFilter1().input.isConnected());
+		assertTrue (vcflp.getFilter1().input.isConnected());
 		assertTrue (vcflp.getFilter1().output.isConnected());
 		assertTrue (vcflp.getFilter2().input.isConnected());
 		assertTrue (vcflp.getFilter2().output.isConnected());
