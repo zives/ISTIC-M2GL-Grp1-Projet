@@ -35,11 +35,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import com.jtattoo.plaf.smart.SmartLookAndFeel;
+import com.jtattoo.plaf.noire.NoireLookAndFeel;
 
 public class PWorkspace extends JFrame implements IPWorkspace {
 
@@ -96,28 +97,29 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		// setup the look and feel properties
 		Properties props = new Properties();
 
-		props.put("selectionBackgroundColor", "180 240 197");
-		props.put("menuSelectionBackgroundColor", "180 240 197");
+		props.put("logoString", "Synth");
+		props.put("selectionBackgroundColor", "100 100 100");
+		props.put("menuSelectionBackgroundColor", "110 110 110");
 
-		props.put("controlColor", "218 254 230");
-		props.put("controlColorLight", "218 254 230");
-		props.put("controlColorDark", "180 240 197");
+		props.put("controlColor", "70 70 70");
+		props.put("controlColorLight", "70 70 70");
+		props.put("controlColorDark", "70 70 70");
 
-		props.put("buttonColor", "218 230 254");
-		props.put("buttonColorLight", "255 255 255");
-		props.put("buttonColorDark", "244 242 232");
+		props.put("buttonColor", "200 200 200");
+		props.put("buttonColorLight", "220 220 220");
+		props.put("buttonColorDark", "200 200 200");
 
-		props.put("rolloverColor", "218 254 230");
-		props.put("rolloverColorLight", "218 254 230");
-		props.put("rolloverColorDark", "180 240 197");
+		props.put("rolloverColor", "100 100 100");
+		props.put("rolloverColorLight", "180 180 180");
+		props.put("rolloverColorDark", "190 190 190");
 
 		props.put("windowTitleForegroundColor", "0 0 0");
-		props.put("windowTitleBackgroundColor", "180 240 197");
-		props.put("windowTitleColorLight", "218 254 230");
-		props.put("windowTitleColorDark", "180 240 197");
-		props.put("windowBorderColor", "218 254 230");
-
-		SmartLookAndFeel.setCurrentTheme(props);
+		props.put("windowTitleBackgroundColor", "100 100 100");
+		props.put("windowTitleColorLight", "180 180 180");
+		props.put("windowTitleColorDark", "180 180 180");
+		props.put("windowBorderColor", "40 40 40");
+		
+		NoireLookAndFeel.setCurrentTheme(props);
 		try {
 			UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
 		} catch (ClassNotFoundException e) {
@@ -170,10 +172,11 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		workspacePanel.setSize(workspacePanel.getPreferredSize());
 		centerPanel = new JScrollPane(workspacePanel);
 		centerPanel.setDoubleBuffered(true);
+		centerPanel.setDoubleBuffered(true);
 		centerPanel.setWheelScrollingEnabled(false);
 		centerPanel.getViewport().setIgnoreRepaint(false);
-
-		
+		centerPanel.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
+				
 		//---------------------------------------------------------------------
 				JSeparator separatorOut = new JSeparator(JSeparator.VERTICAL);
 				separatorOut.setSize(2, 20);
@@ -181,7 +184,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 				separatorOut.setPreferredSize(separatorOut.getSize());
 				toolBar.add(separatorOut);
 		//---------------------------------------------------------------------
-		Color colorButton = new Color(50, 50, 80);		
+		Color colorButton = new Color(60, 60, 90);		
 				
 		outButton = new JButton("OUT");
 		outButton.setBackground(colorButton);
@@ -208,7 +211,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 				separatorGenerators.setPreferredSize(separatorOut.getSize());
 				toolBar.add(separatorGenerators);
 		//---------------------------------------------------------------------
-		colorButton = new Color(50, 80, 50);	
+		colorButton = new Color(60, 90, 60);	
 		
 		pianoButton = new JButton("PIANO");
 		pianoButton.setBackground(colorButton);
@@ -287,7 +290,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 				separatorOthers.setPreferredSize(separatorOut.getSize());
 				toolBar.add(separatorOthers);
 		//---------------------------------------------------------------------	
-		colorButton = new Color(70, 40, 20);	
+		colorButton = new Color(90, 50, 30);	
 
 		multiplexerButton = new JButton("MULTIPLEXER");
 		multiplexerButton.setBackground(colorButton);

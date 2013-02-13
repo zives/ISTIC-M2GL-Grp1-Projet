@@ -48,8 +48,8 @@ public class PGradient extends JPanel {
 	}
 
 	@Override
-	public void paint(Graphics graphics) {
-		super.paint(graphics);
+	public void paintComponent(Graphics graphics) {
+		super.paintComponent(graphics);
 		Graphics2D g2d = (Graphics2D) graphics;
 
 		if (position == "VERTICAL") {

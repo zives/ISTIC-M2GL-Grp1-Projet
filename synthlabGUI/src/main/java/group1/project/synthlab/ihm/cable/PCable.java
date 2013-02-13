@@ -64,14 +64,14 @@ public class PCable extends JPanel implements IPCable {
 		this.animation = 10;
 
 		this.currentColor = 0;
-		
+		this.setDoubleBuffered(true);
 		this.saturated = false;
 		
 
 		setLocation(0, 0);
 		setSize(1, 1);
 		setOpaque(false);
-		setBackground(new Color(0, 0, 0, 0));
+		setBackground(new Color(0, 0, 0));
 
 		timerAnimation = new Timer();
 		timerAnimation.schedule(new TimerTask() {
@@ -109,8 +109,9 @@ public class PCable extends JPanel implements IPCable {
 	 */
 	public void setP1(int x, int y) {
 		p1 = new Point(x, y);
-		repaint();
+		update(getGraphics()); //FIX problem with JSCROLLPANE rather than repaint method
 		((JLayeredPane) this.getParent()).moveToFront(this);
+		
 	}
 
 	/*
@@ -126,8 +127,9 @@ public class PCable extends JPanel implements IPCable {
 				+ PPort.getMARGIN(), p.getY() + p.getParent().getY()
 				+ PPort.SIZE / 2);
 
-		repaint();
+		update(getGraphics()); //FIX problem with JSCROLLPANE rather than repaint method
 		((JLayeredPane) this.getParent()).moveToFront(this);
+		
 	}
 
 	/*
@@ -138,7 +140,8 @@ public class PCable extends JPanel implements IPCable {
 	public void setP2(int x, int y) {
 		p2 = new Point(x, y);
 		((JLayeredPane) this.getParent()).moveToFront(this);
-		repaint();
+		update(getGraphics()); //FIX problem with JSCROLLPANE rather than repaint method
+		getParent().getParent().repaint();
 	}
 
 	/*
@@ -153,10 +156,9 @@ public class PCable extends JPanel implements IPCable {
 		p2 = new Point(p.getX() + p.getParent().getX() + PPort.SIZE / 2
 				+ PPort.getMARGIN(), p.getY() + p.getParent().getY()
 				+ PPort.SIZE / 2);
-		repaint();
-
+		update(getGraphics()); //FIX problem with JSCROLLPANE rather than repaint method
 		((JLayeredPane) this.getParent()).moveToFront(this);
-
+		
 	}
 
 	/*
@@ -165,8 +167,8 @@ public class PCable extends JPanel implements IPCable {
 	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
 	 */
 	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		Graphics2D ig = (Graphics2D) g;
 		ig.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
@@ -249,7 +251,6 @@ public class PCable extends JPanel implements IPCable {
 
 		// On redefini le forme geometrique
 		graphicLink = q;
-
 	}
 
 	public void nextColor() {

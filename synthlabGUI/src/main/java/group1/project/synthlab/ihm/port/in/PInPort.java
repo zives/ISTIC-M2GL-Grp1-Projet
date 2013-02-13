@@ -17,13 +17,13 @@ public class PInPort extends PPort implements IPInPort {
 	}
 
 	@Override
-	public void paint(Graphics g) {		
+	public void paintComponent(Graphics g) {		
 		g.setColor(new Color(70, 160, 70));
 		Graphics2D ig = (Graphics2D) g;
 		ig.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		g.fillOval(MARGIN, 0, SIZE, SIZE);
-		super.paint(g);
+		super.paintComponent(g);
 	}
 
 
