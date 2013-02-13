@@ -79,6 +79,10 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 
 	@Override
 	public void removeModule(IModule module) {
+		if (isDrawingCable()) {
+			removeCable(getDrawingCable());
+			setDrawingCable(null);
+		}
 		presentation.removeModule(((ICModule) module).getPresentation());
 		super.removeModule(module);		
 	}
@@ -375,6 +379,12 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 	public void quitApp() {
 		System.exit(0);
 		
+	}
+
+	@Override
+	public void clearAll() {
+		for (IModule module: modules)
+			removeModule(module);
 	}
 
 	

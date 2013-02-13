@@ -25,5 +25,6 @@ public interface ICWorkspace extends IWorkspace {
 	public void quitApp();
 	public void addOneSequencer();
 	public void loadConfiguration();
+	public void clearAll();
 
 }

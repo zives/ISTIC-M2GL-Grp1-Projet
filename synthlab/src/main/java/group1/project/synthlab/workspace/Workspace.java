@@ -4,6 +4,8 @@ import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.IModule;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Line;
 import javax.sound.sampled.Mixer;
@@ -25,7 +27,7 @@ public class Workspace implements IWorkspace {
 
 	public Workspace(Factory factory) {
 		this.factory = factory;
-		this.modules = new ArrayList<IModule>();
+		this.modules = new CopyOnWriteArrayList<IModule>();
 		synthesizer = JSyn.createSynthesizer();
 		
 		
@@ -83,6 +85,15 @@ public class Workspace implements IWorkspace {
 	@Override
 	public Synthesizer getSynthetizer() {
 		return synthesizer;
+	}
+	
+	public enum LALA {
+		TOTO, TATA
+	}
+	
+		
+	public static void main(String[] a) {
+		System.err.println(LALA.class.getName());
 	}
 
 }
