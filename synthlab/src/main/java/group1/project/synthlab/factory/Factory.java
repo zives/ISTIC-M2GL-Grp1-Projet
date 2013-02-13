@@ -15,6 +15,8 @@ import group1.project.synthlab.module.micro.IMicroModule;
 import group1.project.synthlab.module.micro.MicroModule;
 import group1.project.synthlab.module.multiplexer.IMultiplexerModule;
 import group1.project.synthlab.module.multiplexer.MultiplexerModule;
+import group1.project.synthlab.module.noise.INoiseModule;
+import group1.project.synthlab.module.noise.NoiseModule;
 import group1.project.synthlab.module.osc.IOSCModule;
 import group1.project.synthlab.module.osc.OSCModule;
 import group1.project.synthlab.module.out.IOutModule;
@@ -119,5 +121,9 @@ public class Factory {
 
 	public IVCFHPModule createVCFHPModule() {
 		return new VCFHPModule(this);
+	}
+
+	public INoiseModule createNoiseModule() {
+		return new NoiseModule(this);
 	}
 }
