@@ -39,11 +39,14 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
     protected double f0 = 440;
     
     /** Facteur de qualite, le meme pour les 2 filtres */
-    protected double q = 1;
+    protected double q;
     
     /** Filtres JSyn : on utilise 2 filtres en serie pour avoir du 24dB/octave */
     protected FilterLowPass filter1;
     protected FilterLowPass filter2;
+    
+    /** Attenue le signal en entree lorsque Q depasse 1 */
+    protected Multiply attenuatorInSignal;
     
     /** Reglage grossier de la frequence de coupure : entier de 0 a 990 */
     protected int coarseAdjustment;
@@ -87,6 +90,8 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
     public VCFModule(Factory factory) {
         super("VCF-" + ++moduleCount, factory);
         
+        q = 1;
+
 		// Filtre d'amplitude
 		// TODO : Tester lorsqu'on aura un VCA
 		filterAmplitude = new FilterAmplitude(Signal.AMAXMODULATION, true);
@@ -118,7 +123,11 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
         filterFrequencyModulation.output.connect(filter2.frequency);
         
         // Port d'entree : 
-        in = factory.createInPort("in", filter1.input, this);
+        attenuatorInSignal = new Multiply();
+        circuit.add(attenuatorInSignal);
+        attenuatorInSignal.inputB.set(1);
+        attenuatorInSignal.output.connect(filter1.input);
+        in = factory.createInPort("in", attenuatorInSignal.inputA, this);
         fm = factory.createInPort("fm", filterAmplitude.input, this);
         filterAmplitude.output.connect(filterFrequencyModulation.input);
         
@@ -204,6 +213,8 @@ public class VCFModule extends Module implements IPortObserver, IVCFModule {
      * @see group1.project.synthlab.module.IVCFModule#changeQFactor()
      */
     public void changeQFactor(){
+    	if(q > 1)
+    		attenuatorInSignal.inputB.set(1.0 / q);
         filter1.Q.set(q);
         filter2.Q.set(q);
     }

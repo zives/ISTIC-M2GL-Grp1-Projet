@@ -37,7 +37,7 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	protected int currentStep;
 	
 	/** Le filtre permettant de detecter des fronts montants */
-	protected FilterRisingEdge filterSequencer;
+	protected FilterRisingEdge filterRisingEdge;
 	
 	/** Port d'entree : une entree de declenchement */
 	protected IInPort gate;
@@ -57,11 +57,11 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	public SequencerModule(Factory factory) {
 		super("Sequencer-" + ++moduleCount, factory);
 		
-		filterSequencer = new FilterRisingEdge();
-		filterSequencer.register(this);
+		filterRisingEdge = new FilterRisingEdge();
+		filterRisingEdge.register(this);
 		scope = new AudioScope(Workspace.getInstance().getSynthetizer());
-		scope.addProbe(filterSequencer.output);
-		circuit.add(filterSequencer);
+		scope.addProbe(filterRisingEdge.output);
+		circuit.add(filterRisingEdge);
 		
 		steps[0] = 1;
 		steps[1] = -0.3;
@@ -84,7 +84,7 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		currentStep = 8; // Le premier front montant passera au pas 1, ce qui est conforme à la User Story
 		
 		// Port d'entree : 
-		gate = factory.createInPort("gate", filterSequencer.input, this);
+		gate = factory.createInPort("gate", filterRisingEdge.input, this);
 		
 		// Port de sortie
 		out = factory.createOutPort("out", multiply.output, this);
@@ -143,6 +143,20 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	}
 	
 	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.ISequencerModule#getCurrentStep()
+	 */
+	public int getCurrentStep() {
+		return currentStep;
+	}
+	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.ISequencerModule#getFilterRisingEdge()
+	 */
+	public FilterRisingEdge getFilterRisingEdge() {
+		return filterRisingEdge;
+	}
+	
+	/* (non-Javadoc)
 	 * @see group1.project.synthlab.module.ISequencerModule#getGate()
 	 */
 	public IInPort getGate() {
@@ -178,7 +192,7 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	 */
 	public void cableConnected(IPort port) {
 		if(port == gate)
-			System.out.println("Cable connecté dans l'entrée gate, isOn = "+isOn+", input = "+filterSequencer.input.get());
+			System.out.println("Cable connecté dans l'entrée gate, isOn = "+isOn+", input = "+filterRisingEdge.input.get());
 	}
 
 	/* (non-Javadoc)
