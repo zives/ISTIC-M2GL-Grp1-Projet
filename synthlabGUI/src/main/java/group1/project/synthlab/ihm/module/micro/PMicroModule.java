@@ -18,7 +18,7 @@ public class PMicroModule extends PModule implements IPMicroModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
 
-	protected ICMicroModule controller;
+	protected transient ICMicroModule controller;
 	protected JSlider attenuatorSlider;
 
 	public PMicroModule(final ICMicroModule controller) {

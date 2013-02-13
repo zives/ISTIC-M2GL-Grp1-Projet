@@ -19,7 +19,7 @@ public class PMultiplexerModule extends PModule implements IPMultiplexerModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
 
-	protected ICMultiplexerModule controller;
+	protected transient ICMultiplexerModule controller;
 	protected JSlider attenuatorSlider;
 
 	public PMultiplexerModule(final ICMultiplexerModule controller) {

@@ -31,7 +31,7 @@ public class PEQViewModule extends PModule implements IPEQViewModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
 
-	protected ICEQViewModule controller;
+	protected transient ICEQViewModule controller;
 	protected List<List<Rectangle2D>> lines;
 	protected RoundRectangle2D background;
 

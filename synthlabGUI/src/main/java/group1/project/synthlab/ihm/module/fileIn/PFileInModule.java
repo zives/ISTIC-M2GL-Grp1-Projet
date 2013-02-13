@@ -23,7 +23,7 @@ import javax.swing.JLabel;
 
 public class PFileInModule extends PModule implements IPFileInModule, DropTargetListener{
 
-	protected ICFileInModule controller;
+	protected transient ICFileInModule controller;
 	protected TextArea sampleFile;
 	protected DropTarget dropTarget;
 	protected JLabel fileLabel;

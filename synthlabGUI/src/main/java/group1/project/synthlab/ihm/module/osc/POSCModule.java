@@ -29,7 +29,7 @@ public class POSCModule extends PModule implements IPOSCModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
 
-	protected ICOSCModule controller;
+	protected transient ICOSCModule controller;
 
 	public POSCModule(final ICOSCModule controller) {
 		super(controller);

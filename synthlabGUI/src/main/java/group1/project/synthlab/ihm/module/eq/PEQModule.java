@@ -23,7 +23,7 @@ public class PEQModule extends PModule implements IPEQModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
 
-	protected ICEQModule controller;
+	protected transient ICEQModule controller;
 	protected JSlider[] attenuatorSlider;
 
 	public PEQModule(final ICEQModule controller) {

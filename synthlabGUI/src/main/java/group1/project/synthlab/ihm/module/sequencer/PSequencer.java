@@ -18,7 +18,7 @@ import group1.project.synthlab.ihm.port.out.ICOutPort;
 
 public class PSequencer extends PModule implements IPSequencer{
 
-	protected ICSequencer controller;
+	protected transient ICSequencer controller;
 	protected JSlider[] tensionSlider;
 	protected JSlider tensionSlider1;
 	protected JSlider tensionSlider2;

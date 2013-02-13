@@ -22,7 +22,7 @@ import javax.swing.event.ChangeListener;
 
 public class PVCFHPModule extends PModule implements IPVCFHPModule {
 
-	protected ICVCFHPModule controller;
+	protected transient ICVCFHPModule controller;
 
 	protected JSlider coarseSlider;
 	protected JSlider fineSlider;

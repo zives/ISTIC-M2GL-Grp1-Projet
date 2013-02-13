@@ -25,7 +25,7 @@ public class PVCOModule extends PModule implements IPVCOModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
 
-	protected ICVCOModule controller;
+	protected transient ICVCOModule controller;
 	protected JSlider coarseSlider;
 	protected JSlider fineSlider;
 	protected JLabel warnLabel;

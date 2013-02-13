@@ -28,7 +28,7 @@ public class PPianoModule extends PModule implements IPPianoModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
 
-	protected ICPianoModule controller;
+	protected transient ICPianoModule controller;
 
 	protected Rectangle2D neutralZone;
 	protected List<Rectangle2D> buttonsN;

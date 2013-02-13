@@ -21,7 +21,7 @@ public class PEGModule extends PModule implements IPEGModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
 
-	protected ICEGModule controller;
+	protected transient ICEGModule controller;
 	protected JSlider attackSlider;
 	protected JSlider decaySlider;
 	protected JSlider releaseSlider;

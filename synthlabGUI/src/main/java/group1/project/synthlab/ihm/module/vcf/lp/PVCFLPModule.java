@@ -14,7 +14,7 @@ import javax.swing.event.ChangeListener;
 
 public class PVCFLPModule extends PVCFHPModule implements IPVCFLPModule {
 
-	protected ICVCFLPModule controller;
+	protected transient ICVCFLPModule controller;
 
 	protected JSlider coarseSlider;
 	protected JSlider fineSlider;

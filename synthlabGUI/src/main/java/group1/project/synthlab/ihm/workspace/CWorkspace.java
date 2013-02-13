@@ -5,6 +5,7 @@ import group1.project.synthlab.ihm.cable.ICCable;
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.module.CModule;
 import group1.project.synthlab.ihm.module.ICModule;
+import group1.project.synthlab.ihm.module.IPModule;
 import group1.project.synthlab.ihm.module.eg.CEGModule;
 import group1.project.synthlab.ihm.module.out.COutModule;
 import group1.project.synthlab.ihm.module.piano.CPianoModule;
@@ -14,18 +15,25 @@ import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.module.out.OutModule;
 import group1.project.synthlab.workspace.Workspace;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 
+import javax.swing.JPanel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.commons.codec.binary.Base64;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -322,7 +330,7 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		NodeList l = node.getChildNodes();
 		for (int i = 0; i < l.getLength(); i++) {
 			if (l.item(i).getNodeName().equals("Distribution")) {
-				// System.out.println(l.item(i).getFirstChild().getNodeValue());
+				// System.out.println (l.item(i).getFirstChild().getNodeValue());
 				if (l.item(i).getFirstChild().getNodeValue().equals("NORMAL")) {
 					com.updateDistribution(OutModule.Distribution.NORMAL);
 				} else {
@@ -427,6 +435,14 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 	    } 
 	    return null; // ce n'est pas une enum 
 	  }
+	 
+	   private static String toString( Serializable o ) throws IOException {
+	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	        ObjectOutputStream oos = new ObjectOutputStream( baos );
+	        oos.writeObject( o );
+	        oos.close();
+	        return new String( Base64.encodeBase64( baos.toByteArray() ) );
+	    }
 	
 	public void saveReflexion(String filename) {
 
@@ -495,8 +511,17 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 			tmp += "		</Controller>\n";
 			// /!\ajouter presentation/!\
 			ICModule icm = (ICModule) m;
-			icm.getPresentation();
-
+			IPModule ipm = icm.getPresentation();
+			try {
+				String presentationString = toString(ipm);
+				tmp+="		<Presentation>\n"+
+						"			"+presentationString+
+						"\n		</Presentation>\n";
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			tmp += "	</Module>\n";
 			save += tmp;
 		}
