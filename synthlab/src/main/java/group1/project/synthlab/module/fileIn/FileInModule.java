@@ -5,6 +5,7 @@ package group1.project.synthlab.module.fileIn;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
+import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.workspace.Workspace;
@@ -37,14 +38,11 @@ public class FileInModule extends Module implements IFileInModule{
 	/* jSyn module */
 	//protected LineOut lineOut;
 	protected PassThrough passThrough;
-	private boolean isOn;
 
 
 	protected  FloatSample sample;
 	protected  Synthesizer synth;
 	protected  VariableRateDataReader samplePlayer;
-	protected LineIn lineIn;
-	//protected static LineOut lineOut;
 	protected  File sampleFile;
 
 	public FileInModule(Factory factory) {
@@ -95,25 +93,17 @@ public class FileInModule extends Module implements IFileInModule{
 		samplePlayer.dataQueue.queueLoop(sample, 0, sample.getNumFrames ());
 		
 	}
+	
+	@Override
+	public void resetCounterInstance() {
+		FileInModule.moduleCount = 0;		
+	}
 
 	public FloatSample getSample() {
 		return sample;
 	}
 
-	@Override
-	public void start() {
-		isOn = true;
-	}
 
-	@Override
-	public void stop() {
-		isOn = false;
-	}
-
-	@Override
-	public boolean isStarted() {
-		return isOn;
-	}
 
 	public IOutPort getOutPort() {
 		return outPort;

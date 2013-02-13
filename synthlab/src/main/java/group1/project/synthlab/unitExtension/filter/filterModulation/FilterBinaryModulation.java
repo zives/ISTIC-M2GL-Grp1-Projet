@@ -1,4 +1,4 @@
-package group1.project.synthlab.unitExtensions.filterModulation;
+package group1.project.synthlab.unitExtension.filter.filterModulation;
 
 import group1.project.synthlab.signal.Signal;
 

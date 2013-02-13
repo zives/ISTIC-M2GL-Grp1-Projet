@@ -4,15 +4,10 @@ import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.signal.Signal;
-import group1.project.synthlab.unitExtensions.filterSupervisor.FilterAmplitude;
-import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterAmplitudeObservable;
-import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterAmplitudeObserver;
-import group1.project.synthlab.workspace.Workspace;
+import group1.project.synthlab.unitExtension.filter.filterSupervisor.FilterAmplitude;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.jsyn.Synthesizer;
 
 
 /**

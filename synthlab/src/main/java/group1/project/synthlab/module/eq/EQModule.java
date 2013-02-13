@@ -2,6 +2,7 @@ package group1.project.synthlab.module.eq;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
+import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
@@ -36,7 +37,6 @@ public class EQModule extends Module implements IEQModule {
 	protected IOutPort outPort;
 
 	/* Variables internes */
-	protected boolean isOn;
 	protected double[] attenuations;
 	protected final double[] FREQUENCIES = {16,32,63,125,250,500,1000,2000,4000,8000};
 	/**
@@ -80,11 +80,9 @@ public class EQModule extends Module implements IEQModule {
 			
 		}
 		outPort = factory.createOutPort("out", filtersEQ[FREQUENCIES.length - 1].output, this);
-		isOn = false;
-		
+			
 		circuit.add(ptIn);
 		circuit.add(ptOut);
-		stop();
 	}
 	
 	
@@ -128,41 +126,16 @@ public class EQModule extends Module implements IEQModule {
 		return outPort;
 	}
 
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IModule#start()
-	 */
-	public void start() {
-		ptIn.output.connect(filtersEQ[0].input);
-		isOn = true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IModule#stop()
-	 */
-	public void stop() {
-		isOn = false;
-		ptIn.output.disconnect(filtersEQ[0].input);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IModule#isStarted()
-	 */
-	public boolean isStarted() {
-		return isOn;
-	}
-
 	public void cableConnected(IPort port) {
 	}
 
 	public void cableDisconnected(IPort port) {
 
+	}
+	
+	@Override
+	public void resetCounterInstance() {
+		EQModule.moduleCount = 0;		
 	}
 	
 	public static void main(String[] args) {

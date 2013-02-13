@@ -2,18 +2,19 @@ package group1.project.synthlab.module.vca;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
+import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
-import group1.project.synthlab.unitExtensions.filterModulation.FilterAmplitudeModulation;
+import group1.project.synthlab.unitExtension.filter.filterModulation.FilterAmplitudeModulation;
 
 import javax.swing.JFrame;
+
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.scope.AudioScope;
 import com.jsyn.unitgen.LineOut;
-import com.jsyn.unitgen.Multiply;
 import com.jsyn.unitgen.SquareOscillator;
 
 /**
@@ -42,9 +43,6 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 	/** Filtre d'attenuation en fonction de am */
 	protected FilterAmplitudeModulation filteram;
 	
-	/** Pour le on/off */
-	protected Multiply onoff = new Multiply();
-	
 	/** Port d'entree : entree de signal */
 	protected IInPort in;
 
@@ -53,9 +51,6 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 	
 	/** Port de sortie : signal filtre */
 	protected IOutPort out;
-	
-	/** Etat du module (allume ou eteint) */
-	protected boolean isOn;
 	
 	
 	/**
@@ -79,12 +74,7 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 		filtera0.output.connect(filteram.inputA);
 		
 		// Port de sortie
-		out = factory.createOutPort("out", onoff.output, this);
-		filteram.output.connect(onoff.inputA);
-		
-		// Lorsqu'il est cree, le VCA est eteint, on ne laisse donc passer aucun signal
-		onoff.inputB.set(0);
-		isOn = false;
+		out = factory.createOutPort("out", filteram.output, this);
 	}
 	
 	/*
@@ -105,11 +95,9 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.module.IVCAModule#changeGain()
 	 */
-	public void changeGain(){
-		if (amConnected)
-			filtera0.inputB.set((a0-60)/60);
-		else	
-			filtera0.inputB.set(a0/60);
+	public void changeGain(){	
+		filtera0.inputB.set(a0/60);
+	
 	}
 	
 	/* (non-Javadoc)
@@ -126,21 +114,6 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 		this.a0 = a0;
 	}
 
-	/* (non-Javadoc)
-	 * @see group1.project.synthlab.module.IModule#start()
-	 */
-	public void start() {
-		onoff.inputB.set(1);
-		isOn = true;
-	}
-
-	/* (non-Javadoc)
-	 * @see group1.project.synthlab.module.IModule#stop()
-	 */
-	public void stop() {
-		onoff.inputB.set(0);
-		isOn = false;
-	}
 	
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.module.IVCAModule#getFiltera0()
@@ -176,13 +149,6 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 	public IOutPort getOut() {
 		return out;
 	}
-	
-	/* (non-Javadoc)
-	 * @see group1.project.synthlab.module.IModule#isStarted()
-	 */
-	public boolean isStarted() {
-		return isOn;
-	}
 
 	// Fonction qui gere la connexion d'un cable a un port d'entree
 	/* (non-Javadoc)
@@ -212,6 +178,11 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 			changeGain();
 			System.out.println("Deconnexion d'un cable de l'entree am");
 		}
+	}
+	
+	@Override
+	public void resetCounterInstance() {
+		VCAModule.moduleCount = 0;		
 	}
 	
 	// Tests fonctionnels

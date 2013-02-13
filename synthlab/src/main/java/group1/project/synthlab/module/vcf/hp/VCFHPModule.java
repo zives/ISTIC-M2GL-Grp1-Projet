@@ -2,22 +2,25 @@ package group1.project.synthlab.module.vcf.hp;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
+import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
-import group1.project.synthlab.unitExtensions.filterModulation.FilterFrequencyModulation;
-import group1.project.synthlab.unitExtensions.filterSupervisor.FilterAmplitude;
-import group1.project.synthlab.unitExtensions.filterSupervisor.FilterRecordMinMaxAmplitude;
+import group1.project.synthlab.unitExtension.filter.filterModulation.FilterFrequencyModulation;
+import group1.project.synthlab.unitExtension.filter.filterSupervisor.FilterAmplitude;
+import group1.project.synthlab.unitExtension.filter.filterSupervisor.FilterRecordMinMaxAmplitude;
+
 import javax.swing.JFrame;
+
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
+import com.jsyn.ports.UnitOutputPort;
 import com.jsyn.scope.AudioScope;
 import com.jsyn.unitgen.FilterHighPass;
 import com.jsyn.unitgen.LineOut;
-import com.jsyn.unitgen.Multiply;
 import com.jsyn.unitgen.SineOscillator;
 import com.jsyn.unitgen.SquareOscillator;
 
@@ -70,12 +73,7 @@ public class VCFHPModule extends Module implements IPortObserver, IVCFHPModule {
      * Filtre pour recuperer les valeurs max et min d'un signal
      */
     protected FilterRecordMinMaxAmplitude filterPrintMinMaxAmplitude;
-    
-    /** Pour le on/off */
-    protected Multiply onoff = new Multiply();
-    
-    /** Etat du module (allume ou eteint) */
-    protected boolean isOn;
+   
     
     /**
      * Constructeur : initialise le VCFHP (port, ...)
@@ -98,8 +96,7 @@ public class VCFHPModule extends Module implements IPortObserver, IVCFHPModule {
         filter.frequency.set(f0);
         circuit.add(filter);
         filter.output.connect(filterPrintMinMaxAmplitude.input); // Pour afficher les valeurs min et max d'amplitude dans les tests
-        filterPrintMinMaxAmplitude.output.connect(onoff.inputA);
-        
+             
         // On applique la formule f0 * 2 ^ (5Vfm) au signal en entree fm et on envoie la sortie dans l'entree frequency des filtres
         // Cette formule garantit egalement que si un signal nul est connecte en entree, la frequence de coupure vaudra f0
         // On doit multiplier Vfm par 5 car JSyn considere des amplitudes entre -1 et 1, et nous considerons des tensions entre -5V et +5V)
@@ -111,14 +108,11 @@ public class VCFHPModule extends Module implements IPortObserver, IVCFHPModule {
         filterAmplitude.output.connect(filterFrequencyModulation.input);
         
         // Ports de sortie
-        out = factory.createOutPort("out", onoff.output, this);
+        out = factory.createOutPort("out", filterPrintMinMaxAmplitude.output, this);
         
         // On definie le coarseAdjustement et le fineAdjustement
      	redefAdjustments();
-     		
-        // Lorsqu'il est cree, le VCFHP est eteint, on ne laisse donc passer aucun signal
-        onoff.inputB.set(0);
-        isOn = false;
+     	
     }
     
     /*
@@ -180,22 +174,7 @@ public class VCFHPModule extends Module implements IPortObserver, IVCFHPModule {
 		fineAdjustment = (((f0 - fmin) / (fmax - fmin)) * 100) - coarseAdjustment;
 	}
         
-    /* (non-Javadoc)
-     * @see group1.project.synthlab.module.IModule#start()
-     */
-    public void start() {
-        onoff.inputB.set(1);
-        isOn = true;
-    }
-
-    /* (non-Javadoc)
-     * @see group1.project.synthlab.module.IModule#stop()
-     */
-    public void stop() {
-        onoff.inputB.set(0);
-        isOn = false;
-    }
-    
+      
     /* (non-Javadoc)
      * @see group1.project.synthlab.module.IVCFModule#getf0()
      */
@@ -230,16 +209,7 @@ public class VCFHPModule extends Module implements IPortObserver, IVCFHPModule {
     public IOutPort getOut() {
         return out;
     }
-    
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IModule#isStarted()
-	 */
-    public boolean isStarted() {
-        return isOn;
-    }
-
+ 
     // Fonction qui gere la connexion d'un cable a un port d'entree
     /* (non-Javadoc)
      * @see group1.project.synthlab.module.IVCFModule#cableConnected()
@@ -305,6 +275,11 @@ public class VCFHPModule extends Module implements IPortObserver, IVCFHPModule {
 		this.fineAdjustment = fineadjustment;
 		changeFrequency();
 	}
+	
+	@Override
+	public void resetCounterInstance() {
+		VCFHPModule.moduleCount = 0;		
+	}
     
     // Tests fonctionnels
     @SuppressWarnings("deprecation")
@@ -347,7 +322,7 @@ public class VCFHPModule extends Module implements IPortObserver, IVCFHPModule {
         
         // Pour l'affichage des courbes
         AudioScope scope= new AudioScope( synth );
-        scope.addProbe(vcfhp.onoff.output);
+        scope.addProbe((UnitOutputPort) vcfhp.getOut().getJSynPort());
         scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
         scope.getModel().getTriggerModel().getLevelModel().setDoubleValue( 0.0001 );
         scope.getView().setShowControls( true );

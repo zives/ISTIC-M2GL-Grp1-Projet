@@ -45,8 +45,6 @@ public class PPianoModule extends PModule implements IPPianoModule {
 		// Taille et couleur définie dans la super classe
 
 		// Label et onoff boutons déjà rajoutés dans la super classe
-		this.onOffButton.setSelected(true);
-		this.onOffButton.setEnabled(false);
 
 		this.pressedButton = null;
 		this.overflownButton = null;

@@ -52,7 +52,7 @@ public class CPianoModule extends PianoModule implements ICPianoModule {
 
 	@Override
 	public void stopPlay() {
-		this.stop();
+		super.stopPlay();
 
 	}
 

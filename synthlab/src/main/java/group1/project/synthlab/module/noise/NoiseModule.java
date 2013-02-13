@@ -1,24 +1,23 @@
 package group1.project.synthlab.module.noise;
 
+import group1.project.synthlab.factory.Factory;
+import group1.project.synthlab.module.Module;
+import group1.project.synthlab.module.vco.VCOModule;
+import group1.project.synthlab.port.IPort;
+import group1.project.synthlab.port.out.IOutPort;
+import group1.project.synthlab.signal.Tools;
+import group1.project.synthlab.unitExtension.producer.noise.BrownianNoise;
+
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.Multiply;
 import com.jsyn.unitgen.PinkNoise;
 import com.jsyn.unitgen.WhiteNoise;
-import group1.project.synthlab.factory.Factory;
-import group1.project.synthlab.module.Module;
-import group1.project.synthlab.port.IPort;
-import group1.project.synthlab.port.out.IOutPort;
-import group1.project.synthlab.signal.Tools;
-import group1.project.synthlab.unitExtensions.noise.BrownianNoise;
 
 public class NoiseModule extends Module implements INoiseModule {
 
 	protected static int moduleCount = 0;
-	
-	/** Etat du module (allume ou eteint) */
-	protected boolean isOn;
 	
 	/** Generateur de bruit blanc de JSyn */
 	protected WhiteNoise whiteNoise;
@@ -82,7 +81,6 @@ public class NoiseModule extends Module implements INoiseModule {
 		outBrownian = factory.createOutPort("brownian", onoffBrownian.output, this);
 		outPink = factory.createOutPort("pink", onoffPink.output, this);
 
-		isOn = false;
 	}
 
 	/*
@@ -91,10 +89,10 @@ public class NoiseModule extends Module implements INoiseModule {
 	 * @see group1.project.synthlab.module.IModule#start()
 	 */
 	public void start() {
+		super.start();
 		onoffWhite.inputB.set(1);
 		onoffPink.inputB.set(1);
 		onoffBrownian.inputB.set(1);
-		isOn = true;
 	}
 
 	/*
@@ -103,21 +101,13 @@ public class NoiseModule extends Module implements INoiseModule {
 	 * @see group1.project.synthlab.module.IModule#stop()
 	 */
 	public void stop() {
+		super.stop();
 		onoffWhite.inputB.set(0);
 		onoffPink.inputB.set(0);
 		onoffBrownian.inputB.set(0);
-		isOn = false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IModule#isStarted()
-	 */
-	public boolean isStarted() {
-		return isOn;
-	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -173,6 +163,11 @@ public class NoiseModule extends Module implements INoiseModule {
 	 */
 	public IOutPort getOutPink() {
 		return outPink;
+	}
+	
+	@Override
+	public void resetCounterInstance() {
+		NoiseModule.moduleCount = 0;		
 	}
 	
 	// Tests fonctionnels

@@ -18,6 +18,8 @@ public abstract class Module implements IModule {
 	
 	protected Factory factory;
 	
+	protected boolean isOn;
+	
 	/**
 	 * Constructeur du module
 	 * @param name nom du module
@@ -27,11 +29,16 @@ public abstract class Module implements IModule {
 		this.circuit = new Circuit();
 		this.name = name;
 		this.factory = factory;
+		this.isOn = false;
 	}
 	
 	
 	public String getName() {
 		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	public Circuit getCircuit() {
@@ -47,6 +54,18 @@ public abstract class Module implements IModule {
 	}
 
 
+	public void start(){
+		circuit.start();
+		isOn = true;
+	}
+	 
+	public void stop() {
+		circuit.stop();
+		isOn = false;
+	}
 	
+	public boolean isStarted() {
+		return isOn;
+	}
 	
 }

@@ -2,17 +2,11 @@ package group1.project.synthlab.module.piano;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
+import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
-import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Signal;
-import group1.project.synthlab.unitExtensions.filterModulation.FilterBinaryModulation;
-import group1.project.synthlab.unitExtensions.filterModulation.FilterFrequencyModulation;
-
-import com.jsyn.unitgen.Circuit;
-import com.jsyn.unitgen.SineOscillator;
-import com.jsyn.unitgen.SquareOscillator;
-import com.jsyn.unitgen.TriangleOscillator;
+import group1.project.synthlab.unitExtension.producer.SimpleProducer;
 
 /**
  * Module VCO
@@ -29,30 +23,26 @@ public class PianoModule extends Module implements IPianoModule {
 	protected IOutPort out;
 	
 	/* Variables internes */
-	protected SquareOscillator sqrOscGate;
-	protected SquareOscillator sqrOut;
+	protected SimpleProducer gateProducer;
+	protected SimpleProducer outProducer;
 	protected final double LA3 = 0;
 	protected double a0 = LA3;
 
-	protected boolean isOn;
-	
 	/**
 	 * Constructeur : initialise le VCO (, port, ...)
 	 */
 	public PianoModule(Factory factory) {
 		super("Piano-" + ++moduleCount, factory);
-		sqrOscGate =new SquareOscillator();
-		sqrOut =new SquareOscillator();
+		gateProducer =new SimpleProducer();
+		outProducer =new SimpleProducer();
 		
-		outGate = factory.createOutPort("eg gate", sqrOscGate.output, this);		
-		circuit.add(sqrOscGate);
-		sqrOscGate.frequency.set(0);
-		sqrOscGate.amplitude.set(0);
+		outGate = factory.createOutPort("eg gate", gateProducer.output, this);		
+		circuit.add(gateProducer);
+		gateProducer.input.set(0);
 		
-		out= factory.createOutPort("out", sqrOut.output, this);	
-		circuit.add(sqrOut);
-		sqrOut.frequency.set(0);
-		sqrOut.amplitude.set(LA3);
+		out= factory.createOutPort("out", outProducer.output, this);	
+		circuit.add(outProducer);
+		outProducer.input.set(LA3);
 		
 		
 	}
@@ -79,22 +69,6 @@ public class PianoModule extends Module implements IPianoModule {
 
 
 	@Override
-	public void start() {
-		sqrOscGate.start();
-		sqrOscGate.amplitude.set(1);
-		sqrOut.amplitude.set(a0);
-		isOn = true;
-	}
-
-
-	@Override
-	public void stop() {		
-		sqrOscGate.amplitude.set(0);
-		isOn = false;
-	}
-
-
-	@Override
 	public void cableConnected(IPort port) {
 
 	}
@@ -105,19 +79,24 @@ public class PianoModule extends Module implements IPianoModule {
 
 	}
 
-
-	@Override
-	public boolean isStarted() {
-		return isOn;
-	}
-
-
 	@Override
 	public void play(NOTE note, int octave) {
 		int posLA = NOTE.LA.ordinal();
 		int posFinal = (octave - 3) * 12 + note.ordinal() - posLA;
 		a0 =  (posFinal / 12.0) / (double) Signal.AMAX;
-		start();
+		gateProducer.input.set(1);
+		outProducer.input.set(a0);
+	}
+
+
+	public void stopPlay() {
+		gateProducer.input.set(0);
+		
+	}
+	
+	@Override
+	public void resetCounterInstance() {
+		PianoModule.moduleCount = 0;		
 	}
 
 

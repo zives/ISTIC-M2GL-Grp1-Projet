@@ -1,4 +1,4 @@
-package group1.project.synthlab.unitExtensions.filterInterception;
+package group1.project.synthlab.unitExtension.filter.filterInterception;
 
 import group1.project.synthlab.exceptions.BufferTooBig;
 

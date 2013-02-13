@@ -2,12 +2,13 @@ package group1.project.synthlab.module.eg;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
+import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Tools;
-import group1.project.synthlab.unitExtensions.envelope.Envelope;
+import group1.project.synthlab.unitExtension.envelope.Envelope;
 
 import javax.swing.JFrame;
 
@@ -51,11 +52,6 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 
 	/** Le generateur d'enveloppe */
 	protected Envelope envelope;
-	
-	/** Etat du module (allume ou eteint) */
-	protected boolean isOn;
-
-	
 
 	/**
 	 * Constructeur : initialise l'EG (ports, valeurs par defaut des parametres...)
@@ -123,30 +119,6 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	 * @see group1.project.synthlab.module.IEGModule#cableDisconnected()
 	 */
 	public void cableDisconnected(IPort port) {
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IModule#start()
-	 */
-	public void start() {
-		circuit.start();
-		envelope.setEnabled(true);
-		envelope.start();
-		isOn = true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IModule#stop()
-	 */
-	public void stop() {
-		circuit.stop();
-		envelope.stop();
-		envelope.setEnabled(false);
-		isOn = false;
 	}
 
 	/*
@@ -278,13 +250,10 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 		return this.decibel;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IModule#isStarted()
-	 */
-	public boolean isStarted() {
-		return isOn;
+	
+	@Override
+	public void resetCounterInstance() {
+		EGModule.moduleCount = 0;		
 	}
 
 	// Tests fonctionnels

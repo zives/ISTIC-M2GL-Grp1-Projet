@@ -4,8 +4,8 @@ import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
-import group1.project.synthlab.unitExtensions.filterModulation.FilterFrequencyModulation;
-import group1.project.synthlab.unitExtensions.filterSupervisor.FilterAmplitude;
+import group1.project.synthlab.unitExtension.filter.filterModulation.FilterFrequencyModulation;
+import group1.project.synthlab.unitExtension.filter.filterSupervisor.FilterAmplitude;
 
 public interface IVCFModule extends IModule {
 

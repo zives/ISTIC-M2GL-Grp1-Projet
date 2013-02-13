@@ -1,7 +1,8 @@
 package group1.project.synthlab.module.vcf.hp;
 
-import com.jsyn.unitgen.FilterHighPass;
 import group1.project.synthlab.module.vcf.IVCFModule;
+
+import com.jsyn.unitgen.FilterHighPass;
 
 public interface IVCFHPModule extends IVCFModule {
 

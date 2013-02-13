@@ -1,6 +1,6 @@
-package group1.project.synthlab.unitExtensions.filterInterception;
+package group1.project.synthlab.unitExtension.filter.filterInterception;
 
-import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterAmplitudeObserver;
+import group1.project.synthlab.unitExtension.filter.filterSupervisor.IFilterAmplitudeObserver;
 
 public interface IFilterInterceptionObservable {
 	/**

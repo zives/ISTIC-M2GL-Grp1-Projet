@@ -1,7 +1,7 @@
-package group1.project.synthlab.unitExtensions.filterInterception;
+package group1.project.synthlab.unitExtension.filter.filterInterception;
 
 import group1.project.synthlab.exceptions.BufferTooBig;
-import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterAmplitudeObserver;
+import group1.project.synthlab.unitExtension.filter.filterSupervisor.IFilterAmplitudeObserver;
 import group1.project.synthlab.workspace.Workspace;
 
 import java.util.ArrayList;

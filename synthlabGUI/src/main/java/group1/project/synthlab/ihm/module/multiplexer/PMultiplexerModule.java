@@ -181,8 +181,6 @@ public class PMultiplexerModule extends PModule implements IPMultiplexerModule {
 
 		setSize(getWidth(), getHeight() - 70);
 		setPreferredSize(getSize());
-		onOffButton.setSelected(true);
-		onOffButton.setText("Off");
 		
 
 		pIn1Slider.addChangeListener(new ChangeListener() {

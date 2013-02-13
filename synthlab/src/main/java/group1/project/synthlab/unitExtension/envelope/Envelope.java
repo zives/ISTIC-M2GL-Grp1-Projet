@@ -1,4 +1,4 @@
-package group1.project.synthlab.unitExtensions.envelope;
+package group1.project.synthlab.unitExtension.envelope;
 
 import group1.project.synthlab.workspace.Workspace;
 

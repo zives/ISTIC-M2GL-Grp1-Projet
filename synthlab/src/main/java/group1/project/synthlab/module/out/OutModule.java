@@ -2,13 +2,15 @@ package group1.project.synthlab.module.out;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
+import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
-import group1.project.synthlab.unitExtensions.filterAttenuator.FilterAttenuator;
+import group1.project.synthlab.unitExtension.filter.filterAttenuator.FilterAttenuator;
 
 import javax.swing.JFrame;
+
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.scope.AudioScope;
@@ -44,7 +46,6 @@ public class OutModule extends Module implements IOutModule {
 	/* Variables internes */
 	private PassThrough passThroughLeft;
 	private PassThrough passThroughRight;
-	private boolean isOn;
 
 	/* Proprietes du module */
 	protected Distribution distribution;
@@ -60,13 +61,15 @@ public class OutModule extends Module implements IOutModule {
 		attenuatorLeft = new FilterAttenuator();
 		attenuatorRight = new FilterAttenuator();
 
-		// Ne pas ajouter LineOut au ciruit!
-		// Bugs!
 		circuit.add(attenuatorLeft);
 		circuit.add(attenuatorRight);
+		circuit.add(lineOut);
 
 		passThroughLeft = new PassThrough();
 		passThroughRight = new PassThrough();
+		
+		circuit.add(passThroughLeft);
+		circuit.add(passThroughRight);
 
 		setDistribution(Distribution.NORMAL);
 		attenuationDB = 0;
@@ -81,8 +84,6 @@ public class OutModule extends Module implements IOutModule {
 
 		attenuatorLeft.output.connect(passThroughLeft.input);
 		attenuatorRight.output.connect(passThroughRight.input);
-
-		isOn = false;
 
 	}
 
@@ -186,43 +187,18 @@ public class OutModule extends Module implements IOutModule {
 		return distribution;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IModule#start()
-	 */
-	public void start() {
-		circuit.start();
-		lineOut.setSynthesisEngine(circuit.getSynthesisEngine());
-		lineOut.start();
-		isOn = true;
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IModule#stop()
-	 */
-	public void stop() {
-		lineOut.stop();
-		circuit.stop();
-		isOn = false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IModule#isStarted()
-	 */
-	public boolean isStarted() {
-		return isOn;
-	}
 
 	public void cableConnected(IPort port) {
 	}
 
 	public void cableDisconnected(IPort port) {
 
+	}
+	
+	@Override
+	public void resetCounterInstance() {
+		OutModule.moduleCount = 0;		
 	}
 
 	// Test fonctionnel

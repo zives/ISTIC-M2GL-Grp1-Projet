@@ -2,11 +2,12 @@ package group1.project.synthlab.module.multiplexer;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
+import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Tools;
-import group1.project.synthlab.unitExtensions.filterAttenuator.FilterAttenuator;
+import group1.project.synthlab.unitExtension.filter.filterAttenuator.FilterAttenuator;
 
 import com.jsyn.unitgen.PassThrough;
 
@@ -33,8 +34,6 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 
 	/* Variables internes */
 	private PassThrough passThrough;
-	private boolean isOn;
-
 	/**
 	 * Initialise le circuit (attenuateur, port, ...)
 	 */
@@ -55,9 +54,8 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 					"out port " + String.valueOf(i + 1), passThrough.output, this);
 
 			attenuators[i].output.connect(passThrough.input);
+			circuit.add(attenuators[i]);
 		}
-
-		isOn = true;
 
 	}
 
@@ -92,34 +90,6 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 		return inPorts;
 	}
 
-	public void start() {
-		circuit.start();
-		passThrough.start();
-		passThrough.setEnabled(true);
-		isOn = true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IModule#stop()
-	 */
-	public void stop() {
-		circuit.stop();
-		passThrough.stop();
-		passThrough.setEnabled(false);
-		isOn = false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IModule#isStarted()
-	 */
-	public boolean isStarted() {
-		return isOn;
-	}
-
 	public void cableConnected(IPort port) {
 	}
 
@@ -132,6 +102,11 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 		if (port > attenuators.length)
 			return;
 		attenuators[port].setAttenuation(Tools.dBToV(db) - 1);		
+	}
+	
+	@Override
+	public void resetCounterInstance() {
+		MultiplexerModule.moduleCount = 0;		
 	}
 
 }

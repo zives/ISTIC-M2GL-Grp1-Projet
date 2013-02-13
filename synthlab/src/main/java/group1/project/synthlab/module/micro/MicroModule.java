@@ -2,13 +2,15 @@ package group1.project.synthlab.module.micro;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
+import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
-import group1.project.synthlab.unitExtensions.filterAttenuator.FilterAttenuator;
+import group1.project.synthlab.unitExtension.filter.filterAttenuator.FilterAttenuator;
 
 import javax.swing.JFrame;
+
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.scope.AudioScope;
@@ -35,9 +37,6 @@ public class MicroModule extends Module implements IMicroModule {
 	/* Defintion des ports */
 	protected IOutPort outPort;
 
-	/* Variables internes */
-	private boolean isOn;
-
 	/* Proprietes du module */
 	protected double attenuationDB;
 
@@ -52,13 +51,13 @@ public class MicroModule extends Module implements IMicroModule {
 		// Ne pas ajouter LineOut au ciruit!
 		// Bugs!
 		circuit.add(attenuator);
+		circuit.add(lineIn);
 		attenuationDB = 0;
 
 		outPort = factory.createOutPort("out", attenuator.output, this);
 
 		attenuator.input.connect(lineIn.output);
 		lineIn.setEnabled(false);
-		isOn = false;
 
 	}
 
@@ -111,45 +110,16 @@ public class MicroModule extends Module implements IMicroModule {
 		return lineIn;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IModule#start()
-	 */
-	public void start() {
-		circuit.start();
-		lineIn.setSynthesisEngine(circuit.getSynthesisEngine());
-		lineIn.start();
-		lineIn.setEnabled(true);
-		isOn = true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IModule#stop()
-	 */
-	public void stop() {
-		lineIn.stop();
-		lineIn.setEnabled(false);
-		circuit.stop();
-		isOn = false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IModule#isStarted()
-	 */
-	public boolean isStarted() {
-		return isOn;
-	}
-
 	public void cableConnected(IPort port) {
 	}
 
 	public void cableDisconnected(IPort port) {
 
+	}
+	
+	@Override
+	public void resetCounterInstance() {
+		MicroModule.moduleCount = 0;		
 	}
 
 	public static void main(String[] args) {

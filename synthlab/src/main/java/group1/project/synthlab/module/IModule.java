@@ -31,6 +31,16 @@ public interface IModule extends IPortObserver {
 	public String getName();
 	
 	/**
+	 * @return change le nom du module
+	 */
+	public void setName(String name);
+	
+	/**
+	 * @return remet le compteur d'instances de classe à 0
+	 */
+	public void resetCounterInstance();
+	
+	/**
 	 * @return le circuit JSyn interne au module
 	 */
 	public Circuit getCircuit(); 
@@ -46,9 +56,6 @@ public interface IModule extends IPortObserver {
 	public void setFactory(Factory factory);
 	
 
-	
-
-	
 	/**
 	 * Detruit les dependences du module
 	 */

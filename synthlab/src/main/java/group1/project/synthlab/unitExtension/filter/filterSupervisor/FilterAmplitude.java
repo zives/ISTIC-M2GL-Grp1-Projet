@@ -1,9 +1,11 @@
-package group1.project.synthlab.unitExtensions.filterSupervisor;
+package group1.project.synthlab.unitExtension.filter.filterSupervisor;
 
 import group1.project.synthlab.signal.Signal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.jsyn.unitgen.UnitFilter;
 
@@ -21,7 +23,8 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 	protected boolean truncate; //Defini s'il font tronquer l'amplitude sature a  amax
 	protected int countNoSignal; //Nombre de fois ou le signal etait null
 	protected final int MAX_COUNT_NO_SIGNAL = 100; //Nombre maximum de fois ou on autorise un signal null avant d'avertir les observers
-	protected boolean hasSignal;
+	protected boolean hasSignal = false;
+	
 	
 	public FilterAmplitude (double maxvolt, boolean truncate){
 		this.amax = maxvolt / Signal.AMAX;
@@ -30,10 +33,12 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 		this.previousHasSignalWarned = false;
 		this.truncate = false;
 		this.countNoSignal = 0;
+	
 	}
 	
 	@Override
 	public void generate(int start, int limit) {
+
 		double[] inputs = input.getValues();
 		double[] outputs = output.getValues();
 
@@ -85,6 +90,7 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 			updateHasSignalAll(true);
 			previousHasSignalWarned = true;
 		}
+		
 	}
 	
 	public boolean hasSignal() {

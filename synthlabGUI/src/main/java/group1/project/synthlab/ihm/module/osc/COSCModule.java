@@ -93,13 +93,12 @@ protected int cmptPaint = 0;
 	}
 
 	@Override
-	public List<Double> getValuesToDraw() {
+	public List<Double> getValuesToDrawAndEraseIts() {
 		return valuesToDraw;
 	}
 	
 	@Override
 	public String saveConfiguration() {
-		// TODO Auto-generated method stub
 		return "";
 	}
 

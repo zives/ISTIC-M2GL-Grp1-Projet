@@ -1,4 +1,4 @@
-package group1.project.synthlab.unitExtensions.filterSupervisor;
+package group1.project.synthlab.unitExtension.filter.filterSupervisor;
 
 import com.jsyn.unitgen.UnitFilter;
 

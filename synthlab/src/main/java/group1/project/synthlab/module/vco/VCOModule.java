@@ -7,8 +7,8 @@ import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
-import group1.project.synthlab.unitExtensions.filterModulation.FilterFrequencyModulation;
-import group1.project.synthlab.unitExtensions.filterSupervisor.FilterAmplitude;
+import group1.project.synthlab.unitExtension.filter.filterModulation.FilterFrequencyModulation;
+import group1.project.synthlab.unitExtension.filter.filterSupervisor.FilterAmplitude;
 
 import javax.swing.JFrame;
 
@@ -97,9 +97,6 @@ public class VCOModule extends Module implements IVCOModule {
 	/** Reglage fin de la frequence de base : double entre 0 et 10 */
 	protected double fineAdjustment;
 
-	/** Etat du module (allume ou eteint) */
-	protected boolean isOn;
-
 	/**
 	 * Constructeur : initialise le VCO (, port, ...)
 	 */
@@ -116,6 +113,7 @@ public class VCOModule extends Module implements IVCOModule {
 		circuit.add(squareOsc);
 		circuit.add(triangleOsc);
 		circuit.add(sawToothOsc);
+		
 
 		// Filtre d'amplitude
 		filterAmplitude = new FilterAmplitude(Signal.AMAXMODULATION, true);
@@ -132,7 +130,7 @@ public class VCOModule extends Module implements IVCOModule {
 		// On doit multiplier Vfm par 5 car JSyn considere des amplitudes entre
 		// -1 et 1, et nous considerons des tensions entre -5V et +5V)
 		passThrough = new PassThrough();
-
+		circuit.add(passThrough);
 		passThrough.input.connect(filterFrequencyModulation.output);
 		
 		// Port d'entree :
@@ -256,12 +254,11 @@ public class VCOModule extends Module implements IVCOModule {
 	 * @see group1.project.synthlab.module.IModule#start()
 	 */
 	public void start() {
-		// circuit.start();
+		super.start();
 		sineOsc.amplitude.set(a0);
 		squareOsc.amplitude.set(a0);
 		triangleOsc.amplitude.set(a0);
 		sawToothOsc.amplitude.set(a0);
-		isOn = true;
 	}
 
 	/*
@@ -270,7 +267,7 @@ public class VCOModule extends Module implements IVCOModule {
 	 * @see group1.project.synthlab.module.IModule#stop()
 	 */
 	public void stop() {
-		circuit.stop();
+		super.stop();
 		reset();
 	}
 
@@ -282,7 +279,6 @@ public class VCOModule extends Module implements IVCOModule {
 		squareOsc.amplitude.set(amin);
 		triangleOsc.amplitude.set(amin);
 		sawToothOsc.amplitude.set(amin);
-		isOn = false;
 	}
 
 	/*
@@ -445,13 +441,10 @@ public class VCOModule extends Module implements IVCOModule {
 		changeFrequency();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see group1.project.synthlab.module.IModule#isStarted()
-	 */
-	public boolean isStarted() {
-		return isOn;
+	
+	@Override
+	public void resetCounterInstance() {
+		VCOModule.moduleCount = 0;		
 	}
 
 	// Tests fonctionnels
@@ -576,5 +569,7 @@ public class VCOModule extends Module implements IVCOModule {
 		vco.setFineAdjustment(0);
 		vco.changeFrequency();
 	}
+
+	
 
 }

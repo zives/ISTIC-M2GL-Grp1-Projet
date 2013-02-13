@@ -2,7 +2,7 @@ package group1.project.synthlab.ihm.module.vcf.lp;
 
 import group1.project.synthlab.ihm.module.vcf.hp.PVCFHPModule;
 import group1.project.synthlab.ihm.tools.PTools;
-import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterAmplitudeObservable;
+import group1.project.synthlab.unitExtension.filter.filterSupervisor.IFilterAmplitudeObservable;
 
 import java.awt.Color;
 import java.awt.Font;

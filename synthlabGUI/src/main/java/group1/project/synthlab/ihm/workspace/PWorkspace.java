@@ -19,6 +19,7 @@ import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -36,6 +37,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JViewport;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -141,21 +143,30 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		
 		//Workspace
 		clear = new JMenuItem("Tout effacer");
+		clear.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,InputEvent.CTRL_MASK));
 		workspaceMenu.add(clear);	
+	
 		allOn = new JMenuItem("Tout demarrer");
+		allOn.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,InputEvent.CTRL_MASK));
 		workspaceMenu.add(allOn);
+		
 		allOff = new JMenuItem("Tout arreter");
+		allOff.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W,InputEvent.CTRL_MASK));
 		workspaceMenu.add(allOff);
 
 		//bouton sauvegarde pour la configuration
-		save = new JMenuItem("Sauvegarder configuration");		
+		save = new JMenuItem("Sauver");	
+		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
 		fichierMenu.add(save);
 		//bouton charger
-		load = new JMenuItem("Charger configuration");	
+		load = new JMenuItem("Charger");	
+		load.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
 		fichierMenu.add(load);		
-		quit = new JMenuItem("Quitter l'application");
 		
+		quit = new JMenuItem("Quitter");
+		quit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));		
 		fichierMenu.add(quit);
+		
 		setJMenuBar(menuBar);
 		menuBar.add(fichierMenu);
 		menuBar.add(workspaceMenu);

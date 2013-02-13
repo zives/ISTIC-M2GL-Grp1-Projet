@@ -140,7 +140,7 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 
 	@Override
 	public void loadConfiguration() {
-
+		 clearAll();
 //		// on demande le fichier à l'utilisateur
 //		File f = presentation.askFileChooser();
 //		if (f != null) {
@@ -468,8 +468,10 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 
 	@Override
 	public void clearAll() {
-		for (IModule module : modules)
-			removeModule(module);
+		for (IModule module : modules) {
+			module.resetCounterInstance();
+			removeModule(module);			
+		}
 	}
 
 	@Override

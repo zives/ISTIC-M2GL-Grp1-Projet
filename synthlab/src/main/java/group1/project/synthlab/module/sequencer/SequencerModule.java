@@ -1,11 +1,5 @@
 package group1.project.synthlab.module.sequencer;
 
-import com.jsyn.JSyn;
-import com.jsyn.Synthesizer;
-import com.jsyn.scope.AudioScope;
-import com.jsyn.unitgen.Multiply;
-import com.jsyn.unitgen.SineOscillator;
-import com.jsyn.unitgen.SquareOscillator;
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
 import group1.project.synthlab.port.IPort;
@@ -14,10 +8,14 @@ import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
-import group1.project.synthlab.unitExtensions.filterSupervisor.FilterASupprimer;
-import group1.project.synthlab.unitExtensions.filterSupervisor.FilterRisingEdge;
-import group1.project.synthlab.unitExtensions.filterSupervisor.IFilterObserver;
-import group1.project.synthlab.workspace.Workspace;
+import group1.project.synthlab.unitExtension.filter.filterSupervisor.FilterRisingEdge;
+import group1.project.synthlab.unitExtension.filter.filterSupervisor.IFilterObserver;
+import group1.project.synthlab.unitExtension.producer.SimpleProducer;
+
+import com.jsyn.JSyn;
+import com.jsyn.Synthesizer;
+import com.jsyn.unitgen.Multiply;
+import com.jsyn.unitgen.SineOscillator;
 
 /**
  * Module Sequenceur
@@ -28,10 +26,8 @@ import group1.project.synthlab.workspace.Workspace;
 public class SequencerModule extends Module implements IPortObserver, ISequencerModule, IFilterObserver {
 	
 	protected static int moduleCount = 0;
-
-	protected AudioScope scope;
 	
-	protected SquareOscillator osc;
+	protected SimpleProducer producer;
 	
 	/** Le pas courant */
 	protected int currentStep;
@@ -47,9 +43,6 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	
 	/** Port de sortie out */
 	protected IOutPort out;
-
-	/** Etat du module (allume ou eteint) */
-	protected boolean isOn;
 	
 	/** Reglage des niveaux pour chaque pas */
 	private double[] steps = new double[8];
@@ -59,8 +52,6 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		
 		filterRisingEdge = new FilterRisingEdge();
 		filterRisingEdge.register(this);
-		scope = new AudioScope(Workspace.getInstance().getSynthetizer());
-		scope.addProbe(filterRisingEdge.output);
 		circuit.add(filterRisingEdge);
 		
 		steps[0] = 0;
@@ -75,11 +66,10 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		multiply = new Multiply();
 		circuit.add(multiply);
 		
-		osc = new SquareOscillator();
-		osc.frequency.set(0);
-		osc.amplitude.set(1.0 / Signal.AMAX);
-		osc.output.connect(multiply.inputB);
-		circuit.add(osc);
+		producer = new SimpleProducer();
+		producer.input.set(1.0 / Signal.AMAX);
+		producer.output.connect(multiply.inputB);
+		circuit.add(producer);
 		
 		currentStep = 1;
 		
@@ -88,8 +78,6 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		
 		// Port de sortie
 		out = factory.createOutPort("out", multiply.output, this);
-		
-		isOn = false;
 	}
 
 	/* (non-Javadoc)
@@ -125,24 +113,8 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		else
 			currentStep++;
 		multiply.inputA.set(steps[currentStep-1]);
-		System.out.println("currentStep = " + currentStep + ", value = "+steps[currentStep-1]);
 	}
 	
-	/* (non-Javadoc)
-	 * @see group1.project.synthlab.module.IModule#start()
-	 */
-	public void start() {
-		scope.start();
-		isOn = true;
-	}
-
-	/* (non-Javadoc)
-	 * @see group1.project.synthlab.module.IModule#stop()
-	 */
-	public void stop() {
-		scope.stop();
-		isOn = false;
-	}
 	
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.module.ISequencerModule#getCurrentStep()
@@ -171,14 +143,6 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	public IOutPort getOut() {
 		return out;
 	}
-
-	/* (non-Javadoc)
-	 * @see group1.project.synthlab.module.IModule#isStarted()
-	 */
-	public boolean isStarted() {
-		return isOn;
-	}
-
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.module.IModule#destruct()
 	 */
@@ -194,13 +158,18 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	 */
 	public void cableConnected(IPort port) {
 		if(port == gate)
-			System.out.println("Cable connecté dans l'entrée gate, isOn = "+isOn+", input = "+filterRisingEdge.input.get());
+			System.out.println("Cable connecté dans l'entrée gate");
 	}
 
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.module.ISequencerModule#cableDisonnected()
 	 */
 	public void cableDisconnected(IPort port) {
+	}
+	
+	@Override
+	public void resetCounterInstance() {
+		SequencerModule.moduleCount = 0;		
 	}
 	
 	public static void main(String[] args){
@@ -232,10 +201,6 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		oscGate.start();
 		oscGate.output.connect(sequencer.gate.getJSynPort());
 
-		FilterASupprimer filterASupprimer = new FilterASupprimer();
-		sequencer.out.getJSynPort().connect(filterASupprimer.input);
-		synth.add(filterASupprimer);
-		filterASupprimer.start();
 		synth.start();
 		
 		Tools.wait(synth, 30);
