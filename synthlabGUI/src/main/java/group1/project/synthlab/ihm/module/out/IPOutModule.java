@@ -14,5 +14,7 @@ public interface IPOutModule extends IPModule {
 
 	public Point getLocation();
 
+	public void updateLocation(double x, double y);
+
 	
 }

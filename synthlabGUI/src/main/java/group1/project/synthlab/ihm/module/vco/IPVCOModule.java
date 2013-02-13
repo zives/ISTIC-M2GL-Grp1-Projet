@@ -13,4 +13,6 @@ public interface IPVCOModule extends IPModule,  IFilterAmplitudeObserver {
 	public void updateFineAdjustment(double fineAdjustment);
 	
 	public Point getLocation();
+
+	public void updateLocation(double x, double y);
 }

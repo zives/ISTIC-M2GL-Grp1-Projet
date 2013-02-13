@@ -21,6 +21,7 @@ public class PVCAModule extends PModule implements IPVCAModule {
 
 	protected ICVCAModule controller;
 	protected JSlider gainSlider;
+	protected final JLabel gainLabel ;
 
 
 	public PVCAModule(final ICVCAModule controller) {
@@ -42,7 +43,7 @@ public class PVCAModule extends PModule implements IPVCAModule {
 		pportOut.setLocation(pportIn.getX() + 120, pportIn.getY());
 
 		// Label gain
-		final JLabel gainLabel = new JLabel(controller.geta0() + " dB");
+		gainLabel = new JLabel(controller.geta0() + " dB");
 		gainLabel.setForeground(Color.LIGHT_GRAY);
 		gainLabel.setOpaque(false);
 		gainLabel.setSize(150, 20);
@@ -130,6 +131,21 @@ public class PVCAModule extends PModule implements IPVCAModule {
 	public void setSlidersEnabled(boolean value) {
 		// TODO Auto-generated method stub
 		gainSlider.setEnabled(value);
+	}
+
+
+	@Override
+	public void updateLocation(double x, double y) {
+		// TODO Auto-generated method stub
+		this.setLocation((int)x, (int)y);
+	}
+
+
+	@Override
+	public void updateGainSlider() {
+		// TODO Auto-generated method stub
+		this.gainSlider.setValue((int) controller.geta0() * 10);
+		gainLabel.setText(Math.round(controller.geta0() * 10) / 10.0 + " dB");
 	}
 
 }

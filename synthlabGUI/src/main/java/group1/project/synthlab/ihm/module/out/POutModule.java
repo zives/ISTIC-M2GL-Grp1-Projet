@@ -183,5 +183,11 @@ public class POutModule extends PModule implements IPOutModule {
 		}
 	}
 
+	@Override
+	public void updateLocation(double x, double y) {
+		// TODO Auto-generated method stub
+		this.setLocation((int)x,(int) y);
+	}
+
 
 }

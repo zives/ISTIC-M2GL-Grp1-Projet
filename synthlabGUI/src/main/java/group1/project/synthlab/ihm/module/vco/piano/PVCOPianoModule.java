@@ -40,6 +40,7 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 	protected Rectangle2D overflownButton;
 	protected boolean selectedButtonIsSharp;
 	protected boolean interact;
+	protected final JSlider octaveSlider ;
 
 	public PVCOPianoModule(final ICVCOPianoModule controller) {
 		super(controller);
@@ -86,7 +87,7 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 		pportSinalOn.setLocation(getWidth() - pportSinalOn.getWidth() - 10, 245);
 
 		// Sliders
-		final JSlider octaveSlider = new JSlider();
+		octaveSlider = new JSlider();
 		octaveSlider.setMaximum(3);
 		octaveSlider.setMinimum(1);
 		octaveSlider.setOrientation(JSlider.HORIZONTAL);
@@ -377,5 +378,16 @@ public class PVCOPianoModule extends PModule implements IPVCOPianoModule {
 		
 	}
 
+	@Override
+	public void updateSliderOctave(int position) {
+		// TODO Auto-generated method stub
+		this.octaveSlider.setValue(position);
+	}
 
+
+	@Override
+	public void updateLocation(double x, double y) {
+		// TODO Auto-generated method stub
+		this.setLocation((int)x, (int)y);
+	}
 }

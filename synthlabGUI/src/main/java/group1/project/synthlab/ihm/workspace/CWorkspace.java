@@ -18,11 +18,14 @@ import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.ihm.cable.ICCable;
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.module.ICModule;
+import group1.project.synthlab.ihm.module.eg.CEGModule;
 import group1.project.synthlab.ihm.module.out.COutModule;
+import group1.project.synthlab.ihm.module.vca.CVCAModule;
 import group1.project.synthlab.ihm.module.vco.CVCOModule;
 import group1.project.synthlab.ihm.module.vco.piano.CVCOPianoModule;
 import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.module.out.OutModule;
+import group1.project.synthlab.module.vca.VCAModule;
 import group1.project.synthlab.workspace.Workspace;
 
 public class CWorkspace extends Workspace implements ICWorkspace {
@@ -172,12 +175,14 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 			modules.clear();
 			COutModule.resetModuleCount();
 			CVCOModule.resetModuleCount();
+			
 			parcourirTous();
 		}
 	}
 	
 	//variables pour le chargement
 	private Node configuration;
+	private double tmp_x,tmp_y;
 	
 	public void parcourirTous(){
 		NodeList listModules = configuration.getChildNodes();
@@ -186,33 +191,88 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 			if(node.getNodeName().equals("OutModule")){
 				COutModule com = parcourirOutModule(node);
 				addModule(com);
+				com.updateLocation(tmp_x,tmp_y);
 			}
 			else if(node.getNodeName().equals("VCOModule")){
 				CVCOModule com = parcourirVCOModule(node);
 				addModule(com);
+				com.updateLocation(tmp_x,tmp_y);
 			}else if(node.getNodeName().equals("VCOPianoModule")){
 				CVCOPianoModule com = parcourirVCOPianoModule(node);
 				addModule(com);
+				com.updateLocation(tmp_x,tmp_y);
+			}else if(node.getNodeName().equals("EGModule")){
+				CEGModule com = parcourirEGModule(node);
+				addModule(com);
+				com.updateLocation(tmp_x,tmp_y);
+			}else if(node.getNodeName().equals("VCAModule")){
+				CVCAModule com = parcourirVCAModule(node);
+				addModule(com);
+				com.updateLocation(tmp_x,tmp_y);
 			}
 		}
 	}
 	
+	private CVCAModule parcourirVCAModule(Node node) {
+		// TODO Auto-generated method stub
+		CVCAModule cvca = (CVCAModule) factory.createVCAModule();
+		NodeList l = node.getChildNodes();
+		for(int i = 0;i<l.getLength();i++){
+			if(l.item(i).getNodeName().equals("A0")){
+				cvca.updateA0(Double.parseDouble(l.item(i).getFirstChild().getNodeValue()));
+			}else if(l.item(i).getNodeName().equals("Location")){
+				Element e = (Element) l.item(i);
+				double x = Double.parseDouble(e.getAttribute("x"));
+				double y = Double.parseDouble(e.getAttribute("y"));
+				cvca.updateLocation(x,y);
+				this.tmp_x = x;
+				this.tmp_y = y;
+			}
+		}
+		return cvca;
+	}
+
+	private CEGModule parcourirEGModule(Node node) {
+		// TODO Auto-generated method stub
+		CEGModule ceg = (CEGModule) factory.createEGModule();
+		NodeList l = node.getChildNodes();
+		for(int i = 0;i<l.getLength();i++){
+			if(l.item(i).getNodeName().equals("Attack")){
+				ceg.updateAttack(Double.parseDouble(l.item(i).getFirstChild().getNodeValue()));
+			}else if(l.item(i).getNodeName().equals("Decay")){
+				ceg.updateDecay(Double.parseDouble(l.item(i).getFirstChild().getNodeValue()));
+			}else if(l.item(i).getNodeName().equals("Release")){
+				ceg.updateRelease(Double.parseDouble(l.item(i).getFirstChild().getNodeValue()));
+			}else if(l.item(i).getNodeName().equals("Hold")){
+				ceg.updateHold(Double.parseDouble(l.item(i).getFirstChild().getNodeValue()));
+			}else if(l.item(i).getNodeName().equals("Decibel")){
+				ceg.updateDecibel(Double.parseDouble(l.item(i).getFirstChild().getNodeValue()));
+			}else if(l.item(i).getNodeName().equals("Location")){
+				Element e = (Element) l.item(i);
+				double x = Double.parseDouble(e.getAttribute("x"));
+				double y = Double.parseDouble(e.getAttribute("y"));
+				ceg.updateLocation(x,y);
+				this.tmp_x = x;
+				this.tmp_y = y;
+			}
+		}
+		return ceg;
+	}
+
 	private CVCOPianoModule parcourirVCOPianoModule(Node node) {
 		// TODO Auto-generated method stub
 		CVCOPianoModule cvcop = (CVCOPianoModule) factory.createVCOPianoModule();
 		NodeList l = node.getChildNodes();
 		for(int i = 0;i<l.getLength();i++){
-			if(l.item(i).getNodeName().equals("CoarseAdjustment")){
-				//cvco.updateCoarseAdjustment(Integer.parseInt(l.item(i).getFirstChild().getNodeValue()));
-			}
-			else if(l.item(i).getNodeName().equals("FineAdjustment")){
-					//System.out.println("db="+l.item(i).getFirstChild().getNodeValue());
-					Double d = Double.parseDouble(l.item(i).getFirstChild().getNodeValue());
-				//	cvco.updateFineAdjustment(d);
+			if(l.item(i).getNodeName().equals("OctaveStart")){
+				cvcop.updateOctaveStart(Integer.parseInt(l.item(i).getFirstChild().getNodeValue()));
 			}else if(l.item(i).getNodeName().equals("Location")){
 				Element e = (Element) l.item(i);
 				double x = Double.parseDouble(e.getAttribute("x"));
 				double y = Double.parseDouble(e.getAttribute("y"));
+				cvcop.updateLocation(x,y);
+				this.tmp_x = x;
+				this.tmp_y = y;
 			}
 		}
 		return cvcop;
@@ -234,6 +294,9 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 				Element e = (Element) l.item(i);
 				double x = Double.parseDouble(e.getAttribute("x"));
 				double y = Double.parseDouble(e.getAttribute("y"));
+				cvco.updateLocation(x,y);
+				this.tmp_x = x;
+				this.tmp_y = y;
 			}
 		}
 		return cvco;
@@ -263,6 +326,9 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 				Element e = (Element) l.item(i);
 				double x = Double.parseDouble(e.getAttribute("x"));
 				double y = Double.parseDouble(e.getAttribute("y"));
+				com.updateLocation(x,y);
+				this.tmp_x = x;
+				this.tmp_y = y;
 			}
 		}
 		return com;

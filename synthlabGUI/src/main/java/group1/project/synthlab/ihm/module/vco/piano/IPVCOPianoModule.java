@@ -7,4 +7,6 @@ import group1.project.synthlab.ihm.module.vco.IPVCOModule;
 
 public interface IPVCOPianoModule extends IPVCOModule {
 	public void mouseEvent(MouseEvent me);
+
+	public void updateSliderOctave(int position);
 }

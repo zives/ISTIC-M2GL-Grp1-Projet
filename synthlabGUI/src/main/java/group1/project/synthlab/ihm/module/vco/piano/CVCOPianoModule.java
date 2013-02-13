@@ -70,11 +70,34 @@ public class CVCOPianoModule extends VCOPianoModule implements ICVCOPianoModule 
 	public String saveConfiguration() {
 		// TODO Auto-generated method stub
 		String save = "<VCOPianoModule>\n";
-		save+="<OcatveStart>"+this.octaveStart+"</OcatveStart>\n";
+		save+="<OctaveStart>"+this.octaveStart+"</OctaveStart>\n";
 		save+="<Location x=\""+presentation.getLocation().getX()+
 				"\" y=\""+presentation.getLocation().getY()+"\" />\n";
 		save+="</VCOPianoModule>\n";
 		return save;
+	}
+	
+	@Override
+	public int getOctaveStart(){
+		return octaveStart;
+	}
+
+	public void updateOctaveStart(int parseInt) {
+		// TODO Auto-generated method stub
+		changeoctave(parseInt);
+		int position = 1 ;
+		if(octaveStart == 4){
+			position = 3;
+		}
+		else if(octaveStart == 2){
+			position = 2;
+		}
+		presentation.updateSliderOctave(position);
+	}
+	
+	public void updateLocation(double x, double y) {
+		// TODO Auto-generated method stub
+		presentation.updateLocation(x,y);
 	}
 
 

@@ -64,4 +64,9 @@ public class COutModule extends OutModule implements ICOutModule {
 		presentation.updateDistribution();
 
 	}
+
+	public void updateLocation(double x, double y) {
+		// TODO Auto-generated method stub
+		presentation.updateLocation(x,y);
+	}
 }

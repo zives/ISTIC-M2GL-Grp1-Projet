@@ -243,6 +243,14 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		freqLabel.setText(PTools.freqToString(controller.getf0()) + " Hz");
 		textFreq.setText(PTools.freqToString(controller.getf0()));
 	}
+
+
+
+	@Override
+	public void updateLocation(double x, double y) {
+		// TODO Auto-generated method stub
+		this.setLocation((int)x, (int)y);
+	}
 	
 
 

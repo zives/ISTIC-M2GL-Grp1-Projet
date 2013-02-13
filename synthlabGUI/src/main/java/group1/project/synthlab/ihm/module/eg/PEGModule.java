@@ -433,5 +433,40 @@ public class PEGModule extends PModule implements IPEGModule {
 		
 	}
 
+	@Override
+	public void updateLocation(double x, double y) {
+		// TODO Auto-generated method stub
+		this.setLocation((int)x, (int)y);
+	}
 
+	@Override
+	public void updateAttackSlider(double attack) {
+		// TODO Auto-generated method stub
+		attackSlider.setValue((int) (attack * 10));
+	}
+
+	@Override
+	public void updateDecaySlider(double decay) {
+		// TODO Auto-generated method stub
+		decaySlider.setValue((int) (decay * 10));
+	}
+
+
+	@Override
+	public void updateReleaseSlider(double release) {
+		// TODO Auto-generated method stub
+		releaseSlider.setValue((int) (release * 10));
+	}
+	
+	@Override
+	public void updateHoldSlider(double hold) {
+		// TODO Auto-generated method stub
+		holdSlider.setValue((int) (hold * 10));
+	}
+	
+	@Override
+	public void updateSustainSlider(double sustain) {
+		// TODO Auto-generated method stub
+		sustainSlider.setValue((int) (sustain * 10));
+	}
 }

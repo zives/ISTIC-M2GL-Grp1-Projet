@@ -60,6 +60,11 @@ public class CVCOModule extends VCOModule implements ICVCOModule {
 		// TODO Auto-generated method stub
 		moduleCount = 0;
 	}
+
+	public void updateLocation(double x, double y) {
+		// TODO Auto-generated method stub
+		presentation.updateLocation(x,y);
+	}
 	
 	
 }

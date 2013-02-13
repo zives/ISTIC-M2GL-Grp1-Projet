@@ -7,4 +7,6 @@ public interface ICVCOPianoModule extends IVCOPianoModule, ICVCOModule {
 	public void play(int note, int octatve, boolean sharp);
 	public void stopPlay();
 	public void changeoctave(int value);
+	public int getOctaveStart();
+	
 }
