@@ -44,7 +44,7 @@ import com.jtattoo.plaf.smart.SmartLookAndFeel;
 public class PWorkspace extends JFrame implements IPWorkspace {
 
 	protected JMenuBar menuBar;
-	protected JMenu fichier;
+	protected JMenu fichierMenu;
 	protected JMenuItem quit;
 	protected JMenuItem save;
 	protected JMenuItem load;
@@ -70,6 +70,8 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	protected JButton eqButton;
 	protected JButton oscButton;
 	protected JButton sequencerButton;
+	protected JMenu workspaceMenu;
+	protected JMenuItem clear;
 
 	public PWorkspace(ICWorkspace controller) {
 		super("Synthetiseur");
@@ -130,22 +132,26 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	public void initialize() {
 
 		menuBar = new JMenuBar();
-		fichier = new JMenu("Fichier");
+		fichierMenu = new JMenu("Fichier");
+		workspaceMenu = new JMenu("Workspace");
+		
+		//Workspace
+		clear = new JMenuItem("Tout effacer");
+		workspaceMenu.add(clear);	
 
 		//bouton sauvegarde pour la configuration
-		save = new JMenuItem("sauvegarder configuration");
-		
-		fichier.add(save);
+		save = new JMenuItem("Sauvegarder configuration");		
+		fichierMenu.add(save);
 		//bouton charger
-		load = new JMenuItem("charger configuration");
-		
-		fichier.add(load);
-		
+		load = new JMenuItem("Charger configuration");	
+		fichierMenu.add(load);		
 		quit = new JMenuItem("Quitter l'application");
-
+		
+		fichierMenu.add(quit);
 		setJMenuBar(menuBar);
-		menuBar.add(fichier);
-		fichier.add(quit);
+		menuBar.add(fichierMenu);
+		menuBar.add(workspaceMenu);
+		
 
 		toolBar = new JPanel();
 		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -505,6 +511,11 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		load.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.loadConfiguration();
+			}
+		});
+		clear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.clearAll();
 			}
 		});
 	}

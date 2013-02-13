@@ -79,6 +79,10 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 
 	@Override
 	public void removeModule(IModule module) {
+		if (isDrawingCable()) {
+			removeCable(getDrawingCable());
+			setDrawingCable(null);
+		}
 		presentation.removeModule(((ICModule) module).getPresentation());
 		super.removeModule(module);		
 	}
@@ -365,6 +369,17 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		addModule(factory.createOSCModule());
 		
 	}
+	
+	@Override
+	public void addOneVCFLPModule() {
+		addModule(factory.createVCFLPModule());
+		
+	}
+	
+	@Override
+	public void addOneVCFHPModule() {
+		addModule(factory.createVCFHPModule());		
+	}
 
 	@Override
 	public void quitApp() {
@@ -373,15 +388,14 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 	}
 
 	@Override
-	public void addOneVCFLPModule() {
-		addModule(factory.createVCFLPModule());
-		
+	public void clearAll() {
+		for (IModule module: modules)
+			removeModule(module);
 	}
 
-	@Override
-	public void addOneVCFHPModule() {
-		addModule(factory.createVCFHPModule());		
-	}
+	
+
+	
 
 	
 //	public void saveReflexion(String filename){

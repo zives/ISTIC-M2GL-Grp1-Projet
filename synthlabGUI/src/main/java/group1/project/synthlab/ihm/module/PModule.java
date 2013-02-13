@@ -103,12 +103,7 @@ public abstract class PModule extends JPanel implements IPModule {
 
 		removeButton.addActionListener(new ActionListener() {
 
-			public void actionPerformed(ActionEvent ev) {
-				if (CWorkspace.getInstance().isDrawingCable()) {
-					ICWorkspace ws =  CWorkspace.getInstance();
-					ws.removeCable(ws.getDrawingCable());
-					ws.setDrawingCable(null);
-				}
+			public void actionPerformed(ActionEvent ev) {			
 				CWorkspace.getInstance().removeModule(controller);
 			}
 		});
