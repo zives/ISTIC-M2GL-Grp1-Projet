@@ -159,25 +159,12 @@ public class POutModule extends PModule implements IPOutModule {
 
 
 
-	@Override
-<<<<<<< HEAD
-	public void updateLocation(double x, double y) {
-		// TODO Auto-generated method stub
-		this.setLocation((int)x,(int) y);
-	}
+
 
 	@Override
 	public void updatePresentation() {
 		// TODO Auto-generated method stub
 		attenuatorSlider.setValue((int) (controller.getAttenuation()*10));
-=======
-	public void updateSlider() {
-		attenuatorSlider.setValue((int) controller.getAttenuation()*10);
-	}
-
-	@Override
-	public void updateDistribution(){
->>>>>>> 3413653a1cd8c04c66646c875ed3cfe92fe06730
 		if(controller.getDistribution() == Distribution.NORMAL){
 			distributionButton.setText("DISTRIBUTED");
 			distributionButton.setSelected(false);
@@ -195,16 +182,13 @@ public class POutModule extends PModule implements IPOutModule {
 		}
 		
 	}
-<<<<<<< HEAD
 	
 	
-=======
 
 	@Override
 	public void updateLocation(double x, double y) {
 		this.setLocation((int)x,(int) y);
 	}
->>>>>>> 3413653a1cd8c04c66646c875ed3cfe92fe06730
 
 
 }

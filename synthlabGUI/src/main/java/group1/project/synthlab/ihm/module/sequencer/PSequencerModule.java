@@ -18,15 +18,12 @@ import javax.swing.event.ChangeListener;
 
 public class PSequencerModule extends PModule implements IPSequencerModule{
 
-<<<<<<< HEAD:synthlabGUI/src/main/java/group1/project/synthlab/ihm/module/sequencer/PSequencerModule.java
 	protected transient ICSequencerModule controller;
-=======
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4031580764495351076L;
-	protected transient ICSequencer controller;
->>>>>>> 3413653a1cd8c04c66646c875ed3cfe92fe06730:synthlabGUI/src/main/java/group1/project/synthlab/ihm/module/sequencer/PSequencer.java
+
 	protected JSlider[] tensionSlider;
 	protected JSlider tensionSlider1;
 	protected JSlider tensionSlider2;
