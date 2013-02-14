@@ -2,12 +2,10 @@ package group1.project.synthlab.module.noise;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
-import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Tools;
 import group1.project.synthlab.unitExtension.producer.noise.BrownianNoise;
-
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.LineOut;
@@ -187,6 +185,10 @@ public class NoiseModule extends Module implements INoiseModule {
 		synth.add(out);
 		out.start();
 
+		System.out.println("\n\n\n****************************************************\n");
+		System.out.println("Tests fonctionnels du Module Noise");
+		System.out.println("\n****************************************************\n\n");
+		
 		System.out.println("Demarrage du Module Noise");
 		noise.start();
 		

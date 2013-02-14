@@ -197,7 +197,7 @@ public class VCOModule extends Module implements IVCOModule {
 	}
 	
 	/**
-	 * red�fini la fr�quence aux oscillateurs
+	 * redefinit la frequence aux oscillateurs
 	 */
 	private void refreshFrequencies() {
 		sineOsc.frequency.set(f0);
@@ -459,13 +459,12 @@ public class VCOModule extends Module implements IVCOModule {
 		// On cree notre VCO et on ajoute le circuit cree au Synthesizer
 		VCOModule vco = (VCOModule) factory.createVCOModule();
 		synth.add(vco.getCircuit());
-		vco.start();
-
+	
 		// LineOut remplace ici OutModule
 		LineOut out = new LineOut();
 
 		synth.add(out);
-		out.start();
+	
 
 		// On connecte la sortie sinusoidale de notre VCO a la sortie
 
@@ -475,7 +474,6 @@ public class VCOModule extends Module implements IVCOModule {
 		// frequence de notre premier vco
 		VCOModule fm = new VCOModule(factory);
 		synth.add(fm.getCircuit());
-		fm.start();
 		// la frequence du signal modulant doit etre faible pour que le
 		// changement de frequence soit audible
 		fm.squareOsc.frequency.set(0.5);
@@ -502,44 +500,57 @@ public class VCOModule extends Module implements IVCOModule {
 		frame.pack();
 		frame.setVisible(true);
 
-		// Sans modulation de frequence pendant 6s
-		// On verifie que notre VCO genere bien 3 signaux (carre, sinusoidale et
-		// triangulaire)
-		// 2s par signal, le changement de signal doit etre audible
+		System.out.println("\n\n\n****************************************************\n");
+		System.out.println("Tests fonctionnels du Module VCO");
+		System.out.println("\n****************************************************\n\n");
+		
+		System.out.println("Demarrage du VCO");
+		vco.sineOsc.amplitude.set(a0);
+		vco.squareOsc.amplitude.set(a0);
+		vco.triangleOsc.amplitude.set(a0);
+		vco.sawToothOsc.amplitude.set(a0);
+		
+		System.out.println("Demarrage du LineOut");
+		out.start();
+		
+		System.out.println("Sans modulation de frequence pendant 6s");
+		System.out.println("On verifie que notre VCO genere bien 3 signaux (carre, sinusoidale et triangulaire)");
+		System.out.println("2s par signal, le changement de signal doit etre audible");
 
-		// Sinusoidale
+		System.out.println("\n\nSinusoidale");
 		Tools.wait(synth, 2);
 
-		// Carree
+		System.out.println("\n\nCarree");
 		out.input.disconnect(vco.getOutSine().getJSynPort());
 		out.input.connect(vco.getOutSquare().getJSynPort());
 
 		Tools.wait(synth, 2);
 
-		// Triangulaire
+		System.out.println("\n\nTriangulaire");
 		out.input.disconnect(vco.getOutSquare().getJSynPort());
 		out.input.connect(vco.getOutTriangle().getJSynPort());
 
 		Tools.wait(synth, 2);
 
-		// Retour en sinusoidale
-		out.input.disconnect(vco.getOutTriangle().getJSynPort());
+		System.out.println("\n\nDents de scie");
+		out.input.disconnect(vco.getOutSawTooth().getJSynPort());
+		out.input.connect(vco.getOutSawTooth().getJSynPort());
+
+		Tools.wait(synth, 2);
+
+		System.out.println("\n\nRetour en sinusoidale");
+		out.input.disconnect(vco.getOutSawTooth().getJSynPort());
 		out.input.connect(vco.getOutSine().getJSynPort());
 
-		// Avec modulation de frequence pendant quelques secondes
-		// On connecte la sortie carree de notre VCO fm vers le port d'entree fm
-		// de notre VCO vco
+		System.out.println("Avec modulation de frequence pendant quelques secondes");
+		System.out.println("On connecte la sortie carree de notre VCO fm vers le port d'entree fm de notre VCO vco");
 		fm.getOutSquare().getJSynPort().connect(vco.getFm().getJSynPort());
 
 		vco.cableConnected(vco.getFm());
 
-		// On verifie que la frequence est bien divisee par 2^2 ou multipliee
-		// par
-		// 2^2 quand on passe d'une crete a la suivante
-		// Avec un signal modulant carre, la valeur de la frequence du signal
-		// modulee va alternee entre 2 valeurs
-		// Il suffit donc d'afficher ces valeurs pour verifier le rapport de 1 a
-		// 4.
+		System.out.println("On verifie que la frequence est bien divisee par 2^2 ou multipliee par 2^2 quand on passe d'une crete a la suivante");
+		System.out.println("Avec un signal modulant carre, la valeur de la frequence du signal modulee va alternee entre 2 valeurs");
+		System.out.println("Il suffit donc d'afficher ces valeurs pour verifier le rapport de 1 a 4");
 		int i = 0;
 		while (i < 30) {
 			System.out.println("Frequence = "
@@ -552,21 +563,31 @@ public class VCOModule extends Module implements IVCOModule {
 			}
 		}
 
-		// On verifie que lorsque le signal modulant est nul, la frequence est
-		// bien f0
-		// On peut voir cela dans l'affichage ou en verifiant que la hauteur de
-		// la note jouee est la meme qu'avant modulation.
+		System.out.println("On verifie que lorsque le signal modulant est nul, la frequence est bien f0");
+		System.out.println("On peut voir cela dans l'affichage ou en verifiant que la hauteur de la note jouee est la meme qu'avant modulation");
 		fm.squareOsc.amplitude.set(0);
 
 		Tools.wait(synth, 2);
 		
-		// Sans modulation de frequence le reste du temps, avec une frequence
-		// reglee un peu plus haut
+		System.out.println("Sans modulation de frequence, avec une frequence reglee un peu plus haut pendant 5 secondes");
 		fm.squareOsc.output.disconnectAll();
 		vco.cableDisconnected(vco.getFm());
 		vco.setCoarseAdjustment(11);
 		vco.setFineAdjustment(0);
 		vco.changeFrequency();
+		
+		Tools.wait(synth, 5);
+		
+		System.out.println("Arret du VCO pendant 3 secondes");
+		vco.reset();
+		Tools.wait(synth, 3);
+		
+		System.out.println("Redemarrage du VCO");
+		vco.sineOsc.amplitude.set(a0);
+		vco.squareOsc.amplitude.set(a0);
+		vco.triangleOsc.amplitude.set(a0);
+		vco.sawToothOsc.amplitude.set(a0);
+		
 	}
 
 	

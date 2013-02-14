@@ -2,15 +2,12 @@ package group1.project.synthlab.module.vca;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
-import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.unitExtension.filter.filterModulation.FilterAmplitudeModulation;
-
 import javax.swing.JFrame;
-
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.scope.AudioScope;
@@ -198,7 +195,6 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 		// On cree notre VCA et on ajoute le circuit cree au Synthesizer
 		VCAModule vca = (VCAModule) factory.createVCAModule();
 		synth.add(vca.getCircuit());
-		vca.start();
 		
 		// On cree un oscillateur que l'on connectera dans l'entree in
 		SquareOscillator inOsc = new SquareOscillator();
@@ -209,7 +205,7 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 		// On cree un oscillateur que l'on connectera dans l'entree am
 		SquareOscillator amOsc = new SquareOscillator();
 		amOsc.frequency.set(0.5);
-		amOsc.amplitude.set(0.1); // Amplitude de 0.1JSyn correspond � une amplitude de 1V crete a crete. En passant d'un pic a un creux on doit donc avoir une attenuation de 12dB (amplitude divisee par 4)
+		amOsc.amplitude.set(0.1); // Amplitude de 0.1JSyn correspond a une amplitude de 1V crete a crete. En passant d'un pic a un creux on doit donc avoir une attenuation de 12dB (amplitude divisee par 4)
 		synth.add(amOsc);
 				
 		// LineOut remplace ici OutModule
@@ -234,6 +230,11 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 		frame.add(scope.getView());
 		frame.pack();
 		frame.setVisible(true);
+
+        
+		System.out.println("\n\n\n****************************************************\n");
+		System.out.println("Tests fonctionnels du Module VCA");
+		System.out.println("\n****************************************************\n\n");
 		
 		System.out.println("Sans modulation d'amplitude au debut. Le signal doit etre identique au signal en entree (amplitude 0.5 JSyn)");
 		int i = 0;
@@ -305,20 +306,6 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 				e.printStackTrace();
 			}
 		}
-		
-		System.out.println("STOP pendant 2 sec");
-		vca.stop();
-		try
-		{
-			double time = synth.getCurrentTime();
-			synth.sleepUntil( time + 2.0 );
-		} catch( InterruptedException e )
-		{
-			e.printStackTrace();
-		}
-		
-		System.out.println("START");
-		vca.start();
 	}
 
 }
