@@ -14,14 +14,12 @@ public class TestMultiplexerModule extends TestCase {
 	private MultiplexerModule module;
 
 	public void testMultiplexerModule() {
-		assert (module.getInPorts() != null);
-		assert (module.getOutPorts() != null);
 	}
 
 	public void testDestruct() {
 		for (int i = 0; i < 4; ++i) {
-			assert (!module.getInPorts()[i].isUsed());
-			assert (!module.getOutPorts()[i].isUsed());
+			assert (!module.getInPort(i).isUsed());
+			assert (!module.getOutPort(i).isUsed());
 		}
 
 	}
@@ -38,15 +36,6 @@ public class TestMultiplexerModule extends TestCase {
 		}
 	}
 
-	public void testGetInPorts() {
-		assert (module.getInPorts() != null);
-		assert (module.getInPorts().length == 4);
-	}
-
-	public void testGetOutPorts() {
-		assert (module.getOutPorts() != null);
-		assert (module.getOutPorts().length == 4);
-	}
 
 	public void testStart() {
 		assert(module.isStarted());

@@ -175,6 +175,7 @@ public class PCable extends JPanel implements IPCable {
 					y = (int) (p2.getY() - 10);
 					h = (int) (p1.getY() - p2.getY() + 20);
 				}
+				
 				this.setBounds(x, y, w, getParent().getHeight());
 				
 				// On redefini le point d'attraction en fonction de la largeur
@@ -257,6 +258,12 @@ public class PCable extends JPanel implements IPCable {
 	public int getColorPosition() {
 		return currentColor;
 		
+	}
+
+	@Override
+	public void setColorPosition(int pos) {
+		currentColor = pos;
+		this.repaint();		
 	}
 
 

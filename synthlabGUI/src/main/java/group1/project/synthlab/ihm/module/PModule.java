@@ -201,10 +201,12 @@ public abstract class PModule extends JPanel implements IPModule {
 		if(controller.isStarted()){
 			this.onOffButton.setSelected(true);
 			this.onOffButton.setText("Off");
+			controller.start();
 		}
 		else{
 			this.onOffButton.setSelected(false);
 			this.onOffButton.setText("On");
+			controller.stop();
 		}
 		
 	}

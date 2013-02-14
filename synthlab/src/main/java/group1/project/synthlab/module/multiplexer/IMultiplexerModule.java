@@ -16,11 +16,6 @@ public interface IMultiplexerModule extends IModule {
 
 	public IOutPort getOutPort(int i);
 	
-	public IInPort[] getInPorts() ;
-	
-	public IInPort[] getOutPorts();
-
-
 	public void setAttenuation(double db, int port);
 	public double getAttenuation(int port);
 
