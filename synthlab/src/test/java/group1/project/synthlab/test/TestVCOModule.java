@@ -53,6 +53,7 @@ public class TestVCOModule extends TestCase {
 		assertNotNull (vco.getOutSquare());
 		assertNotNull (vco.getOutTriangle());
 		assertNotNull (vco.getOutSawTooth());
+		assertNotNull (vco.getFilterFrequencyModulation());
 		assertEquals (VCOModule.amin, vco.getSineOsc().amplitude.get());
 		assertEquals (VCOModule.amin, vco.getSquareOsc().amplitude.get());
 		assertEquals (VCOModule.amin, vco.getTriangleOsc().amplitude.get());
@@ -127,10 +128,6 @@ public class TestVCOModule extends TestCase {
 	public void testCableDisconnected() {
 		vco.cableDisconnected(vco.getFm());
 		assertTrue (!vco.getFmConnected());
-		assertTrue (!vco.getSineOsc().frequency.isConnected());
-		assertTrue (!vco.getSquareOsc().frequency.isConnected());
-		assertTrue (!vco.getTriangleOsc().frequency.isConnected());
-		assertTrue (!vco.getSawToothOsc().frequency.isConnected());
 	}
 
 	/**
