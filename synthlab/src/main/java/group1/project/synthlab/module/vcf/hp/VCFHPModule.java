@@ -2,7 +2,6 @@ package group1.project.synthlab.module.vcf.hp;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
-import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
@@ -12,9 +11,7 @@ import group1.project.synthlab.signal.Tools;
 import group1.project.synthlab.unitExtension.filter.filterModulation.FilterFrequencyModulation;
 import group1.project.synthlab.unitExtension.filter.filterSupervisor.FilterAmplitude;
 import group1.project.synthlab.unitExtension.filter.filterSupervisor.FilterRecordMinMaxAmplitude;
-
 import javax.swing.JFrame;
-
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.ports.UnitOutputPort;
@@ -294,7 +291,6 @@ public class VCFHPModule extends Module implements IPortObserver, IVCFHPModule {
         // On cree notre VCFHP et on ajoute le circuit cree au Synthesizer
         VCFHPModule vcfhp = (VCFHPModule) factory.createVCFHPModule();
         synth.add(vcfhp.getCircuit());
-        vcfhp.start();
         
         // On cree un oscillateur que l'on connectera dans l'entree in
         SineOscillator inOsc = new SineOscillator();
@@ -334,6 +330,10 @@ public class VCFHPModule extends Module implements IPortObserver, IVCFHPModule {
         
         vcfhp.filterPrintMinMaxAmplitude.reset();
         
+		System.out.println("\n\n\n****************************************************\n");
+		System.out.println("Tests fonctionnels du Module VCF-HP");
+		System.out.println("\n****************************************************\n\n");
+		
         System.out.println("\n\nSans modulation de frequence au debut, on compare 4 frequences de inOsc avec");
         System.out.println("\n\nSans modulation de signal, fc = 440 Hz, inOsc 3000 Hz (ATTENTION AUX OREILLES !) : le signal ne doit pas etre filtre (amplitude en sortie de 1)");
         Tools.wait(synth, 2);

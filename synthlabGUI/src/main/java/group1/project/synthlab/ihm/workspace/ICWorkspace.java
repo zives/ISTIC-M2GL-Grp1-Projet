@@ -15,7 +15,8 @@ public interface ICWorkspace extends IWorkspace {
 	public void addOneOutModule();	
 	public void addOneMultiplexer();
 	public void addOneVCAModule();
-	public void addOnePianoModule();	
+	public void addOnePianoModule();
+	public void addOneNoiseModule();
 	public void addOneFileInModule();
 	public void addOneEGModule();
 	public void addOneEQViewModule();
@@ -34,5 +35,6 @@ public interface ICWorkspace extends IWorkspace {
 	public void allModulesOff();
 	
 	public void quitApp();
+	
 
 }

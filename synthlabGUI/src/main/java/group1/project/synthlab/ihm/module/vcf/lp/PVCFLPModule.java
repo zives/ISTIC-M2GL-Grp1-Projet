@@ -1,6 +1,6 @@
 package group1.project.synthlab.ihm.module.vcf.lp;
 
-import group1.project.synthlab.ihm.module.vcf.hp.PVCFHPModule;
+import group1.project.synthlab.ihm.module.vcf.PVCFModule;
 import group1.project.synthlab.ihm.tools.PTools;
 import group1.project.synthlab.unitExtension.filter.filterSupervisor.IFilterAmplitudeObservable;
 
@@ -12,7 +12,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class PVCFLPModule extends PVCFHPModule implements IPVCFLPModule {
+public class PVCFLPModule extends PVCFModule implements IPVCFLPModule {
 
 	protected transient ICVCFLPModule controller;
 

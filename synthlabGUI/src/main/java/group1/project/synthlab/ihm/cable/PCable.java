@@ -25,14 +25,14 @@ public class PCable extends JPanel implements IPCable {
 	 */
 	private static final long serialVersionUID = 1542461431128718349L;
 
-	protected ICCable controller; // le controleur
+	protected transient ICCable controller; // le controleur
 
 	protected Point p1; // le point 1 (extremite du cable)
 	protected Point p2; // le point 2 (extremite 2)
 
-	QuadCurve2D graphicLink; // la forme geometrique du lien
+	protected QuadCurve2D graphicLink; // la forme geometrique du lien
 
-	private PCable self; // la presentation elle-meme
+	private transient PCable self; // la presentation elle-meme
 
 	private float animation; // une valeur arbitraire pour animer la cable
 	private Timer timerAnimation; // le timer qui anime le cable

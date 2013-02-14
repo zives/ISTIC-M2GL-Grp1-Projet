@@ -2,7 +2,6 @@ package group1.project.synthlab.module.vcf.lp;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
-import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
@@ -12,9 +11,7 @@ import group1.project.synthlab.signal.Tools;
 import group1.project.synthlab.unitExtension.filter.filterModulation.FilterFrequencyModulation;
 import group1.project.synthlab.unitExtension.filter.filterSupervisor.FilterAmplitude;
 import group1.project.synthlab.unitExtension.filter.filterSupervisor.FilterRecordMinMaxAmplitude;
-
 import javax.swing.JFrame;
-
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.ports.UnitOutputPort;
@@ -346,7 +343,6 @@ public class VCFLPModule extends Module implements IPortObserver, IVCFLPModule {
         // On cree notre VCFLP et on ajoute le circuit cree au Synthesizer
         VCFLPModule vcflp = (VCFLPModule) factory.createVCFLPModule();
         synth.add(vcflp.getCircuit());
-        vcflp.start();
         
         // On cree un oscillateur que l'on connectera dans l'entree in
         SineOscillator inOsc = new SineOscillator();
@@ -386,6 +382,10 @@ public class VCFLPModule extends Module implements IPortObserver, IVCFLPModule {
         
         vcflp.filterPrintMinMaxAmplitude.reset();
         
+		System.out.println("\n\n\n****************************************************\n");
+		System.out.println("Tests fonctionnels du Module VCF-LP");
+		System.out.println("\n****************************************************\n\n");
+
         System.out.println("\n\nSans modulation de frequence au debut, on compare 4 frequences de inOsc avec Q = 1");
         System.out.println("\n\nSans modulation de signal, fc = 440 Hz, inOsc 20 Hz : le signal ne doit pas etre filtre (amplitude en sortie de 1)");
         Tools.wait(synth, 2);
@@ -474,6 +474,11 @@ public class VCFLPModule extends Module implements IPortObserver, IVCFLPModule {
 
         System.out.println("\n\nOn regle Q a 0.5, la resonance doit etre beaucoup moins audible");
         vcflp.setq(0.5);
+        vcflp.changeQFactor();
+        Tools.wait(synth, 5);
+        
+        System.out.println("\n\nOn regle Q a 20, le signal en sortie ne doit pas saturer");
+        vcflp.setq(5);
         vcflp.changeQFactor();
     }
 

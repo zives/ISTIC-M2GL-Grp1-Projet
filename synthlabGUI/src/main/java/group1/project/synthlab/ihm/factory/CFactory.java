@@ -9,6 +9,7 @@ import group1.project.synthlab.ihm.module.eqView.CEQViewModule;
 import group1.project.synthlab.ihm.module.fileIn.CFileInModule;
 import group1.project.synthlab.ihm.module.micro.CMicroModule;
 import group1.project.synthlab.ihm.module.multiplexer.CMultiplexerModule;
+import group1.project.synthlab.ihm.module.noise.CNoiseModule;
 import group1.project.synthlab.ihm.module.osc.COSCModule;
 import group1.project.synthlab.ihm.module.out.COutModule;
 import group1.project.synthlab.ihm.module.piano.CPianoModule;
@@ -27,6 +28,7 @@ import group1.project.synthlab.module.eqView.IEQViewModule;
 import group1.project.synthlab.module.fileIn.IFileInModule;
 import group1.project.synthlab.module.micro.IMicroModule;
 import group1.project.synthlab.module.multiplexer.IMultiplexerModule;
+import group1.project.synthlab.module.noise.INoiseModule;
 import group1.project.synthlab.module.osc.IOSCModule;
 import group1.project.synthlab.module.out.IOutModule;
 import group1.project.synthlab.module.piano.IPianoModule;
@@ -71,6 +73,11 @@ public class CFactory extends Factory {
 	@Override
 	public IPianoModule createPianoModule() {
 		return new CPianoModule(this);
+	}
+	
+	@Override
+	public INoiseModule createNoiseModule() {
+		return new CNoiseModule(this);
 	}
 	
 	@Override
