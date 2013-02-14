@@ -35,5 +35,15 @@ public class CEQModule extends EQModule implements ICEQModule {
 		// TODO Auto-generated method stub
 		return "";
 	}
+
+	@Override
+	public void initPresentation(Object... params) {
+		// TODO Auto-generated method stub
+		presentation.updatePresentation();
+	}
+	
+	
+
+
 	 
 }

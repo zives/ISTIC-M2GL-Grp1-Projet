@@ -51,20 +51,18 @@ public class COutModule extends OutModule implements ICOutModule {
 		moduleCount = 0;
 	}
 	
-	public void updateAttenuation(double db) {
-		super.setAttenuation(db);
-		presentation.updateSlider();
-
-	}
 	
-	public void updateDistribution(Distribution d) {
-		super.setDistribution(d);
-		presentation.updateDistribution();
 
-	}
 
 	public void updateLocation(double x, double y) {
 		// TODO Auto-generated method stub
 		presentation.updateLocation(x,y);
+	}
+
+	@Override
+	public void initPresentation(Object... params) {
+		// TODO Auto-generated method stub
+		presentation.updatePresentation();
+		
 	}
 }

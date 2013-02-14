@@ -98,5 +98,13 @@ public class CPianoModule extends PianoModule implements ICPianoModule {
 		presentation.updateLocation(x,y);
 	}
 
+	@Override
+	public void initPresentation(Object... params) {
+		// TODO Auto-generated method stub
+		presentation.updatePresentation();
+	}
+	
+	
+
 
 }

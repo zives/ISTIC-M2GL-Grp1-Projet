@@ -6,11 +6,7 @@ import java.awt.Point;
 
 public interface IPOutModule extends IPModule {
 
-	public void updateSlider();
 
-	public void updateDistribution();
-
-	public void updateLocation(double x, double y);
 
 	
 }

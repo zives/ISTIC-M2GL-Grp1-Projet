@@ -13,7 +13,7 @@ import group1.project.synthlab.ihm.module.noise.CNoiseModule;
 import group1.project.synthlab.ihm.module.osc.COSCModule;
 import group1.project.synthlab.ihm.module.out.COutModule;
 import group1.project.synthlab.ihm.module.piano.CPianoModule;
-import group1.project.synthlab.ihm.module.sequencer.CSequencer;
+import group1.project.synthlab.ihm.module.sequencer.CSequencerModule;
 import group1.project.synthlab.ihm.module.vca.CVCAModule;
 import group1.project.synthlab.ihm.module.vcf.hp.CVCFHPModule;
 import group1.project.synthlab.ihm.module.vcf.lp.CVCFLPModule;
@@ -142,6 +142,6 @@ public class CFactory extends Factory {
 
 	@Override
 	public ISequencerModule createSequencerModule() {
-		return new CSequencer(this);
+		return new CSequencerModule(this);
 	}
 }

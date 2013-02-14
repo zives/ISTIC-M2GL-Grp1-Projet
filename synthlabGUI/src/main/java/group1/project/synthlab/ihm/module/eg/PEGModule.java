@@ -438,34 +438,23 @@ public class PEGModule extends PModule implements IPEGModule {
 		this.setLocation((int)x, (int)y);
 	}
 
-	@Override
-	public void updateAttackSlider(double attack) {
-		// TODO Auto-generated method stub
-		attackSlider.setValue((int) (attack * 10));
-	}
-
-	@Override
-	public void updateDecaySlider(double decay) {
-		// TODO Auto-generated method stub
-		decaySlider.setValue((int) (decay * 10));
-	}
 
 
 	@Override
-	public void updateReleaseSlider(double release) {
+	public void updatePresentation() {
 		// TODO Auto-generated method stub
-		releaseSlider.setValue((int) (release * 10));
-	}
-	
-	@Override
-	public void updateHoldSlider(double hold) {
-		// TODO Auto-generated method stub
-		holdSlider.setValue((int) (hold * 10));
-	}
-	
-	@Override
-	public void updateSustainSlider(double sustain) {
-		// TODO Auto-generated method stub
-		sustainSlider.setValue((int) (sustain * 10));
+		attackSlider.setValue((int) (controller.getAttack() * 10));
+		decaySlider.setValue((int) (controller.getDecay() * 10));
+		releaseSlider.setValue((int) (controller.getRelease() * 10));
+		holdSlider.setValue((int) (controller.getHold() * 10));
+		sustainSlider.setValue((int) (controller.getSustain() * 10));
+		if(controller.isStarted()){
+			this.onOffButton.setSelected(true);
+			this.onOffButton.setText("Off");
+		}
+		else{
+			this.onOffButton.setSelected(false);
+			this.onOffButton.setText("On");
+		}
 	}
 }

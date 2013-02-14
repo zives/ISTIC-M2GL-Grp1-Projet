@@ -11,5 +11,4 @@ public interface IPVCAModule extends IPModule{
 
 	public void updateLocation(double x, double y);
 
-	public void updateGainSlider();
 }

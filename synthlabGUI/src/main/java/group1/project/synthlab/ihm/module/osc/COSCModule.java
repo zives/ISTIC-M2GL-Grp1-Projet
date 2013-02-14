@@ -102,5 +102,11 @@ protected int cmptPaint = 0;
 		return "";
 	}
 
+	@Override
+	public void initPresentation(Object... params) {
+		// TODO Auto-generated method stub
+		presentation.updatePresentation();
+	}
+
 
 }

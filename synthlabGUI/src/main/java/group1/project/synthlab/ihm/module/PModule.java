@@ -164,7 +164,7 @@ public abstract class PModule extends JPanel implements IPModule {
 			}
 		});
 	}
-
+	
 	public void register(IPModuleObserver observer) {
 		observers.add(observer);
 	}

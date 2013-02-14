@@ -150,4 +150,23 @@ public class PEQViewModule extends PModule implements IPEQViewModule {
 		}
 
 	}
+
+	@Override
+	public void updatePresentation() {
+		// TODO Auto-generated method stub
+		if(controller.isStarted()){
+			this.onOffButton.setSelected(true);
+			this.onOffButton.setText("Off");
+		}
+		else{
+			this.onOffButton.setSelected(false);
+			this.onOffButton.setText("On");
+		}
+	}
+
+	@Override
+	public void updateLocation(double x, double y) {
+		// TODO Auto-generated method stub
+		
+	}
 }

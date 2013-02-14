@@ -16,9 +16,9 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class PSequencer extends PModule implements IPSequencer{
+public class PSequencerModule extends PModule implements IPSequencerModule{
 
-	protected transient ICSequencer controller;
+	protected transient ICSequencerModule controller;
 	protected JSlider[] tensionSlider;
 	protected JSlider tensionSlider1;
 	protected JSlider tensionSlider2;
@@ -30,7 +30,7 @@ public class PSequencer extends PModule implements IPSequencer{
 	protected JSlider tensionSlider8;
 	
 
-	public PSequencer(final ICSequencer controller) {
+	public PSequencerModule(final ICSequencerModule controller) {
 		super(controller);
 		this.controller = controller;
 		this.setLayout(null);
@@ -168,6 +168,29 @@ public class PSequencer extends PModule implements IPSequencer{
 	public void setSlidersEnabled(boolean value) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void updatePresentation() {
+		
+		for(int i = 0; i< this.tensionSlider.length;i++){
+			tensionSlider[i].setValue((int) (controller.getStepValue(i+1)*10));
+		}
+		
+		if(controller.isStarted()){
+			this.onOffButton.setSelected(true);
+			this.onOffButton.setText("Off");
+		}
+		else{
+			this.onOffButton.setSelected(false);
+			this.onOffButton.setText("On");
+		}
+	}
+
+	@Override
+	public void updateLocation(double x, double y) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

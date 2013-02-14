@@ -8,4 +8,6 @@ public interface IPModule extends IPModuleObservable, Serializable {
 	public void start();
 	public void stop();
 	public Point getLocation();
+	public void updatePresentation();
+	public void updateLocation(double x, double y);
 }

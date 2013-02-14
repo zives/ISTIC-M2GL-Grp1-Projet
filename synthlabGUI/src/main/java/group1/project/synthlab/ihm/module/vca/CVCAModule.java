@@ -42,16 +42,15 @@ public class CVCAModule extends VCAModule implements ICVCAModule {
 		
 	}
 
-	public void updateA0(double parseDouble) {
-		// TODO Auto-generated method stub
-		this.seta0(parseDouble);
-		this.changeGain();
-		presentation.updateGainSlider();
-	}
-
 	public void updateLocation(double x, double y) {
 		// TODO Auto-generated method stub
 		presentation.updateLocation(x,y);
+	}
+
+	@Override
+	public void initPresentation(Object... params) {
+		// TODO Auto-generated method stub
+		presentation.updatePresentation();
 	}
 	
 	 

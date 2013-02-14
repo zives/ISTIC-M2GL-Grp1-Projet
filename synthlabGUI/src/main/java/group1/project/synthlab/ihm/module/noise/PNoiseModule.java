@@ -47,4 +47,23 @@ public class PNoiseModule extends PModule implements IPNoiseModule {
 				- onOffButton.getWidth() - 15, 13);
 
 	}
+
+	@Override
+	public void updatePresentation() {
+		// TODO Auto-generated method stub
+		if(controller.isStarted()){
+			this.onOffButton.setSelected(true);
+			this.onOffButton.setText("Off");
+		}
+		else{
+			this.onOffButton.setSelected(false);
+			this.onOffButton.setText("On");
+		}
+	}
+
+	@Override
+	public void updateLocation(double x, double y) {
+		// TODO Auto-generated method stub
+		
+	}
 }

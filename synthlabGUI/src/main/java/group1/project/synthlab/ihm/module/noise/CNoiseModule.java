@@ -35,5 +35,11 @@ public class CNoiseModule extends NoiseModule implements ICNoiseModule {
 		// TODO Auto-generated method stub
 		return "";
 	}
+
+	@Override
+	public void initPresentation(Object... params) {
+		// TODO Auto-generated method stub
+		presentation.updatePresentation();
+	}
 	 
 }

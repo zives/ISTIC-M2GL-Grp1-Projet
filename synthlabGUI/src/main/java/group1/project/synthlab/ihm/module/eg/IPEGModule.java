@@ -9,15 +9,5 @@ public interface IPEGModule extends IPModule {
 
 	public Point getLocation();
 
-	public void updateLocation(double x, double y);
 
-	public void updateAttackSlider(double attack);
-
-	public void updateDecaySlider(double decay);
-
-	public void updateReleaseSlider(double release);
-
-	public void updateHoldSlider(double hold);
-
-	public void updateSustainSlider(double sustain);
 }

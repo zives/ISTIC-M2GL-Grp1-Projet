@@ -64,6 +64,14 @@ public class CEQViewModule extends EQViewModule implements ICEQViewModule {
 		// TODO Auto-generated method stub
 		return "";
 	}
+
+
+
+	@Override
+	public void initPresentation(Object... params) {
+		// TODO Auto-generated method stub
+		presentation.updatePresentation();
+	}
 	
 
 

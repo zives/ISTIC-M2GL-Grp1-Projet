@@ -45,39 +45,12 @@ public class CEGModule extends EGModule implements ICEGModule {
 		return save;
 	}
 
-	public void updateAttack(double parseDouble) {
-		// TODO Auto-generated method stub
-		super.setAttack(parseDouble);
-		presentation.updateAttackSlider(this.attack);
-	}
 
-	public void updateDecay(double parseDouble) {
-		// TODO Auto-generated method stub
-		super.setDecay(parseDouble);
-		presentation.updateDecaySlider(this.decay);
-	}
 
-	public void updateRelease(double parseDouble) {
+	@Override
+	public void initPresentation(Object... params) {
 		// TODO Auto-generated method stub
-		super.setRelease(parseDouble);
-		presentation.updateReleaseSlider(this.release);
-	}
-
-	public void updateHold(double parseDouble) {
-		// TODO Auto-generated method stub
-		super.setHold(parseDouble);
-		presentation.updateHoldSlider(this.hold);
-	}
-
-	public void updateDecibel(double parseDouble) {
-		// TODO Auto-generated method stub
-		super.setSustain(parseDouble);
-		presentation.updateSustainSlider(this.decibel);
-	}
-
-	public void updateLocation(double x, double y) {
-		// TODO Auto-generated method stub
-		presentation.updateLocation(x,y);
+		presentation.updatePresentation();
 	}
 	
 	

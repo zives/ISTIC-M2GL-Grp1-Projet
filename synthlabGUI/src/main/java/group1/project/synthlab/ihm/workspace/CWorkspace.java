@@ -5,6 +5,7 @@ import group1.project.synthlab.ihm.cable.ICCable;
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.module.ICModule;
 import group1.project.synthlab.ihm.module.IPModule;
+import group1.project.synthlab.ihm.module.out.COutModule;
 import group1.project.synthlab.ihm.tools.CTools;
 import group1.project.synthlab.ihm.tools.ValueOfString;
 import group1.project.synthlab.module.IModule;
@@ -415,32 +416,70 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 				for(int j = 0; j<attr.getLength();j++){
 					Element a = (Element) attr.item(j);
 					Field field;
-					System.out.println(a.getAttribute("name"));
-					System.err.println(findField(a.getAttribute("name"), module.getClass()));
-					try{
-						field = module.getClass().getDeclaredField(a.getAttribute("name"));
-						//System.err.println(field);
-					}catch(java.lang.NoSuchFieldException e1){
-						field = module.getClass().getSuperclass().getDeclaredField(a.getAttribute("name"));
-						//System.err.println(field);
-					}
-					if(field.getType().isPrimitive()){
-						field.setAccessible(true);
-						String typeString = "java.lang."+(a.getAttribute("type").charAt(0)+"").toUpperCase()+a.getAttribute("type").substring(1);
-						System.out.println(typeString);
-						Class c = Class.forName(typeString);
+					field = findField(a.getAttribute("name"), module.getClass());
+					if(field!=null){
+						System.out.println("\n\n\nisArray : "+a.getAttribute("struct"));
+						if(a.getAttribute("struct").equals("array")){
+							field.setAccessible(true);
+							//Object[] tab = (Object[]) field.get(module);
+							String typeString = CTools.primitiveToObject(a.getAttribute("type"));
+							System.out.println(typeString);
+							int nbItem = a.getElementsByTagName("item").getLength();
+							//Class c = Class.forName(typeString);
 
-						Object res = ValueOfString.valueOf(c,a.getAttribute("value"));
-						field.set(module, res);
+							Class c = CTools.primitiveToClass(a.getAttribute("type"));
+							Object array = Array.newInstance(c, nbItem);
+							for(int ii=0;ii<nbItem;ii++){
+								
+								Class tmp = Class.forName(typeString);
+								Object res = ValueOfString.valueOf(tmp,((Element)a.getElementsByTagName("item").item(ii)).getAttribute("value"));
+								Array.set(array, ii, res);
+								//tab[ii] = res;
+								//System.out.println(tab[ii]);
+							}
+							
+							
+							field.set(module,array);
+					
+							
+							//System.out.println(nbItem);
+							
+						}else if(field.getType().isPrimitive()){
+							field.setAccessible(true);
+							String typeString = CTools.primitiveToObject(a.getAttribute("type"));
+							System.out.println(typeString+" "+a.getAttribute("value"));
+							Class c = Class.forName(typeString);
+
+							Object res = ValueOfString.valueOf(c,a.getAttribute("value"));
+							field.set(module, res);
+						}
+						else if(field.getType().isEnum()){
+							System.out.println("enum : "+field.getName());
+							System.out.println(a.getAttribute("type")+" "+a.getAttribute("value"));
+							field.setAccessible(true);							
+							field.set(module, Enum.valueOf((Class<Enum>) field.getType(), a.getAttribute("value")));						
+						}
 					}
 
 				}
-				//module.getClass().getField("");
 				
+				//presentation
+//				Node pres = m.getElementsByTagName("Presentation").item(0);
+//				
+//				String presSer = pres.getFirstChild().getNodeValue().replace("	", "");
+//				
+//				Object p = CTools.fromString(presSer);
+//				System.out.println(p);
+//				Field field;
+//				field = findField("presentation", module.getClass());
+//				System.out.println(field);
+//				field.setAccessible(true);
+//				field.set(module, p);			
+//				System.out.println(((COutModule)module).getDistribution());
+				module.initPresentation(null);
 				
 				
 				CWorkspace.getInstance().addModule(module);
-					
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -772,15 +811,15 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 			// /!\ajouter presentation/!\
 			ICModule icm = (ICModule) m;
 			IPModule ipm = icm.getPresentation();
-			try {
-				String presentationString = CTools.toString(ipm);
-				tmp+="		<Presentation>\n"+
-						"			"+presentationString+
-						"\n		</Presentation>\n";
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				String presentationString = CTools.toString(ipm);
+//				tmp+="		<Presentation>\n"+
+//						"			"+presentationString+
+//						"\n		</Presentation>\n";
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			
 			tmp += "	</Module>\n";
 			save += tmp;

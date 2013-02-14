@@ -141,12 +141,21 @@ public class PVCAModule extends PModule implements IPVCAModule {
 	}
 
 
+
 	@Override
-	public void updateGainSlider() {
+	public void updatePresentation() {
 		// TODO Auto-generated method stub
 		Double d = Math.round(controller.geta0() * 10) / 10.0;
-		this.gainSlider.setValue((int) controller.geta0() * 10);
+		this.gainSlider.setValue((int) (controller.geta0() * 10));
 		gainLabel.setText(d + " dB");
+		if(controller.isStarted()){
+			this.onOffButton.setSelected(true);
+			this.onOffButton.setText("Off");
+		}
+		else{
+			this.onOffButton.setSelected(false);
+			this.onOffButton.setText("On");
+		}
 	}
 
 }

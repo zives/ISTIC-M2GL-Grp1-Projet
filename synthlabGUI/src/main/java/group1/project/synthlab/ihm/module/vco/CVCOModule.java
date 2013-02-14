@@ -60,6 +60,14 @@ public class CVCOModule extends VCOModule implements ICVCOModule {
 		// TODO Auto-generated method stub
 		presentation.updateLocation(x,y);
 	}
+
+	@Override
+	public void initPresentation(Object... params) {
+		// TODO Auto-generated method stub
+		presentation.updatePresentation();
+	}
+	
+	
 	
 	
 }

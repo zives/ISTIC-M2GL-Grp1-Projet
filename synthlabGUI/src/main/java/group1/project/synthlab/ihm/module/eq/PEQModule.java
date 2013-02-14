@@ -144,6 +144,29 @@ public class PEQModule extends PModule implements IPEQModule {
 
 		}
 	}
+
+	@Override
+	public void updatePresentation() {
+		// TODO Auto-generated method stub
+		for(int i = 0;i<attenuatorSlider.length ; i++){
+			attenuatorSlider[i].setValue((int) (controller.getAttenuation(i)*10));
+			
+		}
+		if(controller.isStarted()){
+			this.onOffButton.setSelected(true);
+			this.onOffButton.setText("Off");
+		}
+		else{
+			this.onOffButton.setSelected(false);
+			this.onOffButton.setText("On");
+		}
+	}
+
+	@Override
+	public void updateLocation(double x, double y) {
+		// TODO Auto-generated method stub
+
+	}
 	
 
 

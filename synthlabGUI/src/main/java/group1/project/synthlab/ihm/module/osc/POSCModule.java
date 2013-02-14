@@ -27,6 +27,8 @@ public class POSCModule extends PModule implements IPOSCModule {
 	private static final long serialVersionUID = 9202805048987933945L;
 
 	protected transient ICOSCModule controller;
+	protected transient final JSlider intervalSlider;
+	protected transient final JLabel intervalLabel;
 
 	public POSCModule(final ICOSCModule controller) {
 		super(controller);
@@ -48,7 +50,7 @@ public class POSCModule extends PModule implements IPOSCModule {
 		pportOut.setLocation(getWidth() - pportIn.getWidth() - 10,
 				pportIn.getY());
 
-		final JSlider intervalSlider = new JSlider();
+		intervalSlider = new JSlider();
 		intervalSlider.setMaximum(200);
 		intervalSlider.setMinimum(0);
 		intervalSlider.setOrientation(JSlider.HORIZONTAL);
@@ -66,7 +68,7 @@ public class POSCModule extends PModule implements IPOSCModule {
 		intervalSlider.setSnapToTicks(true);
 		intervalSlider.setVisible(true);
 
-		final JLabel intervalLabel = new JLabel(String.valueOf(intervalSlider
+		intervalLabel = new JLabel(String.valueOf(intervalSlider
 				.getValue()) + " ms", JLabel.CENTER);
 		intervalLabel.setForeground(Color.LIGHT_GRAY);
 		intervalLabel.setOpaque(false);
@@ -151,5 +153,26 @@ public class POSCModule extends PModule implements IPOSCModule {
 			f++;
 		}
 
+	}
+
+	@Override
+	public void updatePresentation() {
+		intervalSlider.setValue((int) (controller.getInterval()));
+		intervalLabel.setText(intervalSlider.getValue() + " ms");	
+		
+		if(controller.isStarted()){
+			this.onOffButton.setSelected(true);
+			this.onOffButton.setText("Off");
+		}
+		else{
+			this.onOffButton.setSelected(false);
+			this.onOffButton.setText("On");
+		}
+	}
+
+	@Override
+	public void updateLocation(double x, double y) {
+		// TODO Auto-generated method stub
+		
 	}
 }

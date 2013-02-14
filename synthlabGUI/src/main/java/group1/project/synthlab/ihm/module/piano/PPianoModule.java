@@ -336,4 +336,26 @@ public class PPianoModule extends PModule implements IPPianoModule {
 		// TODO Auto-generated method stub
 		this.setLocation((int)x, (int)y);
 	}
+
+	@Override
+	public void updatePresentation() {
+		// TODO Auto-generated method stub
+		int position = 1;
+		if(controller.getOctaveStart() == 4){
+			position = 3;
+		}
+		else if(controller.getOctaveStart() == 2){
+			position = 2;
+		}
+		this.octaveSlider.setValue(position);
+		if(controller.isStarted()){
+			this.onOffButton.setSelected(true);
+			this.onOffButton.setText("Off");
+		}
+		else{
+			this.onOffButton.setSelected(false);
+			this.onOffButton.setText("On");
+		}
+		
+	}
 }

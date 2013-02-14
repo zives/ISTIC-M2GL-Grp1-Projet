@@ -5,15 +5,15 @@ import group1.project.synthlab.ihm.module.IPModuleObserver;
 import group1.project.synthlab.module.sequencer.SequencerModule;
 import group1.project.synthlab.port.IPort;
 
-public class CSequencer extends SequencerModule implements ICSequencer {
-	protected IPSequencer presentation;
+public class CSequencerModule extends SequencerModule implements ICSequencerModule {
+	protected IPSequencerModule presentation;
 
-	public CSequencer(CFactory factory) {
+	public CSequencerModule(CFactory factory) {
 		super(factory);
-		this.presentation = new PSequencer(this);
+		this.presentation = new PSequencerModule(this);
 	}
 
-	public IPSequencer getPresentation() {
+	public IPSequencerModule getPresentation() {
 		return presentation;
 	}
 
@@ -33,6 +33,12 @@ public class CSequencer extends SequencerModule implements ICSequencer {
 	public String saveConfiguration() {
 		// TODO Auto-generated method stub
 		return "";
+	}
+
+	@Override
+	public void initPresentation(Object... params) {
+		// TODO Auto-generated method stub
+		presentation.updatePresentation();
 	}
 	
 }
