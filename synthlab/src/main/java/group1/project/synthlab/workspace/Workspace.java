@@ -86,13 +86,6 @@ public class Workspace implements IWorkspace {
 		return synthesizer;
 	}
 	
-	public enum LALA {
-		TOTO, TATA
-	}
-	
-		
-	public static void main(String[] a) {
-		System.err.println(LALA.class.getName());
-	}
+
 
 }

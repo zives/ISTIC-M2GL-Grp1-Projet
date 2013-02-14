@@ -18,6 +18,10 @@ import javax.swing.event.ChangeListener;
 
 public class PSequencer extends PModule implements IPSequencer{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4031580764495351076L;
 	protected transient ICSequencer controller;
 	protected JSlider[] tensionSlider;
 	protected JSlider tensionSlider1;

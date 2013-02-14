@@ -151,5 +151,12 @@ public class Cable implements ICable {
 		}
 	
 	}
+	
+	/**
+	 * @return remet le compteur d'instances de classe a 0
+	 */
+	public static void resetCounterInstance() {
+		cableCount = 0;
+	}
 
 }

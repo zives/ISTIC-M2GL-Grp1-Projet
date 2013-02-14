@@ -7,6 +7,11 @@ import javax.swing.JSlider;
 
 public class PVCFHPModule extends PVCFModule implements IPVCFHPModule {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7498802672670972503L;
+
 	protected transient ICVCFHPModule controller;
 
 	protected JSlider coarseSlider;

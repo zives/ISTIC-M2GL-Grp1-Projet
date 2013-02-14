@@ -122,7 +122,7 @@ public class POSCModule extends PModule implements IPOSCModule {
 		g.setFont(font);
 		g.setColor(new Color(220, 220, 220));
 		// Création graphique des lignes
-		List<Double> values = controller.getValuesToDrawAndEraseIts();
+		List<Double> values = controller.getValuesToDraw();
 		if (values == null)
 			return;
 		int step = (int) (values.size() / w);

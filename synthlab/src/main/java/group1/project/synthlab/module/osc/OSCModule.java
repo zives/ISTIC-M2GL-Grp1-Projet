@@ -20,6 +20,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class OSCModule extends Module implements IOSCModule {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1135623254087663378L;
+
 	protected static int moduleCount = 0;
 
 	/* Defintion des ports */

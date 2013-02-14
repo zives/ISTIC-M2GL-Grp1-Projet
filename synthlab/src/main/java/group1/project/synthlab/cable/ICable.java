@@ -70,5 +70,7 @@ public interface ICable extends Serializable {
 	public int getNumCable();
 
 	public void setNumCable(int numCable);
+	
+	
 
 }

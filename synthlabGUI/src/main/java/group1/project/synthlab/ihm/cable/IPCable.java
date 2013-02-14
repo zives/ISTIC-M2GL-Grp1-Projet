@@ -41,6 +41,9 @@ public interface IPCable {
 	/** Change la couleur du cable */
 	public void nextColor();
 	
+	/** Obtient la couleur du cable */
+	public int getColorPosition();
+	
 
 	
 }

@@ -1,5 +1,6 @@
 package group1.project.synthlab.ihm.workspace;
 
+import group1.project.synthlab.cable.Cable;
 import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.ihm.cable.ICCable;
 import group1.project.synthlab.ihm.factory.CFactory;
@@ -12,10 +13,13 @@ import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.workspace.Workspace;
 
+import java.awt.Component;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CWorkspace extends Workspace implements ICWorkspace {
 	protected ICCable drawingCable;
@@ -106,7 +110,7 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		addModule(factory.createPianoModule());
 
 	}
-	
+
 	@Override
 	public void addOneNoiseModule() {
 		addModule(factory.createNoiseModule());
@@ -116,6 +120,7 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 	@Override
 	public void saveConfiguration() {
 		saveConfiguration("toto");
+		// saveConfiguration("toto");
 		// TODO Auto-generated method stub
 		// on demande le nom de fichier
 		// String name = presentation.askFileName();
@@ -150,6 +155,7 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 	@Override
 	public void loadConfiguration() {
 		clearAll();
+
 		// // on demande le fichier à l'utilisateur
 		// File f = presentation.askFileChooser();
 		// if (f != null) {
@@ -394,35 +400,38 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 
 	public void saveConfiguration(String name) {
 		String save = "<Configuration name=\"" + name + "\">\n";
+		Set<ICCable> cables = new HashSet<>();
 		for (IModule m : modules) {
 			String tmp = "";
 			tmp = "	<Module name=\"" + m.getName() + "\" type=\""
 					+ m.getClass().getSimpleName() + "\">\n";
 
 			tmp += "		<Controller>\n";
-			//On boucle sur tout les attributs
+			// On boucle sur tout les attributs
 			for (Field f : CTools.getAllFields(m.getClass())) {
 				f.setAccessible(true);
 				try {
-					if (Modifier.isFinal(f.getModifiers()) || (Modifier.isStatic(f.getModifiers()) && f.getType().isArray())) {
+					if (Modifier.isFinal(f.getModifiers())
+							|| (Modifier.isStatic(f.getModifiers()) && f
+									.getType().isArray())) {
 						continue;
 					}
 				} catch (IllegalArgumentException e1) {
 					e1.printStackTrace();
 				}
 				try {
-					//Est un type primitif
+					// Est un type primitif
 					if (f.getType().isPrimitive()) {
 						tmp += "			<Attr name=\"" + f.getName() + "\" type=\""
 								+ f.getType() + "\"  value=\"" + f.get(m)
 								+ "\" struct=\"primitive\"/>\n";
 
-					//Est un tableau
+						// Est un tableau
 					} else if (f.getType().isArray()) {
 						f.setAccessible(true);
 						Object array = f.get(m);
 
-						Class cType = f.getType().getComponentType();
+						Class<?> cType = f.getType().getComponentType();
 						int length = Array.getLength(array);
 
 						if (cType.isPrimitive()) {
@@ -439,31 +448,36 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 							tmp += "			</Attr>\n";
 						}
 					}
-					//Est un en enum
-					else if (f.getType().isEnum()) {						
-						tmp += "			<Attr name=\"" + f.getName()
-								+ "\" type=\"" + f.getType().getName()
-								+ "\" value=\"" + f.get(m) 
-								+ "\" struct=\"enum\" />\n";
-											
+					// Est un en enum
+					else if (f.getType().isEnum()) {
+						tmp += "			<Attr name=\"" + f.getName() + "\" type=\""
+								+ f.getType().getName() + "\" value=\""
+								+ f.get(m) + "\" struct=\"enum\" />\n";
+
 					}
-					//Est un port
-					else if (f.getType().isAssignableFrom(IOutPort.class) || f.getType().isAssignableFrom(IInPort.class)) {
+					// Est un port
+					else if (f.getType().isAssignableFrom(IOutPort.class)
+							|| f.getType().isAssignableFrom(IInPort.class)) {
 						IPort port = (IPort) f.get(m);
 						if (port.getCable() == null)
 							continue;
+						cables.add((ICCable) port.getCable());
 						tmp += "			<Port name=\"" + port.getLabel()
-								+ "\" nameAttr=\"" + f.getName()
-								+ "\" type=\"" + f.getType().getName()
-								+ "\" refPresentation=\"" + port.getCable().getNumCable() 
-								+ "\" moduleTargetName=\"" + port.getModule().getName();
-						tmp += (f.getType().isAssignableFrom(IOutPort.class) ? 
-								"\" portTargetNameAttr=\"" + port.getCable().getInPort().getLabel() + "\" />\n" 
-								: 
-								"\" portTargetNameAttr=\"" + port.getCable().getOutPort().getLabel() + "\" />\n");
+								+ "\" nameAttr=\"" + f.getName() + "\" type=\""
+								+ f.getType().getName()
+								+ "\" refPresentation=\""
+								+ port.getCable().getNumCable()
+								+ "\" moduleTargetName=\""
+								+ port.getModule().getName();
+						tmp += (f.getType().isAssignableFrom(IOutPort.class) ? "\" portTargetNameAttr=\""
+								+ port.getCable().getInPort().getLabel()
+								+ "\" />\n"
+								: "\" portTargetNameAttr=\""
+										+ port.getCable().getOutPort()
+												.getLabel() + "\" />\n");
 
 					}
-					
+
 				} catch (IllegalArgumentException e) {
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
@@ -471,20 +485,21 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 				}
 			}
 			tmp += "		</Controller>\n";
-			// /!\ajouter presentation/!\
 			ICModule icm = (ICModule) m;
 			IPModule ipm = icm.getPresentation();
-			try {
-				String presentationString = CTools.toString(ipm);
-				tmp+="		<Presentation>\n"+
-						"			"+presentationString+
-						"\n		</Presentation>\n";
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+			tmp += "		<Presentation>\n" + "			" + "<Location x=\""
+					+ ((Component) ipm).getX() + "\" y=\""
+					+ ((Component) ipm).getY() + "\" />"
+
+					+ "\n		</Presentation>\n";
+
 			tmp += "	</Module>\n";
+			for(ICCable cable: cables) {
+				tmp += "	<Cable id=\"" +  cable.getNumCable() + "\">\n";
+				tmp += "		<Color value=\"" +  cable.getPresentation().getColorPosition() + "\" />\n";
+				tmp += "	</Cable>\n";
+			
+			}
 			save += tmp;
 		}
 
@@ -499,6 +514,7 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 			module.resetCounterInstance();
 			removeModule(module);
 		}
+		Cable.resetCounterInstance();
 	}
 
 	@Override

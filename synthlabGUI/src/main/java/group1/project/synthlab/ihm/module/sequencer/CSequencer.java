@@ -6,6 +6,10 @@ import group1.project.synthlab.module.sequencer.SequencerModule;
 import group1.project.synthlab.port.IPort;
 
 public class CSequencer extends SequencerModule implements ICSequencer {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2949518358197250979L;
 	protected IPSequencer presentation;
 
 	public CSequencer(CFactory factory) {

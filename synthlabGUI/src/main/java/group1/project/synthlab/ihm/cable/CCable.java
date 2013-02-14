@@ -12,6 +12,10 @@ import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 
 public class CCable extends Cable implements ICCable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6221567842176606010L;
 	protected IPCable presentation;
 	public CCable(CFactory factory) {
 		super(factory);

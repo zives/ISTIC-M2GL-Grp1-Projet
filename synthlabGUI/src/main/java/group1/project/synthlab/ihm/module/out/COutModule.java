@@ -6,6 +6,10 @@ import group1.project.synthlab.module.out.OutModule;
 import group1.project.synthlab.port.IPort;
 
 public class COutModule extends OutModule implements ICOutModule {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3863164152877921361L;
 	protected IPOutModule presentation;
 
 	public COutModule(CFactory factory) {

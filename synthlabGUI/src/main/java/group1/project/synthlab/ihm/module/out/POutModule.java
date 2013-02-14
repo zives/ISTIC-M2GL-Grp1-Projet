@@ -159,14 +159,11 @@ public class POutModule extends PModule implements IPOutModule {
 
 	@Override
 	public void updateSlider() {
-		// TODO Auto-generated method stub
-
 		attenuatorSlider.setValue((int) controller.getAttenuation()*10);
 	}
 
 	@Override
 	public void updateDistribution(){
-		// TODO Auto-generated method stub
 		if(controller.getDistribution() == Distribution.NORMAL){
 			distributionButton.setText("DISTRIBUTED");
 			distributionButton.setSelected(false);
@@ -178,7 +175,6 @@ public class POutModule extends PModule implements IPOutModule {
 
 	@Override
 	public void updateLocation(double x, double y) {
-		// TODO Auto-generated method stub
 		this.setLocation((int)x,(int) y);
 	}
 

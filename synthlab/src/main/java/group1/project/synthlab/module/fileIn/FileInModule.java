@@ -27,6 +27,12 @@ import com.jsyn.util.SampleLoader;
 
 public class FileInModule extends Module implements IFileInModule{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1888433312650836761L;
+
+
 	protected static int moduleCount = 0;
 
 
