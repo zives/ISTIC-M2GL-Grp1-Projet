@@ -2,6 +2,8 @@ package group1.project.synthlab.test;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.vcf.lp.IVCFLPModule;
+import group1.project.synthlab.signal.Signal;
+
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.Circuit;
@@ -69,18 +71,18 @@ public class TestVCFLPModule extends TestCase {
 		vcflp.setCoarseAdjustment(11);
 		vcflp.setFineAdjustment(0);
 		vcflp.changeFrequency();
-		assertEquals (660.0, vcflp.getFilterFrequencyModulation().getf0());
+		assertEquals ((Signal.FMAX/100)*11, vcflp.getFilterFrequencyModulation().getf0());
 	}
 
 	public void testRedefAdjustments() {
-		vcflp.setf0(630);
+		vcflp.setf0(550);
 		vcflp.redefAdjustments();
-		assertEquals (vcflp.getCoarseAdjustment(), 10);
-		assertEquals (vcflp.getFineAdjustment(), 0.5);
+		assertEquals ((int)(550/(Signal.FMAX/100)), vcflp.getCoarseAdjustment());
+		assertEquals ((550%(Signal.FMAX/100))/(Signal.FMAX/100), vcflp.getFineAdjustment());
 		vcflp.setf0(660);
 		vcflp.redefAdjustments();
-		assertEquals (vcflp.getCoarseAdjustment(), 11);
-		assertEquals (vcflp.getFineAdjustment(), 0.0);
+		assertEquals ((int)(660/(Signal.FMAX/100)), vcflp.getCoarseAdjustment());
+		assertEquals ((660%(Signal.FMAX/100))/(Signal.FMAX/100), vcflp.getFineAdjustment());
 	}
 
 	public void testChangeQFactor() {
