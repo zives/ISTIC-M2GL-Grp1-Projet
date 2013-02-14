@@ -106,6 +106,12 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		addModule(factory.createPianoModule());
 
 	}
+	
+	@Override
+	public void addOneNoiseModule() {
+		addModule(factory.createNoiseModule());
+
+	}
 
 	@Override
 	public void saveConfiguration() {

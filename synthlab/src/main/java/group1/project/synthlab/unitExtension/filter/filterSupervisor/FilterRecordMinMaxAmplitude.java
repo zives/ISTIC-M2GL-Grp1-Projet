@@ -6,11 +6,13 @@ public class FilterRecordMinMaxAmplitude extends UnitFilter {
 	
 	private double min;
 	private double max;
+	private double currentValue;
 	
 	public FilterRecordMinMaxAmplitude() {
 		super();
 		this.min = 0;
 		this.max = 0;
+		this.currentValue = 0;
 	}
 	
 	@Override
@@ -21,6 +23,7 @@ public class FilterRecordMinMaxAmplitude extends UnitFilter {
 
 		for (int i = start; i < limit; i++) {
 			double x = inputs[i];
+			this.currentValue = x;
 			if(x > max)
 				max = x;
 			if(x < min)
@@ -52,5 +55,12 @@ public class FilterRecordMinMaxAmplitude extends UnitFilter {
 	public double getMax() {
 		return max;
 	}
-	
+
+	/**
+	 * 
+	 * @return la valeur courante du signal en sortie
+	 */
+	public double getCurrentValue() {
+		return currentValue;
+	}
 }

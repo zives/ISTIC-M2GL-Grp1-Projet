@@ -2,16 +2,13 @@ package group1.project.synthlab.module.eg;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
-import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Tools;
 import group1.project.synthlab.unitExtension.envelope.Envelope;
-
 import javax.swing.JFrame;
-
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.scope.AudioScope;
@@ -269,9 +266,9 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 		// On cree notre eg et on ajoute le circuit cree au Synthesizer
 		EGModule eg = (EGModule) factory.createEGModule();
 		synth.add(eg.getCircuit());
-		eg.setAttack(200);
-		eg.setDecay(200);
-		eg.setRelease(10000);
+		eg.setAttack(0.2);
+		eg.setDecay(0.2);
+		eg.setRelease(1);
 		eg.setSustain(-6);
 		eg.start();
 
@@ -283,7 +280,7 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 		// On cree l'oscillateur qui sera connecte a l'entree gate de l'EG
 		SquareOscillator oscGate = new SquareOscillator();
 		oscGate.frequency.set(0.5);		// La frequence doit etre tres faible pour pouvoir observer la sortie de l'enveloppe a chaque front montant
-		oscGate.amplitude.set(0.5);
+		oscGate.amplitude.set(1);
 		synth.add(oscGate);
 		oscGate.start();
 		oscGate.output.connect(eg.getGate().getJSynPort());
@@ -309,37 +306,34 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 		frame.add(scope.getView());
 		frame.pack();
 		frame.setVisible(true);
-
+        
+		System.out.println("\n\n\n****************************************************\n");
+		System.out.println("Tests fonctionnels du Module EG");
+		System.out.println("\n****************************************************\n\n");
+		
 		System.out.println("\n\nTest Module EG, avec differents parametres");
 		
 		System.out.println("\nAttack = 0.2s, Decay = 0.2s, Sustain = -6dB, Release = 1s");
 		Tools.wait(synth, 10);
 		
 		System.out.println("\nAttack = 1s, Decay = 0.2s, Sustain = -6dB, Release = 1s");
-		eg.setAttack(1000);
+		eg.setAttack(1);
 		Tools.wait(synth, 10);
 		
 		System.out.println("\nAttack = 0.2s, Decay = 1s, Sustain = -6dB, Release = 1s");
-		eg.setAttack(200);
-		eg.setDecay(1000);
+		eg.setAttack(0.2);
+		eg.setDecay(1);
 		Tools.wait(synth, 10);
 		
 		System.out.println("\nAttack = 0.2s, Decay = 0.2s, Sustain = -24dB, Release = 1s");
-		eg.setDecay(200);
+		eg.setDecay(0.2);
 		eg.setSustain(-24);
 		Tools.wait(synth, 10);
 		
-		System.out.println("\nAttack = 0.2s, Decay = 0.2s, Sustain = -6dB, Release = 10s");
+		System.out.println("\nAttack = 0.2s, Decay = 0.2s, Sustain = -6dB, Release = 5s");
 		eg.setSustain(-6);
-		eg.setRelease(10000);
+		eg.setRelease(10);
 		Tools.wait(synth, 10);
-		
-		System.out.println("\nArret de l'EG pendant quelques secondes");
-		eg.stop();
-		Tools.wait(synth, 3);
-		
-		System.out.println("\nRedemarrage de l'EG");
-		eg.start();
 	}
 
 }

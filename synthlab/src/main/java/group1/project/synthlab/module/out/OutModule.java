@@ -2,15 +2,12 @@ package group1.project.synthlab.module.out;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
-import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
 import group1.project.synthlab.unitExtension.filter.filterAttenuator.FilterAttenuator;
-
 import javax.swing.JFrame;
-
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.scope.AudioScope;
@@ -247,6 +244,10 @@ public class OutModule extends Module implements IOutModule {
 		frame.pack();
 		frame.setVisible(true);
 
+		System.out.println("\n\n\n****************************************************\n");
+		System.out.println("Tests fonctionnels du Module OUT");
+		System.out.println("\n****************************************************\n\n");
+		
 		// Debut du test
 		try {
 			out.start();

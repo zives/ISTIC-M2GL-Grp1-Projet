@@ -8,6 +8,7 @@ import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
+import group1.project.synthlab.unitExtension.filter.filterSupervisor.FilterRecordMinMaxAmplitude;
 import group1.project.synthlab.unitExtension.filter.filterSupervisor.FilterRisingEdge;
 import group1.project.synthlab.unitExtension.filter.filterSupervisor.IFilterObserver;
 import group1.project.synthlab.unitExtension.producer.SimpleProducer;
@@ -158,7 +159,7 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	 */
 	public void cableConnected(IPort port) {
 		if(port == gate)
-			System.out.println("Cable connect� dans l'entr�e gate");
+			System.out.println("Cable connecte dans l'entree gate");
 	}
 
 	/* (non-Javadoc)
@@ -182,6 +183,13 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		// On cree notre Sequenceur et on ajoute le circuit cree au Synthesizer
 		SequencerModule sequencer = (SequencerModule) factory.createSequencerModule();
 		synth.add(sequencer.getCircuit());
+		
+		// On le connecte a un filtre en sortie qui recuperera les valeurs
+		FilterRecordMinMaxAmplitude filter = new FilterRecordMinMaxAmplitude();
+		synth.add(filter);
+		filter.start();
+		sequencer.getOut().getJSynPort().connect(filter.input);
+		
 		sequencer.setStepValue(1, 0.01);
 		sequencer.setStepValue(2, 0.02);
 		sequencer.setStepValue(3, 0.03);
@@ -202,9 +210,14 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 
 		synth.start();
 		
-		Tools.wait(synth, 30);
+		int i = 0;
+		while(i<70){
+			System.out.println("Valeur en sortie : "+filter.getCurrentValue());
+			Tools.wait(synth, 0.2);
+			i++;
+		}
 
-		System.out.println("On met toutes les valeurs des pas � 0.33 et on remet a 1");
+		System.out.println("On met toutes les valeurs des pas a 0.33 et on remet a 1");
 		sequencer.resetSteps();
 		sequencer.setStepValue(1, 0.33);
 		sequencer.setStepValue(2, 0.33);
@@ -215,6 +228,12 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		sequencer.setStepValue(7, 0.33);
 		sequencer.setStepValue(8, 0.33);
 
+		while(true){
+			System.out.println("Valeur en sortie : "+filter.getCurrentValue());
+			Tools.wait(synth, 0.2);
+			i++;
+		}
+		
 	}
 	
 }
