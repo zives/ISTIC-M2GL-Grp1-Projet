@@ -10,8 +10,6 @@ public interface IPOutModule extends IPModule {
 
 	public void updateDistribution();
 
-	public Point getLocation();
-
 	public void updateLocation(double x, double y);
 
 	

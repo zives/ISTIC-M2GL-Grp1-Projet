@@ -6,13 +6,28 @@ import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.module.ICModule;
 import group1.project.synthlab.ihm.module.IPModule;
 import group1.project.synthlab.ihm.tools.CTools;
+import group1.project.synthlab.ihm.tools.ValueOfString;
 import group1.project.synthlab.module.IModule;
+import group1.project.synthlab.module.out.OutModule;
 import group1.project.synthlab.workspace.Workspace;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class CWorkspace extends Workspace implements ICWorkspace {
 	protected ICCable drawingCable;
@@ -141,6 +156,30 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 	@Override
 	public void loadConfiguration() {
 		 clearAll();
+		 File f = presentation.askFileChooser();
+			if (f != null) {
+				try {
+					DocumentBuilderFactory builderFactory = DocumentBuilderFactory
+							.newInstance();
+					DocumentBuilder builder = null;
+					builder = builderFactory.newDocumentBuilder();
+					Document document = builder.parse(new FileInputStream(f));
+					Node configuration = document.getFirstChild();
+					
+
+					// on supprime tous les modules
+					for (IModule m : modules) {
+						ICModule cm = (ICModule) m;
+						presentation.removeModule(cm.getPresentation());
+					}
+					modules.clear();		
+					parcourirModules(configuration);
+	
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		 
 //		// on demande le fichier à l'utilisateur
 //		File f = presentation.askFileChooser();
 //		if (f != null) {
@@ -329,6 +368,77 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 //		}
 //		return com;
 //	}
+	
+	public Field findField(String nomAttribut, Class module){
+		Field field;
+		try{
+			field = module.getDeclaredField(nomAttribut);
+			return field;
+		}catch(java.lang.NoSuchFieldException e1){
+			if(module.getSuperclass() != null){
+				return findField(nomAttribut, module.getSuperclass());
+			}
+			return null;
+		}
+		
+	}
+
+	private void parcourirModules(Node configuration) {
+		// TODO Auto-generated method stub
+		Element e = (Element) configuration;
+		System.out.println(configuration);
+		NodeList modulesNodes = e.getElementsByTagName("Module");
+		for(int i = 0 ;i<modulesNodes.getLength();i++){
+			Element m = (Element) modulesNodes.item(i);
+			String type = m.getAttribute("type");
+			try {
+				CFactory factory = new CFactory();
+				Method method = CFactory.class.getMethod("create" + type);
+				ICModule module = (ICModule) method.invoke(factory);
+				System.out.println(module.getName()+" "+type);
+				
+				
+				//controller
+				Node cont = m.getElementsByTagName("Controller").item(0);
+				//attributs
+				NodeList attr = ((Element)cont).getElementsByTagName("Attr");
+				
+				for(int j = 0; j<attr.getLength();j++){
+					Element a = (Element) attr.item(j);
+					Field field;
+					System.out.println(a.getAttribute("name"));
+					System.err.println(findField(a.getAttribute("name"), module.getClass()));
+					try{
+						field = module.getClass().getDeclaredField(a.getAttribute("name"));
+						//System.err.println(field);
+					}catch(java.lang.NoSuchFieldException e1){
+						field = module.getClass().getSuperclass().getDeclaredField(a.getAttribute("name"));
+						//System.err.println(field);
+					}
+					if(field.getType().isPrimitive()){
+						field.setAccessible(true);
+						String typeString = "java.lang."+(a.getAttribute("type").charAt(0)+"").toUpperCase()+a.getAttribute("type").substring(1);
+						System.out.println(typeString);
+						Class c = Class.forName(typeString);
+
+						Object res = ValueOfString.valueOf(c,a.getAttribute("value"));
+						field.set(module, res);
+					}
+
+				}
+				//module.getClass().getField("");
+				
+				
+				
+				CWorkspace.getInstance().addModule(module);
+					
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+		}
+	}
 
 	public void addOneFileInModule() {
 		addModule(factory.createFileInModule());
@@ -387,14 +497,14 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		for (IModule m : modules) {
 			String tmp = "";
 			tmp = "	<Module name=\"" + m.getName() + "\" type=\""
-					+ m.getClass().getSimpleName() + "\">\n";
+					+ m.getClass().getSimpleName().substring(1) + "\">\n";
 
 			tmp += "		<Controller>\n";
 			//On boucle sur tout les attributs
 			for (Field f : CTools.getAllFields(m.getClass())) {
 				f.setAccessible(true);
 				try {
-					if (Modifier.isFinal(f.getModifiers()) || (Modifier.isStatic(f.getModifiers()) && f.getType().isArray())) {
+					if (Modifier.isFinal(f.getModifiers()) || (Modifier.isStatic(f.getModifiers()))) {
 						continue;
 					}
 				} catch (IllegalArgumentException e1) {
@@ -463,6 +573,14 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 
 		save += "</Configuration>";
 		System.out.println(save);
+		try {
+			FileWriter f = new FileWriter(new File("essai.conf"));
+			f.write(save);
+			f.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
