@@ -63,4 +63,10 @@ public interface ICable {
 	 * @return si le signal est saturé
 	 */
 	public boolean isSignalSaturated();
+	
+	
+	public int getNumCable();
+
+	public void setNumCable(int numCable);
+
 }

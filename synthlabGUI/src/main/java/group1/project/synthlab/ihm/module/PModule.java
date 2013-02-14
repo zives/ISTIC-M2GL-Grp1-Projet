@@ -31,7 +31,7 @@ public abstract class PModule extends JPanel implements IPModule {
 	private static final long serialVersionUID = -3047834031036120214L;
 	private PModule self;
 	private Point locationComponentOnDrag = new Point();
-	protected List<IPModuleObserver> observers = new ArrayList<IPModuleObserver>();
+	protected transient List<IPModuleObserver> observers = new ArrayList<IPModuleObserver>();
 	protected final JToggleButton onOffButton;
 	protected final JToggleButton removeButton;
 	protected boolean canMove;

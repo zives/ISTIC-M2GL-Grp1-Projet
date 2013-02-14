@@ -17,22 +17,40 @@ import group1.project.synthlab.port.out.IOutPort;
 
 public class Cable implements ICable {
 	
+	protected static int cableCount = 0;
+
+	
 	protected IInPort inPort; // Entree d'un module
 	protected IOutPort outPort; // Sortie d'un module
 	protected Factory factory;
 	protected boolean saturated;
 	protected boolean hasSignal;
+	protected int numCable;
 	
 	/**
 	 * Constructeur du cable.
 	 * @param factory
 	 */
 	public Cable(Factory factory) {
+		this.numCable = cableCount++;
 		this.factory = factory;
 		this.hasSignal = false;
 		this.saturated = false;
 	}
 	
+	
+	
+	public int getNumCable() {
+		return numCable;
+	}
+
+
+	public void setNumCable(int numCable) {
+		this.numCable = numCable;
+	}
+
+
+
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.cable.ICable#setOutPort(group1.project.synthlab.port.out.IOutPort)
 	 */
