@@ -38,11 +38,14 @@ public class VCFLPModule extends Module implements IPortObserver, IVCFLPModule {
 	protected static int moduleCount = 0;
     
     /** Frequence de coupure min */
-    public static final double fmin = 0;
+    public static final double fmin = Signal.FMIN;
     /** Frequence de coupure max */
-    public static final double fmax = 6000;
+    public static final double fmax = Signal.FMAX;
     /** Frequence de coupure */
     protected double f0 = 440;
+    
+    /** Coefficient pour l'attenuation du signal en entree du filtre lorsque Q > 1, suivant la formule out = in * (1/(q^n)) */
+    protected double n = 1.7;
     
     /** Facteur de qualite, le meme pour les 2 filtres */
     protected double q;
@@ -211,7 +214,7 @@ public class VCFLPModule extends Module implements IPortObserver, IVCFLPModule {
     	if(q == 0)
     		q = 0.1;
     	if(q > 1)
-    		attenuatorInSignal.inputB.set(1.0 / Math.pow(q, 1.85));
+    		attenuatorInSignal.inputB.set(1.0 / Math.pow(q, n));
         filter1.Q.set(q);
         filter2.Q.set(q);
     }
