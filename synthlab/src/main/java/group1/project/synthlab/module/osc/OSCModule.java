@@ -114,7 +114,7 @@ public class OSCModule extends Module implements IOSCModule {
 			throws BufferTooBig {
 		if (this.buffer.size() + buffer.size() > 100000)
 			throw new BufferTooBig(
-					"Le buffer du module OSC est trop rempli, pensez � le vider r�gulierement de l'ordre de la ms...");
+					"Le buffer du module OSC est trop rempli, pensez a le vider regulierement de l'ordre de la ms...");
 		this.buffer.addAll(buffer);
 		this.lastTime = time;
 	}

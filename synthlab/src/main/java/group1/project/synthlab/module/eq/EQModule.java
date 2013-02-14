@@ -6,6 +6,7 @@ import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
+import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
 
 import java.util.Timer;
@@ -90,7 +91,6 @@ public class EQModule extends Module implements IEQModule {
 		circuit.add(ptOut);
 	}
 	
-
 	@Override
 	public void refresh() {
 		for (int i = 0; i < FREQUENCIES.length; ++i)

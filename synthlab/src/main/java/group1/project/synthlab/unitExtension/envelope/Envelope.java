@@ -20,7 +20,7 @@ public class Envelope extends UnitGate {
 	public UnitInputPort sustain;
 
 	public enum ENVELOPE_STATE {
-		NOTHING, ATTACK, HOLD, DECAY, SUSTAIN, RELEASE
+		NOTHING, ATTACK, HOLD, DECAY, SUSTAIN, RELEASE, STOP
 	};
 
 	protected ENVELOPE_STATE state;
@@ -57,6 +57,10 @@ public class Envelope extends UnitGate {
 		double[] outputs = output.getValues();
 
 		for (int i = start; i < limit; i++) {
+			if (state == ENVELOPE_STATE.STOP) {
+				outputs[i] = 0;
+				continue;
+			}
 			if (input.checkGate(i)) {
 				state = ENVELOPE_STATE.ATTACK;
 				lastTime = synth.getCurrentTime();
@@ -162,6 +166,16 @@ public class Envelope extends UnitGate {
 
 	public ENVELOPE_STATE getState() {
 		return state;
+	}
+
+	public void startProcessus() {
+		state = ENVELOPE_STATE.NOTHING;
+		
+	}
+	
+	public void stopProcessus() {
+		state = ENVELOPE_STATE.STOP;
+		
 	}
 	
 

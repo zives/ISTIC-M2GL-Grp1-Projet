@@ -1,9 +1,11 @@
 package group1.project.synthlab.port;
 
-import java.io.Serializable;
-
 import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.module.IModule;
+
+import java.io.Serializable;
+
+import com.jsyn.unitgen.UnitGenerator;
 
 /**
  * @author Groupe 1
@@ -40,4 +42,6 @@ public interface IPort extends IPortObservable, Serializable {
 	public boolean detectSignalSaturated();
 
 	public boolean detectSignal();
+	
+	public UnitGenerator getSupervisor();
 }

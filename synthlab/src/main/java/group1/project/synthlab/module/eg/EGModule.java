@@ -6,6 +6,7 @@ import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
+import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
 import group1.project.synthlab.unitExtension.envelope.Envelope;
 import javax.swing.JFrame;
@@ -101,6 +102,20 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 		envelope.release.set(release);
 		envelope.hold.set(hold);
 	}
+
+	@Override
+	public void stop() {
+		envelope.stopProcessus();
+		Signal.turnOff(envelope.input);
+	}
+
+
+	@Override
+	public void start() {
+		envelope.startProcessus();
+		super.start();
+	}
+
 
 	private double getVolt() {
 		return Tools.dBToV(decibel);

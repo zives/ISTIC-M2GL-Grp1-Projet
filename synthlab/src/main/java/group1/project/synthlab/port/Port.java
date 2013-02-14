@@ -9,6 +9,8 @@ import group1.project.synthlab.unitExtension.filter.filterSupervisor.FilterAmpli
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jsyn.unitgen.UnitGenerator;
+
 
 /**
  * @author Groupe 1
@@ -21,12 +23,14 @@ public abstract class Port implements IPort {
 	protected Factory factory;
 	protected IModule module;
 	protected transient FilterAmplitude supervisor;
+	protected int countModuleStarted;
 
 	public Port(String label, IModule module, Factory factory){
 		this.label = label;
 		this.factory = factory;
 		this.module = module;
-		this.supervisor = new FilterAmplitude(Signal.AMAX, false);		
+		this.supervisor = new FilterAmplitude(Signal.AMAX, false);	
+		this.countModuleStarted = 0;
 		register(module);
 	}
 	
@@ -35,6 +39,10 @@ public abstract class Port implements IPort {
 		if (cable != null)
 			cable.disconnect();
 		super.finalize();		
+	}
+	
+	public UnitGenerator getSupervisor() {
+		return this.supervisor;
 	}
 		
 	public ICable getCable() {
@@ -91,8 +99,9 @@ public abstract class Port implements IPort {
 	}
 
 	public boolean detectSignal() {
-		return supervisor.hasSignal();
+		return supervisor.hasSignal() ;
 	}
+
 
 
 }

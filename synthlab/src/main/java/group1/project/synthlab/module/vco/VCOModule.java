@@ -167,7 +167,10 @@ public class VCOModule extends Module implements IVCOModule {
 
 		// On regle les amplitudes des oscillateurs au minimum, puisque le VCO
 		// n'est pas encore demarre
-		reset();
+		sineOsc.amplitude.set(amin);
+		squareOsc.amplitude.set(amin);
+		triangleOsc.amplitude.set(amin);
+		sawToothOsc.amplitude.set(amin);
 
 	}
 	
@@ -283,19 +286,13 @@ public class VCOModule extends Module implements IVCOModule {
 	 * @see group1.project.synthlab.module.IModule#stop()
 	 */
 	public void stop() {
+		Signal.turnOff(sineOsc.amplitude);
+		Signal.turnOff(squareOsc.amplitude);
+		Signal.turnOff(triangleOsc.amplitude);
+		Signal.turnOff(sawToothOsc.amplitude);
 		super.stop();
-		reset();
 	}
 
-	/**
-	 * remet les parametres initiaux du module
-	 */
-	private void reset() {
-		sineOsc.amplitude.set(amin);
-		squareOsc.amplitude.set(amin);
-		triangleOsc.amplitude.set(amin);
-		sawToothOsc.amplitude.set(amin);
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -600,7 +597,10 @@ public class VCOModule extends Module implements IVCOModule {
 		Tools.wait(synth, 5);
 		
 		System.out.println("Arret du VCO pendant 3 secondes");
-		vco.reset();
+		vco.sineOsc.amplitude.set(amin);
+		vco.squareOsc.amplitude.set(amin);
+		vco.triangleOsc.amplitude.set(amin);
+		vco.sawToothOsc.amplitude.set(amin);
 		Tools.wait(synth, 3);
 		
 		System.out.println("Redemarrage du VCO");

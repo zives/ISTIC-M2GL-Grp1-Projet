@@ -3,6 +3,9 @@ package group1.project.synthlab.module;
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.port.IPort;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.jsyn.unitgen.Circuit;
 
 /**
@@ -20,6 +23,7 @@ public abstract class Module implements IModule {
 	
 	protected boolean isOn;
 	
+	
 	/**
 	 * Constructeur du module
 	 * @param name nom du module
@@ -30,9 +34,10 @@ public abstract class Module implements IModule {
 		this.name = name;
 		this.factory = factory;
 		this.isOn = false;
+		
 	}
 	
-	
+
 	public String getName() {
 		return name;
 	}
@@ -57,15 +62,20 @@ public abstract class Module implements IModule {
 	public void start(){
 		circuit.start();
 		isOn = true;
+		
 	}
 	 
 	public void stop() {
 		circuit.stop();
 		isOn = false;
+		
 	}
 	
 	public boolean isStarted() {
 		return isOn;
 	}
+
+
+
 	
 }

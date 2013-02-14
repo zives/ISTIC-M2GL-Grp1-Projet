@@ -18,9 +18,9 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 	boolean isSatured = false; //Defini si le son est sature(c.a.d qui depasse amax)
 	protected double amax; //L'amplitude maximale autorisee
 	protected List<IFilterAmplitudeObserver> observers; 
-	protected boolean previousSaturatedWarned; //Defini si on a deja  prevenu d'une saturation ou non
-	protected boolean previousHasSignalWarned; //Defini si on a deja  prevenu d'un signal null ou non
-	protected boolean truncate; //Defini s'il font tronquer l'amplitude sature a  amax
+	protected boolean previousSaturatedWarned; //Defini si on a dejaï¿½ prevenu d'une saturation ou non
+	protected boolean previousHasSignalWarned; //Defini si on a dejaï¿½ prevenu d'un signal null ou non
+	protected boolean truncate; //Defini s'il font tronquer l'amplitude sature aï¿½ amax
 	protected int countNoSignal; //Nombre de fois ou le signal etait null
 	protected final int MAX_COUNT_NO_SIGNAL = 100; //Nombre maximum de fois ou on autorise un signal null avant d'avertir les observers
 	protected boolean hasSignal = false;
