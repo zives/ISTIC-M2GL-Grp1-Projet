@@ -66,6 +66,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	protected JButton vcfhpButton;
 	protected JButton fileInButton;
 	protected JButton pianoButton;
+	protected JButton noiseButton;
 	protected JButton multiplexerButton;
 	protected JButton egButton;
 	protected JButton eqViewButton;
@@ -230,6 +231,12 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		pianoButton.setFocusable(false);
 		toolBar.add(pianoButton);
 
+		noiseButton = new JButton("NOISE");
+		noiseButton.setBackground(colorButton);
+		noiseButton.setForeground(Color.LIGHT_GRAY);
+		noiseButton.setFocusable(false);
+		toolBar.add(noiseButton);
+		
 		vcoButton = new JButton("VCO");
 		vcoButton.setBackground(colorButton);
 		vcoButton.setForeground(Color.LIGHT_GRAY);
@@ -414,6 +421,13 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 			public void actionPerformed(ActionEvent ev) {
 				controller.addOnePianoModule();
+			}
+		});
+		
+		noiseButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent ev) {
+				controller.addOneNoiseModule();
 			}
 		});
 
