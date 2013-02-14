@@ -6,6 +6,10 @@ import group1.project.synthlab.module.fileIn.FileInModule;
 import group1.project.synthlab.port.IPort;
 
 public class CFileInModule extends FileInModule implements ICFileInModule{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6004665524875528687L;
 	protected IPFileInModule presentation;
 
 	public CFileInModule(Factory factory) {

@@ -15,23 +15,32 @@ import com.jsyn.Synthesizer;
 
 public class COSCModule extends OSCModule implements ICOSCModule {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3332918051064544540L;
 	protected IPOSCModule presentation;
 	protected List<Double> valuesToDraw;
 	protected double previousLastTime;
 	protected double intervalS;
 	protected Synthesizer synth = Workspace.getInstance().getSynthetizer();
-
+	protected boolean canRepaint;
+	protected int cmptPaint = 0;
+	protected List<Double> valuesToDrawBuffered;
+	protected boolean valuesToDrawBufferedIsUpdated;
+	
 	public COSCModule(CFactory factory) {
 		super(factory);
 		this.intervalS = 0.05;
 		this.presentation = new POSCModule(this);
 		self = this;
 		valuesToDraw = new CopyOnWriteArrayList<>();
+		valuesToDrawBuffered = new CopyOnWriteArrayList<>();
 		((Component) presentation).repaint();
-
+		canRepaint = false;
 	}
 
-protected int cmptPaint = 0;
+
 	@Override
 	public void interceptionResult(List<Double> buffer, double time)
 			throws BufferTooBig {
@@ -39,7 +48,7 @@ protected int cmptPaint = 0;
 		
 		int maxCmptPaint = (int) (0.1 / intervalS); // nombre d'iterationsavant de parvenir à 20ms pour un affiche fluide (pas trop rapide pr l'ecran)
 		if (this.buffer.size() >= synth.getFrameRate() * intervalS) { //augmenter ce nombre pour zoomer (moins de bande à afficher d'un coup)
-			
+			canRepaint = false;
 			valuesToDraw.clear();
 			int cmpt = 0 ;
 			int max = (int) (synth.getFrameRate() * intervalS);
@@ -48,10 +57,15 @@ protected int cmptPaint = 0;
 				valuesToDraw.add(this.buffer.poll());
 			}
 			if (++cmptPaint>= maxCmptPaint) {
+				
 			((Component) presentation).repaint();
 				cmptPaint = 0;
 			}
+			canRepaint = true;
+			valuesToDrawBuffered.clear();
+			valuesToDrawBuffered.addAll(valuesToDraw);
 		}
+		
 	}
 
 	public double getInterval() {
@@ -93,8 +107,11 @@ protected int cmptPaint = 0;
 	}
 
 	@Override
-	public List<Double> getValuesToDrawAndEraseIts() {
-		return valuesToDraw;
+	public List<Double> getValuesToDraw() {
+		if (canRepaint) 
+			return valuesToDraw;
+		else
+			return valuesToDrawBuffered;
 	}
 	
 	@Override

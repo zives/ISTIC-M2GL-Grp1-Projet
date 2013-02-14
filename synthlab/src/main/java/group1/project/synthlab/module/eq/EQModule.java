@@ -26,12 +26,17 @@ import com.jsyn.unitgen.SineOscillator;
  */
 public class EQModule extends Module implements IEQModule {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6376655272091662424L;
+
 	protected static int moduleCount = 0;
 
 	/* Jsyn modules */
-	protected FilterPeakingEQ[] filtersEQ;
-	protected PassThrough ptIn;
-	protected PassThrough ptOut;
+	protected transient FilterPeakingEQ[] filtersEQ;
+	protected transient PassThrough ptIn;
+	protected transient PassThrough ptOut;
 	/* Defintion des ports */
 	protected IInPort inPort;
 	protected IOutPort outPort;

@@ -30,7 +30,10 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 	protected IOutPort[] outPorts;
 
 	// Filtres
-	protected FilterAttenuator[] attenuators;
+	protected transient FilterAttenuator[] attenuators;
+	
+	//Valeurs des controles
+	protected double[] attenuationsDB;
 
 	/* Variables internes */
 	private PassThrough passThrough;
@@ -44,6 +47,7 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 		circuit.add(passThrough);
 
 		attenuators = new FilterAttenuator[4];
+		attenuationsDB = new double[4];
 		inPorts = new IInPort[4];
 		outPorts = new IOutPort[4];
 		for (int i = 0; i < 4; ++i) {
@@ -101,6 +105,7 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 	public void setAttenuation(double db, int port) {
 		if (port > attenuators.length)
 			return;
+		attenuationsDB[port] = db;
 		attenuators[port].setAttenuation(Tools.dBToV(db) - 1);		
 	}
 	

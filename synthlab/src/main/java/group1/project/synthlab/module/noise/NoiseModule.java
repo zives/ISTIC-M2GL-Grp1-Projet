@@ -15,17 +15,22 @@ import com.jsyn.unitgen.WhiteNoise;
 
 public class NoiseModule extends Module implements INoiseModule {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2115003852547928273L;
+
 	protected static int moduleCount = 0;
 	
 	/** Generateur de bruit blanc de JSyn */
-	protected WhiteNoise whiteNoise;
+	protected transient WhiteNoise whiteNoise;
 	
 	/** Generateur de bruit Rouge/Brun de JSyn */
 	// TODO : Red Noise = Brown Noise ?
-	protected BrownianNoise brownianNoise;
+	protected transient BrownianNoise brownianNoise;
 	
 	/** Generateur de bruit rose */
-	protected PinkNoise pinkNoise;
+	protected transient PinkNoise pinkNoise;
 	
 	/** Port de sortie pour le bruit blanc */
 	protected IOutPort outWhite;
@@ -37,13 +42,13 @@ public class NoiseModule extends Module implements INoiseModule {
 	protected IOutPort outPink;
 	
 	/** Pour le on/off du bruit blanc */
-	protected Multiply onoffWhite;
+	protected transient Multiply onoffWhite;
 	
 	/** Pour le on/off du bruit rose */
-	protected Multiply onoffPink;
+	protected transient Multiply onoffPink;
 	
 	/** Pour le on/off du bruit rouge/brun */
-	protected Multiply onoffBrownian;
+	protected transient Multiply onoffBrownian;
 	
 	public NoiseModule(Factory factory) {
 		super("Noise-" + ++moduleCount, factory);

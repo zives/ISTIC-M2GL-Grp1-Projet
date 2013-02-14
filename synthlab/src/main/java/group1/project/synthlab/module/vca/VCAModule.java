@@ -22,6 +22,11 @@ import com.jsyn.unitgen.SquareOscillator;
  */
 public class VCAModule extends Module implements IPortObserver, IVCAModule {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8298675496248913286L;
+
 	protected static int moduleCount = 0;
 
 	/** Modulation d'amplitude connectee ou pas */
@@ -35,10 +40,10 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 	protected double a0 = 0; // Valeur en dB, a diviser par 60 avant de brancher dans le filtre (12dB => 1V => 0.2JSyn)
 	
 	/** Filtre d'attenuation en fonction de a0 */
-	protected FilterAmplitudeModulation filtera0;
+	protected transient FilterAmplitudeModulation filtera0;
 
 	/** Filtre d'attenuation en fonction de am */
-	protected FilterAmplitudeModulation filteram;
+	protected transient FilterAmplitudeModulation filteram;
 	
 	/** Port d'entree : entree de signal */
 	protected IInPort in;

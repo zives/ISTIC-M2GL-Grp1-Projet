@@ -24,6 +24,11 @@ import com.jsyn.unitgen.SquareOscillator;
  */
 public class EGModule extends Module implements IPortObserver, IEGModule {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5037197385996670646L;
+
 	protected static int moduleCount = 0;
 
 	/** Port d'entree : une entree de declenchement */
@@ -48,7 +53,7 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	protected double volt;
 
 	/** Le generateur d'enveloppe */
-	protected Envelope envelope;
+	protected transient Envelope envelope;
 
 	/**
 	 * Constructeur : initialise l'EG (ports, valeurs par defaut des parametres...)

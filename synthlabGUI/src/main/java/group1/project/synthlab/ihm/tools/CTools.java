@@ -1,5 +1,6 @@
 package group1.project.synthlab.ihm.tools;
 
+<<<<<<< HEAD
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -7,12 +8,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Array;
+=======
+>>>>>>> 3413653a1cd8c04c66646c875ed3cfe92fe06730
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.apache.commons.codec.binary.Base64;
 
 public class CTools {
 	public static Field[] getAllFields(Class klass) {
@@ -24,6 +25,7 @@ public class CTools {
 		return fields.toArray(new Field[] {});
 	}
 	
+<<<<<<< HEAD
 	public static String primitiveToObject(String primitive){
 		switch(primitive){
 		case "char" : return "java.lang.Character";
@@ -64,5 +66,7 @@ public class CTools {
 	        array2[i] = Array.get(array, i);
 	    return array2;
 	}
+=======
+>>>>>>> 3413653a1cd8c04c66646c875ed3cfe92fe06730
 	
 }

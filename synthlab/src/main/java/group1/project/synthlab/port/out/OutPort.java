@@ -8,7 +8,9 @@ import group1.project.synthlab.workspace.Workspace;
 import com.jsyn.ports.ConnectableOutput;
 
 public class OutPort extends Port implements IOutPort {
-	protected ConnectableOutput jSynPort;
+
+	private static final long serialVersionUID = -60247523687967765L;
+	protected transient ConnectableOutput jSynPort;
 	
 
 	public OutPort(String label, ConnectableOutput jSynPort, IModule module,  Factory factory){

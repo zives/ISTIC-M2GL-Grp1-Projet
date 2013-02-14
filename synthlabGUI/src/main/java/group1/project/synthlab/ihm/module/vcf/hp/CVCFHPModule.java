@@ -9,6 +9,10 @@ import com.jsyn.unitgen.FilterHighPass;
 
 public class CVCFHPModule extends VCFHPModule implements ICVCFHPModule {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8583890374819191498L;
 	protected IPVCFHPModule presentation;
 	
 	public CVCFHPModule(Factory factory) {

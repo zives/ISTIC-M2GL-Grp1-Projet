@@ -20,7 +20,7 @@ public abstract class Port implements IPort {
 	protected String label;	
 	protected Factory factory;
 	protected IModule module;
-	protected FilterAmplitude supervisor;
+	protected transient FilterAmplitude supervisor;
 
 	public Port(String label, IModule module, Factory factory){
 		this.label = label;

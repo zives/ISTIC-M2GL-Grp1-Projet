@@ -6,6 +6,10 @@ import group1.project.synthlab.module.vca.VCAModule;
 import group1.project.synthlab.port.IPort;
 
 public class CVCAModule extends VCAModule implements ICVCAModule {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1271584611229817300L;
 	protected IPVCAModule presentation;
 
 	public CVCAModule(CFactory factory) {

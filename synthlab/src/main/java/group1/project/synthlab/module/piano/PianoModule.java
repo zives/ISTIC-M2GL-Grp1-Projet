@@ -16,6 +16,11 @@ import group1.project.synthlab.unitExtension.producer.SimpleProducer;
  */
 public class PianoModule extends Module implements IPianoModule {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5274787748023694192L;
+
 	protected static int moduleCount = 0;
 	
 	/** Pour de sortie pour le signal triangulaire */
@@ -23,8 +28,8 @@ public class PianoModule extends Module implements IPianoModule {
 	protected IOutPort out;
 	
 	/* Variables internes */
-	protected SimpleProducer gateProducer;
-	protected SimpleProducer outProducer;
+	protected transient SimpleProducer gateProducer;
+	protected transient SimpleProducer outProducer;
 	protected final double LA3 = 0;
 	protected double a0 = LA3;
 

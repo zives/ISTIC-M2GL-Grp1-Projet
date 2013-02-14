@@ -6,6 +6,10 @@ import group1.project.synthlab.module.eq.EQModule;
 import group1.project.synthlab.port.IPort;
 
 public class CEQModule extends EQModule implements ICEQModule {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1869876693800502718L;
 	protected IPEQModule presentation;
 
 	public CEQModule(CFactory factory) {

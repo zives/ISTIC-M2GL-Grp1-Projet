@@ -6,6 +6,10 @@ import group1.project.synthlab.module.noise.NoiseModule;
 import group1.project.synthlab.port.IPort;
 
 public class CNoiseModule extends NoiseModule implements ICNoiseModule {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9009352581640038205L;
 	protected IPNoiseModule presentation;
 
 	public CNoiseModule(CFactory factory) {

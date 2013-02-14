@@ -11,6 +11,10 @@ import java.util.TimerTask;
 
 public class CEQViewModule extends EQViewModule implements ICEQViewModule {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2533954124672614376L;
 	protected IPEQViewModule presentation;
 	
 	public CEQViewModule(CFactory factory) {

@@ -26,21 +26,26 @@ import com.jsyn.unitgen.SineOscillator;
  */
 public class SequencerModule extends Module implements IPortObserver, ISequencerModule, IFilterObserver {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1482502043062608118L;
+
 	protected static int moduleCount = 0;
 	
-	protected SimpleProducer producer;
+	protected transient SimpleProducer producer;
 	
 	/** Le pas courant */
 	protected int currentStep;
 	
 	/** Le filtre permettant de detecter des fronts montants */
-	protected FilterRisingEdge filterRisingEdge;
+	protected transient FilterRisingEdge filterRisingEdge;
 	
 	/** Port d'entree : une entree de declenchement */
 	protected IInPort gate;
 
 	/** Signal produit */
-	protected Multiply multiply;
+	protected transient Multiply multiply;
 	
 	/** Port de sortie out */
 	protected IOutPort out;

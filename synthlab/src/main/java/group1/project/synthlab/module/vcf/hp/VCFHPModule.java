@@ -29,17 +29,22 @@ import com.jsyn.unitgen.SquareOscillator;
  */
 public class VCFHPModule extends Module implements IPortObserver, IVCFHPModule {
 
-    protected static int moduleCount = 0;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7686361549155605655L;
+
+	protected static int moduleCount = 0;
     
     /** Frequence de coupure min */
-    public static final double fmin = 0;
+    public static final double fmin = Signal.FMIN;
     /** Frequence de coupure max */
-    public static final double fmax = 6000;
+    public static final double fmax = Signal.FMAX;
     /** Frequence de coupure */
     protected double f0 = 440;
     
     /** Filtre JSyn */
-    protected FilterHighPass filter;
+    protected transient FilterHighPass filter;
     
     /** Reglage grossier de la frequence de coupure : entier de 0 a 990 */
     protected int coarseAdjustment;
@@ -58,18 +63,18 @@ public class VCFHPModule extends Module implements IPortObserver, IVCFHPModule {
     /**
      * Filtre pour appliquer la formule de modulation de la frequence de coupure : fc = f0 * 2^(Vfm)
      */
-    protected FilterFrequencyModulation filterFrequencyModulation;
+    protected transient FilterFrequencyModulation filterFrequencyModulation;
     
 	/**
 	 * Filtre pour ramener l'amplitude du signal modulant a amax si elle est au
 	 * dessus
 	 */
-	protected FilterAmplitude filterAmplitude;
+	protected transient FilterAmplitude filterAmplitude;
 	
     /**
      * Filtre pour recuperer les valeurs max et min d'un signal
      */
-    protected FilterRecordMinMaxAmplitude filterPrintMinMaxAmplitude;
+    protected transient FilterRecordMinMaxAmplitude filterPrintMinMaxAmplitude;
    
     
     /**

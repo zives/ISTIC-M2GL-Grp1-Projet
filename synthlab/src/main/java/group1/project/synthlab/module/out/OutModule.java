@@ -26,23 +26,28 @@ public class OutModule extends Module implements IOutModule {
 
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -528788264072924146L;
+
 	protected static int moduleCount = 0;
 
 	@SuppressWarnings("unused")
 	private final double MAX_VOLTAGE = Signal.AMAX;
 
 	/* jSyn module */
-	protected LineOut lineOut;
-	protected FilterAttenuator attenuatorLeft;
-	protected FilterAttenuator attenuatorRight;
+	protected transient LineOut lineOut;
+	protected transient FilterAttenuator attenuatorLeft;
+	protected transient FilterAttenuator attenuatorRight;
 
 	/* Defintion des ports */
 	protected IInPort leftPort;
 	protected IInPort rightPort;
 
 	/* Variables internes */
-	private PassThrough passThroughLeft;
-	private PassThrough passThroughRight;
+	private transient PassThrough passThroughLeft;
+	private transient PassThrough passThroughRight;
 
 	/* Proprietes du module */
 	protected Distribution distribution;

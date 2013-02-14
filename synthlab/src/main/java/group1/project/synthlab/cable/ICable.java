@@ -1,5 +1,7 @@
 package group1.project.synthlab.cable;
 
+import java.io.Serializable;
+
 import group1.project.synthlab.exceptions.BadConnection;
 import group1.project.synthlab.exceptions.PortAlreadyUsed;
 import group1.project.synthlab.port.in.IInPort;
@@ -11,7 +13,7 @@ import group1.project.synthlab.port.out.IOutPort;
  * 
  */
 
-public interface ICable {
+public interface ICable extends Serializable {
 
 	/**
 	 * @return le port d'entrée du module connecté
@@ -68,5 +70,7 @@ public interface ICable {
 	public int getNumCable();
 
 	public void setNumCable(int numCable);
+	
+	
 
 }

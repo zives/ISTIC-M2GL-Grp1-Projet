@@ -6,6 +6,10 @@ import group1.project.synthlab.module.multiplexer.MultiplexerModule;
 import group1.project.synthlab.port.IPort;
 
 public class CMultiplexerModule extends MultiplexerModule implements ICMultiplexerModule {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9151008358022627949L;
 	protected IPMultiplexerModule presentation;
 
 	public CMultiplexerModule(CFactory factory) {

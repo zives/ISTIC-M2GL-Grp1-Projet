@@ -22,6 +22,11 @@ import javax.swing.event.ChangeListener;
 
 public class PVCFModule extends PModule implements IPVCFModule {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8777395860220316410L;
+
 	protected transient ICVCFModule controller;
 
 	protected JSlider coarseSlider;

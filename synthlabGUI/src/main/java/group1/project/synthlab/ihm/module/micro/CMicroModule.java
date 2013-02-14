@@ -6,6 +6,10 @@ import group1.project.synthlab.module.micro.MicroModule;
 import group1.project.synthlab.port.IPort;
 
 public class CMicroModule extends MicroModule implements ICMicroModule {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2971691029208156802L;
 	protected IPMicroModule presentation;
 
 	public CMicroModule(CFactory factory) {

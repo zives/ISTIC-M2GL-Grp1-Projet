@@ -17,6 +17,12 @@ import group1.project.synthlab.port.out.IOutPort;
 
 public class Cable implements ICable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2580294344871546156L;
+
+
 	protected static int cableCount = 0;
 
 	
@@ -144,6 +150,13 @@ public class Cable implements ICable {
 			return false;
 		}
 	
+	}
+	
+	/**
+	 * @return remet le compteur d'instances de classe a 0
+	 */
+	public static void resetCounterInstance() {
+		cableCount = 0;
 	}
 
 }

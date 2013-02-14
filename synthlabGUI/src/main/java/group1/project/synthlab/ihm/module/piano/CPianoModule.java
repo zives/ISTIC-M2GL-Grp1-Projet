@@ -9,6 +9,10 @@ import java.awt.Component;
 
 public class CPianoModule extends PianoModule implements ICPianoModule {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5331363512055964743L;
 	protected int octaveStart;
 	protected IPPianoModule presentation;
 	protected final NOTE[] NOTE_N = {NOTE.DO, NOTE.RE, NOTE.MI, NOTE.FA, NOTE.SOL, NOTE.LA, NOTE.SI};

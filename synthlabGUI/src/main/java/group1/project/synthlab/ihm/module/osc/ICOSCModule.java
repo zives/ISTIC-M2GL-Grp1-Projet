@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ICOSCModule extends ICModule, IOSCModule {
 
-	public List<Double> getValuesToDrawAndEraseIts();
+	public List<Double> getValuesToDraw();
 
 	public void setInterval(double interval);
 	public double getInterval() ;

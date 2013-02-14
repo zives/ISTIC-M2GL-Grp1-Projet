@@ -337,7 +337,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 					if (SwingUtilities.isDescendingFrom(
 							(Component) e.getSource(), centerPanel)) {
 						MouseEvent m = (MouseEvent) e;
-						if (m.getID() == MouseEvent.MOUSE_MOVED) {
+						if (m.getID() == MouseEvent.MOUSE_MOVED || m.getID() == MouseEvent.MOUSE_DRAGGED ) {
 							// On dessine le cable (meme si on mouse move sur le
 							// module en plus du ws)
 							if (controller.isDrawingCable()) {
@@ -616,5 +616,6 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		return j.getSelectedFile();
 		
 	}
+
 
 }

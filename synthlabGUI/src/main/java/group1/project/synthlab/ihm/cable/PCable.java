@@ -71,7 +71,7 @@ public class PCable extends JPanel implements IPCable {
 		setLocation(0, 0);
 		setSize(1, 1);
 		setOpaque(false);
-		setBackground(new Color(0, 0, 0));
+		setBackground(new Color(200, 0, 0));
 
 		timerAnimation = new Timer();
 		timerAnimation.schedule(new TimerTask() {
@@ -109,8 +109,7 @@ public class PCable extends JPanel implements IPCable {
 	 */
 	public void setP1(int x, int y) {
 		p1 = new Point(x, y);
-		update(getGraphics()); //FIX problem with JSCROLLPANE rather than repaint method
-		((JLayeredPane) this.getParent()).moveToFront(this);
+		refreshBounds();
 		
 	}
 
@@ -126,10 +125,7 @@ public class PCable extends JPanel implements IPCable {
 		p1 = new Point(p.getX() + p.getParent().getX() + PPort.SIZE / 2
 				+ PPort.getMARGIN(), p.getY() + p.getParent().getY()
 				+ PPort.SIZE / 2);
-
-		update(getGraphics()); //FIX problem with JSCROLLPANE rather than repaint method
-		((JLayeredPane) this.getParent()).moveToFront(this);
-		
+		refreshBounds();
 	}
 
 	/*
@@ -140,8 +136,7 @@ public class PCable extends JPanel implements IPCable {
 	public void setP2(int x, int y) {
 		p2 = new Point(x, y);
 		((JLayeredPane) this.getParent()).moveToFront(this);
-		update(getGraphics()); //FIX problem with JSCROLLPANE rather than repaint method
-		getParent().getParent().repaint();
+		refreshBounds();
 	}
 
 	/*
@@ -156,9 +151,37 @@ public class PCable extends JPanel implements IPCable {
 		p2 = new Point(p.getX() + p.getParent().getX() + PPort.SIZE / 2
 				+ PPort.getMARGIN(), p.getY() + p.getParent().getY()
 				+ PPort.SIZE / 2);
-		update(getGraphics()); //FIX problem with JSCROLLPANE rather than repaint method
-		((JLayeredPane) this.getParent()).moveToFront(this);
-		
+		refreshBounds();
+		((JLayeredPane) this.getParent()).moveToFront(this);		
+	}
+	
+	private void refreshBounds() {
+		// On trouve les bornes du rectangle transparant qui contiendra le cable
+				int x = 0;
+				int y = 0;
+				int w = 0;
+				int h = 0;
+				if (p1.getX() < p2.getX()) {
+					x = (int) (p1.getX() - 10);
+					w = (int) (p2.getX() - p1.getX() + 20);
+				} else {
+					x = (int) (p2.getX() - 10);
+					w = (int) (p1.getX() - p2.getX() + 20);
+				}
+				if (p1.getY() < p2.getY()) {
+					y = (int) (p1.getY() - 10);
+					h = (int) (p2.getY() - p1.getY() + 20);
+				} else {
+					y = (int) (p2.getY() - 10);
+					h = (int) (p1.getY() - p2.getY() + 20);
+				}
+				this.setBounds(x, y, w, getParent().getHeight());
+				
+				// On redefini le point d'attraction en fonction de la largeur
+
+				double yAttraction = w * w / (RATE_OF_CURVATURE * 10000) * Math.log(w);
+				
+				pBezier = new Point(getWidth() / 2, (int) (h - 10 + yAttraction));
 	}
 
 	/*
@@ -173,41 +196,20 @@ public class PCable extends JPanel implements IPCable {
 		ig.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		// On trouve les bornes du rectangle transparant qui contiendra le cable
-		int x = 0;
-		int y = 0;
-		int w = 0;
-		int h = 0;
-		if (p1.getX() < p2.getX()) {
-			x = (int) (p1.getX() - 10);
-			w = (int) (p2.getX() - p1.getX() + 20);
-		} else {
-			x = (int) (p2.getX() - 10);
-			w = (int) (p1.getX() - p2.getX() + 20);
-		}
-		if (p1.getY() < p2.getY()) {
-			y = (int) (p1.getY() - 10);
-			h = (int) (p2.getY() - p1.getY() + 20);
-		} else {
-			y = (int) (p2.getY() - 10);
-			h = (int) (p1.getY() - p2.getY() + 20);
-		}
+		 
+		
 
-		// On redefini le point d'attraction en fonction de la largeur
+		
 
-		double yAttraction = w * w / (RATE_OF_CURVATURE * 10000) * Math.log(w);
-		this.setBounds(x, y, w, getParent().getHeight()); // +200 for curve more
-															// the link
-		pBezier = new Point(getWidth() / 2, (int) (h - 10 + yAttraction));
-
+		QuadCurve2D q = new QuadCurve2D.Double(Math.round(p1.getX() - getX()),
+				Math.round(p1.getY() - getY()), pBezier.x, pBezier.y, Math.round(p2.getX()
+						- getX()), Math.round(p2.getY() - getY()));
+		
 		//On trace le contour si le signal est saturé
 		if (controller.isSignalSaturated()) {
 			ig.setStroke(new BasicStroke(11f, BasicStroke.CAP_ROUND,
 					BasicStroke.JOIN_BEVEL));
-			g.setColor(Color.red);
-			QuadCurve2D q = new QuadCurve2D.Double((int) p1.getX() - getX(),
-					(int) p1.getY() - getY(), pBezier.x, pBezier.y, (int) p2.getX()
-							- getX(), (int) p2.getY() - getY());
+			g.setColor(Color.red);			
 			ig.draw(q);
 		}
 		
@@ -215,20 +217,14 @@ public class PCable extends JPanel implements IPCable {
 		ig.setStroke(new BasicStroke(9f, BasicStroke.CAP_ROUND,
 				BasicStroke.JOIN_BEVEL));
 		g.setColor(LINK_COLORS[currentColor]);
-		QuadCurve2D q = new QuadCurve2D.Double((int) p1.getX() - getX(),
-				(int) p1.getY() - getY(), pBezier.x, pBezier.y, (int) p2.getX()
-						- getX(), (int) p2.getY() - getY());
 		ig.draw(q);
 
 		// On trace une deuxieme ligne par dessus (purement esthetique)
-		ig.setStroke(new BasicStroke(3f, BasicStroke.CAP_ROUND,
+		ig.setStroke(new BasicStroke(4f, BasicStroke.CAP_ROUND,
 				BasicStroke.JOIN_ROUND));
 		g.setColor(new Color((int) (LINK_COLORS[currentColor].getRed() / 1.5),
 				(int) (LINK_COLORS[currentColor].getGreen() / 1.5),
 				(int) (LINK_COLORS[currentColor].getBlue() / 1.5)));
-		q = new QuadCurve2D.Double((int) p1.getX() - getX(), (int) p1.getY()
-				- getY(), pBezier.x, pBezier.y, (int) p2.getX() - getX(),
-				(int) p2.getY() - getY());
 		ig.draw(q);
 
 		// On trace une troisième ligne hashee si il y a animation (purement
@@ -242,10 +238,6 @@ public class PCable extends JPanel implements IPCable {
 			ig.setStroke(new BasicStroke(3f, BasicStroke.CAP_ROUND,
 					BasicStroke.JOIN_MITER, 10.0f, new float[] { 12f },
 					animation));
-
-			q = new QuadCurve2D.Double((int) p1.getX() - getX(),
-					(int) p1.getY() - getY(), pBezier.x, pBezier.y,
-					(int) p2.getX() - getX(), (int) p2.getY() - getY());
 			ig.draw(q);
 		}
 
@@ -259,6 +251,12 @@ public class PCable extends JPanel implements IPCable {
 			currentColor = 0;
 		repaint();
 
+	}
+
+	@Override
+	public int getColorPosition() {
+		return currentColor;
+		
 	}
 
 

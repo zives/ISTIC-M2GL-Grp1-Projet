@@ -20,6 +20,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class OSCModule extends Module implements IOSCModule {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1135623254087663378L;
+
 	protected static int moduleCount = 0;
 
 	/* Defintion des ports */
@@ -27,12 +32,10 @@ public class OSCModule extends Module implements IOSCModule {
 	protected IOutPort outPort;
 
 	/* Variables internes */
-	protected FilterInterception filter;
-	protected IOSCModule self;
+	protected transient FilterInterception filter;
+	protected transient IOSCModule self;
 	protected Queue<Double> buffer;
 	protected double lastTime;
-	//protected AudioScope scope;
-	//protected PassThrough passThrough;
 
 	/**
 	 * Initialise le circuit (attenuateur, port, ...)
@@ -40,17 +43,12 @@ public class OSCModule extends Module implements IOSCModule {
 	public OSCModule(Factory factory) {
 		super("OSC-" + ++moduleCount, factory);
 		self = this;
-		//passThrough = new PassThrough();
 		filter = new FilterInterception();
 		inPort = factory.createInPort("in", filter.input, this);
 		outPort = factory.createOutPort("out", filter.output, this);
 		buffer = new ConcurrentLinkedQueue<>();
-		//scope = new AudioScope(Workspace.getInstance().getSynthetizer());
 		filter.register(this);
-		//circuit.add(passThrough);
 		circuit.add(filter);		
-		//scope.addProbe( filter.output);
-		//passThrough.output.connect(filter.input);
 	}
 
 	/*

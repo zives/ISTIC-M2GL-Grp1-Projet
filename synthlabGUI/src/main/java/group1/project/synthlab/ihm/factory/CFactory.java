@@ -50,6 +50,11 @@ import com.jsyn.ports.ConnectableOutput;
  */
 public class CFactory extends Factory {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8837571126993846667L;
+
 	@Override
 	public IInPort createInPort(String label, ConnectableInput jSynPort, IModule module) {
 		return new CInPort(label, jSynPort,  module, this);

@@ -31,8 +31,8 @@ public class MicroModule extends Module implements IMicroModule {
 	private final double MAX_VOLTAGE = Signal.AMAX;
 
 	/* jSyn module */
-	protected LineIn lineIn;
-	protected FilterAttenuator attenuator;
+	protected transient LineIn lineIn;
+	protected transient FilterAttenuator attenuator;
 
 	/* Defintion des ports */
 	protected IOutPort outPort;

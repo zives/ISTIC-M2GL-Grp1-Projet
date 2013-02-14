@@ -1,5 +1,7 @@
 package group1.project.synthlab.module;
 
+import java.io.Serializable;
+
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.port.IPortObserver;
 
@@ -10,7 +12,7 @@ import com.jsyn.unitgen.Circuit;
  * @author Groupe 1
  * 
  */
-public interface IModule extends IPortObserver {	
+public interface IModule extends IPortObserver, Serializable {	
 	/**
 	 * Demarre le circuit
 	 */

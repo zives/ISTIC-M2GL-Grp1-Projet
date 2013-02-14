@@ -1,5 +1,7 @@
 package group1.project.synthlab.factory;
 
+import java.io.Serializable;
+
 import group1.project.synthlab.cable.Cable;
 import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.module.IModule;
@@ -47,7 +49,12 @@ import com.jsyn.ports.ConnectableOutput;
  * @author Groupe 1
  * 
  */
-public class Factory {
+public class Factory implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8090664782304306522L;
 
 	public IInPort createInPort(String label, ConnectableInput jSynPort,
 			IModule module) {

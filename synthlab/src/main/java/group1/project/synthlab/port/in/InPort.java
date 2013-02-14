@@ -11,7 +11,9 @@ import com.jsyn.ports.ConnectableInput;
  * Un port d'entree
  */
 public class InPort extends Port implements IInPort {
-	protected ConnectableInput jSynPort;
+
+	private static final long serialVersionUID = 8298376994052663233L;
+	protected transient ConnectableInput jSynPort;
 
 	
 	public InPort(String label, ConnectableInput jSynPort, IModule module, Factory factory)  {
