@@ -115,13 +115,8 @@ public class COSCModule extends OSCModule implements ICOSCModule {
 	}
 	
 	@Override
-	public String saveConfiguration() {
-		return "";
-	}
-
-	@Override
-	public void initPresentation(Object... params) {
-		// TODO Auto-generated method stub
+	public void refresh() {
+		super.refresh();
 		presentation.updatePresentation();
 	}
 

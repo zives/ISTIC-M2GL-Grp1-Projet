@@ -25,6 +25,7 @@ public class POutModule extends PModule implements IPOutModule {
 	protected transient ICOutModule controller;
 	protected JSlider attenuatorSlider;
 	protected final JToggleButton distributionButton;
+	protected JLabel volumeLabel;
 
 	public POutModule(final ICOutModule controller) {
 		super(controller);
@@ -46,7 +47,7 @@ public class POutModule extends PModule implements IPOutModule {
 		pportRight.setLocation(pportLeft.getX() - 60, pportLeft.getY());
 
 		// Label volume
-		final JLabel volumeLabel = new JLabel(controller.getAttenuation() + " dB");
+		volumeLabel = new JLabel(controller.getAttenuation() + " dB");
 		volumeLabel.setForeground(Color.LIGHT_GRAY);
 		volumeLabel.setOpaque(false);
 		volumeLabel.setSize(150, 20);
@@ -163,8 +164,9 @@ public class POutModule extends PModule implements IPOutModule {
 
 	@Override
 	public void updatePresentation() {
-		// TODO Auto-generated method stub
+		super.updatePresentation();
 		attenuatorSlider.setValue((int) (controller.getAttenuation()*10));
+		volumeLabel.setText(Math.round(controller.getAttenuation() * 10) / 10.0 + " dB");
 		if(controller.getDistribution() == Distribution.NORMAL){
 			distributionButton.setText("DISTRIBUTED");
 			distributionButton.setSelected(false);
@@ -172,23 +174,10 @@ public class POutModule extends PModule implements IPOutModule {
 			distributionButton.setText("NORMAL");
 			distributionButton.setSelected(true);
 		}
-		if(controller.isStarted()){
-			this.onOffButton.setSelected(true);
-			this.onOffButton.setText("Off");
-		}
-		else{
-			this.onOffButton.setSelected(false);
-			this.onOffButton.setText("On");
-		}
 		
 	}
 	
 	
-
-	@Override
-	public void updateLocation(double x, double y) {
-		this.setLocation((int)x,(int) y);
-	}
 
 
 }

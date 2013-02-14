@@ -34,14 +34,8 @@ public class CSequencerModule extends SequencerModule implements ICSequencerModu
 	}
 	
 	@Override
-	public String saveConfiguration() {
-		// TODO Auto-generated method stub
-		return "";
-	}
-
-	@Override
-	public void initPresentation(Object... params) {
-		// TODO Auto-generated method stub
+	public void refresh() {
+		super.refresh();
 		presentation.updatePresentation();
 	}
 	

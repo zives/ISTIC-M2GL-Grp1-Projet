@@ -43,6 +43,7 @@ public class OSCModule extends Module implements IOSCModule {
 	public OSCModule(Factory factory) {
 		super("OSC-" + ++moduleCount, factory);
 		self = this;
+		lastTime = 0;
 		filter = new FilterInterception();
 		inPort = factory.createInPort("in", filter.input, this);
 		outPort = factory.createOutPort("out", filter.output, this);
@@ -50,6 +51,12 @@ public class OSCModule extends Module implements IOSCModule {
 		filter.register(this);
 		circuit.add(filter);		
 	}
+	
+	@Override
+	public void refresh() {
+		lastTime = 0;
+	}
+
 
 	/*
 	 * (non-Javadoc)

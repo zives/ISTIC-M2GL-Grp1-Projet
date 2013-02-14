@@ -69,6 +69,7 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 		envelope.sustain.set(Tools.dBToV(decibel));
 		this.decibel = getDecibel();
 		this.volt = getVolt();
+		envelope.sustain.set(Tools.dBToV(decibel));
 		envelope.attack.set(attack);
 		envelope.decay.set(decay);
 		envelope.release.set(release);
@@ -89,6 +90,16 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 		
 		envelope.setEnabled(false);
 		
+	}
+	
+
+	@Override
+	public void refresh() {
+		envelope.sustain.set(Tools.dBToV(decibel));
+		envelope.attack.set(attack);
+		envelope.decay.set(decay);
+		envelope.release.set(release);
+		envelope.hold.set(hold);
 	}
 
 	private double getVolt() {
@@ -340,5 +351,6 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 		eg.setRelease(10);
 		Tools.wait(synth, 10);
 	}
+
 
 }

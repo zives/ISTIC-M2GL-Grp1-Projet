@@ -70,41 +70,17 @@ public class CPianoModule extends PianoModule implements ICPianoModule {
 		
 	}
 	
-	@Override
-	public String saveConfiguration() {
-		String save = "<CPianoModule>\n";
-		save+="<OctaveStart>"+this.octaveStart+"</OctaveStart>\n";
-		save+="<Location x=\""+((Component) presentation).getLocation().getX()+
-				"\" y=\""+((Component) presentation).getLocation().getY()+"\" />\n";
-		save+="</CPianoModule>\n";
-		return save;
-	}
 	
 	@Override
 	public int getOctaveStart(){
 		return octaveStart;
 	}
 
-	public void updateOctaveStart(int parseInt) {
-		changeoctave(parseInt);
-		int position = 3 ;
-		if(octaveStart == 4){
-			position = 3;
-		}
-		else if(octaveStart == 2){
-			position = 2;
-		}
-		System.out.println(position);
-		presentation.updateSliderOctave(position);
-	}
-	
-	public void updateLocation(double x, double y) {
-		presentation.updateLocation(x,y);
-	}
+
 
 	@Override
-	public void initPresentation(Object... params) {
-		// TODO Auto-generated method stub
+	public void refresh() {
+		super.refresh();
 		presentation.updatePresentation();
 	}
 	

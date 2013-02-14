@@ -18,7 +18,14 @@ public class PMultiplexerModule extends PModule implements IPMultiplexerModule {
 	private static final long serialVersionUID = 9202805048987933945L;
 
 	protected transient ICMultiplexerModule controller;
-	protected JSlider attenuatorSlider;
+	protected JSlider pIn1Slider;
+	protected JSlider pIn2Slider;
+	protected JSlider pIn3Slider;
+	protected JSlider pIn4Slider;
+	protected JLabel volumeLabel1;
+	protected JLabel volumeLabel2;
+	protected JLabel volumeLabel3;
+	protected JLabel volumeLabel4;
 
 	public PMultiplexerModule(final ICMultiplexerModule controller) {
 		super(controller);
@@ -56,7 +63,7 @@ public class PMultiplexerModule extends PModule implements IPMultiplexerModule {
 		pportOut4.setLocation(210, 50);
 
 		// Sliders
-		final JSlider pIn1Slider = new JSlider();
+		pIn1Slider = new JSlider();
 		pIn1Slider.setMaximum(120);
 		pIn1Slider.setMinimum(-300);
 		pIn1Slider.setOrientation(JSlider.HORIZONTAL);
@@ -73,7 +80,7 @@ public class PMultiplexerModule extends PModule implements IPMultiplexerModule {
 		pIn1Slider.setMinorTickSpacing(100);
 		pIn1Slider.setPaintTicks(true);
 
-		final JSlider pIn2Slider = new JSlider();
+		pIn2Slider = new JSlider();
 		pIn2Slider.setMaximum(120);
 		pIn2Slider.setMinimum(-300);
 		pIn2Slider.setOrientation(JSlider.HORIZONTAL);
@@ -90,7 +97,7 @@ public class PMultiplexerModule extends PModule implements IPMultiplexerModule {
 		pIn2Slider.setMinorTickSpacing(100);
 		pIn2Slider.setPaintTicks(true);
 
-		final JSlider pIn3Slider = new JSlider();
+		pIn3Slider = new JSlider();
 		pIn3Slider.setMaximum(120);
 		pIn3Slider.setMinimum(-300);
 		pIn3Slider.setOrientation(JSlider.HORIZONTAL);
@@ -107,7 +114,7 @@ public class PMultiplexerModule extends PModule implements IPMultiplexerModule {
 		pIn3Slider.setMinorTickSpacing(100);
 		pIn3Slider.setPaintTicks(true);
 
-		final JSlider pIn4Slider = new JSlider();
+		pIn4Slider = new JSlider();
 		pIn4Slider.setMaximum(120);
 		pIn4Slider.setMinimum(-300);
 		pIn4Slider.setOrientation(JSlider.HORIZONTAL);
@@ -125,7 +132,7 @@ public class PMultiplexerModule extends PModule implements IPMultiplexerModule {
 		pIn4Slider.setPaintTicks(true);
 		
 		// Label volume
-		final JLabel volumeLabel1 = new JLabel("0 dB" ,JLabel.CENTER /*controller.getAttenuation() + " dB"*/);
+		volumeLabel1 = new JLabel("0 dB" ,JLabel.CENTER /*controller.getAttenuation() + " dB"*/);
 		volumeLabel1.setForeground(Color.LIGHT_GRAY);
 		volumeLabel1.setOpaque(false);
 		volumeLabel1.setSize(60, 30);
@@ -134,7 +141,7 @@ public class PMultiplexerModule extends PModule implements IPMultiplexerModule {
 		volumeLabel1.setLocation(pIn1Slider.getX() + pIn1Slider.getWidth() / 2 - volumeLabel1.getWidth() / 2, pIn1Slider.getY() + 22);
 		volumeLabel1.setFont(new Font("Monospaced", Font.ITALIC, 12));
 		
-		final JLabel volumeLabel2 = new JLabel("0 dB" ,JLabel.CENTER /*controller.getAttenuation() + " dB"*/);
+		volumeLabel2 = new JLabel("0 dB" ,JLabel.CENTER /*controller.getAttenuation() + " dB"*/);
 		volumeLabel2.setForeground(Color.LIGHT_GRAY);
 		volumeLabel2.setOpaque(false);
 		volumeLabel2.setSize(60, 30);
@@ -144,7 +151,7 @@ public class PMultiplexerModule extends PModule implements IPMultiplexerModule {
 		volumeLabel2.setFont(new Font("Monospaced", Font.ITALIC, 12));
 		
 		
-		final JLabel volumeLabel3 = new JLabel("0 dB" ,JLabel.CENTER /*controller.getAttenuation() + " dB"*/);
+		volumeLabel3 = new JLabel("0 dB" ,JLabel.CENTER /*controller.getAttenuation() + " dB"*/);
 		volumeLabel3.setForeground(Color.LIGHT_GRAY);
 		volumeLabel3.setOpaque(false);
 		volumeLabel3.setSize(60, 30);
@@ -153,7 +160,7 @@ public class PMultiplexerModule extends PModule implements IPMultiplexerModule {
 		volumeLabel3.setLocation(pIn3Slider.getX() + pIn3Slider.getWidth() / 2 - volumeLabel3.getWidth() / 2, pIn3Slider.getY() + 22);
 		volumeLabel3.setFont(new Font("Monospaced", Font.ITALIC, 12));
 		
-		final JLabel volumeLabel4 = new JLabel("0 dB" ,JLabel.CENTER /*controller.getAttenuation() + " dB"*/);
+		volumeLabel4 = new JLabel("0 dB" ,JLabel.CENTER /*controller.getAttenuation() + " dB"*/);
 		volumeLabel4.setForeground(Color.LIGHT_GRAY);
 		volumeLabel4.setOpaque(false);
 		volumeLabel4.setSize(60, 30);
@@ -218,6 +225,20 @@ public class PMultiplexerModule extends PModule implements IPMultiplexerModule {
 
 			}
 		});
+	}
+	
+	@Override
+	public void updatePresentation() {
+		super.updatePresentation();
+		pIn1Slider.setValue((int)(controller.getAttenuation(0) * 10));
+		pIn2Slider.setValue((int)(controller.getAttenuation(1) * 10));
+		pIn3Slider.setValue((int)(controller.getAttenuation(2) * 10));
+		pIn4Slider.setValue((int)(controller.getAttenuation(3) * 10));
+		volumeLabel1.setText(pIn1Slider.getValue() / 10.0 + " dB");
+		volumeLabel2.setText(pIn2Slider.getValue() / 10.0 + " dB");
+		volumeLabel3.setText(pIn3Slider.getValue() / 10.0 + " dB");
+		volumeLabel4.setText(pIn4Slider.getValue() / 10.0 + " dB");
+
 	}
 
 }

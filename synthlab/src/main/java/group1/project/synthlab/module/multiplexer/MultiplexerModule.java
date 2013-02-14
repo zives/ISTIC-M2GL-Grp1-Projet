@@ -19,6 +19,11 @@ import com.jsyn.unitgen.PassThrough;
  */
 public class MultiplexerModule extends Module implements IMultiplexerModule {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5543487526179911346L;
+
 	public enum Distribution {
 		NORMAL, DISTRIBUTED
 	}
@@ -61,6 +66,12 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 			circuit.add(attenuators[i]);
 		}
 
+	}
+	
+	@Override
+	public void refresh() {
+		for (int i = 0; i < 4; ++i) 
+			setAttenuation(attenuationsDB[i], i);
 	}
 
 	public void destruct() {
@@ -112,6 +123,11 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 	@Override
 	public void resetCounterInstance() {
 		MultiplexerModule.moduleCount = 0;		
+	}
+
+	@Override
+	public double getAttenuation(int port) {
+		return attenuationsDB[port];
 	}
 
 }

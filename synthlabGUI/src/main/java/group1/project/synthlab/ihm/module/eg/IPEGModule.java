@@ -7,7 +7,5 @@ import java.awt.Point;
 public interface IPEGModule extends IPModule {
 	public void setSlidersEnabled(boolean value);
 
-	public Point getLocation();
-
 
 }

@@ -36,18 +36,10 @@ public class COutModule extends OutModule implements ICOutModule {
 
 
 	
-	 
 	@Override
-	public String saveConfiguration() {
-		// TODO Auto-generated method stub
-		String save = "<OutModule>\n";
-		save+="<Distribution>"+this.getDistribution()+"</Distribution>\n";
-		save+="<AttenuationDB>"+this.getAttenuation()+"</AttenuationDB>\n";
-		save+="<Location x=\""+presentation.getLocation().getX()+
-				"\" y=\""+presentation.getLocation().getY()+"\" />\n";
-		save+="</OutModule>\n";
-		return save;
-		
+	public void refresh() {
+		super.refresh();
+		presentation.updatePresentation();
 	}
 
 	public static void resetModuleCount() {
@@ -56,17 +48,4 @@ public class COutModule extends OutModule implements ICOutModule {
 	}
 	
 	
-
-
-	public void updateLocation(double x, double y) {
-		// TODO Auto-generated method stub
-		presentation.updateLocation(x,y);
-	}
-
-	@Override
-	public void initPresentation(Object... params) {
-		// TODO Auto-generated method stub
-		presentation.updatePresentation();
-		
-	}
 }

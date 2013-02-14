@@ -83,8 +83,6 @@ public class VCFHPModule extends Module implements IPortObserver, IVCFHPModule {
     public VCFHPModule(Factory factory) {
         super("VCF-HP-" + ++moduleCount, factory);
 
-		// Filtre d'amplitude
-		// TODO : Tester lorsqu'on aura un VCA
 		filterAmplitude = new FilterAmplitude(Signal.AMAXMODULATION, true);
 		circuit.add(filterAmplitude);
 		
@@ -116,6 +114,11 @@ public class VCFHPModule extends Module implements IPortObserver, IVCFHPModule {
      	redefAdjustments();
      	
     }
+    
+    @Override
+	public void refresh() {
+    	filterFrequencyModulation.setf0(f0);
+	}
     
     /*
      * (non-Javadoc)

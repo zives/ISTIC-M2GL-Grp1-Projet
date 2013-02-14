@@ -11,8 +11,6 @@ import group1.project.synthlab.module.eq.EQModule;
 import group1.project.synthlab.module.eq.IEQModule;
 import group1.project.synthlab.module.eqView.EQViewModule;
 import group1.project.synthlab.module.eqView.IEQViewModule;
-import group1.project.synthlab.module.fileIn.FileInModule;
-import group1.project.synthlab.module.fileIn.IFileInModule;
 import group1.project.synthlab.module.micro.IMicroModule;
 import group1.project.synthlab.module.micro.MicroModule;
 import group1.project.synthlab.module.multiplexer.IMultiplexerModule;
@@ -88,10 +86,6 @@ public class Factory implements Serializable {
 
 	public IVCAModule createVCAModule() {
 		return new VCAModule(this);
-	}
-	
-	public IFileInModule createFileInModule() {
-		return new FileInModule(this);
 	}
 
 	public IEGModule createEGModule() {

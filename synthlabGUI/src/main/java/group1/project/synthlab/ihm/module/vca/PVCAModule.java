@@ -129,33 +129,16 @@ public class PVCAModule extends PModule implements IPVCAModule {
 
 
 	public void setSlidersEnabled(boolean value) {
-		// TODO Auto-generated method stub
 		gainSlider.setEnabled(value);
 	}
 
 
 	@Override
-	public void updateLocation(double x, double y) {
-		// TODO Auto-generated method stub
-		this.setLocation((int)x, (int)y);
-	}
-
-
-
-	@Override
 	public void updatePresentation() {
-		// TODO Auto-generated method stub
+		super.updatePresentation();
 		Double d = Math.round(controller.geta0() * 10) / 10.0;
 		this.gainSlider.setValue((int) (controller.geta0() * 10));
 		gainLabel.setText(d + " dB");
-		if(controller.isStarted()){
-			this.onOffButton.setSelected(true);
-			this.onOffButton.setText("Off");
-		}
-		else{
-			this.onOffButton.setSelected(false);
-			this.onOffButton.setText("On");
-		}
 	}
 
 }

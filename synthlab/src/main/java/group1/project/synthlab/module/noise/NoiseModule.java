@@ -85,6 +85,11 @@ public class NoiseModule extends Module implements INoiseModule {
 		outPink = factory.createOutPort("pink", onoffPink.output, this);
 
 	}
+	
+	@Override
+	public void refresh() {
+		//Rien à faire
+	}
 
 	/*
 	 * (non-Javadoc)

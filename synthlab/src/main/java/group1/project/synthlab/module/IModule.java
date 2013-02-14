@@ -62,4 +62,6 @@ public interface IModule extends IPortObserver, Serializable {
 	 * Detruit les dependences du module
 	 */
 	public void destruct();
+	
+	public void refresh();
 }

@@ -170,6 +170,16 @@ public class VCOModule extends Module implements IVCOModule {
 		reset();
 
 	}
+	
+	  @Override
+	   	public void refresh() {
+	       	filterFrequencyModulation.setf0(f0);
+	       	refreshFrequencies();
+	       	if (fmConnected)
+	       		cableConnected(fm);
+	       	else
+	       		cableDisconnected(fm);
+	   	}
 
 	/*
 	 * (non-Javadoc)
@@ -265,7 +275,6 @@ public class VCOModule extends Module implements IVCOModule {
 		squareOsc.amplitude.set(a0);
 		triangleOsc.amplitude.set(a0);
 		sawToothOsc.amplitude.set(a0);
-		sineOsc.start();
 	}
 
 	/*

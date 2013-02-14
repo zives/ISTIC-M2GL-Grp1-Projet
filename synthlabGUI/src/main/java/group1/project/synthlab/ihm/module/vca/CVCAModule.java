@@ -35,25 +35,8 @@ public class CVCAModule extends VCAModule implements ICVCAModule {
 	}
 	
 	@Override
-	public String saveConfiguration() {
-		// TODO Auto-generated method stub
-		String save = "<VCAModule>\n";
-		save+="<A0>"+this.geta0()+"</A0>\n";
-		save+="<Location x=\""+presentation.getLocation().getX()+
-				"\" y=\""+presentation.getLocation().getY()+"\" />\n";
-		save+="</VCAModule>\n";
-		return save;
-		
-	}
-
-	public void updateLocation(double x, double y) {
-		// TODO Auto-generated method stub
-		presentation.updateLocation(x,y);
-	}
-
-	@Override
-	public void initPresentation(Object... params) {
-		// TODO Auto-generated method stub
+	public void refresh() {
+		super.refresh();
 		presentation.updatePresentation();
 	}
 	

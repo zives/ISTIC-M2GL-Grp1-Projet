@@ -60,6 +60,11 @@ public class MicroModule extends Module implements IMicroModule {
 		lineIn.setEnabled(false);
 
 	}
+	
+	@Override
+	public void refresh() {
+		setAttenuation(attenuationDB);
+	}
 
 	/*
 	 * (non-Javadoc)

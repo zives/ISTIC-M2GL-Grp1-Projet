@@ -31,9 +31,9 @@ public class CVCFLPModule extends VCFLPModule implements ICVCFLPModule {
 	}
 
 	@Override
-	public String saveConfiguration() {
-		// TODO Auto-generated method stub
-		return null;
+	public void refresh() {
+		super.refresh();
+		presentation.updatePresentation();
 	}
 	 
 }

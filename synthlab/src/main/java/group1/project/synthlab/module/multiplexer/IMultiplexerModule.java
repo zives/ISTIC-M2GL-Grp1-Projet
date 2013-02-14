@@ -22,5 +22,6 @@ public interface IMultiplexerModule extends IModule {
 
 
 	public void setAttenuation(double db, int port);
+	public double getAttenuation(int port);
 
 }

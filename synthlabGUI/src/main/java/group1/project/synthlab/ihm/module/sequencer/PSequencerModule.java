@@ -171,30 +171,15 @@ public class PSequencerModule extends PModule implements IPSequencerModule{
 
 	@Override
 	public void setSlidersEnabled(boolean value) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void updatePresentation() {
-		
+		super.updatePresentation();
 		for(int i = 0; i< this.tensionSlider.length;i++){
 			tensionSlider[i].setValue((int) (controller.getStepValue(i+1)*10));
 		}
-		
-		if(controller.isStarted()){
-			this.onOffButton.setSelected(true);
-			this.onOffButton.setText("Off");
-		}
-		else{
-			this.onOffButton.setSelected(false);
-			this.onOffButton.setText("On");
-		}
-	}
-
-	@Override
-	public void updateLocation(double x, double y) {
-		// TODO Auto-generated method stub
 		
 	}
 

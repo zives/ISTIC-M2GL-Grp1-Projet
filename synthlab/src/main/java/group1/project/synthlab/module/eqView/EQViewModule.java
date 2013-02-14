@@ -95,6 +95,11 @@ public class EQViewModule extends Module implements IEQViewModule {
 				
 	}
 	
+	@Override
+	public void refresh() {
+		//Rien à faire
+	}
+	
 	public double getMax(int i) {
 		if (i >= FREQUENCIES.length)
 			return 0;

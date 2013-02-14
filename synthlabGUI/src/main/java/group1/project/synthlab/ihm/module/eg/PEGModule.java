@@ -428,33 +428,18 @@ public class PEGModule extends PModule implements IPEGModule {
 
 	@Override
 	public void setSlidersEnabled(boolean value) {
-		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public void updateLocation(double x, double y) {
-		// TODO Auto-generated method stub
-		this.setLocation((int)x, (int)y);
 	}
 
 
 
 	@Override
 	public void updatePresentation() {
-		// TODO Auto-generated method stub
+		super.updatePresentation();
 		attackSlider.setValue((int) (controller.getAttack() * 10));
 		decaySlider.setValue((int) (controller.getDecay() * 10));
 		releaseSlider.setValue((int) (controller.getRelease() * 10));
 		holdSlider.setValue((int) (controller.getHold() * 10));
 		sustainSlider.setValue((int) (controller.getSustain() * 10));
-		if(controller.isStarted()){
-			this.onOffButton.setSelected(true);
-			this.onOffButton.setText("Off");
-		}
-		else{
-			this.onOffButton.setSelected(false);
-			this.onOffButton.setText("On");
-		}
 	}
 }

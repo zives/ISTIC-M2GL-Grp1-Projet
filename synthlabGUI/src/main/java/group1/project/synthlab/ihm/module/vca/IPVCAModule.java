@@ -7,8 +7,5 @@ import java.awt.Point;
 public interface IPVCAModule extends IPModule{
 	public void setSlidersEnabled(boolean value);
 
-	public Point getLocation();
-
-	public void updateLocation(double x, double y);
 
 }

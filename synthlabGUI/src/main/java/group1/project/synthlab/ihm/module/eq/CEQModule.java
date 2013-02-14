@@ -35,14 +35,8 @@ public class CEQModule extends EQModule implements ICEQModule {
 	}
 	
 	@Override
-	public String saveConfiguration() {
-		// TODO Auto-generated method stub
-		return "";
-	}
-
-	@Override
-	public void initPresentation(Object... params) {
-		// TODO Auto-generated method stub
+	public void refresh() {
+		super.refresh();
 		presentation.updatePresentation();
 	}
 	

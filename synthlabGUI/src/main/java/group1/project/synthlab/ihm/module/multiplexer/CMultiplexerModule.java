@@ -29,15 +29,9 @@ public class CMultiplexerModule extends MultiplexerModule implements ICMultiplex
 	}
 
 	@Override
-	public void cableDisconnected(IPort port) {			
-		presentation.unregister((IPModuleObserver) port.getCable());
-		super.cableDisconnected(port);
-	}
-	
-	@Override
-	public String saveConfiguration() {
-		// TODO Auto-generated method stub
-		return "";
+	public void refresh() {
+		super.refresh();
+		presentation.updatePresentation();
 	}
 	 
 }

@@ -85,6 +85,11 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		// Port de sortie
 		out = factory.createOutPort("out", multiply.output, this);
 	}
+	
+	@Override
+	public void refresh() {
+		multiply.inputA.set(steps[currentStep-1]);
+	}
 
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.module.ISequencerModule#resetSteps()

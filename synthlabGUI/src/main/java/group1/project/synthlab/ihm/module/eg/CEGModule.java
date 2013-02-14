@@ -15,7 +15,6 @@ public class CEGModule extends EGModule implements ICEGModule {
 	public CEGModule(CFactory factory) {
 		super(factory);
 		this.presentation = new PEGModule(this);
-		//this.filterAmplitude.register(this.presentation);
 	}
 
 	public IPEGModule getPresentation() {
@@ -33,27 +32,10 @@ public class CEGModule extends EGModule implements ICEGModule {
 		presentation.unregister((IPModuleObserver) port.getCable());
 		super.cableDisconnected(port);
 	}
-	
-	@Override
-	public String saveConfiguration() {
-		// TODO Auto-generated method stub
-		String save = "<EGModule>\n";
-		save+="<Attack>"+this.getAttack()+"</Attack>\n";
-		save+="<Decay>"+this.getDecay()+"</Decay>\n";
-		save+="<Release>"+this.getRelease()+"</Release>\n";
-		save+="<Hold>"+this.getHold()+"</Hold>\n";
-		save+="<Decibel>"+this.getDecibel()+"</Decibel>\n";
-		save+="<Location x=\""+presentation.getLocation().getX()+
-				"\" y=\""+presentation.getLocation().getY()+"\" />\n";
-		save+="</EGModule>\n";
-		return save;
-	}
-
-
 
 	@Override
-	public void initPresentation(Object... params) {
-		// TODO Auto-generated method stub
+	public void refresh() {
+		super.refresh();
 		presentation.updatePresentation();
 	}
 	

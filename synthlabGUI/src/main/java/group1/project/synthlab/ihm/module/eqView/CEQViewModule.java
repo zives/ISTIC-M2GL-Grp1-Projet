@@ -6,6 +6,7 @@ import group1.project.synthlab.module.eqView.EQViewModule;
 import group1.project.synthlab.port.IPort;
 
 import java.awt.Component;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -63,17 +64,11 @@ public class CEQViewModule extends EQViewModule implements ICEQViewModule {
 		super.cableDisconnected(port);
 	}
 
-	@Override
-	public String saveConfiguration() {
-		// TODO Auto-generated method stub
-		return "";
-	}
-
 
 
 	@Override
-	public void initPresentation(Object... params) {
-		// TODO Auto-generated method stub
+	public void refresh() {
+		super.refresh();
 		presentation.updatePresentation();
 	}
 	

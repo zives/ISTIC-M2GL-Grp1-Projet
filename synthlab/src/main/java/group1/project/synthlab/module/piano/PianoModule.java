@@ -38,20 +38,24 @@ public class PianoModule extends Module implements IPianoModule {
 	 */
 	public PianoModule(Factory factory) {
 		super("Piano-" + ++moduleCount, factory);
-		gateProducer =new SimpleProducer();
-		outProducer =new SimpleProducer();
+		gateProducer = new SimpleProducer();
+		outProducer = new SimpleProducer();
 		
 		outGate = factory.createOutPort("eg gate", gateProducer.output, this);		
 		circuit.add(gateProducer);
 		gateProducer.input.set(0);
 		
-		out= factory.createOutPort("out", outProducer.output, this);	
+		out = factory.createOutPort("out", outProducer.output, this);	
 		circuit.add(outProducer);
 		outProducer.input.set(LA3);
 		
 		
 	}
 
+	@Override
+	public void refresh() {
+		outProducer.input.set(a0);
+	}
 
 	public IOutPort getOutGate() {
 		return outGate;

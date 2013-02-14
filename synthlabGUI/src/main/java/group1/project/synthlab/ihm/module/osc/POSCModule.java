@@ -157,22 +157,12 @@ public class POSCModule extends PModule implements IPOSCModule {
 
 	@Override
 	public void updatePresentation() {
+		super.updatePresentation();
 		intervalSlider.setValue((int) (controller.getInterval()));
 		intervalLabel.setText(intervalSlider.getValue() + " ms");	
 		
-		if(controller.isStarted()){
-			this.onOffButton.setSelected(true);
-			this.onOffButton.setText("Off");
-		}
-		else{
-			this.onOffButton.setSelected(false);
-			this.onOffButton.setText("On");
-		}
-	}
-
-	@Override
-	public void updateLocation(double x, double y) {
-		// TODO Auto-generated method stub
 		
 	}
+
+	
 }

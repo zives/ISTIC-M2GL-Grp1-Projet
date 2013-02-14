@@ -6,20 +6,18 @@ import group1.project.synthlab.ihm.cable.ICCable;
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.module.ICModule;
 import group1.project.synthlab.ihm.module.IPModule;
-import group1.project.synthlab.ihm.module.out.COutModule;
 import group1.project.synthlab.ihm.tools.CTools;
 import group1.project.synthlab.ihm.tools.ValueOfString;
 import group1.project.synthlab.module.IModule;
-import group1.project.synthlab.module.out.OutModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.workspace.Workspace;
 
+import java.awt.Component;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
-import java.awt.Component;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -28,12 +26,12 @@ import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.swing.JFrame;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -135,43 +133,20 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 
 	@Override
 	public void saveConfiguration() {
-		saveConfiguration("toto");
-		// saveConfiguration("toto");
-		// TODO Auto-generated method stub
-		// on demande le nom de fichier
-		// String name = presentation.askFileName();
-		// if(name!=null){
-		// //bouton cancel non appuyé
-		// if(name.length()>0){
-		// //on sauvegarde
-		// save="";
-		// save+="<Configuration>\n";
-		// for(IModule m : modules){
-		// ICModule cm = (ICModule) m;
-		// save+=cm.saveConfiguration();
-		// }
-		// save+="</Configuration>";
-		// System.out.println(save);
-		// try {
-		// FileWriter f = new FileWriter(name+".synt");
-		// f.write(save);
-		// f.close();
-		// } catch (Exception e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		//
-		// }
-		// else{
-		// presentation.showError("Erreur lors de la sauvegarde : le nom de fichier doit contenir au moins un caractère");
-		// }
-		// }
+		File f = presentation.saveFileDialog();
+		if (f == null)
+			return;
+		saveConfiguration(f.getName(), f.getAbsolutePath());
+		
 	}
 
 	@Override
 	public void loadConfiguration() {
+		File f = presentation.openFileDialog();
+		if (f == null)
+			return;
 		 clearAll();
-		 File f = presentation.askFileChooser();
+		 
 			if (f != null) {
 				try {
 					DocumentBuilderFactory builderFactory = DocumentBuilderFactory
@@ -194,196 +169,9 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 					e.printStackTrace();
 				}
 			}
-		 
-//		// on demande le fichier à l'utilisateur
-//		File f = presentation.askFileChooser();
-//		if (f != null) {
-//			try {
-//				DocumentBuilderFactory builderFactory = DocumentBuilderFactory
-//						.newInstance();
-//				DocumentBuilder builder = null;
-//				builder = builderFactory.newDocumentBuilder();
-//				Document document = builder.parse(new FileInputStream(f));
-//				configuration = document.getFirstChild();
-//
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			// on supprime tous les modules
-//			for (IModule m : modules) {
-//				ICModule cm = (ICModule) m;
-//				presentation.removeModule(cm.getPresentation());
-//			}
-//			modules.clear();
-//			COutModule.resetModuleCount();
-//			CVCOModule.resetModuleCount();
-//
-//			parcourirTous();
-//		}
-
 	}
-//
-//	// variables pour le chargement
-//	private Node configuration;
-//	private double tmp_x, tmp_y;
-//
-//	public void parcourirTous() {
-//		NodeList listModules = configuration.getChildNodes();
-//		for (int i = 0; i < listModules.getLength(); i++) {
-//			Node node = listModules.item(i);
-//			if (node.getNodeName().equals("OutModule")) {
-//				COutModule com = parcourirOutModule(node);
-//				addModule(com);
-//				com.updateLocation(tmp_x, tmp_y);
-//			} else if (node.getNodeName().equals("VCOModule")) {
-//				CVCOModule com = parcourirVCOModule(node);
-//				addModule(com);
-//				com.updateLocation(tmp_x, tmp_y);
-//			} else if (node.getNodeName().equals("CPianoModule")) {
-//				CPianoModule com = parcourirPianoModule(node);
-//				addModule(com);
-//				com.updateLocation(tmp_x, tmp_y);
-//			} else if (node.getNodeName().equals("EGModule")) {
-//				CEGModule com = parcourirEGModule(node);
-//				addModule(com);
-//				com.updateLocation(tmp_x, tmp_y);
-//			} else if (node.getNodeName().equals("VCAModule")) {
-//				CVCAModule com = parcourirVCAModule(node);
-//				addModule(com);
-//				com.updateLocation(tmp_x, tmp_y);
-//			}
-//		}
-//	}
-//
-//	private CVCAModule parcourirVCAModule(Node node) {
-//		// TODO Auto-generated method stub
-//		CVCAModule cvca = (CVCAModule) factory.createVCAModule();
-//		NodeList l = node.getChildNodes();
-//		for (int i = 0; i < l.getLength(); i++) {
-//			if (l.item(i).getNodeName().equals("A0")) {
-//				cvca.updateA0(Double.parseDouble(l.item(i).getFirstChild()
-//						.getNodeValue()));
-//			} else if (l.item(i).getNodeName().equals("Location")) {
-//				Element e = (Element) l.item(i);
-//				double x = Double.parseDouble(e.getAttribute("x"));
-//				double y = Double.parseDouble(e.getAttribute("y"));
-//				cvca.updateLocation(x, y);
-//				this.tmp_x = x;
-//				this.tmp_y = y;
-//			}
-//		}
-//		return cvca;
-//	}
-//
-//	private CEGModule parcourirEGModule(Node node) {
-//		// TODO Auto-generated method stub
-//		CEGModule ceg = (CEGModule) factory.createEGModule();
-//		NodeList l = node.getChildNodes();
-//		for (int i = 0; i < l.getLength(); i++) {
-//			if (l.item(i).getNodeName().equals("Attack")) {
-//				ceg.updateAttack(Double.parseDouble(l.item(i).getFirstChild()
-//						.getNodeValue()));
-//			} else if (l.item(i).getNodeName().equals("Decay")) {
-//				ceg.updateDecay(Double.parseDouble(l.item(i).getFirstChild()
-//						.getNodeValue()));
-//			} else if (l.item(i).getNodeName().equals("Release")) {
-//				ceg.updateRelease(Double.parseDouble(l.item(i).getFirstChild()
-//						.getNodeValue()));
-//			} else if (l.item(i).getNodeName().equals("Hold")) {
-//				ceg.updateHold(Double.parseDouble(l.item(i).getFirstChild()
-//						.getNodeValue()));
-//			} else if (l.item(i).getNodeName().equals("Decibel")) {
-//				ceg.updateDecibel(Double.parseDouble(l.item(i).getFirstChild()
-//						.getNodeValue()));
-//			} else if (l.item(i).getNodeName().equals("Location")) {
-//				Element e = (Element) l.item(i);
-//				double x = Double.parseDouble(e.getAttribute("x"));
-//				double y = Double.parseDouble(e.getAttribute("y"));
-//				ceg.updateLocation(x, y);
-//				this.tmp_x = x;
-//				this.tmp_y = y;
-//			}
-//		}
-//		return ceg;
-//	}
-//
-//	private CPianoModule parcourirPianoModule(Node node) {
-//
-//		// TODO Auto-generated method stub
-//		CPianoModule cvcop = (CPianoModule) factory.createPianoModule();
-//		NodeList l = node.getChildNodes();
-//		for (int i = 0; i < l.getLength(); i++) {
-//			if (l.item(i).getNodeName().equals("OctaveStart")) {
-//				cvcop.updateOctaveStart(Integer.parseInt(l.item(i)
-//						.getFirstChild().getNodeValue()));
-//			} else if (l.item(i).getNodeName().equals("Location")) {
-//				Element e = (Element) l.item(i);
-//				double x = Double.parseDouble(e.getAttribute("x"));
-//				double y = Double.parseDouble(e.getAttribute("y"));
-//				cvcop.updateLocation(x, y);
-//				this.tmp_x = x;
-//				this.tmp_y = y;
-//			}
-//		}
-//		return cvcop;
-//	}
-//
-//	private CVCOModule parcourirVCOModule(Node node) {
-//		// TODO Auto-generated method stub
-//		CVCOModule cvco = (CVCOModule) factory.createVCOModule();
-//		NodeList l = node.getChildNodes();
-//		for (int i = 0; i < l.getLength(); i++) {
-//			if (l.item(i).getNodeName().equals("CoarseAdjustment")) {
-//				cvco.updateCoarseAdjustment(Integer.parseInt(l.item(i)
-//						.getFirstChild().getNodeValue()));
-//			} else if (l.item(i).getNodeName().equals("FineAdjustment")) {
-//				// System.out.println("db="+l.item(i).getFirstChild().getNodeValue());
-//				Double d = Double.parseDouble(l.item(i).getFirstChild()
-//						.getNodeValue());
-//				cvco.updateFineAdjustment(d);
-//			} else if (l.item(i).getNodeName().equals("Location")) {
-//				Element e = (Element) l.item(i);
-//				double x = Double.parseDouble(e.getAttribute("x"));
-//				double y = Double.parseDouble(e.getAttribute("y"));
-//				cvco.updateLocation(x, y);
-//				this.tmp_x = x;
-//				this.tmp_y = y;
-//			}
-//		}
-//		return cvco;
-//	}
-//
-//	private COutModule parcourirOutModule(Node node) {
-//		// TODO Auto-generated method stub
-//		COutModule com = (COutModule) factory.createOutModule();
-//		NodeList l = node.getChildNodes();
-//		for (int i = 0; i < l.getLength(); i++) {
-//			if (l.item(i).getNodeName().equals("Distribution")) {
-//				// System.out.println(l.item(i).getFirstChild().getNodeValue());
-//				if (l.item(i).getFirstChild().getNodeValue().equals("NORMAL")) {
-//					com.updateDistribution(OutModule.Distribution.NORMAL);
-//				} else {
-//					com.updateDistribution(OutModule.Distribution.DISTRIBUTED);
-//				}
-//			} else if (l.item(i).getNodeName().equals("AttenuationDB")) {
-//				// System.out.println("db="+l.item(i).getFirstChild().getNodeValue());
-//				Double db = Double.parseDouble(l.item(i).getFirstChild()
-//						.getNodeValue());
-//				System.out.println(db);
-//				com.updateAttenuation(db);
-//				System.out.println(com.getAttenuation());
-//			} else if (l.item(i).getNodeName().equals("Location")) {
-//				Element e = (Element) l.item(i);
-//				double x = Double.parseDouble(e.getAttribute("x"));
-//				double y = Double.parseDouble(e.getAttribute("y"));
-//				com.updateLocation(x, y);
-//				this.tmp_x = x;
-//				this.tmp_y = y;
-//			}
-//		}
-//		return com;
-//	}
-	
+		 
+
 	public Field findField(String nomAttribut, Class module){
 		Field field;
 		try{
@@ -401,7 +189,6 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 	private void parcourirModules(Node configuration) {
 		// TODO Auto-generated method stub
 		Element e = (Element) configuration;
-		System.out.println(configuration);
 		NodeList modulesNodes = e.getElementsByTagName("Module");
 		for(int i = 0 ;i<modulesNodes.getLength();i++){
 			Element m = (Element) modulesNodes.item(i);
@@ -469,35 +256,23 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 				}
 				
 				//presentation
-//				Node pres = m.getElementsByTagName("Presentation").item(0);
-//				
-//				String presSer = pres.getFirstChild().getNodeValue().replace("	", "");
-//				
-//				Object p = CTools.fromString(presSer);
-//				System.out.println(p);
-//				Field field;
-//				field = findField("presentation", module.getClass());
-//				System.out.println(field);
-//				field.setAccessible(true);
-//				field.set(module, p);			
-//				System.out.println(((COutModule)module).getDistribution());
-				module.initPresentation(null);
-				
-				
+				Element pres = (Element) m.getElementsByTagName("Presentation").item(0);
+				Element location = (Element) pres.getElementsByTagName("Location").item(0);
+				int locationX = Integer.parseInt(location.getAttribute("x"));
+				int locationY = Integer.parseInt(location.getAttribute("y"));
+					
+				//chargement
 				CWorkspace.getInstance().addModule(module);
+				module.refresh();
+				module.getPresentation().updateLocation(locationX, locationY);
+				((Component) presentation).repaint();
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			
 		}
 	}
 
-
-	public void addOneFileInModule() {
-		addModule(factory.createFileInModule());
-
-	}
 
 	@Override
 	public void addOneEGModule() {
@@ -546,11 +321,12 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 
 	}
 
-	public void saveConfiguration(String name) {
+	public void saveConfiguration(String name, String path) {
 		String save = "<Configuration name=\"" + name + "\">\n";
 		Set<ICCable> cables = new HashSet<>();
 		for (IModule m : modules) {
 			String tmp = "";
+			
 			tmp = "	<Module name=\"" + m.getName() + "\" type=\""
 					+ m.getClass().getSimpleName().substring(1) + "\">\n";
 
@@ -653,11 +429,12 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		save += "</Configuration>";
 		System.out.println(save);
 		try {
-			FileWriter f = new FileWriter(new File("essai.conf"));
-			f.write(save);
-			f.close();
+			if (!path.endsWith(".synth"))
+				path += ".synth";
+			FileWriter fw = new FileWriter(path);
+			fw.write(save);
+			fw.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -690,6 +467,11 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 			cModule.getPresentation().stop();
 		}
 
+	}
+
+	public void giveFocus() {
+		((Component) presentation).requestFocus();
+		
 	}
 
 }

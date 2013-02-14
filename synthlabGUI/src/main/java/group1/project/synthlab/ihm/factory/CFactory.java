@@ -6,7 +6,6 @@ import group1.project.synthlab.ihm.cable.CCable;
 import group1.project.synthlab.ihm.module.eg.CEGModule;
 import group1.project.synthlab.ihm.module.eq.CEQModule;
 import group1.project.synthlab.ihm.module.eqView.CEQViewModule;
-import group1.project.synthlab.ihm.module.fileIn.CFileInModule;
 import group1.project.synthlab.ihm.module.micro.CMicroModule;
 import group1.project.synthlab.ihm.module.multiplexer.CMultiplexerModule;
 import group1.project.synthlab.ihm.module.noise.CNoiseModule;
@@ -25,7 +24,6 @@ import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.module.eg.IEGModule;
 import group1.project.synthlab.module.eq.IEQModule;
 import group1.project.synthlab.module.eqView.IEQViewModule;
-import group1.project.synthlab.module.fileIn.IFileInModule;
 import group1.project.synthlab.module.micro.IMicroModule;
 import group1.project.synthlab.module.multiplexer.IMultiplexerModule;
 import group1.project.synthlab.module.noise.INoiseModule;
@@ -115,10 +113,6 @@ public class CFactory extends Factory {
 		return new CWorkspace(this);
 	}
 	
-	@Override
-	public IFileInModule createFileInModule() {
-		return new CFileInModule(this);
-	}
 	
 	@Override
 	public IEGModule createEGModule() {

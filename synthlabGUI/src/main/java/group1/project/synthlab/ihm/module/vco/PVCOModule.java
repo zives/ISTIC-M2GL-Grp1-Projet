@@ -226,55 +226,15 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		
 	}
 
-
-
-	@Override
-	public void updateCoarseAdjustment(int coarseAdjustment) {
-		// TODO Auto-generated method stub
-
-	}
-
-
-
-	@Override
-	public void updateFineAdjustment(double fineAdjustment) {
-		// TODO Auto-generated method stub
-
-	}
-
-
-
-	@Override
-	public void updateLocation(double x, double y) {
-		// TODO Auto-generated method stub
-		this.setLocation((int)x, (int)y);
-	}
-
-
-
 	@Override
 	public void updatePresentation() {
-		// TODO Auto-generated method stub
+		super.updatePresentation();
 		coarseSlider.setValue(controller.getCoarseAdjustment() * 10);
 		fineSlider.setValue((int) (controller.getFineAdjustment() * 10000.0));
 		freqLabel.setText(PTools.freqToString(controller.getf0()) + " Hz");
 		textFreq.setText(PTools.freqToString(controller.getf0()));
 		
-		coarseSlider.setValue(controller.getCoarseAdjustment() * 10);
-		fineSlider.setValue((int) (controller.getFineAdjustment() * 10000.0));
-		freqLabel.setText(PTools.freqToString(controller.getf0()) + " Hz");
-		textFreq.setText(PTools.freqToString(controller.getf0()));
-		
-		if(controller.isStarted()){
-			this.onOffButton.setSelected(true);
-			this.onOffButton.setText("Off");
-		}
-		else{
-			this.onOffButton.setSelected(false);
-			this.onOffButton.setText("On");
-		}
 	}
-	
 
 
 

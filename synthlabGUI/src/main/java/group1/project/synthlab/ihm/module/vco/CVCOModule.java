@@ -30,43 +30,16 @@ public class CVCOModule extends VCOModule implements ICVCOModule {
 		super.cableDisconnected(port);
 	}
 
-	@Override
-	public String saveConfiguration() {		
-		String save = "<VCOModule>\n";
-		save+="<CoarseAdjustment>"+this.coarseAdjustment+"</CoarseAdjustment>\n";
-		save+="<FineAdjustment>"+this.fineAdjustment+"</FineAdjustment>\n";
-		save+="<Location x=\""+presentation.getLocation().getX()+
-				"\" y=\""+presentation.getLocation().getY()+"\" />\n";
-		save+="</VCOModule>\n";
-		return save;
-	}
-
-	public void updateCoarseAdjustment(int parseInt) {
-		super.setCoarseAdjustment(parseInt);
-		presentation.updateCoarseAdjustment(this.coarseAdjustment);
-	}
-
-	public void updateFineAdjustment(Double d) {
-		super.setFineAdjustment(d);
-		presentation.updateFineAdjustment(this.fineAdjustment);
-		
-	}
 
 	public static void resetModuleCount() {
 		moduleCount = 0;
 	}
 
-	public void updateLocation(double x, double y) {
-		// TODO Auto-generated method stub
-		presentation.updateLocation(x,y);
-	}
-
 	@Override
-	public void initPresentation(Object... params) {
-		// TODO Auto-generated method stub
+	public void refresh() {
+		super.refresh();
 		presentation.updatePresentation();
 	}
-	
 	
 	
 	

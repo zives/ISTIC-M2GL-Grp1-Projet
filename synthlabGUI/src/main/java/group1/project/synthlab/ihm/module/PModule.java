@@ -35,10 +35,12 @@ public abstract class PModule extends JPanel implements IPModule {
 	protected final JToggleButton onOffButton;
 	protected final JToggleButton removeButton;
 	protected boolean canMove;
+	protected transient ICModule controller;
 
 	public PModule(final ICModule controller) {
 		self = this;
 
+		this.controller = controller;
 		this.setLayout(null);
 		this.setOpaque(true);
 		this.setBackground(new Color(65, 65, 65));
@@ -190,6 +192,27 @@ public abstract class PModule extends JPanel implements IPModule {
 	
 	public void stop() {
 		onOffButton.setSelected(false);
+	}
+	
+	
+
+	@Override
+	public void updatePresentation() {
+		if(controller.isStarted()){
+			this.onOffButton.setSelected(true);
+			this.onOffButton.setText("Off");
+		}
+		else{
+			this.onOffButton.setSelected(false);
+			this.onOffButton.setText("On");
+		}
+		
+	}
+
+	@Override
+	public void updateLocation(int x, int y) {
+		setLocation(x, y);
+		
 	}
 
 	@Override

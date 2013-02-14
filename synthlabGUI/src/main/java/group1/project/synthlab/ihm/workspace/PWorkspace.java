@@ -41,6 +41,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.jtattoo.plaf.noire.NoireLookAndFeel;
 
@@ -64,7 +65,6 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	protected JButton vcaButton;
 	protected JButton vcflpButton;
 	protected JButton vcfhpButton;
-	protected JButton fileInButton;
 	protected JButton pianoButton;
 	protected JButton noiseButton;
 	protected JButton multiplexerButton;
@@ -243,12 +243,6 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		vcoButton.setFocusable(false);
 		toolBar.add(vcoButton);
 		
-		fileInButton = new JButton("FILE IN");
-		fileInButton.setBackground(colorButton);
-		fileInButton.setForeground(Color.LIGHT_GRAY);
-		fileInButton.setFocusable(false);
-		toolBar.add(fileInButton);		
-		
 		microButton= new JButton("MICRO");
 		microButton.setBackground(colorButton);
 		microButton.setForeground(Color.LIGHT_GRAY);
@@ -404,6 +398,33 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 							controller.setDrawingCable(null);
 							repaint();
 						}
+					}else if (m.getID() == KeyEvent.KEY_PRESSED) {
+//						if (m.getKeyCode() == KeyStroke.getKeyStroke(KeyEvent.VK_S,InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK).getKeyCode()) 
+//							controller.saveConfiguration();
+//						clear = new JMenuItem("Tout effacer");
+//						clear.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,InputEvent.CTRL_MASK));
+//						workspaceMenu.add(clear);	
+//					
+//						allOn = new JMenuItem("Tout demarrer");
+//						allOn.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,InputEvent.CTRL_MASK));
+//						workspaceMenu.add(allOn);
+//						
+//						allOff = new JMenuItem("Tout arreter");
+//						allOff.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W,InputEvent.CTRL_MASK));
+//						workspaceMenu.add(allOff);
+//
+//						//bouton sauvegarde pour la configuration
+//						save = new JMenuItem("Sauver");	
+//						save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
+//						fichierMenu.add(save);
+//						//bouton charger
+//						load = new JMenuItem("Charger");	
+//						load.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
+//						fichierMenu.add(load);		
+//						
+//						quit = new JMenuItem("Quitter");
+//						quit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));		
+//						fichierMenu.add(quit);
 					}
 				}
 			}
@@ -479,12 +500,6 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 			}
 		});
 		
-		fileInButton.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent ev) {
-				controller.addOneFileInModule();
-			}
-		});
 		eqViewButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent ev) {
@@ -599,9 +614,19 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	}
 
 	@Override
-	public String askFileName() {
-		String s = JOptionPane.showInputDialog("Entrer le nom de la sauvegarde.\nExemple : configuration_1");
-		return s;
+	public File saveFileDialog() {
+		UIManager.put("FileChooser.openButtonText", "Sauver");
+		UIManager.put("FileChooser.openButtonToolTipText", "Sauver");
+		JFileChooser j = new JFileChooser();
+		j.setAcceptAllFileFilterUsed(false);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter( "Fichier Synth (*.synth)","synth");
+		j.addChoosableFileFilter(filter);
+		j.setMultiSelectionEnabled(false);
+		j.setFileFilter(filter);
+		j.setDialogTitle("Sauver...");
+		j.setDialogType(JFileChooser.SAVE_DIALOG); 		
+		j.showOpenDialog(null);
+		return j.getSelectedFile();
 	}
 
 	@Override
@@ -610,12 +635,22 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	}
 
 	@Override
-	public File askFileChooser() {
+	public File openFileDialog() {
+		UIManager.put("FileChooser.openButtonText", "Open");
 		JFileChooser j = new JFileChooser();
+		j.setDialogTitle("Charger...");
+		j.setAcceptAllFileFilterUsed(false);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier Synth (*.synth)", "synth" );
+		j.addChoosableFileFilter(filter);
+		j.setMultiSelectionEnabled(false);	
+		j.setFileFilter(filter);
+		j.setDialogType(JFileChooser.OPEN_DIALOG); 
 		j.showOpenDialog(null);
 		return j.getSelectedFile();
 		
 	}
+	
+	
 
 
 }

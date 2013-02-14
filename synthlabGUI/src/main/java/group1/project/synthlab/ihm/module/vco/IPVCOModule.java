@@ -7,12 +7,6 @@ import java.awt.Point;
 
 public interface IPVCOModule extends IPModule,  IFilterAmplitudeObserver {
 	public void setSlidersEnabled(boolean value);
-
-	public void updateCoarseAdjustment(int coarseAdjustment);
-
-	public void updateFineAdjustment(double fineAdjustment);
 	
-	public Point getLocation();
 
-	public void updateLocation(double x, double y);
 }

@@ -37,15 +37,9 @@ public class CVCFHPModule extends VCFHPModule implements ICVCFHPModule {
 	}
 
 	@Override
-	public String saveConfiguration() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public FilterHighPass getFilter() {
-		// TODO Auto-generated method stub
-		return null;
+	public void refresh() {
+		super.refresh();
+		presentation.updatePresentation();
 	}
 	
 

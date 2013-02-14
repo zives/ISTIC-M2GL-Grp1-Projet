@@ -140,6 +140,12 @@ public class VCFLPModule extends Module implements IPortObserver, IVCFLPModule {
 
     }
     
+    @Override
+   	public void refresh() {
+       	filterFrequencyModulation.setf0(f0);
+       	changeQFactor();
+   	}
+    
     /*
      * (non-Javadoc)
      * 

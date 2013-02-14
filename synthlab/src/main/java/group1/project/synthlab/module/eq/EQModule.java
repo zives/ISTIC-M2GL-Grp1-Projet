@@ -90,6 +90,13 @@ public class EQModule extends Module implements IEQModule {
 		circuit.add(ptOut);
 	}
 	
+
+	@Override
+	public void refresh() {
+		for (int i = 0; i < FREQUENCIES.length; ++i)
+			setAttenuation(i, attenuations[i]);
+	}
+	
 	
 	public double[] getFrequencies() {
 		return FREQUENCIES;

@@ -88,6 +88,13 @@ public class OutModule extends Module implements IOutModule {
 		attenuatorRight.output.connect(passThroughRight.input);
 
 	}
+	
+	@Override
+	public void refresh() {
+		setAttenuation(attenuationDB);
+		setDistribution(distribution);
+	}
+
 
 	
 	/* (non-Javadoc)

@@ -6,6 +6,7 @@ import group1.project.synthlab.ihm.port.in.ICInPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
 import group1.project.synthlab.ihm.tools.FloatTextField;
 import group1.project.synthlab.ihm.tools.PTools;
+import group1.project.synthlab.module.out.IOutModule.Distribution;
 import group1.project.synthlab.unitExtension.filter.filterSupervisor.IFilterAmplitudeObservable;
 
 import java.awt.Color;
@@ -33,6 +34,10 @@ public class PVCFModule extends PModule implements IPVCFModule {
 	protected JSlider fineSlider;
 	protected JLabel warnLabel;
 
+	protected JLabel freqLabel;
+
+	protected FloatTextField txtFreq;
+
 	public PVCFModule(final ICVCFModule controller) {
 		super(controller);
 		this.controller = controller;
@@ -52,7 +57,7 @@ public class PVCFModule extends PModule implements IPVCFModule {
 		pportOut.setLocation(pportIn.getX() + 120, pportIn.getY());
 
 		// Label fréquence
-		final JLabel freqLabel = new JLabel(controller.getf0() + " Hz");
+		freqLabel = new JLabel(controller.getf0() + " Hz");
 		freqLabel.setForeground(Color.LIGHT_GRAY);
 		freqLabel.setOpaque(false);
 		freqLabel.setSize(230, 20);
@@ -103,21 +108,23 @@ public class PVCFModule extends PModule implements IPVCFModule {
 		fineLabel.setLocation(coarseSlider.getX(), 140);
 		fineLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 
-		final JFormattedTextField textFreq = new FloatTextField(
+		txtFreq = new FloatTextField(
 				NumberFormat.getInstance());
-		textFreq.setOpaque(false);
-		textFreq.setSize(40, 20);
-		textFreq.setFont(new Font("Arial", 0, 9));
-		textFreq.setLocation(fineSlider.getX() + fineSlider.getWidth() + 10,
+		txtFreq.setOpaque(false);
+		txtFreq.setSize(40, 20);
+		txtFreq.setFont(new Font("Arial", 0, 9));
+		txtFreq.setLocation(fineSlider.getX() + fineSlider.getWidth() + 10,
 				160);
-		final JLabel txtFreqLabel = new JLabel("custom");
-		txtFreqLabel.setForeground(Color.LIGHT_GRAY);
-		txtFreqLabel.setOpaque(false);
-		txtFreqLabel.setSize(70, 20);
-		txtFreqLabel.setBorder(null);
-		txtFreqLabel.setPreferredSize(freqLabel.getSize());
-		txtFreqLabel.setLocation(textFreq.getX(), 140);
-		txtFreqLabel.setFont(new Font("Arial", Font.ITALIC, 10));
+		freqLabel = new JLabel("custom");
+		freqLabel = new JLabel(controller.getf0() + " Hz");
+		freqLabel.setForeground(Color.LIGHT_GRAY);
+		freqLabel.setOpaque(false);
+		freqLabel.setSize(230, 20);
+		freqLabel.setHorizontalAlignment(JLabel.LEFT);
+		freqLabel.setBorder(null);
+		freqLabel.setPreferredSize(freqLabel.getSize());
+		freqLabel.setLocation(getWidth() / 2 - freqLabel.getWidth() / 2, 50);
+		freqLabel.setFont(new Font("Monospaced", Font.ITALIC, 26));
 
 		// Ajouts des composants
 		add(freqLabel);
@@ -128,8 +135,8 @@ public class PVCFModule extends PModule implements IPVCFModule {
 		add(coarseSlider);
 		add(fineLabel);
 		add(fineSlider);
-		add(txtFreqLabel);
-		add(textFreq);
+		add(freqLabel);
+		add(txtFreq);
 
 		controller.redefAdjustments();
 		coarseSlider.setValue(controller.getCoarseAdjustment() * 10);
@@ -140,7 +147,7 @@ public class PVCFModule extends PModule implements IPVCFModule {
 			public void stateChanged(ChangeEvent arg0) {
 				controller.setCoarseAdjustment((int) coarseSlider.getValue() / 10);
 				freqLabel.setText(PTools.freqToString(controller.getf0()) + " Hz");
-				textFreq.setText(PTools.freqToString(controller.getf0()));
+				txtFreq.setText(PTools.freqToString(controller.getf0()));
 			}
 		});
 
@@ -148,11 +155,11 @@ public class PVCFModule extends PModule implements IPVCFModule {
 			public void stateChanged(ChangeEvent arg0) {
 				controller.setFineAdjustment(fineSlider.getValue() / 10000.0);
 				freqLabel.setText(PTools.freqToString(controller.getf0()) + " Hz");
-				textFreq.setText(PTools.freqToString(controller.getf0()));
+				txtFreq.setText(PTools.freqToString(controller.getf0()));
 			}
 		});
 
-		textFreq.addKeyListener(new KeyListener() {
+		txtFreq.addKeyListener(new KeyListener() {
 
 			public void keyTyped(KeyEvent ev) {
 
@@ -166,7 +173,7 @@ public class PVCFModule extends PModule implements IPVCFModule {
 				if (ev.getKeyCode() == KeyEvent.VK_ENTER) {
 					Double val = 0.0;
 					try {
-						String valText = textFreq.getText();
+						String valText = txtFreq.getText();
 						valText = valText.replace(",", ".");
 						valText = valText.trim();
 						val = Double.valueOf(valText);
@@ -178,7 +185,7 @@ public class PVCFModule extends PModule implements IPVCFModule {
 					coarseSlider.setValue(controller.getCoarseAdjustment() * 10);
 					fineSlider.setValue((int) (controller.getFineAdjustment() * 10000.0));
 					freqLabel.setText(PTools.freqToString(val) + " Hz");
-					textFreq.setText(PTools.freqToString(val));
+					txtFreq.setText(PTools.freqToString(val));
 
 				}
 			}
@@ -201,6 +208,17 @@ public class PVCFModule extends PModule implements IPVCFModule {
 
 
 	}
+
+	@Override
+	public void updatePresentation() {
+		super.updatePresentation();
+		coarseSlider.setValue(controller.getCoarseAdjustment() * 10);
+		fineSlider.setValue((int) (controller.getFineAdjustment() * 10000.0));
+		freqLabel.setText(PTools.freqToString(controller.getf0()) + " Hz");
+		txtFreq.setText(PTools.freqToString(controller.getf0()));
+		
+	}
+
 
 
 

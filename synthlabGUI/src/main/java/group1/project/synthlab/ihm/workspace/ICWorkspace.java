@@ -17,7 +17,6 @@ public interface ICWorkspace extends IWorkspace {
 	public void addOneVCAModule();
 	public void addOnePianoModule();
 	public void addOneNoiseModule();
-	public void addOneFileInModule();
 	public void addOneEGModule();
 	public void addOneEQViewModule();
 	public void addOneMicroModule();
@@ -35,6 +34,7 @@ public interface ICWorkspace extends IWorkspace {
 	public void allModulesOff();
 	
 	public void quitApp();
+	public void giveFocus();
 	
 
 }

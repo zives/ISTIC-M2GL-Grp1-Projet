@@ -15,7 +15,7 @@ public interface IPWorkspace extends IPModuleObserver {
 	public void addModule(IPModule module); 
 	public void removeModule (IPModule module); 
 	public JLayeredPane getWorkspacePanel();
-	public String askFileName();
+	public File saveFileDialog();
 	public void showError(String s);
-	public File askFileChooser();
+	public File openFileDialog();
 }

@@ -21,6 +21,8 @@ public class PVCFLPModule extends PVCFModule implements IPVCFLPModule {
 	protected JLabel warnLabel;
 	protected JSlider qualitySlider;
 
+	protected JLabel qualityValue;
+
 	public PVCFLPModule(final ICVCFLPModule controller) {
 		super(controller);
 		this.controller = controller;
@@ -62,7 +64,7 @@ public class PVCFLPModule extends PVCFModule implements IPVCFLPModule {
 		qualityLabel.setLocation(qualitySlider.getX(), 50);
 		qualityLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 		
-		final JLabel qualityValue = new JLabel(controller.getq() + "");
+		qualityValue = new JLabel(controller.getq() + "");
 		qualityValue.setForeground(Color.LIGHT_GRAY);
 		qualityValue.setOpaque(false);
 		qualityValue.setSize(qualitySlider.getX(), qualitySlider.getY());
@@ -127,5 +129,11 @@ public class PVCFLPModule extends PVCFModule implements IPVCFLPModule {
 	}
 
 
+	@Override
+	public void updatePresentation() {
+		super.updatePresentation();
+		qualitySlider.setValue((int) (controller.getq() * 10));
+		qualityValue.setText(PTools.freqToString(controller.getq()));
+	}
 
 }
