@@ -35,7 +35,7 @@ public class PVCFLPModule extends PVCFModule implements IPVCFLPModule {
 
 		// Sliders
 		qualitySlider = new JSlider();
-		qualitySlider.setMaximum(300);
+		qualitySlider.setMaximum(100);
 		qualitySlider.setMinimum(0);
 		qualitySlider.setOrientation(JSlider.VERTICAL);
 		qualitySlider.setValue((int) controller.getq()*10);
@@ -72,7 +72,7 @@ public class PVCFLPModule extends PVCFModule implements IPVCFLPModule {
 		qualityValue.setLocation(qualitySlider.getX()+10, 200);
 		qualityValue.setFont(new Font("Monospaced", Font.ITALIC, 12));
 		
-		JLabel qualityMaxValueLabel = new JLabel("30");
+		JLabel qualityMaxValueLabel = new JLabel("10");
 		qualityMaxValueLabel.setForeground(Color.LIGHT_GRAY);
 		qualityMaxValueLabel.setOpaque(false);
 		qualityMaxValueLabel.setSize(30, 20);

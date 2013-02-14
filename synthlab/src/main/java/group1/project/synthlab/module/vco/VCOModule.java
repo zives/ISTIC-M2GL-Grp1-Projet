@@ -255,7 +255,7 @@ public class VCOModule extends Module implements IVCOModule {
 	 * @see group1.project.synthlab.module.IModule#start()
 	 */
 	public void start() {
-		//super.start();
+		super.start();
 		sineOsc.amplitude.set(a0);
 		squareOsc.amplitude.set(a0);
 		triangleOsc.amplitude.set(a0);
