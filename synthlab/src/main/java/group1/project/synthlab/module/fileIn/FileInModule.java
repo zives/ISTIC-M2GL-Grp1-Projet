@@ -37,7 +37,7 @@ public class FileInModule extends Module implements IFileInModule{
 
 	/* jSyn module */
 	//protected LineOut lineOut;
-	protected PassThrough passThrough;
+	protected transient PassThrough passThrough;
 
 
 	protected  FloatSample sample;

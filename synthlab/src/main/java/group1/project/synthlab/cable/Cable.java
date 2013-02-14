@@ -17,6 +17,12 @@ import group1.project.synthlab.port.out.IOutPort;
 
 public class Cable implements ICable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2580294344871546156L;
+
+
 	protected static int cableCount = 0;
 
 	

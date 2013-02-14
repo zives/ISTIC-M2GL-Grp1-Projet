@@ -30,7 +30,7 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 	protected IOutPort[] outPorts;
 
 	// Filtres
-	protected FilterAttenuator[] attenuators;
+	protected transient FilterAttenuator[] attenuators;
 
 	/* Variables internes */
 	private PassThrough passThrough;

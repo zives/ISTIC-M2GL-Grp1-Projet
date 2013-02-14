@@ -30,7 +30,12 @@ import com.jsyn.unitgen.SquareOscillator;
  */
 public class VCFLPModule extends Module implements IPortObserver, IVCFLPModule {
 
-    protected static int moduleCount = 0;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6539474771928747986L;
+
+	protected static int moduleCount = 0;
     
     /** Frequence de coupure min */
     public static final double fmin = 0;
@@ -43,11 +48,11 @@ public class VCFLPModule extends Module implements IPortObserver, IVCFLPModule {
     protected double q;
     
     /** Filtres JSyn : on utilise 2 filtres en serie pour avoir du 24dB/octave */
-    protected FilterLowPass filter1;
-    protected FilterLowPass filter2;
+    protected transient FilterLowPass filter1;
+    protected transient FilterLowPass filter2;
     
     /** Attenue le signal en entree lorsque Q depasse 1 */
-    protected Multiply attenuatorInSignal;
+    protected transient Multiply attenuatorInSignal;
     
     /** Reglage grossier de la frequence de coupure : entier de 0 a 990 */
     protected int coarseAdjustment;
@@ -66,18 +71,18 @@ public class VCFLPModule extends Module implements IPortObserver, IVCFLPModule {
     /**
      * Filtre pour appliquer la formule de modulation de la frequence de coupure : fc = f0 * 2^(Vfm)
      */
-    protected FilterFrequencyModulation filterFrequencyModulation;
+    protected transient FilterFrequencyModulation filterFrequencyModulation;
     
 	/**
 	 * Filtre pour ramener l'amplitude du signal modulant a amax si elle est au
 	 * dessus
 	 */
-	protected FilterAmplitude filterAmplitude;
+	protected transient FilterAmplitude filterAmplitude;
 	
     /**
      * Filtre pour recuperer les valeurs max et min d'un signal
      */
-    protected FilterRecordMinMaxAmplitude filterPrintMinMaxAmplitude;
+    protected transient FilterRecordMinMaxAmplitude filterPrintMinMaxAmplitude;
 
     
     /**

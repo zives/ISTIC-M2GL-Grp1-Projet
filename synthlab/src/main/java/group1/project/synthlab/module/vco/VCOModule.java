@@ -35,6 +35,11 @@ import com.jsyn.unitgen.TriangleOscillator;
  */
 public class VCOModule extends Module implements IVCOModule {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8030234570782950696L;
+
 	protected static int moduleCount = 0;
 
 	/** Modulation de frequence connectee ou pas */
@@ -54,24 +59,24 @@ public class VCOModule extends Module implements IVCOModule {
 	protected double f0 = 440;
 
 	/** Oscillateur generant le signal sinusoidale */
-	protected SineOscillator sineOsc;
+	protected transient SineOscillator sineOsc;
 	/** Oscillateur generant le signal carre */
-	protected SquareOscillator squareOsc;
+	protected transient SquareOscillator squareOsc;
 	/** Oscillateur generant le signal triangulaire */
-	protected TriangleOscillator triangleOsc;
+	protected transient TriangleOscillator triangleOsc;
 	/** Oscillateur generant le signal dent de scie */
-	protected SawtoothOscillator sawToothOsc;
+	protected transient SawtoothOscillator sawToothOsc;
 
 	/**
 	 * Filtre pour ramener l'amplitude du signal modulant a amax si elle est au
 	 * dessus
 	 */
-	protected FilterAmplitude filterAmplitude;
+	protected transient FilterAmplitude filterAmplitude;
 
 	/**
 	 * Filtre pour appliquer la formule de modulation de frequence : f = f0 * 2^(Vfm)
 	 */
-	protected FilterFrequencyModulation filterFrequencyModulation;
+	protected transient FilterFrequencyModulation filterFrequencyModulation;
 	
 	/** Port d'entree : modulation de frequence */
 	protected IInPort fm;

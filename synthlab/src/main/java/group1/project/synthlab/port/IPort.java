@@ -1,5 +1,7 @@
 package group1.project.synthlab.port;
 
+import java.io.Serializable;
+
 import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.module.IModule;
 
@@ -7,7 +9,7 @@ import group1.project.synthlab.module.IModule;
  * @author Groupe 1
  * Defini les methodes communes aux ports de sorties et d'entres
  */
-public interface IPort extends IPortObservable {
+public interface IPort extends IPortObservable, Serializable {
 	/**
 	 * @return le nom du port
 	 */

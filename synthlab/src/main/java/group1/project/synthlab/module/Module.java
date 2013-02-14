@@ -12,7 +12,7 @@ import com.jsyn.unitgen.Circuit;
  */
 public abstract class Module implements IModule {
 	
-	protected Circuit circuit;
+	protected transient Circuit circuit;
 	
 	protected String name;
 	
