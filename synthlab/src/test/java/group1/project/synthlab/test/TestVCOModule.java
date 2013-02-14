@@ -111,9 +111,6 @@ public class TestVCOModule extends TestCase {
 	public void testCableConnected() {
 		vco.cableConnected(vco.getFm());
 		assertTrue (vco.getFmConnected());
-		assertTrue (vco.getSineOsc().frequency.isConnected());
-		assertTrue (vco.getSquareOsc().frequency.isConnected());
-		assertTrue (vco.getTriangleOsc().frequency.isConnected());
 	}
 
 	/**

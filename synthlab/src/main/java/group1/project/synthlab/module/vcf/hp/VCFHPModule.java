@@ -32,9 +32,9 @@ public class VCFHPModule extends Module implements IPortObserver, IVCFHPModule {
     protected static int moduleCount = 0;
     
     /** Frequence de coupure min */
-    public static final double fmin = 0;
+    public static final double fmin = Signal.FMIN;
     /** Frequence de coupure max */
-    public static final double fmax = 6000;
+    public static final double fmax = Signal.FMAX;
     /** Frequence de coupure */
     protected double f0 = 440;
     
