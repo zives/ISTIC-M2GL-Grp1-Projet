@@ -45,7 +45,7 @@ public class PCable extends JPanel implements IPCable {
 	protected boolean saturated;
 
 	protected final Color[] LINK_COLORS = { new Color(110, 110, 110),
-			new Color(100, 50, 50), new Color(100, 100, 50),
+			new Color(100, 50, 50), new Color(130, 90, 50),
 			new Color(50, 100, 50), new Color(50, 50, 140),
 			new Color(50, 100, 100), new Color(100, 50, 100),
 			new Color(50, 70, 120), new Color(150, 50, 80),

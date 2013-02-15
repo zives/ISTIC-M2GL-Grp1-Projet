@@ -9,32 +9,37 @@ import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 
 /**
- * Creation d'un cable
- * 
+ * Un cable * 
  * @author Groupe 1
  * 
  */
 
 public class Cable implements ICable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2580294344871546156L;
 
-
 	protected static int cableCount = 0;
-
 	
-	protected IInPort inPort; // Entree d'un module
-	protected IOutPort outPort; // Sortie d'un module
+	/** port d'entree d'un module */
+	protected IInPort inPort; 
+	
+	/** port de sortie d'un module */
+	protected IOutPort outPort;
+	
+	/** factory passee en parametre */
 	protected Factory factory;
+	
+	/** si le signal est sature */
 	protected boolean saturated;
+	
+	/** si le signal ne circule pas */
 	protected boolean hasSignal;
+	
+	/** numero du cable */
 	protected int numCable;
 	
 	/**
-	 * Constructeur du cable.
+	 * Constructeur du cable
 	 * @param factory
 	 */
 	public Cable(Factory factory) {
@@ -43,19 +48,20 @@ public class Cable implements ICable {
 		this.hasSignal = false;
 		this.saturated = false;
 	}
-	
-	
-	
+		
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.cable.ICable#getNumCable()
+	 */
 	public int getNumCable() {
 		return numCable;
 	}
 
-
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.cable.ICable#setNumCable(int)
+	 */
 	public void setNumCable(int numCable) {
 		this.numCable = numCable;
 	}
-
-
 
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.cable.ICable#setOutPort(group1.project.synthlab.port.out.IOutPort)
@@ -65,8 +71,7 @@ public class Cable implements ICable {
 			throw new PortAlreadyUsed("Ce port " + outPort.getLabel() + " est deja utilise par un autre cable. Detachez le cable avant d'en ajouter un autre !");
 		this.outPort = outPort;
 		
-	}
-	
+	}	
 	
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.cable.ICable#setInPort(group1.project.synthlab.port.in.IInPort)
@@ -124,6 +129,9 @@ public class Cable implements ICable {
 		inPort.setCable(null);
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#finalize()
+	 */
 	@Override
 	public void finalize() throws Throwable{
 		disconnect();
@@ -138,6 +146,9 @@ public class Cable implements ICable {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.cable.ICable#hasSignal()
+	 */
 	public boolean hasSignal() {
 		if (outPort == null)
 			return false;

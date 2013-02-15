@@ -80,7 +80,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	protected JMenuItem allOff;
 
 	public PWorkspace(ICWorkspace controller) {
-		super("Synthetiseur");
+		super("Synthetiseur du groupe 1");
 		initLnF();
 
 		this.controller = controller;
@@ -134,6 +134,8 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
+		
+		
 	}
 
 	public void initialize() {
@@ -178,7 +180,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 		workspacePanel = new JLayeredPane();
 		workspacePanel.setOpaque(true);
-		workspacePanel.setBackground(new Color(30, 30, 30));
+		workspacePanel.setBackground(new Color(35, 35, 35));
 		workspacePanel.setLayout(null);
 		workspacePanel.setPreferredSize(new Dimension(3000, 3000));
 		workspacePanel.setSize(workspacePanel.getPreferredSize());

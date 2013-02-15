@@ -45,13 +45,10 @@ import com.jsyn.ports.ConnectableOutput;
 
 /**
  * @author Groupe 1
- * 
+ * La factory du projet
  */
 public class Factory implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8090664782304306522L;
 
 	public IInPort createInPort(String label, ConnectableInput jSynPort,
