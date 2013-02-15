@@ -286,10 +286,14 @@ public class VCOModule extends Module implements IVCOModule {
 	 * @see group1.project.synthlab.module.IModule#stop()
 	 */
 	public void stop() {
-		Signal.turnOff(sineOsc.amplitude);
-		Signal.turnOff(squareOsc.amplitude);
-		Signal.turnOff(triangleOsc.amplitude);
-		Signal.turnOff(sawToothOsc.amplitude);
+		sineOsc.amplitude.set(amin);
+		squareOsc.amplitude.set(amin);
+		triangleOsc.amplitude.set(amin);
+		sawToothOsc.amplitude.set(amin);
+//		Signal.turnOff(sineOsc.amplitude);
+//		Signal.turnOff(squareOsc.amplitude);
+//		Signal.turnOff(triangleOsc.amplitude);
+//		Signal.turnOff(sawToothOsc.amplitude);
 		super.stop();
 	}
 

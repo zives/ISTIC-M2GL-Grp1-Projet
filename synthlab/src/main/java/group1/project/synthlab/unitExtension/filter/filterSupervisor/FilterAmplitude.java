@@ -24,6 +24,7 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 	protected int countNoSignal; //Nombre de fois ou le signal etait null
 	protected final int MAX_COUNT_NO_SIGNAL = 100; //Nombre maximum de fois ou on autorise un signal null avant d'avertir les observers
 	protected boolean hasSignal = false;
+	protected boolean turnOff;
 	
 	
 	public FilterAmplitude (double maxvolt, boolean truncate){
@@ -38,14 +39,23 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 	
 	@Override
 	public void generate(int start, int limit) {
-
 		double[] inputs = input.getValues();
 		double[] outputs = output.getValues();
-
+		
 		double sum = 0;
 
-			isSatured = false;
+		if (turnOff) {
+			hasSignal = false;
+			previousSaturatedWarned = false;
+			previousHasSignalWarned = false;
+		}
+		isSatured = false;
 		for (int i = start; i < limit; i++) {
+			if (turnOff) {
+				outputs[i] = 0.0;
+				continue;
+				
+			}
 			double x = inputs[i];
 			if(x > amax){
 				isSatured = true;
@@ -91,6 +101,14 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 			previousHasSignalWarned = true;
 		}
 		
+	}
+	
+	public void turnOff() {
+		turnOff = true;
+	}
+	
+	public void turnOn() {
+		turnOff = false;
 	}
 	
 	public boolean hasSignal() {

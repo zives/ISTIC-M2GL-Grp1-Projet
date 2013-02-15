@@ -17,7 +17,6 @@ public class OutPort extends Port implements IOutPort {
 		super(label, module, factory);
 		this.jSynPort = jSynPort;
 		this.supervisor.input.connect(jSynPort);
-		module.getCircuit().add(this.supervisor);
 
 	}
 

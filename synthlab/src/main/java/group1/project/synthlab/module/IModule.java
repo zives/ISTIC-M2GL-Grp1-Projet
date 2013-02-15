@@ -12,7 +12,7 @@ import com.jsyn.unitgen.Circuit;
  * @author Groupe 1
  * 
  */
-public interface IModule extends IPortObserver, Serializable {	
+public interface IModule extends IPortObserver, IModuleObservable, Serializable {	
 	/**
 	 * Demarre le circuit
 	 */

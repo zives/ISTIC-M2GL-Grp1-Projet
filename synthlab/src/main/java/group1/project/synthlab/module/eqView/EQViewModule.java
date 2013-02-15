@@ -6,6 +6,7 @@ import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
+import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.workspace.Workspace;
 
 import java.util.Timer;
@@ -143,6 +144,7 @@ public class EQViewModule extends Module implements IEQViewModule {
 	 * @see group1.project.synthlab.module.IModule#stop()
 	 */
 	public void stop() {
+		Signal.turnOff(ptIn.input);
 		super.stop();
 		for (int i = 0; i < FREQUENCIES.length; ++i) 
 			filtersMax[i].output.setValueInternal(0);

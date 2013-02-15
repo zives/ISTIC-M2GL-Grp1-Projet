@@ -23,6 +23,8 @@ public abstract class Module implements IModule {
 	
 	protected boolean isOn;
 	
+	protected List<IModuleObserver> observers;
+	
 	
 	/**
 	 * Constructeur du module
@@ -34,6 +36,7 @@ public abstract class Module implements IModule {
 		this.name = name;
 		this.factory = factory;
 		this.isOn = false;
+		this.observers = new ArrayList<>();
 		
 	}
 	
@@ -62,18 +65,53 @@ public abstract class Module implements IModule {
 	public void start(){
 		circuit.start();
 		isOn = true;
+		warnModuleOn();
 		
 	}
 	 
 	public void stop() {
 		circuit.stop();
 		isOn = false;
+		warnModuleOff();
 		
 	}
 	
 	public boolean isStarted() {
 		return isOn;
 	}
+
+
+
+	@Override
+	public void register(IModuleObserver observer) {
+		observers.add(observer);
+		
+	}
+
+
+	@Override
+	public void unregister(IModuleObserver observer) {
+		observers.remove(observer);
+		
+	}
+
+
+	@Override
+	public void warnModuleOn() {
+		for(IModuleObserver observer: observers)
+			observer.moduleIsOn(this);
+		
+	}
+
+
+	@Override
+	public void warnModuleOff() {
+		for(IModuleObserver observer: observers)
+			observer.moduleIsOff(this);
+		
+	}
+
+
 
 
 

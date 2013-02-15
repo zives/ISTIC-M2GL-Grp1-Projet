@@ -28,7 +28,7 @@ public class Signal {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
+		portJSyn.set(AMIN);
 		
 	}
 

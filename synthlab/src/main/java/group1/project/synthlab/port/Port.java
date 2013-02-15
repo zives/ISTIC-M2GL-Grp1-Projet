@@ -3,12 +3,15 @@ package group1.project.synthlab.port;
 import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.IModule;
+import group1.project.synthlab.module.IModuleObservable;
 import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.unitExtension.filter.filterSupervisor.FilterAmplitude;
+import group1.project.synthlab.workspace.Workspace;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jsyn.unitgen.Circuit;
 import com.jsyn.unitgen.UnitGenerator;
 
 
@@ -24,6 +27,8 @@ public abstract class Port implements IPort {
 	protected IModule module;
 	protected transient FilterAmplitude supervisor;
 	protected int countModuleStarted;
+	protected boolean supervisorAddedToSyth;
+	protected Circuit circuit;
 
 	public Port(String label, IModule module, Factory factory){
 		this.label = label;
@@ -32,6 +37,10 @@ public abstract class Port implements IPort {
 		this.supervisor = new FilterAmplitude(Signal.AMAX, false);	
 		this.countModuleStarted = 0;
 		register(module);
+		module.register(this);
+		supervisorAddedToSyth = false;
+		circuit = new Circuit();
+		circuit.add(supervisor);
 	}
 	
 	@Override
@@ -100,6 +109,25 @@ public abstract class Port implements IPort {
 
 	public boolean detectSignal() {
 		return supervisor.hasSignal() ;
+	}
+
+	@Override
+	public void moduleIsOff(IModuleObservable module) {
+		this.supervisor.turnOff();		
+		
+	}
+
+	@Override
+	public void moduleIsOn(IModuleObservable module) {
+		if (!supervisorAddedToSyth) {
+			Workspace.getInstance().getSynthetizer().add(circuit);
+			this.circuit.start();
+			supervisorAddedToSyth = true;
+		}
+		this.supervisor.turnOn();
+		
+		
+		
 	}
 
 

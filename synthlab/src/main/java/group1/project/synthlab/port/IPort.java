@@ -2,6 +2,7 @@ package group1.project.synthlab.port;
 
 import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.module.IModule;
+import group1.project.synthlab.module.IModuleObserver;
 
 import java.io.Serializable;
 
@@ -11,7 +12,7 @@ import com.jsyn.unitgen.UnitGenerator;
  * @author Groupe 1
  * Defini les methodes communes aux ports de sorties et d'entres
  */
-public interface IPort extends IPortObservable, Serializable {
+public interface IPort extends IPortObservable, Serializable, IModuleObserver {
 	/**
 	 * @return le nom du port
 	 */

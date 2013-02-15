@@ -62,6 +62,12 @@ public class MicroModule extends Module implements IMicroModule {
 	}
 	
 	@Override
+	public void stop() {
+		Signal.turnOff(attenuator.input);
+		super.stop();
+	}
+
+	@Override
 	public void refresh() {
 		setAttenuation(attenuationDB);
 	}

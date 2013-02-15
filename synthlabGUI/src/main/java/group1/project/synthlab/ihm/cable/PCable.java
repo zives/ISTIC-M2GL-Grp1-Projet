@@ -83,7 +83,7 @@ public class PCable extends JPanel implements IPCable {
 					animation = 2000;
 				repaint();
 			}
-		}, 100, 50);
+		}, 100, 60);
 
 	}
 
