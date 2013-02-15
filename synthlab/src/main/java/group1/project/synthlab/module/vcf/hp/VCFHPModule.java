@@ -29,9 +29,6 @@ import com.jsyn.unitgen.SquareOscillator;
  */
 public class VCFHPModule extends Module implements IPortObserver, IVCFHPModule {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 7686361549155605655L;
 
 	protected static int moduleCount = 0;

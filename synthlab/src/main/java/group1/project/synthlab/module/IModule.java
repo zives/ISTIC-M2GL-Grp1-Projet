@@ -14,11 +14,11 @@ import com.jsyn.unitgen.Circuit;
  */
 public interface IModule extends IPortObserver, IModuleObservable, Serializable {	
 	/**
-	 * Demarre le circuit
+	 * Demarre le module
 	 */
 	public void start();
 	/**
-	 * Arrete le circuit
+	 * Arrete le module
 	 */
 	public void stop();
 	
@@ -33,7 +33,7 @@ public interface IModule extends IPortObserver, IModuleObservable, Serializable 
 	public String getName();
 	
 	/**
-	 * @return change le nom du module
+	 * @return change le nom du module (peu recommande)
 	 */
 	public void setName(String name);
 	
@@ -63,5 +63,8 @@ public interface IModule extends IPortObserver, IModuleObservable, Serializable 
 	 */
 	public void destruct();
 	
+	/**
+	 * redonne les valeurs des attributs aux composants internes JSYN et filtres personnalisé (pour le chargement depuis un fichier)
+	 */
 	public void refresh();
 }

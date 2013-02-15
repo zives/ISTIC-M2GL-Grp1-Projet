@@ -4,10 +4,11 @@ import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
-import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
 import group1.project.synthlab.unitExtension.filter.filterAttenuator.FilterAttenuator;
+
 import javax.swing.JFrame;
+
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.scope.AudioScope;
@@ -58,42 +59,48 @@ public class OutModule extends Module implements IOutModule {
 	 */
 	protected double attenuationDB;
 
-
-	/**
-	 * Initialise le circuit (attenuateur, port, ...)
-	 */
 	public OutModule(Factory factory) {
 		super("Out-" + ++moduleCount, factory);
+		
+		//Initilisation du module de sortie
 		lineOut = new LineOut();
+		
+		//Initialisation des filtres pour l'attenuation
 		attenuatorLeft = new FilterAttenuator();
 		attenuatorRight = new FilterAttenuator();
 
+		//Ajout au circuit des composants
 		circuit.add(attenuatorLeft);
 		circuit.add(attenuatorRight);
 		circuit.add(lineOut);
 
+		//Initialisation des mixeurs internes et ajout au circuit
 		passThroughLeft = new PassThrough();
-		passThroughRight = new PassThrough();
-		
+		passThroughRight = new PassThrough();		
 		circuit.add(passThroughLeft);
 		circuit.add(passThroughRight);
 
+		//MAJ de la distribution du son par defaut
 		setDistribution(Distribution.NORMAL);
+		
+		//Pas d'attenuation de base
 		attenuationDB = 0;
 
-		lineOut.input.setMaximum(1); // MAX_VOLTAGE
-		lineOut.input.setMinimum(-1); // -MAX_VOLTAGE
-
+		//Creation des ports
 		leftPort = factory.createInPort("in left", attenuatorLeft.input,
 				this);
 		rightPort = factory.createInPort("in right", attenuatorRight.input,
 				this);
 
+		//Connexions des ports aux mixeurs internes
 		attenuatorLeft.output.connect(passThroughLeft.input);
 		attenuatorRight.output.connect(passThroughRight.input);
 
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#refresh()
+	 */
 	@Override
 	public void refresh() {
 		setAttenuation(attenuationDB);
@@ -122,8 +129,10 @@ public class OutModule extends Module implements IOutModule {
 	 */
 	public void setDistribution(Distribution distribution) {
 		this.distribution = distribution;
+		//Deconnexion des miexeurs aux ports
 		passThroughLeft.output.disconnectAll();
 		passThroughRight.output.disconnectAll();
+		//Reconnexion
 		switch (this.distribution) {
 		case NORMAL:
 			passThroughLeft.output.connect(lineOut.input.getConnectablePart(0));
@@ -149,7 +158,7 @@ public class OutModule extends Module implements IOutModule {
 		if (attenuationDB > 12)
 			attenuationDB = 12;
 		this.attenuationDB = db;
-		//On convertie la valeur en dB en volt et on retranche la tension nominale (1 en JSyn) pour obtenir une attenuation
+		//On converti la valeur en dB en volt et on retranche la tension nominale (1 en JSyn) pour obtenir une attenuation
 		attenuatorLeft.setAttenuation(Tools.dBToV(db) - 1);
 		attenuatorRight.setAttenuation(Tools.dBToV(db) - 1);	
 
@@ -202,14 +211,22 @@ public class OutModule extends Module implements IOutModule {
 	}
 
 
-
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.port.IPortObserver#cableConnected(group1.project.synthlab.port.IPort)
+	 */
 	public void cableConnected(IPort port) {
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.port.IPortObserver#cableDisconnected(group1.project.synthlab.port.IPort)
+	 */
 	public void cableDisconnected(IPort port) {
 
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#resetCounterInstance()
+	 */
 	public void resetCounterInstance() {
 		OutModule.moduleCount = 0;		
 	}

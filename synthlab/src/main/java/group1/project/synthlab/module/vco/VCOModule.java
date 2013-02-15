@@ -35,9 +35,6 @@ import com.jsyn.unitgen.TriangleOscillator;
  */
 public class VCOModule extends Module implements IVCOModule {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8030234570782950696L;
 
 	protected static int moduleCount = 0;
@@ -174,15 +171,18 @@ public class VCOModule extends Module implements IVCOModule {
 
 	}
 	
-	  @Override
-	   	public void refresh() {
-	       	filterFrequencyModulation.setf0(f0);
-	       	refreshFrequencies();
-	       	if (fmConnected)
-	       		cableConnected(fm);
-	       	else
-	       		cableDisconnected(fm);
-	   	}
+	  /* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#refresh()
+	 */
+	@Override
+   	public void refresh() {
+       	filterFrequencyModulation.setf0(f0);
+       	refreshFrequencies();
+       	if (fmConnected)
+       		cableConnected(fm);
+       	else
+       		cableDisconnected(fm);
+   	}
 
 	/*
 	 * (non-Javadoc)
@@ -226,6 +226,9 @@ public class VCOModule extends Module implements IVCOModule {
 		filterFrequencyModulation.setf0(f0);
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.vco.IVCOModule#redefAdjustments()
+	 */
 	public void redefAdjustments() {
 		coarseAdjustment = (int) ((f0 - fmin) / (fmax - fmin) * 100);
 		if (coarseAdjustment > 99)

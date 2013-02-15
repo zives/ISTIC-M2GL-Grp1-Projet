@@ -1,7 +1,6 @@
 package group1.project.synthlab.module.piano;
 
 import group1.project.synthlab.module.IModule;
-import group1.project.synthlab.module.vco.IVCOModule;
 import group1.project.synthlab.port.out.IOutPort;
 
 /**
@@ -11,6 +10,10 @@ import group1.project.synthlab.port.out.IOutPort;
  */
 public interface IPianoModule extends IModule {
 	
+	/**
+	 * @author groupe
+	 * Les notes de musique du piano, le petit d correspond au diese
+	 */
 	public enum NOTE {DO, DOd, RE, REd, MI, FA, FAd, SOL, SOLd, LA, LAd, SI};
 	
 	/**
@@ -20,16 +23,18 @@ public interface IPianoModule extends IModule {
 	
 	/**
 	 * 
-	 * @return sortie de l'amplitude � brancher le plus souvent � l'entree fm d'un vco
+	 * @return sortie de l'amplitude a brancher le plus souvent  a  l'entree fm d'un vco
 	 */
 	public IOutPort getOut();
 
-
 	
 	/**
-	 * Attribue une tension de sortie li�e � la note
+	 * Attribue une tension de sortie liee a la note au port out et une tension nominale au port gate
 	 */
 	public void play(NOTE note, int octave);
 	
+	/**
+	 * Donne 0 à la tension au port gate 
+	 */
 	public void stopPlay();
 }

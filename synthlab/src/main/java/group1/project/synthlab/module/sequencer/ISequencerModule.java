@@ -6,6 +6,11 @@ import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.unitExtension.filter.filterSupervisor.FilterRisingEdge;
 
+/**
+ * @author Groupe 1
+ * Sequenceur
+ *
+ */
 public interface ISequencerModule extends IModule {
 
 	/**

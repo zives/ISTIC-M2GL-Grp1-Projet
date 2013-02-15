@@ -447,7 +447,8 @@ public class VCFLPModule extends Module implements IPortObserver, IVCFLPModule {
         System.out.println("Amplitude min : " + vcflp.filterPrintMinMaxAmplitude.getMin() + "\nAmplitude max : " + vcflp.filterPrintMinMaxAmplitude.getMax());
         
         System.out.println("\n\nLorsque le filtre est totalement ferme (frequence de coupure nulle) le signal de sortie est nul");
-        // TODO : TESTS NE PASSE PAS
+  
+        //A verif
         vcflp.setf0(0);
         vcflp.redefAdjustments();
         vcflp.changeFrequency();

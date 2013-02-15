@@ -25,14 +25,14 @@ import com.jsyn.unitgen.SineOscillator;
  * 
  */
 public class SequencerModule extends Module implements IPortObserver, ISequencerModule, IFilterObserver {
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -1482502043062608118L;
 
 	protected static int moduleCount = 0;
 	
+	/**
+	 * Un producteur de tension pour la sortie (a brancher le plus souvent sur l'entree fm d'un vco)
+	 */
 	protected transient SimpleProducer producer;
 	
 	/** Le pas courant */
@@ -56,10 +56,12 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 	public SequencerModule(Factory factory) {
 		super("Sequencer-" + ++moduleCount, factory);
 		
+		//Initialisation du filtre permetant de recuperer les fronts montants */
 		filterRisingEdge = new FilterRisingEdge();
 		filterRisingEdge.register(this);
 		circuit.add(filterRisingEdge);
 		
+		//Tensions des pas par defaut
 		steps[0] = 0;
 		steps[1] = 0;
 		steps[2] = 0;
@@ -69,23 +71,29 @@ public class SequencerModule extends Module implements IPortObserver, ISequencer
 		steps[6] = 0;
 		steps[7] = 0;
 		
+		//...
 		multiply = new Multiply();
 		circuit.add(multiply);
 		
+		//Initialisation du filtre pour la sortie
 		producer = new SimpleProducer();
 		producer.input.set(1.0 / Signal.AMAX);
 		producer.output.connect(multiply.inputB);
 		circuit.add(producer);
 		
+		//Etape courante
 		currentStep = 1;
 		
-		// Port d'entree : 
+		// Port d'entree 
 		gate = factory.createInPort("gate", filterRisingEdge.input, this);
 		
 		// Port de sortie
 		out = factory.createOutPort("out", multiply.output, this);
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#refresh()
+	 */
 	@Override
 	public void refresh() {
 		multiply.inputA.set(steps[currentStep-1]);

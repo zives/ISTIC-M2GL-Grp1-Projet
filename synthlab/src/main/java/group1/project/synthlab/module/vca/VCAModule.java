@@ -79,6 +79,9 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 		out = factory.createOutPort("out", filteram.output, this);
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#refresh()
+	 */
 	@Override
 	public void refresh() {
 		changeGain();

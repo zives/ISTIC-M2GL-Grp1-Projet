@@ -14,7 +14,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
-import java.awt.geom.RoundRectangle2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Iterator;
 import java.util.List;
 
@@ -115,8 +115,7 @@ public class POSCModule extends PModule implements IPOSCModule {
 		double h = getHeight() / 1.45;
 
 		// Background
-		RoundRectangle2D background = new RoundRectangle2D.Double(x, y, w, h,
-				10, 10);
+		Rectangle2D background = new Rectangle2D.Double(x, y, w, h);
 		g2d.fill(background);
 		g2d.setStroke(new BasicStroke(0.5f));
 
@@ -135,9 +134,8 @@ public class POSCModule extends PModule implements IPOSCModule {
 		Iterator<Double> iterator = values.iterator();
 		int size = values.size();
 		int f = 0;
-		double lastValue = 0;
-		Line2D upBound = new Line2D.Double(x, y, x + w, y);
-		Line2D bottomBound = new Line2D.Double(x, y + h, x + w, y + h);
+		Line2D lineUpBound = new Line2D.Double(x, y, x + w - 1, y);
+		Line2D lineBottomBound = new Line2D.Double(x, y + h, x + w -1, y + h);
 		while (iterator.hasNext()) {
 			Double value = iterator.next();
 			if (value == null)
@@ -151,35 +149,39 @@ public class POSCModule extends PModule implements IPOSCModule {
 			}
 
 			Line2D line = new Line2D.Double(last, p);
-			if (!(p.getY() < y && last.getY() < 0)
+			if (!(p.getY() < y && last.getY() < y)
 					|| !(p.getY() > y + h && last.getY() > y + h)) {
+				
 				if (p.getY() < y) {
-					Point intersec = PTools.intersection(upBound, line);
+					Point intersec = PTools.intersection(lineUpBound, line);
 					if (intersec != null)
 						line.setLine(line.getP1(), intersec);
 				} else if (p.getY() > y + h) {
-					Point intersec = PTools.intersection(bottomBound, line);
+					Point intersec = PTools.intersection(lineBottomBound, line);
 					if (intersec != null)
 						line.setLine(line.getP1(), intersec);
 				}
 				if (last.getY() < y) {
-					Point intersec = PTools.intersection(upBound, line);
+					Point intersec = PTools.intersection(lineUpBound, line);
 					if (intersec != null)
 						line.setLine(intersec, line.getP2());
 				} else if (last.getY() > y + h) {
-					Point intersec = PTools.intersection(bottomBound, line);
+					Point intersec = PTools.intersection(lineBottomBound, line);
 					if (intersec != null)
 						line.setLine(intersec, line.getP2());
 				}
+				
+				g2d.draw(line);
 			}
-
-			g2d.draw(line);
+						
 
 			last = p;
-			lastValue = value;
 			f++;
 		}
-
+		g2d.setStroke(new BasicStroke(1f));
+		g.setColor(new Color(50, 50, 50));
+		g2d.draw(lineUpBound);
+		g2d.draw(lineBottomBound);
 	}
 
 	@Override
