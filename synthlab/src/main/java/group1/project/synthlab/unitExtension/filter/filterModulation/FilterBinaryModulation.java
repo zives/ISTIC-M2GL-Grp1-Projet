@@ -1,7 +1,5 @@
 package group1.project.synthlab.unitExtension.filter.filterModulation;
 
-import group1.project.synthlab.signal.Signal;
-
 import com.jsyn.unitgen.UnitFilter;
 
 /**
@@ -10,19 +8,22 @@ import com.jsyn.unitgen.UnitFilter;
  * 
  */
 public class FilterBinaryModulation extends UnitFilter {
+	
+	/**
+	 * La sensibilite a laquelle determiner si un signal est nul en amplitude
+	 * Exemple si la sensibilite est a 0.01, toutes valeurs en entree entre 0 et 0.001 est considere comme une tension nulle et le filtre renverra 0
+	 */
 	protected double sensibility;
-	protected double previousState;
+		
 	
 	public FilterBinaryModulation() {
 		super();
 		this.sensibility = 0;
-		this.previousState = 0;
 	}
 	
 	public FilterBinaryModulation(double sensibility) {
 		super();
 		this.sensibility = sensibility;
-		this.previousState = 0;
 	}
 
 	@Override

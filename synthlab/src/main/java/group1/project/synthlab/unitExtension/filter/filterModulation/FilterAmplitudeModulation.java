@@ -12,6 +12,9 @@ import com.jsyn.unitgen.UnitBinaryOperator;
  */
 public class FilterAmplitudeModulation extends UnitBinaryOperator {
 	
+	/* (non-Javadoc)
+	 * @see com.jsyn.unitgen.UnitBinaryOperator#generate(int, int)
+	 */
 	@Override
 	public void generate(int start, int limit) {
 		

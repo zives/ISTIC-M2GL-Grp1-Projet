@@ -2,13 +2,10 @@ package group1.project.synthlab.workspace;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.IModule;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Line;
-import javax.sound.sampled.Mixer;
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.devices.AudioDeviceManager;
@@ -18,36 +15,60 @@ import com.jsyn.devices.AudioDeviceManager;
  * Le workspace (singleton)
  */
 public class Workspace implements IWorkspace {
+	
+	/**
+	 * L'instance singleton
+	 */
 	protected static IWorkspace instance;
+	
+	
+	/**
+	 * Le synthetiseur
+	 */
 	protected Synthesizer synthesizer;
+	
+	
+	/**
+	 * La factory
+	 */
 	protected Factory factory;
+	
+	
+	/**
+	 * Liste des modules
+	 */
 	protected List<IModule> modules;
+	
+	
+	/**
+	 * Si un micro est branché
+	 */
 	protected boolean microphoneSupported;
 	
 
 	public Workspace(Factory factory) {
+		
+		//Initialisation
 		this.factory = factory;
 		this.modules = new CopyOnWriteArrayList<IModule>();
 		synthesizer = JSyn.createSynthesizer();
-		
-		
+				
+		//Verification du microphone
 		if(synthesizer.getAudioDeviceManager().getDefaultInputDeviceID() != -1){
-			System.out.println("Un microphone est connectï¿½");
+			System.out.println("Un microphone est connecte");
 			synthesizer.start(41000, AudioDeviceManager.USE_DEFAULT_DEVICE, 2, AudioDeviceManager.USE_DEFAULT_DEVICE, 2);
 			microphoneSupported = true;
 		}
 		else{
-			System.out.println("Aucun microphone de connectï¿½");
+			System.out.println("Aucun microphone de connecte");
 			synthesizer.start();
 			microphoneSupported = false;
 		}	
-		
-		
-		
-		 
-		
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.workspace.IWorkspace#isMicrophoneSupported()
+	 */
 	public boolean isMicrophoneSupported() {
 		return microphoneSupported;
 	}
@@ -82,6 +103,9 @@ public class Workspace implements IWorkspace {
 		return instance;
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.workspace.IWorkspace#getSynthetizer()
+	 */
 	public Synthesizer getSynthetizer() {
 		return synthesizer;
 	}

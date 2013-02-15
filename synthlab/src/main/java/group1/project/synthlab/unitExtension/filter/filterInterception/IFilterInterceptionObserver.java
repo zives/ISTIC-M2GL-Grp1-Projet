@@ -4,6 +4,10 @@ import group1.project.synthlab.exceptions.BufferTooBig;
 
 import java.util.List;
 
+/**
+ * @author Groupe 1
+ * Un observateur
+ */
 public interface IFilterInterceptionObserver {
 	/**
 	 * Resultat du snapshot

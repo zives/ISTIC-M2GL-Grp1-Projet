@@ -30,19 +30,28 @@ public interface IPort extends IPortObservable, Serializable, IModuleObserver {
 	 */
 	public boolean isUsed();
 	/**
-	 * @return le module rattaché
+	 * @return le module rattache
 	 */
 	public IModule getModule();
 	
 	/**
-	 * @param amplitude le maximum autorisé
+	 * @param amplitude le maximum autorise
 	 */
 	public void setMaxForAmplitudeSupervisor(double amplitude);
 	
 
+	/**
+	 * @return si le signal est sature au niveau du port
+	 */
 	public boolean detectSignalSaturated();
 
+	/**
+	 * @return si un signal circule
+	 */
 	public boolean detectSignal();
 	
+	/**
+	 * @return le module interne supervisant la circulation du signal
+	 */
 	public UnitGenerator getSupervisor();
 }

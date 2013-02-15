@@ -6,13 +6,20 @@ import com.jsyn.unitgen.UnitFilter;
 
 /**
  * Applique la formule de modulation de frequence : f = f0 * 2^Vfm
+ * En sortie le signal module
  * @author Groupe 1
  * 
  */
 public class FilterFrequencyModulation extends UnitFilter {
 	
+	/**
+	 * La frequence voulue pour moduler le signal
+	 */
 	private double f0;
 	
+	/**
+	 * @param f0 la frequence voulue pour moduler le signal
+	 */
 	public FilterFrequencyModulation(double f0) {
 		super();
 		this.f0 = f0;

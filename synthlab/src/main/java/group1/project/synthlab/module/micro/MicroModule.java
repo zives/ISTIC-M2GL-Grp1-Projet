@@ -4,7 +4,6 @@ import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.out.IOutPort;
-import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
 import group1.project.synthlab.unitExtension.filter.filterAttenuator.FilterAttenuator;
 
@@ -53,15 +52,6 @@ public class MicroModule extends Module implements IMicroModule {
 		attenuator.input.connect(lineIn.output);
 		lineIn.setEnabled(false);
 
-	}
-	
-	/* (non-Javadoc)
-	 * @see group1.project.synthlab.module.Module#stop()
-	 */
-	@Override
-	public void stop() {
-		Signal.turnOff(attenuator.input);
-		super.stop();
 	}
 
 	/* (non-Javadoc)

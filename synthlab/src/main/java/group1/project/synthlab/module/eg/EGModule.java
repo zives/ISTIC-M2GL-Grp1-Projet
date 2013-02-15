@@ -6,10 +6,11 @@ import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
-import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
 import group1.project.synthlab.unitExtension.envelope.Envelope;
+
 import javax.swing.JFrame;
+
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.scope.AudioScope;
@@ -106,7 +107,6 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	@Override
 	public void stop() {
 		envelope.stopProcessus();
-		Signal.turnOff(envelope.input);
 	}
 
 

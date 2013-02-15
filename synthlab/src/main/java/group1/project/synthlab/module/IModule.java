@@ -8,7 +8,7 @@ import group1.project.synthlab.port.IPortObserver;
 import com.jsyn.unitgen.Circuit;
 
 /**
- * Interface du module 
+ * Interface générale des modules
  * @author Groupe 1
  * 
  */

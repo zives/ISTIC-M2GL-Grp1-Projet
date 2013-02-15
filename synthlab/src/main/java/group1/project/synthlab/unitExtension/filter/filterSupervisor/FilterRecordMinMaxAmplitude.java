@@ -2,10 +2,25 @@ package group1.project.synthlab.unitExtension.filter.filterSupervisor;
 
 import com.jsyn.unitgen.UnitFilter;
 
+/**
+ * @author Groupe 1
+ * Tronque le signal aux bornes definies
+ */
 public class FilterRecordMinMaxAmplitude extends UnitFilter {
 	
+	/**
+	 * Borne inferieur en amplitude
+	 */
 	private double min;
+		
+	/**
+	 * Borne superieure en amplitude
+	 */
 	private double max;
+		
+	/**
+	 * Valeur courante
+	 */
 	private double currentValue;
 	
 	public FilterRecordMinMaxAmplitude() {

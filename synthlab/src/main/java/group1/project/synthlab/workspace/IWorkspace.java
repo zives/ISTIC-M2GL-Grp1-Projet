@@ -21,7 +21,7 @@ public interface IWorkspace {
 	public Synthesizer getSynthetizer();
 	
 	/**
-	 * @return si un microphone a �t� branch� lors de la creation du workspace
+	 * @return si un microphone a ete branche lors de la creation du workspace
 	 */
 	public boolean isMicrophoneSupported();
 	

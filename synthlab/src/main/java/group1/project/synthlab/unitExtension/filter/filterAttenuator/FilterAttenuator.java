@@ -3,12 +3,15 @@ package group1.project.synthlab.unitExtension.filter.filterAttenuator;
 import com.jsyn.unitgen.UnitFilter;
 
 /**
- * Attenue un son sur son amplitude
+ * Attenue un son sur son amplitude d'entree
  * @author Groupe 1
  * 
  */
 public class FilterAttenuator extends UnitFilter {
 	
+	/**
+	 * Attenuation en volt a attenuer
+	 */
 	private double attenuationV;
 
 	
@@ -33,14 +36,14 @@ public class FilterAttenuator extends UnitFilter {
 
 	/**
 	 * 
-	 * @return the amplitude attenuation 
+	 * @return l'attenuation courante en volt
 	 */
 	public double getAttenuation() {
 		return attenuationV;
 	}
 
 	/**
-	 * @param attenuation  the amplitude attenuation 
+	 * @param defini une attenuation en volt
 	 */
 	public void setAttenuation(double attenuationV) {
 		this.attenuationV = attenuationV;

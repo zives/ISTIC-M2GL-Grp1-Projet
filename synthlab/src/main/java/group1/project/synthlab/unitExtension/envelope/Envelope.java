@@ -6,41 +6,108 @@ import com.jsyn.Synthesizer;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.unitgen.UnitGate;
 
+/**
+ * @author Groupe 1
+ * Une enveloppe AHDSR
+ */
+/**
+ * @author Groupe 1
+ *
+ */
 public class Envelope extends UnitGate {
 
+	/**
+	 * Precision de detection des flux montants et descendants
+	 */
 	public final double EDGE_DETECTION_ACCURACY = 0.01;
 	
 	// En secondes
+	/**
+	 * Le port JSyn attack en secondes
+	 */
 	public UnitInputPort attack;
+	
+	/**
+	 * Le port JSyn hold en secondes
+	 */
 	public UnitInputPort hold;
+		
+	/**
+	 * Le port JSyn decay en secondes
+	 */
 	public UnitInputPort decay;
+	
+	/**
+	 * Le port JSyn release en secondes
+	 */
 	public UnitInputPort release;
 
 	// En amplitude entre 0 et 1
+	/**
+	 * Le port JSyn sustain en amplitude
+	 */
 	public UnitInputPort sustain;
 
+	/**
+	 * @author Groupe 1
+	 * Les differents etats d'une enveloppe
+	 */
 	public enum ENVELOPE_STATE {
 		NOTHING, ATTACK, HOLD, DECAY, SUSTAIN, RELEASE, STOP
 	};
 
+	/**
+	 * Etat courant de l'enveloppe
+	 */
 	protected ENVELOPE_STATE state;
+	
+	
+	/**
+	 * Le synthtiseur rattache
+	 */
 	protected Synthesizer synth;
 
+	/**
+	 * Compteur interne de temps
+	 */
 	protected double lastTime;
+		
+	/**
+	 * Amplitude courante en sortie entre 0 et 1
+	 */
 	protected double currentAmp;
+	
+
+	/**
+	 * Pas interne pour abaisser ou augmenter la tension dans le temps
+	 */
 	protected double stepAmp;
-	protected int stepTime;
+	
+	/**
+	 * Pas interne de temps a soustraire au temps courant avant nouvel etat
+	 */
+	protected int stepTime;	
+	
+	/**
+	 * Compteur interne de temps
+	 */
 	protected int countTime;
 	
+	/**
+	 * Precendente amplitude detectee au port d'entree
+	 */
 	protected double previousGateAmp;
 
 	public Envelope() {
+		
+		//Ajout des ports
 		addPort(attack = new UnitInputPort("attack"));
 		addPort(hold = new UnitInputPort("hold"));
 		addPort(decay = new UnitInputPort("decay"));
 		addPort(release = new UnitInputPort("release"));
 		addPort(sustain = new UnitInputPort("sustain"));
 
+		//Initialisation des variables
 		synth = Workspace.getInstance().getSynthetizer();
 		lastTime = synth.getCurrentTime();
 		currentAmp = 0;
@@ -57,10 +124,13 @@ public class Envelope extends UnitGate {
 		double[] outputs = output.getValues();
 
 		for (int i = start; i < limit; i++) {
+			//Si l'etat est a stop on envoie toujours une tension de 0
 			if (state == ENVELOPE_STATE.STOP) {
 				outputs[i] = 0;
 				continue;
 			}
+			
+			//Si on detecte un front montant on arrete le cycle et on redemarre dans l'etat attack
 			if (input.checkGate(i)) {
 				state = ENVELOPE_STATE.ATTACK;
 				lastTime = synth.getCurrentTime();
@@ -74,11 +144,9 @@ public class Envelope extends UnitGate {
 			
 			//Calcul
 			currentAmp += stepAmp;
-			countTime++;
+			countTime++;			
 			
-			
-			
-			//Verifications
+			//Calcul de la tension selon les etats et le temps ecoule
 			switch (state) {
 				case NOTHING:
 					currentAmp = 0;
@@ -130,6 +198,8 @@ public class Envelope extends UnitGate {
 						countTime = 0;
 					}
 					break;
+				default:
+					break;
 					
 			}
 //			System.out.println("-----------------");
@@ -137,7 +207,10 @@ public class Envelope extends UnitGate {
 //			System.out.println("current amp:" + currentAmp);
 //			System.out.println("input:" + inputs[i]);
 			
+			//La tension d'entree courante est stockee
 			previousGateAmp = inputs[i];
+			
+			//La valeur de sortie
 			outputs[i] = currentAmp;
 		}
 		

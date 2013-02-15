@@ -126,24 +126,36 @@ public class EQModule extends Module implements IEQModule {
 
 	}
 
-	
-
-	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.eq.IEQModule#getInPort()
+	 */
 	public IInPort getInPort() {
 		return inPort;
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.eq.IEQModule#getOutPort()
+	 */
 	public IOutPort getOutPort() {
 		return outPort;
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.port.IPortObserver#cableConnected(group1.project.synthlab.port.IPort)
+	 */
 	public void cableConnected(IPort port) {
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.port.IPortObserver#cableDisconnected(group1.project.synthlab.port.IPort)
+	 */
 	public void cableDisconnected(IPort port) {
 
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#resetCounterInstance()
+	 */
 	@Override
 	public void resetCounterInstance() {
 		EQModule.moduleCount = 0;		

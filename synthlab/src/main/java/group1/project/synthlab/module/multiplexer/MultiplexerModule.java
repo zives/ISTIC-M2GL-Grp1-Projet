@@ -5,7 +5,6 @@ import group1.project.synthlab.module.Module;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
-import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
 import group1.project.synthlab.unitExtension.filter.filterAttenuator.FilterAttenuator;
 
@@ -98,10 +97,7 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 	 */
 	@Override
 	public void stop() {
-		Signal.turnOff(passThrough.input);
 		passThrough.output.setValueInternal(0);		
-		super.stop();
-		passThrough.output.setValueInternal(0);
 	}
 
 	/* (non-Javadoc)

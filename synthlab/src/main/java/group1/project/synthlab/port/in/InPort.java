@@ -13,9 +13,19 @@ import com.jsyn.ports.ConnectableInput;
 public class InPort extends Port implements IInPort {
 
 	private static final long serialVersionUID = 8298376994052663233L;
+	
+	
+	/**
+	 * Le port JSyn
+	 */
 	protected transient ConnectableInput jSynPort;
 
-	
+	/**
+	 * @param label le nom du port
+	 * @param jSynPort le port JSyn
+	 * @param module le module rattache
+	 * @param factory la factory
+	 */
 	public InPort(String label, ConnectableInput jSynPort, IModule module, Factory factory)  {
 		super(label, module,  factory);
 		this.jSynPort = jSynPort;
@@ -26,8 +36,7 @@ public class InPort extends Port implements IInPort {
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.port.in.IInPort#getJSynPort()
 	 */
-	public ConnectableInput getJSynPort() {
-		
+	public ConnectableInput getJSynPort() {		
 		return jSynPort;
 	}
 

@@ -10,7 +10,7 @@ import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
 import group1.project.synthlab.unitExtension.filter.filterSupervisor.FilterRecordMinMaxAmplitude;
 import group1.project.synthlab.unitExtension.filter.filterSupervisor.FilterRisingEdge;
-import group1.project.synthlab.unitExtension.filter.filterSupervisor.IFilterObserver;
+import group1.project.synthlab.unitExtension.filter.filterSupervisor.IFilterRisingEdgeObserver;
 import group1.project.synthlab.unitExtension.producer.SimpleProducer;
 
 import com.jsyn.JSyn;
@@ -24,7 +24,7 @@ import com.jsyn.unitgen.SineOscillator;
  * @author Groupe 1
  * 
  */
-public class SequencerModule extends Module implements IPortObserver, ISequencerModule, IFilterObserver {
+public class SequencerModule extends Module implements IPortObserver, ISequencerModule, IFilterRisingEdgeObserver {
 
 	private static final long serialVersionUID = -1482502043062608118L;
 

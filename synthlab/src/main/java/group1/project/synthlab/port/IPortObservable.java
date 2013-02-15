@@ -1,18 +1,27 @@
 package group1.project.synthlab.port;
-
 /**
  * @author Groupe 1
- * 
+ * Pour rendre le port observable
  */
 public interface IPortObservable {
-	public void register(IPortObserver observer);
-	public void unregister(IPortObserver observer);
 	/**
-	 * evenement cable connecte
+	 * Enregistre un observateur apres du port
+	 * @param observer
+	 */
+	public void register(IPortObserver observer);
+	
+	/**
+	 * Desinscrit un observateur au niveau du port
+	 * @param observer
+	 */
+	public void unregister(IPortObserver observer);
+	
+	/**
+	 * Evenement cable connecte
 	 */
 	public void cableConnected();
 	/**
-	 * evenement cable deconnecte
+	 * Evenement cable deconnecte
 	 */
 	public void cableDisconnected();
 }
