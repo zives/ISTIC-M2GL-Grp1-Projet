@@ -25,32 +25,37 @@ import com.jsyn.unitgen.TriangleOscillator;
 public class OutModule extends Module implements IOutModule {
 
 
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -528788264072924146L;
 
 	protected static int moduleCount = 0;
 
-	@SuppressWarnings("unused")
-	private final double MAX_VOLTAGE = Signal.AMAX;
-
-	/* jSyn module */
+	/** Le module de sortie JSyn */
 	protected transient LineOut lineOut;
+	
+	/** Filtre d'attenuation du port gauche */
 	protected transient FilterAttenuator attenuatorLeft;
+	
+	/** Filtre d'attenuation du port droit */
 	protected transient FilterAttenuator attenuatorRight;
 
-	/* Defintion des ports */
+	/** Le port gauche */
 	protected IInPort leftPort;
+	
+	/** Le port droit */
 	protected IInPort rightPort;
 
-	/* Variables internes */
+	/** Mixeur interne pour la distribution sur les HP */
 	private transient PassThrough passThroughLeft;
+	
+	/** Mixeur interne pour la distribution sur les HP */
 	private transient PassThrough passThroughRight;
 
-	/* Proprietes du module */
-	protected Distribution distribution;
+	/** Distribution choisi par l'utilisateur */
+	protected Distribution distribution;	
+	
+	/**
+	 * Attenuation generale
+	 */
 	protected double attenuationDB;
 
 

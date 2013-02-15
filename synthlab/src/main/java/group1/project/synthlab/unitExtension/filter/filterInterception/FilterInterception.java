@@ -34,6 +34,7 @@ public class FilterInterception extends UnitFilter implements
 		final List<Double> buffer = new ArrayList<Double>();
 		double time = synth.getCurrentTime();
 		for (int i = start; i < limit; i++) {
+			
 			outputs[i] = inputs[i];
 			buffer.add(inputs[i]);	
 		}

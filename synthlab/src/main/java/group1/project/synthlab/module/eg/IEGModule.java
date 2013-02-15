@@ -1,23 +1,16 @@
 package group1.project.synthlab.module.eg;
 
 import group1.project.synthlab.module.IModule;
-import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.unitExtension.envelope.Envelope;
 
 /**
- * Module EG
- * 
+ * Module EG 
  * @author Groupe 1
- * 
- */
-/**
- * @author 13010902
- *
+ * Cree une enveloppe sur un front montant
  */
 public interface IEGModule extends IModule {
-
 
 	/**
 	 * @return le generateur d'enveloppe
@@ -25,49 +18,49 @@ public interface IEGModule extends IModule {
 	public Envelope getEnvelope();
 	
 	/**
-	 * @return le temps de montee en milliseconde
+	 * @return le temps de montee en secondes
 	 */
 	public double getAttack();
 	
 
 	/**
-	 * @param definit le temps de montee en milliseconde
+	 * @param definit le temps de montee en secondes
 	 */
 	public void setAttack(double attack);
 	
 	
 	/**
-	 * @return le temps d'extinction en milliseconde
+	 * @return le temps d'extinction en secondes
 	 */
 	public double getDecay();
 	
 
 	/**
-	 * @param definit le temps d'extinction en milliseconde
+	 * @param definit le temps d'extinction en secondes
 	 */
 	public void setDecay(double decay);
 
 
 	/**
-	 * @return le temps de relachement en milliseconde
+	 * @return le temps de relachement en secondes
 	 */
 	public double getRelease();
 	
 	
 	/**
-	 * @param le temps de relachement en milliseconde
+	 * @param le temps de relachement en secondes
 	 */
 	public void setRelease(double release);
 	
 
 	/**
-	 * @return le temps entre le temps de montee et le temps de relachement en milliseconde
+	 * @return le temps entre le temps de montee et le temps de relachement en secondes
 	 */
 	public double getHold();
 	
 	
 	/**
-	 * @param definit le temps entre le temps de montee et le temps de relachement en milliseconde
+	 * @param definit le temps entre le temps de montee et le temps de relachement en secondes
 	 */
 	public void setHold(double hold);
 	
@@ -101,15 +94,4 @@ public interface IEGModule extends IModule {
 	 */
 	public IOutPort getOut();
 
-	/**
-	 * Fonction qui gere la connexion d'un cable a un port d'entree
-	 * @param port : le port de l'EG auquel on vient de connecter un cable
-	 */
-	public void cableConnected(IPort port);
-	
-	/**
-	 * Fonction qui gere la deconnexion d'un cable d'un port d'entree
-	 * @param port : le port de l'EG duquel on vient de deconnecter un cable
-	 */
-	public void cableDisconnected(IPort port);
 }

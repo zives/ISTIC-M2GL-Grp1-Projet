@@ -1,7 +1,5 @@
 package group1.project.synthlab.cable;
 
-import com.jsyn.ports.UnitInputPort;
-
 import group1.project.synthlab.exceptions.BadConnection;
 import group1.project.synthlab.exceptions.PortAlreadyUsed;
 import group1.project.synthlab.factory.Factory;

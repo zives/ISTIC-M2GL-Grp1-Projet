@@ -2,71 +2,71 @@ package group1.project.synthlab.module.micro;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
-import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Signal;
 import group1.project.synthlab.signal.Tools;
 import group1.project.synthlab.unitExtension.filter.filterAttenuator.FilterAttenuator;
 
-import javax.swing.JFrame;
-
-import com.jsyn.JSyn;
-import com.jsyn.Synthesizer;
-import com.jsyn.scope.AudioScope;
 import com.jsyn.unitgen.LineIn;
-import com.jsyn.unitgen.LineOut;
 
 /**
- * Module de sortie
+ * Module du microphone
  * 
  * @author Groupe 1
  * 
  */
 public class MicroModule extends Module implements IMicroModule {
 
+	private static final long serialVersionUID = 1204424552539500533L;
+
 	protected static int moduleCount = 0;
 
-	@SuppressWarnings("unused")
-	private final double MAX_VOLTAGE = Signal.AMAX;
-
-	/* jSyn module */
+	/** Module JSyn d'entree */
 	protected transient LineIn lineIn;
+	
+	/** Filtre d'attenuation sur l'entree */
 	protected transient FilterAttenuator attenuator;
 
-	/* Defintion des ports */
+	/** Port de sortie */
 	protected IOutPort outPort;
 
-	/* Proprietes du module */
+	/** Attenuation en dB apportee en entree */
 	protected double attenuationDB;
 
-	/**
-	 * Initialise le circuit (attenuateur, port, ...)
-	 */
 	public MicroModule(Factory factory) {
 		super("Micro-" + ++moduleCount, factory);
+		
+		/* Initialise les module JSyn */
 		lineIn = new LineIn();
 		attenuator = new FilterAttenuator();
 
-		// Ne pas ajouter LineOut au ciruit!
-		// Bugs!
+		/* Ajout au circuit */
 		circuit.add(attenuator);
 		circuit.add(lineIn);
 		attenuationDB = 0;
 
+		/* Initialise le port de sortie */
 		outPort = factory.createOutPort("out", attenuator.output, this);
 
+		/* Connexion */
 		attenuator.input.connect(lineIn.output);
 		lineIn.setEnabled(false);
 
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.Module#stop()
+	 */
 	@Override
 	public void stop() {
 		Signal.turnOff(attenuator.input);
 		super.stop();
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#refresh()
+	 */
 	@Override
 	public void refresh() {
 		setAttenuation(attenuationDB);
@@ -83,6 +83,9 @@ public class MicroModule extends Module implements IMicroModule {
 			outPort.getCable().disconnect();
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.micro.IMicroModule#getOutPort()
+	 */
 	public IOutPort getOutPort() {
 		return outPort;
 	}
@@ -121,53 +124,28 @@ public class MicroModule extends Module implements IMicroModule {
 		return lineIn;
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.port.IPortObserver#cableConnected(group1.project.synthlab.port.IPort)
+	 */
 	public void cableConnected(IPort port) {
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.port.IPortObserver#cableDisconnected(group1.project.synthlab.port.IPort)
+	 */
 	public void cableDisconnected(IPort port) {
 
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#resetCounterInstance()
+	 */
 	@Override
 	public void resetCounterInstance() {
 		MicroModule.moduleCount = 0;		
 	}
 
 	public static void main(String[] args) {
-		
-
-		// Creation du synthetiseur
-		Synthesizer synth = JSyn.createSynthesizer();
-		synth.start();
-		
-
-		// Creation d'un module de sortie
-		LineOut out = new LineOut();
-
-		// Creation d'oscillateurs arbitraire
-		LineIn li = null;
-		synth.add(li = new LineIn());
-
-		// Ajout de notre module au synthetiseur et connexion aux oscillateur
-		synth.add(out);
-		li.output.connect(out.input);
-		out.start();
-	
-		// Vue graphique
-		AudioScope scope = new AudioScope(synth);
-		scope.addProbe(li.output);
-		scope.setTriggerMode(AudioScope.TriggerMode.AUTO);
-
-		scope.getModel().getTriggerModel().getLevelModel()
-				.setDoubleValue(0.0001);
-		scope.getView().setShowControls(true);
-		scope.start();
-
-		// Fenetre
-		JFrame frame = new JFrame();
-		frame.add(scope.getView());
-		frame.pack();
-		frame.setVisible(true);
 
 	}
 

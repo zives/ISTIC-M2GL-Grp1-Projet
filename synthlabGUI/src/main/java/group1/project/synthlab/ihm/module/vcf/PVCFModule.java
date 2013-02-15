@@ -125,6 +125,15 @@ public class PVCFModule extends PModule implements IPVCFModule {
 		freqLabel.setPreferredSize(freqLabel.getSize());
 		freqLabel.setLocation(getWidth() / 2 - freqLabel.getWidth() / 2, 50);
 		freqLabel.setFont(new Font("Monospaced", Font.ITALIC, 26));
+		
+		final JLabel txtFreqLabel = new JLabel("custom");
+		txtFreqLabel.setForeground(Color.LIGHT_GRAY);
+		txtFreqLabel.setOpaque(false);
+		txtFreqLabel.setSize(70, 20);
+		txtFreqLabel.setBorder(null);
+		txtFreqLabel.setPreferredSize(freqLabel.getSize());
+		txtFreqLabel.setLocation(txtFreq.getX(), 140);
+		txtFreqLabel.setFont(new Font("Arial", Font.ITALIC, 10));
 
 		// Ajouts des composants
 		add(freqLabel);
@@ -134,6 +143,7 @@ public class PVCFModule extends PModule implements IPVCFModule {
 		add(coarseLabel);
 		add(coarseSlider);
 		add(fineLabel);
+		add(txtFreqLabel);
 		add(fineSlider);
 		add(freqLabel);
 		add(txtFreq);

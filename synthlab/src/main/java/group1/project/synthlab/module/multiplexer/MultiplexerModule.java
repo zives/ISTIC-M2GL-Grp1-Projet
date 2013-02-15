@@ -2,7 +2,6 @@ package group1.project.synthlab.module.multiplexer;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
-import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
@@ -13,59 +12,68 @@ import group1.project.synthlab.unitExtension.filter.filterAttenuator.FilterAtten
 import com.jsyn.unitgen.PassThrough;
 
 /**
- * Module de sortie
- * 
+ * Module multiplexer
+ * Fusionne un signal sur les port d'entrees
+ * Replique le signal en sortie
  * @author Groupe 1
  * 
  */
 public class MultiplexerModule extends Module implements IMultiplexerModule {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5543487526179911346L;
-
-	public enum Distribution {
-		NORMAL, DISTRIBUTED
-	}
 
 	protected static int moduleCount = 0;
 
-	/* Defintion des ports */
+	/** Port d'entree 1 */
 	protected IInPort inPort1;
+	
+	/** Port d'entree 2 */
 	protected IInPort inPort2;
+	
+	/** Port d'entree 3 */
 	protected IInPort inPort3;
+	
+	/** Port d'entree 4 */
 	protected IInPort inPort4;
+	
+	/** Port de sortie 1 */
 	protected IOutPort outPort1;
+	
+	/** Port de sortie 2 */
 	protected IOutPort outPort2;
+	
+	/** Port de sortie 3 */
 	protected IOutPort outPort3;
+	
+	/** Port de sortie 4 */
 	protected IOutPort outPort4;
 
-	// Filtres
+	/** Filtres d'attenuation pour les ports d'entree */
 	protected transient FilterAttenuator[] attenuators;
 	
-	//Valeurs des controles
+	/** Les valeurs d'attenuation en dB */
 	protected double[] attenuationsDB;
 
-	/* Variables internes */
+	/** Mixeur interne */
 	private PassThrough passThrough;
-	/**
-	 * Initialise le circuit (attenuateur, port, ...)
-	 */
+
 	public MultiplexerModule(Factory factory) {
 		super("Multiplexer-" + ++moduleCount, factory);
 
+		/* Intialise le mixeur interne */
 		passThrough = new PassThrough();
 		circuit.add(passThrough);
 
+		/* Initialise les attenuations avec les filtres correspondant */
 		attenuators = new FilterAttenuator[4];
-		attenuationsDB = new double[4];
-		
+		attenuationsDB = new double[4];		
 		for (int i = 0; i < 4; ++i) {
 			attenuators[i] = new FilterAttenuator();
 			attenuators[i].output.connect(passThrough.input);
 			circuit.add(attenuators[i]);
 		}
+		
+		/* Initialise les ports du module */
 		inPort1 = factory.createInPort("in port 1",
 				attenuators[0].input, this);
 		outPort1 = factory.createOutPort(
@@ -85,6 +93,9 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.Module#stop()
+	 */
 	@Override
 	public void stop() {
 		Signal.turnOff(passThrough.input);
@@ -93,12 +104,18 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 		passThrough.output.setValueInternal(0);
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#refresh()
+	 */
 	@Override
 	public void refresh() {
 		for (int i = 0; i < 4; ++i) 
 			setAttenuation(attenuationsDB[i], i);
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#destruct()
+	 */
 	public void destruct() {
 		if (inPort1.isUsed())
 			inPort1.getCable().disconnect();
@@ -116,11 +133,11 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 			inPort4.getCable().disconnect();
 		if (outPort4.isUsed())
 			outPort4.getCable().disconnect();
-	
-	
-
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.multiplexer.IMultiplexerModule#getInPort(int)
+	 */
 	public IInPort getInPort(int i) {
 		if (i > attenuationsDB.length)
 			return null;
@@ -137,6 +154,9 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 		return inPort1;
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.multiplexer.IMultiplexerModule#getOutPort(int)
+	 */
 	public IOutPort getOutPort(int i) {
 		if (i > attenuationsDB.length)
 			return null;
@@ -153,13 +173,22 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 		return outPort1;
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.port.IPortObserver#cableConnected(group1.project.synthlab.port.IPort)
+	 */
 	public void cableConnected(IPort port) {
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.port.IPortObserver#cableDisconnected(group1.project.synthlab.port.IPort)
+	 */
 	public void cableDisconnected(IPort port) {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.multiplexer.IMultiplexerModule#setAttenuation(double, int)
+	 */
 	@Override
 	public void setAttenuation(double db, int port) {
 		if (port > attenuators.length)
@@ -168,11 +197,17 @@ public class MultiplexerModule extends Module implements IMultiplexerModule {
 		attenuators[port].setAttenuation(Tools.dBToV(db) - 1);		
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#resetCounterInstance()
+	 */
 	@Override
 	public void resetCounterInstance() {
 		MultiplexerModule.moduleCount = 0;		
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.multiplexer.IMultiplexerModule#getAttenuation(int)
+	 */
 	@Override
 	public double getAttenuation(int port) {
 		return attenuationsDB[port];

@@ -13,11 +13,12 @@ import com.jsyn.unitgen.Multiply;
 import com.jsyn.unitgen.PinkNoise;
 import com.jsyn.unitgen.WhiteNoise;
 
+/**
+ * @author Groupe 1
+ * Produit un bruit
+ */
 public class NoiseModule extends Module implements INoiseModule {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2115003852547928273L;
 
 	protected static int moduleCount = 0;
@@ -86,6 +87,9 @@ public class NoiseModule extends Module implements INoiseModule {
 
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#refresh()
+	 */
 	@Override
 	public void refresh() {
 		//Rien à faire
@@ -173,6 +177,9 @@ public class NoiseModule extends Module implements INoiseModule {
 		return outPink;
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#resetCounterInstance()
+	 */
 	@Override
 	public void resetCounterInstance() {
 		NoiseModule.moduleCount = 0;		

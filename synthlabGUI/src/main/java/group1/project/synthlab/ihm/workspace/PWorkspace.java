@@ -145,28 +145,28 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		workspaceMenu = new JMenu("Workspace");
 		
 		//Workspace
-		clear = new JMenuItem("Tout effacer");
+		clear = new JMenuItem("Clear");
 		clear.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,InputEvent.CTRL_MASK));
 		workspaceMenu.add(clear);	
 	
-		allOn = new JMenuItem("Tout demarrer");
+		allOn = new JMenuItem("Start all");
 		allOn.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,InputEvent.CTRL_MASK));
 		workspaceMenu.add(allOn);
 		
-		allOff = new JMenuItem("Tout arreter");
+		allOff = new JMenuItem("Stop all");
 		allOff.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W,InputEvent.CTRL_MASK));
 		workspaceMenu.add(allOff);
 
 		//bouton sauvegarde pour la configuration
-		save = new JMenuItem("Sauver");	
+		save = new JMenuItem("Save");	
 		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
 		fichierMenu.add(save);
 		//bouton charger
-		load = new JMenuItem("Charger");	
+		load = new JMenuItem("Load");	
 		load.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
 		fichierMenu.add(load);		
 		
-		quit = new JMenuItem("Quitter");
+		quit = new JMenuItem("Quit");
 		quit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));		
 		fichierMenu.add(quit);
 		
@@ -617,15 +617,15 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 
 	@Override
 	public File saveFileDialog() {
-		UIManager.put("FileChooser.openButtonText", "Sauver");
-		UIManager.put("FileChooser.openButtonToolTipText", "Sauver");
+		UIManager.put("FileChooser.openButtonText", "Save");
+		UIManager.put("FileChooser.openButtonToolTipText", "Save");
 		JFileChooser j = new JFileChooser();
 		j.setAcceptAllFileFilterUsed(false);
-		FileNameExtensionFilter filter = new FileNameExtensionFilter( "Fichier Synth (*.synth)","synth");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter( "Synth file (*.synth)","synth");
 		j.addChoosableFileFilter(filter);
 		j.setMultiSelectionEnabled(false);
 		j.setFileFilter(filter);
-		j.setDialogTitle("Sauver...");
+		j.setDialogTitle("Save...");
 		j.setDialogType(JFileChooser.SAVE_DIALOG); 		
 		j.showOpenDialog(null);
 		return j.getSelectedFile();
@@ -639,10 +639,11 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	@Override
 	public File openFileDialog() {
 		UIManager.put("FileChooser.openButtonText", "Open");
+		UIManager.put("FileChooser.openButtonToolTipText", "Open");
 		JFileChooser j = new JFileChooser();
-		j.setDialogTitle("Charger...");
+		j.setDialogTitle("Load...");
 		j.setAcceptAllFileFilterUsed(false);
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier Synth (*.synth)", "synth" );
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Synth file (*.synth)", "synth" );
 		j.addChoosableFileFilter(filter);
 		j.setMultiSelectionEnabled(false);	
 		j.setFileFilter(filter);

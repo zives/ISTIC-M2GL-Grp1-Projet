@@ -2,58 +2,55 @@ package group1.project.synthlab.module.eqView;
 
 import group1.project.synthlab.factory.Factory;
 import group1.project.synthlab.module.Module;
-import group1.project.synthlab.module.vco.VCOModule;
 import group1.project.synthlab.port.IPort;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Signal;
-import group1.project.synthlab.workspace.Workspace;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
-import com.jsyn.JSyn;
-import com.jsyn.Synthesizer;
-import com.jsyn.scope.AudioScope;
 import com.jsyn.unitgen.FilterBandPass;
 import com.jsyn.unitgen.PassThrough;
 import com.jsyn.unitgen.PeakFollower;
-import com.jsyn.unitgen.SineOscillator;
 
 /**
- * Module de sortie
- * 
+ * Visualisateur du niveau audio par frequence
+ * Un egaliseur graphique
  * @author Groupe 1
  * 
  */
 public class EQViewModule extends Module implements IEQViewModule {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2644295642877311574L;
 
 	protected static int moduleCount = 0;
 
-	/* Jsyn modules */
+	/** Des filtres JSyn permettant d'intercepter les valeurs autour d'une frequence uniquement */
 	protected transient FilterBandPass[] filtersBand;
+	
+	/** Obtient les amplitudes maximums observees et les rend en sortie */
 	protected transient PeakFollower[] filtersMax;
+	
+	/** Mixeur interne */
 	protected transient PassThrough ptIn;
+	
+	/** Mixeur interne */
 	protected transient PassThrough ptOut;
-	/* Defintion des ports */
+	
+	/** Port d'entree */
 	protected IInPort inPort;
+	
+	/** Port de sortie */
 	protected IOutPort outPort;
 
-
+	/** Demi-vie des PeakFollower, plus celle-ci est haute, plus un maximum est gardé en tant que valeur de référence longtemps */
 	protected final double MAX_HALFLIFE = 0.5;
 
+	/** Les frequences à observer */
 	protected final double[] FREQUENCIES = {5,25,40,63,100,160,250,400,630,1000,1600,2500,4000,6300,10000};
-	/**
-	 * Initialise le circuit (attenuateur, port, ...)
-	 */
+
 	public EQViewModule(Factory factory) {
 		super("EQView-" + ++moduleCount, factory);
 
+		/* Initialisation des variables */
 		filtersBand = new FilterBandPass[15];
 		filtersMax = new PeakFollower[15];
 		ptIn = new PassThrough();
@@ -61,10 +58,11 @@ public class EQViewModule extends Module implements IEQViewModule {
 		inPort = factory.createInPort("in", ptIn.input, this);
 		outPort = factory.createOutPort("out", ptIn.output, this);
 		
-
 		for (int i = 0; i < FREQUENCIES.length; ++i) {
+			/* Initialise les filtres */
 			filtersBand[i] = new FilterBandPass();			
-			//calcQ	http://www.rane.com/note170.html	 	
+			
+			/* Calcul le coefficient Q et les frequences f1 et f2 autour de f0 à -3 db */
 			double f1 =0;
 			if (i == 0)
 				f1 = ((0.01 + FREQUENCIES[i]) / 2);
@@ -77,20 +75,27 @@ public class EQViewModule extends Module implements IEQViewModule {
 				f2 = (( FREQUENCIES[i] +  FREQUENCIES[i + 1]) / 2);
 			double f0 = FREQUENCIES[i];
 			double Q = f0 / (f2 - f1);
+			
+			/* Connecte les filtres au miexeur d'entree en parallele */
 			filtersBand[i].frequency.set(FREQUENCIES[i]);
 			filtersBand[i].Q.set(Q);
 			filtersBand[i].input.connect(ptIn.output);		
 			
+			/* Connecte les filtres cherchant les maximums de chaque frequence au filtre respectif passband */
 			filtersMax[i] = new PeakFollower();
 			filtersMax[i].halfLife.set(MAX_HALFLIFE);
 			filtersMax[i].input.connect(filtersBand[i].output);
 			
+			/* Ajoute les filtres au circuit */
 			circuit.add(filtersBand[i]);
 			circuit.add(filtersMax[i]);
+			
+			/* Mix la sortie (non utlise car le port de sortie est connecte au port d'entree pour obtenir le meme son, il ne s'agit la que d'un visualisateur)*/
 			ptOut.input.connect(filtersMax[i].output);
 			
 		}
 
+		/* Ajoute les mixeurs au circuit */
 		circuit.add(ptIn);
 		circuit.add(ptOut);
 				
@@ -101,16 +106,21 @@ public class EQViewModule extends Module implements IEQViewModule {
 		//Rien à faire
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.eqView.IEQViewModule#getMax(int)
+	 */
 	public double getMax(int i) {
 		if (i >= FREQUENCIES.length)
 			return 0;
 		return filtersMax[i].output.get();				
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.eqView.IEQViewModule#getFrequencies()
+	 */
 	public double[] getFrequencies() {
 		return FREQUENCIES;
-	}
-	
+	}	
 	
 	/*
 	 * (non-Javadoc)
@@ -124,19 +134,20 @@ public class EQViewModule extends Module implements IEQViewModule {
 			outPort.getCable().disconnect();
 
 	}
-
 	
-
-	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.eqView.IEQViewModule#getInPort()
+	 */
 	public IInPort getInPort() {
 		return inPort;
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.eqView.IEQViewModule#getOutPort()
+	 */
 	public IOutPort getOutPort() {
 		return outPort;
 	}
-
-
 
 	/*
 	 * (non-Javadoc)
@@ -151,102 +162,29 @@ public class EQViewModule extends Module implements IEQViewModule {
 	}
 
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.port.IPortObserver#cableConnected(group1.project.synthlab.port.IPort)
+	 */
 	public void cableConnected(IPort port) {
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.port.IPortObserver#cableDisconnected(group1.project.synthlab.port.IPort)
+	 */
 	public void cableDisconnected(IPort port) {
 
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#resetCounterInstance()
+	 */
 	@Override
 	public void resetCounterInstance() {
 		EQViewModule.moduleCount = 0;		
 	}
 
-	// Test fonctionnel
-	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
-		// Creeation de la factory
-		Factory factory = new Factory();
-
-		// Creation d'un module de sortie
-		//OutModule out = new OutModule(factory);
-
-		// Creation du synthetiseur
-		Synthesizer synth = JSyn.createSynthesizer();
-		synth.start();
-
-		// Creation d'oscillateurs arbitraire
-		SineOscillator oscS = null;
-		synth.add(oscS = new SineOscillator());
-		// Ajout de notre module au synthetiseur et connexion aux oscillateur
-		//synth.add(out.getCircuit());
-		// oscS.output.connect(out.getLeftPort().getJSynPort());
-
-		// Reglage des oscillateurs
-		oscS.frequency.set(700);
-		oscS.amplitude.set(1);
-
-	
-		final FilterBandPass filter = new FilterBandPass();
-		final PeakFollower filter2 = new PeakFollower();
-		final FilterBandPass filter_a = new FilterBandPass();
-		final PeakFollower filter_a2 = new PeakFollower();
-		final FilterBandPass filter_b = new FilterBandPass();
-		final PeakFollower filter_b22 = new PeakFollower();
 		
-		synth.add(filter2);
-		synth.add(filter);
-		synth.add(filter_a2);
-		synth.add(filter_a);
-		synth.add(filter_b22);
-		synth.add(filter_b);
-		
-		PassThrough pt = new PassThrough();
-		
-		
-		pt.output.connect(filter.input);
-		pt.output.connect(filter_a.input);
-		pt.output.connect(filter_b.input);
-		pt.input.connect(oscS.output);
-		
-		filter.output.connect(filter.input);
-		filter_a.output.connect(filter_a.input);
-		filter_b.output.connect(filter_b.input);
-			
-		filter_b.frequency.set(700);
-		filter_b.start();
-		
-		synth.add(pt);
-		pt.start();
-		Timer t = new Timer();
-		t.schedule(new TimerTask() {
-			
-			@Override
-			public void run() {
-				System.err.println(filter_b.output.get());
-				
-			}
-		},100,100);
-		
-	//filter.output.connect(out.getLeftPort().getJSynPort());
-		//out.start();
-
-//		AudioScope scope = new AudioScope(synth);
-//		scope.addProbe(oscS.output);
-//		scope.addProbe(filter.output);
-//		scope.setTriggerMode(AudioScope.TriggerMode.AUTO);
-//
-//		scope.getModel().getTriggerModel().getLevelModel()
-//				.setDoubleValue(0.0001);
-//		scope.getView().setShowControls(true);
-//		scope.start();
-
-		// Fenetre
-//		JFrame frame = new JFrame();
-//		frame.add(scope.getView());
-//		frame.pack();
-//		frame.setVisible(true);
 	}
 
 }

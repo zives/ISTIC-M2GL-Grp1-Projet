@@ -6,7 +6,7 @@ import group1.project.synthlab.port.out.IOutPort;
 import com.jsyn.unitgen.LineIn;
 
 /**
- * Interface de creation du module de sortie.
+ * Interface du module du microphone
  * @author Groupe 1
  *
  */
@@ -16,13 +16,12 @@ public interface IMicroModule extends IModule {
 	 * Attenuation du son Formule pour attenuer le son 10 ^ (valeurEnDB / 20) *
 	 * tensionNominale http://fr.wikipedia.org/wiki/Niveau_(audio)
 	 * 
-	 * @param db
-	 *            (valeurs : -inf a +12 dB)
+	 * @param db (valeurs : -inf a +12 dB)
 	 */
 	public void setAttenuation(double db);
 
 	/**
-	 * @return the amplitude attenuation.
+	 * @return l'attenuation en dB
 	 */
 	public double getAttenuation();
 
@@ -31,6 +30,9 @@ public interface IMicroModule extends IModule {
 	 */
 	public LineIn getLineIn();
 	
+	/**
+	 * @return le port de sortie
+	 */
 	public IOutPort getOutPort();
 
 	

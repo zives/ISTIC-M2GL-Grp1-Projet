@@ -13,50 +13,57 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * Module de sortie
- * 
+ * Module oscilloscope
+ * Surveille des valeurs passant dans un filtre et les ajoute dans un buffer qui doit etre vide regulierement 
  * @author Groupe 1
  * 
  */
 public class OSCModule extends Module implements IOSCModule {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1135623254087663378L;
 
 	protected static int moduleCount = 0;
 
-	/* Defintion des ports */
+	/** Port d'entree */
 	protected IInPort inPort;
+	
+	/** Port de sortie */
 	protected IOutPort outPort;
 
-	/* Variables internes */
+	/** Filtre d'interception des amplitudes */
 	protected transient FilterInterception filter;
+	
+	/** Le module lui meme */
 	protected transient IOSCModule self;
+	
+	/** Le buffer representee comme une queue fifo */
 	protected Queue<Double> buffer;
+	
+	/** Derniere date du synthetiseur a laquelle le buffer a ete modifie */
 	protected double lastTime;
 
-	/**
-	 * Initialise le circuit (attenuateur, port, ...)
-	 */
+
 	public OSCModule(Factory factory) {
 		super("OSC-" + ++moduleCount, factory);
+		
+		/* Initialise les filtres et ports */
 		self = this;
 		lastTime = 0;
 		filter = new FilterInterception();
 		inPort = factory.createInPort("in", filter.input, this);
 		outPort = factory.createOutPort("out", filter.output, this);
-		buffer = new ConcurrentLinkedQueue<>();
+		buffer = new ConcurrentLinkedQueue<>(); //On va effectuer des operations dans des threads different, ce type de liste est indispensable
 		filter.register(this);
 		circuit.add(filter);		
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#refresh()
+	 */
 	@Override
 	public void refresh() {
 		lastTime = 0;
 	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -71,10 +78,16 @@ public class OSCModule extends Module implements IOSCModule {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.osc.IOSCModule#getInPort()
+	 */
 	public IInPort getInPort() {
 		return inPort;
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.osc.IOSCModule#getOutPort()
+	 */
 	public IOutPort getOutPort() {
 		return outPort;
 	}
@@ -90,25 +103,43 @@ public class OSCModule extends Module implements IOSCModule {
 	
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.port.IPortObserver#cableConnected(group1.project.synthlab.port.IPort)
+	 */
 	public void cableConnected(IPort port) {
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.port.IPortObserver#cableDisconnected(group1.project.synthlab.port.IPort)
+	 */
 	public void cableDisconnected(IPort port) {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.osc.IOSCModule#poll()
+	 */
 	public double poll() {
 		return buffer.poll();
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.osc.IOSCModule#clearBuffer()
+	 */
 	public void clearBuffer() {
 		buffer.clear();
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.osc.IOSCModule#getLastTime()
+	 */
 	public double getLastTime() {
 		return lastTime;
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.unitExtension.filter.filterInterception.IFilterInterceptionObserver#interceptionResult(java.util.List, double)
+	 */
 	@Override
 	public void interceptionResult(final List<Double> buffer, double time)
 			throws BufferTooBig {
@@ -119,11 +150,12 @@ public class OSCModule extends Module implements IOSCModule {
 		this.lastTime = time;
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.IModule#resetCounterInstance()
+	 */
 	@Override
 	public void resetCounterInstance() {
 		OSCModule.moduleCount = 0;		
 	}
-	
-
 
 }

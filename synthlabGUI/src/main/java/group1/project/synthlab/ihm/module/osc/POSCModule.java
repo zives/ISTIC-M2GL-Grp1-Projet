@@ -4,6 +4,7 @@ import group1.project.synthlab.ihm.module.PModule;
 import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.in.ICInPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
+import group1.project.synthlab.ihm.tools.PTools;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -62,14 +63,14 @@ public class POSCModule extends PModule implements IPOSCModule {
 		intervalSlider.setMajorTickSpacing(20);
 		intervalSlider.setMinorTickSpacing(5);
 		intervalSlider.setPaintTicks(true);
-		 intervalSlider.setPaintLabels(true);
+		intervalSlider.setPaintLabels(true);
 		intervalSlider.setLocation(
 				this.getWidth() / 2 - intervalSlider.getWidth() / 2 - 30, 300);
 		intervalSlider.setSnapToTicks(true);
 		intervalSlider.setVisible(true);
 
-		intervalLabel = new JLabel(String.valueOf(intervalSlider
-				.getValue()) + " ms", JLabel.CENTER);
+		intervalLabel = new JLabel(String.valueOf(intervalSlider.getValue())
+				+ " ms", JLabel.CENTER);
 		intervalLabel.setForeground(Color.LIGHT_GRAY);
 		intervalLabel.setOpaque(false);
 		intervalLabel.setSize(60, 30);
@@ -84,14 +85,14 @@ public class POSCModule extends PModule implements IPOSCModule {
 		add(pportOut);
 		add(intervalSlider);
 		add(intervalLabel);
-		
-		intervalSlider.addChangeListener(new ChangeListener() {			
+
+		intervalSlider.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
 				if (intervalSlider.getValue() <= 5)
 					intervalSlider.setValue(5);
 				controller.setInterval(intervalSlider.getValue());
-				intervalLabel.setText(intervalSlider.getValue() + " ms");				
+				intervalLabel.setText(intervalSlider.getValue() + " ms");
 			}
 		});
 
@@ -134,22 +135,48 @@ public class POSCModule extends PModule implements IPOSCModule {
 		Iterator<Double> iterator = values.iterator();
 		int size = values.size();
 		int f = 0;
-		while(iterator.hasNext()) {
+		double lastValue = 0;
+		Line2D upBound = new Line2D.Double(x, y, x + w, y);
+		Line2D bottomBound = new Line2D.Double(x, y + h, x + w, y + h);
+		while (iterator.hasNext()) {
 			Double value = iterator.next();
-			if(value == null)
+			if (value == null)
 				break;
 			Point p = new Point((int) (f / (double) size * w + x),
-					(int) ((y + h / 2) - (value* (h / 2))));
+					(int) ((y + h / 2) - (value * (h / 2))));
 
 			if (last == null) {
 				last = p;
 				continue;
 			}
-			if (value <= 1 && value >= -1) {
-				Line2D line = new Line2D.Double(last, p);
-				g2d.draw(line);
+
+			Line2D line = new Line2D.Double(last, p);
+			if (!(p.getY() < y && last.getY() < 0)
+					|| !(p.getY() > y + h && last.getY() > y + h)) {
+				if (p.getY() < y) {
+					Point intersec = PTools.intersection(upBound, line);
+					if (intersec != null)
+						line.setLine(line.getP1(), intersec);
+				} else if (p.getY() > y + h) {
+					Point intersec = PTools.intersection(bottomBound, line);
+					if (intersec != null)
+						line.setLine(line.getP1(), intersec);
+				}
+				if (last.getY() < y) {
+					Point intersec = PTools.intersection(upBound, line);
+					if (intersec != null)
+						line.setLine(intersec, line.getP2());
+				} else if (last.getY() > y + h) {
+					Point intersec = PTools.intersection(bottomBound, line);
+					if (intersec != null)
+						line.setLine(intersec, line.getP2());
+				}
 			}
+
+			g2d.draw(line);
+
 			last = p;
+			lastValue = value;
 			f++;
 		}
 
@@ -159,10 +186,8 @@ public class POSCModule extends PModule implements IPOSCModule {
 	public void updatePresentation() {
 		super.updatePresentation();
 		intervalSlider.setValue((int) (controller.getInterval()));
-		intervalLabel.setText(intervalSlider.getValue() + " ms");	
-		
-		
+		intervalLabel.setText(intervalSlider.getValue() + " ms");
+
 	}
 
-	
 }

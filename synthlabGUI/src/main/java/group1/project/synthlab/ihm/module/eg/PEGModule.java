@@ -78,17 +78,20 @@ public class PEGModule extends PModule implements IPEGModule {
 		sustainSlider.setForeground(Color.LIGHT_GRAY);
 		sustainSlider.setOpaque(false);
 		sustainSlider.setFocusable(false);
-		final JLabel sustainLabel = new JLabel("sustain adj");
-		sustainSlider.setForeground(Color.LIGHT_GRAY);
-		sustainSlider.setOpaque(false);
-		sustainSlider.setSize(30, 100);
-		sustainSlider.setBorder(null);
-		sustainSlider.setLocation(25,60);
-		sustainSlider.setFont(new Font("Arial", Font.ITALIC, 10));
 		sustainSlider.setPaintTicks(true);
 		sustainSlider.setMajorTickSpacing(10);
 		sustainSlider.setMinorTickSpacing(10);
 		sustainSlider.setValue((int) (decibel * 10));
+		sustainSlider.setLocation(25,60);
+		sustainSlider.setSize(30, 100);
+		final JLabel sustainLabel = new JLabel("sustain adj");
+		sustainLabel.setForeground(Color.LIGHT_GRAY);
+		sustainLabel.setOpaque(false);
+		sustainLabel.setSize(60, 15);
+		sustainLabel.setBorder(null);
+		sustainLabel.setLocation(15, 43);
+		sustainLabel.setFont(new Font("Arial", Font.ITALIC, 10));
+		
 		
 
 		JLabel sustainMaxValueLabel = new JLabel("0");

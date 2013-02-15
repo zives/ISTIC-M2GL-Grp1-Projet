@@ -22,8 +22,8 @@ public class FilterAmplitudeModulation extends UnitBinaryOperator {
 		for (int i = start; i < limit; i++) {
 			double a = inputsSignal[i];
 			double dB = inputsModulation[i]  * Signal.AMAX * 12 ; // Les valeurs de notre signal modulant sont comprises entre -1 et 1, on multiplie donc par 5 pour avoir entre -5V et + 5V, et par 12 pour avoir la correspondance : 1V -> 12dB
-			outputs[i] = a * Tools.dBToV(dB)  ; // On convertit nos decibels et on calcule la nouvelle tension
-		
+			outputs[i] = a * Tools.dBToV(dB)  ; // On converti nos decibels et on calcule la nouvelle tension
+			
 		}
 	}
 

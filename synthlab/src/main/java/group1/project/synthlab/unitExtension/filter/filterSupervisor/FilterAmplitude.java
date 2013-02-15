@@ -67,8 +67,8 @@ public class FilterAmplitude extends UnitFilter implements IFilterAmplitudeObser
 				if (truncate)
 					x = -amax;			
 			}
-			else 
-				outputs[i] = x;
+			
+			outputs[i] = x;
 			sum += Math.abs(x);
 		}
 		//Previens d'une saturation
