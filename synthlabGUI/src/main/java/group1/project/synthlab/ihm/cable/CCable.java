@@ -11,12 +11,16 @@ import group1.project.synthlab.ihm.workspace.CWorkspace;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 
+/**
+ * @author Groupe 1
+ * Le controleur du cable
+ */
 public class CCable extends Cable implements ICCable{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 6221567842176606010L;
+	
 	protected IPCable presentation;
+	
 	public CCable(CFactory factory) {
 		super(factory);
 		presentation = new PCable(this);
@@ -28,6 +32,7 @@ public class CCable extends Cable implements ICCable{
 	public void setOutPort(IOutPort outPort) throws BadConnection,
 			PortAlreadyUsed {
 		super.setOutPort(outPort);
+		//On redefini les locations du cables
 		presentation.setP1(((ICOutPort)outPort).getPresentation());
 		presentation.setP2(((ICOutPort)outPort).getPresentation());
 		
@@ -36,7 +41,8 @@ public class CCable extends Cable implements ICCable{
 	 * @see group1.project.synthlab.cable.Cable#setInPort(group1.project.synthlab.port.in.IInPort)
 	 */
 	@Override
-	public void setInPort(IInPort inPort) throws BadConnection, PortAlreadyUsed {		
+	public void setInPort(IInPort inPort) throws BadConnection, PortAlreadyUsed {	
+		//On redefini les locations du cables
 		super.setInPort(inPort);
 		presentation.setP1(((ICOutPort)outPort).getPresentation());
 		presentation.setP2(((ICInPort)inPort).getPresentation()); 
@@ -52,6 +58,7 @@ public class CCable extends Cable implements ICCable{
 	 * @see group1.project.synthlab.ihm.module.IPModuleObserver#moduleMove(group1.project.synthlab.ihm.module.IPModuleObservable)
 	 */
 	public void moduleMove(IPModuleObservable subject) {
+		//On redefini les locations du cables
 		presentation.setP1(((ICOutPort)outPort).getPresentation());
 		presentation.setP2(((ICInPort)inPort).getPresentation());
 	

@@ -20,9 +20,7 @@ import javax.swing.JPanel;
  * @author Groupe 1 Presentation du cable
  */
 public class PCable extends JPanel implements IPCable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1542461431128718349L;
 
 	protected transient ICCable controller; // le controleur
@@ -32,32 +30,28 @@ public class PCable extends JPanel implements IPCable {
 
 	protected QuadCurve2D graphicLink; // la forme geometrique du lien
 
-	private transient PCable self; // la presentation elle-meme
-
 	private float animation; // une valeur arbitraire pour animer la cable
 	private Timer timerAnimation; // le timer qui anime le cable
 
 	private Point pBezier; // le point d'attraction du cable pour la courbure
-	protected final double RATE_OF_CURVATURE = 1.7; // Plus le chiffre est gros
-													// , plus la ligne est
-													// tendue
 	
-	protected boolean saturated;
-
+	//Plus le chiffre est gros, plus la ligne est tendue
+	protected final double RATE_OF_CURVATURE = 1.7;
+	
+	//Liste des couleurs que peut prendre le cable
 	protected final Color[] LINK_COLORS = { new Color(110, 110, 110),
 			new Color(100, 50, 50), new Color(130, 90, 50),
 			new Color(50, 100, 50), new Color(50, 50, 140),
 			new Color(50, 100, 100), new Color(100, 50, 100),
 			new Color(50, 70, 120), new Color(150, 50, 80),
-			new Color(50, 100, 80), new Color(80, 50, 140)}; // Liste des
-																// couleurs que
-																// peut prendre
-																// le cable
+			new Color(50, 100, 80), new Color(80, 50, 140)};
+	
+	//la couleur courrante
 	protected int currentColor;
 
 	public PCable(final CCable controller) {
+		//Valeurs par defaut
 		this.controller = controller;
-		this.self = this;
 		this.p1 = new Point(10, 10);
 		this.p2 = new Point(20, 20);
 
@@ -65,7 +59,6 @@ public class PCable extends JPanel implements IPCable {
 
 		this.currentColor = 0;
 		this.setDoubleBuffered(true);
-		this.saturated = false;
 		
 
 		setLocation(0, 0);
@@ -73,6 +66,7 @@ public class PCable extends JPanel implements IPCable {
 		setOpaque(false);
 		setBackground(new Color(200, 0, 0));
 
+		//Creation du timer d'animation		
 		timerAnimation = new Timer();
 		timerAnimation.schedule(new TimerTask() {
 
@@ -155,6 +149,9 @@ public class PCable extends JPanel implements IPCable {
 		((JLayeredPane) this.getParent()).moveToFront(this);		
 	}
 	
+	/**
+	 * Redefini les extremites du composant qui contient le dessin du cable
+	 */
 	private void refreshBounds() {
 		// On trouve les bornes du rectangle transparant qui contiendra le cable
 				int x = 0;
@@ -196,12 +193,8 @@ public class PCable extends JPanel implements IPCable {
 		Graphics2D ig = (Graphics2D) g;
 		ig.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-
-		 
 		
-
-		
-
+		//Determine une ligne avec un point d'attraction
 		QuadCurve2D q = new QuadCurve2D.Double(Math.round(p1.getX() - getX()),
 				Math.round(p1.getY() - getY()), pBezier.x, pBezier.y, Math.round(p2.getX()
 						- getX()), Math.round(p2.getY() - getY()));
@@ -246,6 +239,9 @@ public class PCable extends JPanel implements IPCable {
 		graphicLink = q;
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.cable.IPCable#nextColor()
+	 */
 	public void nextColor() {
 		++currentColor;
 		if (currentColor >= LINK_COLORS.length)
@@ -254,12 +250,18 @@ public class PCable extends JPanel implements IPCable {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.cable.IPCable#getColorPosition()
+	 */
 	@Override
 	public int getColorPosition() {
 		return currentColor;
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.cable.IPCable#setColorPosition(int)
+	 */
 	@Override
 	public void setColorPosition(int pos) {
 		currentColor = pos;

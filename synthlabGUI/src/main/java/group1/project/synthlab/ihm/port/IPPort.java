@@ -11,7 +11,7 @@ public interface IPPort {
 	public void setAllowed();
 	
 	/**
-	 * Indique que le port est supprimable
+	 * Indique que le port peut supprimer le cable
 	 */
 	public void setAllowedToDelete();
 }

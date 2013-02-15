@@ -7,6 +7,10 @@ import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.port.Port;
 
 public abstract class CPort extends Port implements ICPort {
+
+	private static final long serialVersionUID = 1157253840746260196L;
+	
+	//La presentation
 	protected IPPort presentation;
 		
 	public CPort(String label, CWorkspace workspace, IModule module,  CFactory factory) {

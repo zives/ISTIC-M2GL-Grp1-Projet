@@ -17,7 +17,8 @@ public class PInPort extends PPort implements IPInPort {
 	}
 
 	@Override
-	public void paintComponent(Graphics g) {		
+	public void paintComponent(Graphics g) {	
+		//On dessine un contour pour indiquer qu'il s'agit d'un port d'entree
 		g.setColor(new Color(70, 160, 70));
 		Graphics2D ig = (Graphics2D) g;
 		ig.setRenderingHint(RenderingHints.KEY_ANTIALIASING,

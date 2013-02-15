@@ -46,20 +46,29 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import com.jtattoo.plaf.noire.NoireLookAndFeel;
 
 public class PWorkspace extends JFrame implements IPWorkspace {
-
+	
+	private static final long serialVersionUID = 1L;
+	
+	//La barre de menu	
 	protected JMenuBar menuBar;
 	protected JMenu fichierMenu;
 	protected JMenuItem quit;
 	protected JMenuItem save;
 	protected JMenuItem load;
+	protected JMenu workspaceMenu;
+	protected JMenuItem clear;
+	protected JMenuItem allOn;
+	protected JMenuItem allOff;
 
-	private static final long serialVersionUID = 1L;
-
+	//le controleur
 	protected transient ICWorkspace controller;
-	protected JPanel toolBar;
+	
+	//Le plan de travail
 	protected JLayeredPane workspacePanel;
 	protected JScrollPane centerPanel;
 
+	//les boutons pour ajouter les modules
+	protected JPanel toolBar;
 	protected JButton vcoButton;
 	protected JButton outButton;
 	protected JButton vcaButton;
@@ -74,28 +83,32 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	protected JButton eqButton;
 	protected JButton oscButton;
 	protected JButton sequencerButton;
-	protected JMenu workspaceMenu;
-	protected JMenuItem clear;
-	protected JMenuItem allOn;
-	protected JMenuItem allOff;
+	
 
 	public PWorkspace(ICWorkspace controller) {
 		super("Synthetiseur du groupe 1");
+		
+		//Change le theme general
 		initLnF();
 
+		//Defini le controleur
 		this.controller = controller;
 
+		//Intialise la fenetre
 		setLayout(new BorderLayout());
 		setBackground(Color.BLACK);
 		setSize(800, 600);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		
+		//Intialise les controles
 		initialize();
-
-		setVisible(true);
-		setLocation(250, 100);
-
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
 	}
 
+	/**
+	 * Change le theme
+	 */
 	private void initLnF() {
 		// setup the look and feel properties
 		Properties props = new Properties();
@@ -138,8 +151,14 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.IPWorkspace#initialize()
+	 */
 	public void initialize() {
 
+		/**************
+		 * La barre de menu
+		 **************/
 		menuBar = new JMenuBar();
 		fichierMenu = new JMenu("Fichier");
 		workspaceMenu = new JMenu("Workspace");
@@ -172,12 +191,11 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		
 		setJMenuBar(menuBar);
 		menuBar.add(fichierMenu);
-		menuBar.add(workspaceMenu);
+		menuBar.add(workspaceMenu);				
 		
-
-		toolBar = new JPanel();
-		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
-
+		/**************
+		 * Le WS
+		 **************/
 		workspacePanel = new JLayeredPane();
 		workspacePanel.setOpaque(true);
 		workspacePanel.setBackground(new Color(35, 35, 35));
@@ -190,6 +208,12 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		centerPanel.setWheelScrollingEnabled(false);
 		centerPanel.getViewport().setIgnoreRepaint(false);
 		centerPanel.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
+		
+		/**************
+		 * La tool bar
+		 **************/
+		toolBar = new JPanel();
+		toolBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
 				
 		//---------------------------------------------------------------------
 				JSeparator separatorOut = new JSeparator(JSeparator.VERTICAL);
@@ -312,9 +336,11 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		multiplexerButton.setFocusable(false);
 		toolBar.add(multiplexerButton);			
 	
+		/* Ajout a la fenetre de la tool bar et de la barre de menu */
 		add(toolBar, BorderLayout.NORTH);
 		add(centerPanel, BorderLayout.CENTER);
-
+		
+		/* Ouvre la fenetre apres quelques changements de valeur */
 		pack();
 		setBackground(Color.BLACK);
 		setVisible(true);
@@ -323,16 +349,22 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		setVisible(true);
 		setLocation(250, 100);
 
-		// Gestion des evenements du WS et de son contenu (evenements accepté
+		//******************************************************************************
+		// Gestion des evenements générales du WS et de son contenu (evenements accepté
 		// par les controles dessous, ex sous le rectangle du cable on peut
 		// deplacer un module)
+		//******************************************************************************
+		
+		//Evenement lie au curseur
 		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
 
 			public void eventDispatched(AWTEvent e) {
 				if (e instanceof MouseEvent) {
+					
 					if (SwingUtilities.isDescendingFrom(
 							(Component) e.getSource(), centerPanel)) {
 						MouseEvent m = (MouseEvent) e;
+						
 						if (m.getID() == MouseEvent.MOUSE_MOVED || m.getID() == MouseEvent.MOUSE_DRAGGED ) {
 							// On dessine le cable (meme si on mouse move sur le
 							// module en plus du ws)
@@ -366,16 +398,19 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 				}
 			}
 		}, AWTEvent.MOUSE_MOTION_EVENT_MASK);
+		
+		//Evenement lies a la roulette de la souris
 		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
-
 			public void eventDispatched(AWTEvent e) {
 				if (e instanceof MouseEvent) {
+					
 					if (SwingUtilities.isDescendingFrom(
 							(Component) e.getSource(), centerPanel)) {
 						MouseEvent m = (MouseEvent) e;
 						if (m.getID() == MouseEvent.MOUSE_WHEEL) {
-							// On dessine le cable (meme si on mouse move sur le
+							// On dessine le cable avec sa nouvelle couleur (meme si on mouse move sur le
 							// module en plus du ws)
+							//Marche que pendant la creation d'un cable
 							if (controller.isDrawingCable()) {
 								PCable cable = (PCable) controller
 										.getDrawingCable().getPresentation();
@@ -386,8 +421,9 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 					}
 				}
 			}
-		}, AWTEvent.MOUSE_WHEEL_EVENT_MASK);
-		// La touche echap (accessible à l'application) pour retirer un cable
+		}, AWTEvent.MOUSE_WHEEL_EVENT_MASK);		
+		
+		// La touche echap (accessible à l'application entiere) pour retirer un cable
 		// encours de creation
 		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
 			public void eventDispatched(AWTEvent e) {
@@ -400,39 +436,15 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 							controller.setDrawingCable(null);
 							repaint();
 						}
-					}else if (m.getID() == KeyEvent.KEY_PRESSED) {
-//						if (m.getKeyCode() == KeyStroke.getKeyStroke(KeyEvent.VK_S,InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK).getKeyCode()) 
-//							controller.saveConfiguration();
-//						clear = new JMenuItem("Tout effacer");
-//						clear.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,InputEvent.CTRL_MASK));
-//						workspaceMenu.add(clear);	
-//					
-//						allOn = new JMenuItem("Tout demarrer");
-//						allOn.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,InputEvent.CTRL_MASK));
-//						workspaceMenu.add(allOn);
-//						
-//						allOff = new JMenuItem("Tout arreter");
-//						allOff.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W,InputEvent.CTRL_MASK));
-//						workspaceMenu.add(allOff);
-//
-//						//bouton sauvegarde pour la configuration
-//						save = new JMenuItem("Sauver");	
-//						save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
-//						fichierMenu.add(save);
-//						//bouton charger
-//						load = new JMenuItem("Charger");	
-//						load.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
-//						fichierMenu.add(load);		
-//						
-//						quit = new JMenuItem("Quitter");
-//						quit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));		
-//						fichierMenu.add(quit);
 					}
 				}
 			}
 		}, AWTEvent.KEY_EVENT_MASK);
 
 
+		/***************************
+		 * Evenements swing des boutons de modules
+		 ***************************/
 		vcoButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent ev) {
@@ -527,9 +539,9 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 			}
 		});
 		
-		
-		
-		//Menu bar
+		/***************************
+		 * Evenements swing des boutons de la barre de menu
+		 ***************************/
 
 		quit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -566,22 +578,34 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		});
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.IPWorkspace#getWorkspacePanel()
+	 */
 	public JLayeredPane getWorkspacePanel() {
 		return workspacePanel;
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.IPWorkspace#addCable(group1.project.synthlab.ihm.cable.IPCable)
+	 */
 	public void addCable(IPCable cable) {
 		workspacePanel.add((Component) cable);
 		workspacePanel.moveToFront((Component) cable);
 		repaint();
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.IPWorkspace#removeCable(group1.project.synthlab.ihm.cable.IPCable)
+	 */
 	public void removeCable(IPCable cable) {
 		workspacePanel.remove((Component) cable);
 		repaint();
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.IPWorkspace#addModule(group1.project.synthlab.ihm.module.IPModule)
+	 */
 	public void addModule(IPModule module) {
 		Component cModule = (Component) module;
 		int x = (int) (-centerPanel.getViewport().getView().getX()
@@ -599,22 +623,26 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		repaint();
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.IPWorkspace#removeModule(group1.project.synthlab.ihm.module.IPModule)
+	 */
 	public void removeModule(IPModule module) {
 		module.unregister(this);
 		workspacePanel.remove((Component) module);
 		repaint();
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.IPModuleObserver#moduleMove(group1.project.synthlab.ihm.module.IPModuleObservable)
+	 */
 	public void moduleMove(IPModuleObservable subject) {
 		workspacePanel.moveToFront((Component) subject);
 
 	}
 
-	public static void main(String[] args) {
-		CWorkspace ws = (CWorkspace) CWorkspace.getInstance();
-
-	}
-
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.IPWorkspace#saveFileDialog()
+	 */
 	@Override
 	public File saveFileDialog() {
 		UIManager.put("FileChooser.openButtonText", "Save");
@@ -631,11 +659,17 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		return j.getSelectedFile();
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.IPWorkspace#showError(java.lang.String)
+	 */
 	@Override
 	public void showError(String s) {
 		JOptionPane.showMessageDialog(null, s);
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.IPWorkspace#openFileDialog()
+	 */
 	@Override
 	public File openFileDialog() {
 		UIManager.put("FileChooser.openButtonText", "Open");
@@ -653,7 +687,11 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		
 	}
 	
-	
+	@SuppressWarnings("unused")
+	public static void main(String[] args) {
+		CWorkspace ws = (CWorkspace) CWorkspace.getInstance();
+
+	}
 
 
 }

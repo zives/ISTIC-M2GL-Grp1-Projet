@@ -46,7 +46,7 @@ public class COSCModule extends OSCModule implements ICOSCModule {
 			throws BufferTooBig {
 		super.interceptionResult(buffer, time);
 		
-		int maxCmptPaint = (int) (0.1 / intervalS); // nombre d'iterationsavant de parvenir à 20ms pour un affiche fluide (pas trop rapide pr l'ecran)
+		int maxCmptPaint = (int) (0.2 / intervalS); // nombre d'iterationsavant de parvenir à 20ms pour un affiche fluide (pas trop rapide pr l'ecran)
 		if (this.buffer.size() >= synth.getFrameRate() * intervalS) { //augmenter ce nombre pour zoomer (moins de bande à afficher d'un coup)
 			canRepaint = false;
 			valuesToDraw.clear();
@@ -58,7 +58,7 @@ public class COSCModule extends OSCModule implements ICOSCModule {
 			}
 			if (++cmptPaint>= maxCmptPaint) {
 				
-			((Component) presentation).repaint();
+				presentation.refresh();
 				cmptPaint = 0;
 			}
 			canRepaint = true;

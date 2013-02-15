@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 /**
  * @author Groupe 1
- * Ungenerateur de degrade symetrique
+ * Un generateur de degrade symetrique
  */
 public class PGradient extends JPanel {
 

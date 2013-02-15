@@ -9,7 +9,6 @@ import group1.project.synthlab.ihm.cable.IPCable;
 import group1.project.synthlab.ihm.factory.CFactory;
 import group1.project.synthlab.ihm.module.ICModule;
 import group1.project.synthlab.ihm.module.IPModule;
-import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.in.ICInPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
 import group1.project.synthlab.ihm.tools.CTools;
@@ -43,38 +42,57 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class CWorkspace extends Workspace implements ICWorkspace {
+	
+	/** Le cable en cours de creation */
 	protected ICCable drawingCable;
-	protected IPWorkspace presentation;
-	private String save;
+	
+	/** La presentation */
+	protected IPWorkspace presentationWS;
+
 
 	public CWorkspace(CFactory factory) {
 		super(factory);
-		this.presentation = new PWorkspace(this);
+		this.presentationWS = new PWorkspace(this);
 		addModule(factory.createOutModule());
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#getPresentation()
+	 */
 	public IPWorkspace getPresentation() {
-		return presentation;
+		return presentationWS;
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#getDrawingCable()
+	 */
 	public ICCable getDrawingCable() {
 		return drawingCable;
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#setDrawingCable(group1.project.synthlab.ihm.cable.ICCable)
+	 */
 	public void setDrawingCable(ICCable drawingCable) {
 
 		if (drawingCable != null && this.drawingCable == null) {
 			this.drawingCable = drawingCable;
-			presentation.addCable(drawingCable.getPresentation());
+			presentationWS.addCable(drawingCable.getPresentation());
 		} else
 			this.drawingCable = null;
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#isDrawingCable()
+	 */
 	public boolean isDrawingCable() {
 		return drawingCable != null;
 	}
 
+	/**
+	 * @return l'instance du WS
+	 */
 	public static ICWorkspace getInstance() {
 		if (instance == null) {
 			CFactory factory = new CFactory();
@@ -83,120 +101,179 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		return (ICWorkspace) instance;
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#removeCable(group1.project.synthlab.cable.ICable)
+	 */
 	public void removeCable(ICable cCable) {
-		presentation.removeCable(((ICCable) cCable).getPresentation());
+		presentationWS.removeCable(((ICCable) cCable).getPresentation());
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.workspace.Workspace#addModule(group1.project.synthlab.module.IModule)
+	 */
 	@Override
 	public void addModule(IModule module) {
 		super.addModule(module);
-		presentation.addModule(((ICModule) module).getPresentation());
+		presentationWS.addModule(((ICModule) module).getPresentation());
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.workspace.Workspace#removeModule(group1.project.synthlab.module.IModule)
+	 */
 	@Override
 	public void removeModule(IModule module) {
 		if (isDrawingCable()) {
 			removeCable(getDrawingCable());
 			setDrawingCable(null);
 		}
-		presentation.removeModule(((ICModule) module).getPresentation());
+		presentationWS.removeModule(((ICModule) module).getPresentation());
 		super.removeModule(module);
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#addOneVCOModule()
+	 */
 	public void addOneVCOModule() {
 		addModule(factory.createVCOModule());
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#addOneOutModule()
+	 */
 	public void addOneOutModule() {
 		addModule(factory.createOutModule());
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#addOneMultiplexer()
+	 */
 	public void addOneMultiplexer() {
 		addModule(factory.createMultiplexerModule());
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#addOneSequencer()
+	 */
 	@Override
 	public void addOneSequencer() {
 		addModule(factory.createSequencerModule());
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#addOneVCAModule()
+	 */
 	public void addOneVCAModule() {
 		addModule(factory.createVCAModule());
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#addOnePianoModule()
+	 */
 	@Override
 	public void addOnePianoModule() {
 		addModule(factory.createPianoModule());
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#addOneNoiseModule()
+	 */
 	@Override
 	public void addOneNoiseModule() {
 		addModule(factory.createNoiseModule());
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#addOneEGModule()
+	 */
 	@Override
 	public void addOneEGModule() {
 		addModule(factory.createEGModule());
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#addOneEQViewModule()
+	 */
 	@Override
 	public void addOneEQViewModule() {
 		addModule(factory.createEQViewModule());
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#addOneMicroModule()
+	 */
 	@Override
 	public void addOneMicroModule() {
 		addModule(factory.createMicroModule());
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#addOneEQModule()
+	 */
 	@Override
 	public void addOneEQModule() {
 		addModule(factory.createEQModule());
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#addOneOSCModule()
+	 */
 	@Override
 	public void addOneOSCModule() {
 		addModule(factory.createOSCModule());
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#addOneVCFLPModule()
+	 */
 	@Override
 	public void addOneVCFLPModule() {
 		addModule(factory.createVCFLPModule());
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#addOneVCFHPModule()
+	 */
 	@Override
 	public void addOneVCFHPModule() {
 		addModule(factory.createVCFHPModule());
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#quitApp()
+	 */
 	@Override
 	public void quitApp() {
 		System.exit(0);
-
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#saveConfiguration()
+	 */
 	@Override
 	public void saveConfiguration() {
-		File f = presentation.saveFileDialog();
+		File f = presentationWS.saveFileDialog();
 		if (f == null)
 			return;
 		saveConfiguration(f.getName(), f.getAbsolutePath());
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#loadConfiguration()
+	 */
 	@Override
 	public void loadConfiguration() {
-		File f = presentation.openFileDialog();
+		File f = presentationWS.openFileDialog();
 		if (f == null)
 			return;
 		clearAll();
@@ -213,7 +290,7 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 				// on supprime tous les modules
 				for (IModule m : modules) {
 					ICModule cm = (ICModule) m;
-					presentation.removeModule(cm.getPresentation());
+					presentationWS.removeModule(cm.getPresentation());
 				}
 				modules.clear();
 				parcourirModules(configuration);
@@ -223,114 +300,119 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 			}
 		}
 	}
-
-	private Field findField(String nomAttribut, Class module) {
-		Field field;
-		try {
-			field = module.getDeclaredField(nomAttribut);
-			return field;
-		} catch (java.lang.NoSuchFieldException e1) {
-			if (module.getSuperclass() != null) {
-				return findField(nomAttribut, module.getSuperclass());
-			}
-			return null;
-		}
-
-	}
-
+	
+	@SuppressWarnings({ "unchecked", "rawtypes"})
 	private void parcourirModules(Node configuration) {
+		//Recence les instances trouvee a l'aide du parcours XML
 		Map<String, ICModule> modulesInstances = new HashMap<>();
 		Map<String, ICInPort> portsInInstances = new HashMap<>();
 		Map<String, ICOutPort> portsOutInstances = new HashMap<>();
+		
+		//Le noeud parent 
 		Element e = (Element) configuration;
+		
+		//Lecture des noeuds modules
 		NodeList modulesNodes = e.getElementsByTagName("Module");
 		for (int i = 0; i < modulesNodes.getLength(); i++) {
-			Element m = (Element) modulesNodes.item(i);
-			String type = m.getAttribute("type");
+			Element moduleXMLElement = (Element) modulesNodes.item(i);
+			String type = moduleXMLElement.getAttribute("type");
 			try {
+				//Cree une nouvelle instance de module a partir de son type
 				CFactory factory = new CFactory();
 				Method method = CFactory.class.getMethod("create" + type);
 				ICModule module = (ICModule) method.invoke(factory);
-				System.out.println(module.getName() + " " + type);
 				modulesInstances.put(module.getName(), module);
 
-				// controller
-				Node cont = m.getElementsByTagName("Controller").item(0);
-				// attributs
-				NodeList attr = ((Element) cont).getElementsByTagName("Attr");
+				//Le noeud controleur
+				Node controlerXMLNode = moduleXMLElement.getElementsByTagName("Controller").item(0);
+				//La liste des attributs du module
+				NodeList attrsXMLNode = ((Element) controlerXMLNode).getElementsByTagName("Attr");
 
-				for (int j = 0; j < attr.getLength(); j++) {
-					Element a = (Element) attr.item(j);
-					Field field;
-					field = findField(a.getAttribute("name"), module.getClass());
+				//On boucle sur les attributs
+				for (int j = 0; j < attrsXMLNode.getLength(); j++) {
+					Element currentAttrXML = (Element) attrsXMLNode.item(j);
+					
+					//Cherche l'attribut du module correspondant a la balise XML
+					Field field = CTools.findField(currentAttrXML.getAttribute("name"), module.getClass());
+					//S'il existe
 					if (field != null) {
-						System.out.println("\n\n\nisArray : "
-								+ a.getAttribute("struct"));
-						if (a.getAttribute("struct").equals("array")) {
+						
+						//Si c'est un tableau
+						if (currentAttrXML.getAttribute("struct").equals("array")) {
+							//Rend l'atribut accessible
 							field.setAccessible(true);
-							// Object[] tab = (Object[]) field.get(module);
-							String typeString = CTools.primitiveToObject(a
+							//Recupere le type du tableau
+							String typeString = CTools.primitiveToObject(currentAttrXML
 									.getAttribute("type"));
-							System.out.println(typeString);
-							int nbItem = a.getElementsByTagName("item")
+							//Trouve le nombre de valeurs dans le tableau
+							int nbItem = currentAttrXML.getElementsByTagName("item")
 									.getLength();
-							// Class c = Class.forName(typeString);
-
-							Class c = CTools.primitiveToClass(a
+							//Obtient le type du tableau
+							Class<?> itemTypeArray = CTools.primitiveToClass(currentAttrXML
 									.getAttribute("type"));
-							Object array = Array.newInstance(c, nbItem);
+							//Instancie un nouveau tableau
+							Object array = Array.newInstance(itemTypeArray, nbItem);
+							//Liste les items et les ajoute au tableau nouvellement instancie
 							for (int ii = 0; ii < nbItem; ii++) {
-
-								Class tmp = Class.forName(typeString);
+								Class<?> tmp = Class.forName(typeString);
 								Object res = ValueOfString.valueOf(
 										tmp,
-										((Element) a.getElementsByTagName(
+										((Element) currentAttrXML.getElementsByTagName(
 												"item").item(ii))
 												.getAttribute("value"));
 								Array.set(array, ii, res);
-								// tab[ii] = res;
-								// System.out.println(tab[ii]);
 							}
-
+							//Set le tableau a l'attribut du module
 							field.set(module, array);
+							//Rend l'attribut plus accessible
 							field.setAccessible(false);
-							// System.out.println(nbItem);
 
+						//Si c'est un type primitif
 						} else if (field.getType().isPrimitive()) {
+							//Rend l'attribut accessible
 							field.setAccessible(true);
-							String typeString = CTools.primitiveToObject(a
+							//Trouve le type
+							String typeString = CTools.primitiveToObject(currentAttrXML
 									.getAttribute("type"));
-							System.out.println(typeString + " "
-									+ a.getAttribute("value"));
-							Class c = Class.forName(typeString);
-
-							Object res = ValueOfString.valueOf(c,
-									a.getAttribute("value"));
+							Class<?> typeAttrClass = Class.forName(typeString);
+							//Recupere la valeur
+							Object res = ValueOfString.valueOf(typeAttrClass,
+									currentAttrXML.getAttribute("value"));
+							//Assigne la valeur
 							field.set(module, res);
+							//Rend l'attribut non accessible
 							field.setAccessible(false);
+							
+						//Si c'est un enum	
 						} else if (field.getType().isEnum()) {
-							System.out.println("enum : " + field.getName());
-							System.out.println(a.getAttribute("type") + " "
-									+ a.getAttribute("value"));
+							//Rend l'attribut accessible
 							field.setAccessible(true);
+							//Set la valeur a l'attribut
 							field.set(module, Enum.valueOf(
 									(Class<Enum>) field.getType(),
-									a.getAttribute("value")));
+									currentAttrXML.getAttribute("value")));
+							//Rend l'attribut non accessible
 							field.setAccessible(false);
 						}
 					}
+					else
+						System.err.println("Cet attribut n'existe pas");
 
 				}
 
-				// ports et cables
-				NodeList ports = m.getElementsByTagName("Port");
+				//Boucle sur les ports et cable
+				NodeList ports = moduleXMLElement.getElementsByTagName("Port");
 				for (int j = 0; j < ports.getLength(); j++) {
+					//le port XML courant
 					Element portXML = (Element) ports.item(j);
+					//Le type du port
 					String typePort = portXML.getAttribute("type");
+					//Declare deux ports et essaie de chercher les reference dans les modules correspondant au descriptif XML
+					//Ajoute ensuite les references dans le HashSet definie en haut
 					ICOutPort portOut;
 					ICInPort portIn;
 					if (typePort.equals("in")) {
-						Field field = findField(
+						Field field = CTools.findField(
 								portXML.getAttribute("nameAttr"),
 								module.getClass());
 						field.setAccessible(true);
@@ -344,7 +426,7 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 							e1.printStackTrace();
 						}
 					} else if (typePort.equals("out")) {
-						Field field = findField(
+						Field field = CTools.findField(
 								portXML.getAttribute("nameAttr"),
 								module.getClass());
 						field.setAccessible(true);
@@ -363,17 +445,20 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 
 				}
 
-				// presentation
-				Element pres = (Element) m.getElementsByTagName("Presentation")
+				//Presentation du module
+				Element pres = (Element) moduleXMLElement.getElementsByTagName("Presentation")
 						.item(0);
+				//Recupère la location du module
 				Element location = (Element) pres.getElementsByTagName(
 						"Location").item(0);
 				int locationX = Integer.parseInt(location.getAttribute("x"));
 				int locationY = Integer.parseInt(location.getAttribute("y"));
 
-				// chargement
+				//Ajoute l'instance du module cree au WS
 				CWorkspace.getInstance().addModule(module);
+				//Refresh la presentation
 				module.refresh();
+				//Change la location du module
 				module.getPresentation().updateLocation(locationX, locationY);
 
 			} catch (Exception e1) {
@@ -382,17 +467,24 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 
 		}
 
+		//Deuxieme passage
 		for (int i = 0; i < modulesNodes.getLength(); i++) {
 			Element m = (Element) modulesNodes.item(i);
 			ICModule module = modulesInstances.get(m.getAttribute("name"));
-			// ports et cables
+			
+			//Boucles a nouveau sur les ports (les instances sont deja tous presentes dans le HashSet)
 			NodeList ports = m.getElementsByTagName("Port");
 			for (int j = 0; j < ports.getLength(); j++) {
+				//Le port courant
 				Element portXML = (Element) ports.item(j);
 				String typePort = portXML.getAttribute("type");
+				
+				//Cree un cable
 				ICCable cable = (ICCable) this.factory.createCable();
 				ICOutPort portOut = null;
 				ICInPort portIn = null;
+				
+				//Trouve les instances dans les hashSet
 				if (typePort.equals("in")) {
 					portIn = portsInInstances.get(module.getName() + ","
 							+ portXML.getAttribute("name"));
@@ -411,17 +503,22 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 					
 				}				
 				
+				//Si pas trouver on continue a charger (on essaie d'afficher un maximum de cables)
 				if (portOut == null || portIn == null
 						|| portOut.getCable() != null
 						|| portIn.getCable() != null) 
 					continue;
+				
+				//Sinon on continue
 				try {
+					
+					//On assigne les ports aux cables et on l'ajoute au WS
 					IPCable presentationCable = cable.getPresentation();
-					presentation.addCable(presentationCable);					
+					presentationWS.addCable(presentationCable);					
 					cable.setOutPort(portOut);
 					cable.setInPort(portIn);
 					
-					//couleur du cable
+					//On trouve la couleur du cable et on l'assigne
 					String idPresentationCableXML = portXML.getAttribute("refPresentation");
 					NodeList listCables = e.getElementsByTagName("Cable");
 					for (int c = 0; c < listCables.getLength(); ++c) {
@@ -440,12 +537,18 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 				
 			}
 		}
-		((Component) presentation).repaint();
+		
+		//On rafraichit le WS
+		((Component) presentationWS).repaint();
 	}
 
-	public void saveConfiguration(String name, String path) {
+
+	//Sauve le WS en utilisant la reflection de Java
+	private void saveConfiguration(String name, String path) {
+		
 		String save = "<Configuration name=\"" + name + "\">\n";
 		Set<ICCable> cables = new HashSet<>();
+		//on boucle sur tous les modules
 		for (IModule m : modules) {
 			String tmp = "";
 
@@ -533,6 +636,8 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 				}
 			}
 			tmp += "		</Controller>\n";
+			
+			//On ajoute la presentation du module
 			ICModule icm = (ICModule) m;
 			IPModule ipm = icm.getPresentation();
 
@@ -568,6 +673,9 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#clearAll()
+	 */
 	@Override
 	public void clearAll() {
 		for (IModule module : modules) {
@@ -577,6 +685,9 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		Cable.resetCounterInstance();
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#allModulesOn()
+	 */
 	@Override
 	public void allModulesOn() {
 		for (IModule module : modules) {
@@ -587,6 +698,9 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#allModulesOff()
+	 */
 	@Override
 	public void allModulesOff() {
 		for (IModule module : modules) {
@@ -597,8 +711,11 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.workspace.ICWorkspace#giveFocus()
+	 */
 	public void giveFocus() {
-		((Component) presentation).requestFocus();
+		((Component) presentationWS).requestFocus();
 
 	}
 

@@ -4,6 +4,6 @@ import group1.project.synthlab.ihm.module.IPModule;
 
 
 public interface IPOSCModule extends IPModule  {
-
+	public void refresh();
 	
 }

@@ -2,7 +2,15 @@ package group1.project.synthlab.ihm.tools;
 import java.lang.reflect.*;
 
 public class ValueOfString {
-   public static <T> T valueOf(Class<T> klazz, String arg) {
+	
+	
+	/**
+	 * Converti un string en type specifie
+	 * @param klazz
+	 * @param arg
+	 * @return
+	 */
+	public static <T> T valueOf(Class<T> klazz, String arg) {
         Exception cause = null;
         T ret = null;
         try {

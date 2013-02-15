@@ -95,7 +95,15 @@ public class POSCModule extends PModule implements IPOSCModule {
 				intervalLabel.setText(intervalSlider.getValue() + " ms");
 			}
 		});
+		
 
+	}
+	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.osc.IPOSCModule#refresh()
+	 */
+	public void refresh() {
+		repaint();
 	}
 
 	@Override
@@ -150,7 +158,7 @@ public class POSCModule extends PModule implements IPOSCModule {
 
 			Line2D line = new Line2D.Double(last, p);
 			if (!(p.getY() < y && last.getY() < y)
-					|| !(p.getY() > y + h && last.getY() > y + h)) {
+					&& !(p.getY() > y + h && last.getY() > y + h)) {
 				
 				if (p.getY() < y) {
 					Point intersec = PTools.intersection(lineUpBound, line);

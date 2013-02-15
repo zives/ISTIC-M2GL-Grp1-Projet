@@ -12,6 +12,10 @@ import group1.project.synthlab.port.out.OutPort;
 import com.jsyn.ports.ConnectableOutput;
 
 public class COutPort extends OutPort implements ICOutPort {
+
+	private static final long serialVersionUID = 5664870563807386725L;
+	
+	//La presentation
 	protected IPOutPort presentation;
 
 	public COutPort(String label, ConnectableOutput jSynPort, IModule module, CFactory factory) {
@@ -24,11 +28,15 @@ public class COutPort extends OutPort implements ICOutPort {
 	}
 
 	public void actionCable() throws BadConnection {
+		//Si le port n'est pas deja utilise par un autre cable
 		if (!isUsed()) {
+			//Et si on n'est pas entrain de dessiner un cable
 			if (!CWorkspace.getInstance().isDrawingCable()) {
 				ICCable cable = (ICCable)factory.createCable();
 				try {
+					//On commence la creation d'un cable
 					CWorkspace.getInstance().setDrawingCable(cable);
+					//Et on attribue une de ces extremites a ce port
 					cable.setOutPort(this);
 									
 				} catch (PortAlreadyUsed e) {
@@ -37,7 +45,6 @@ public class COutPort extends OutPort implements ICOutPort {
 				
 			}
 		} else {
-			// TODO à faire dans une autre user story (Déconnexion)
 		}
 
 	}

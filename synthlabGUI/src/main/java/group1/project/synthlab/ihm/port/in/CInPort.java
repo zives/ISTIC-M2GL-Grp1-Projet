@@ -12,6 +12,9 @@ import group1.project.synthlab.port.in.InPort;
 import com.jsyn.ports.ConnectableInput;
 
 public class CInPort extends InPort implements ICInPort {
+
+	private static final long serialVersionUID = 4313365767212678923L;
+	
 	protected IPInPort presentation;
 
 	public CInPort(String label, ConnectableInput jSynPort, IModule module,  CFactory factory) {
@@ -24,13 +27,18 @@ public class CInPort extends InPort implements ICInPort {
 	}
 
 	public void actionCable() throws BadConnection {
+		//Si le port n'est pas deja utilise
 		if (!isUsed()) {
+			//Et si on dessine actuellement un cable
 			if (CWorkspace.getInstance().isDrawingCable()) {
+				//On retrouve l'instance de ce cable
 				CCable cable = (CCable) CWorkspace.getInstance()
 						.getDrawingCable();
 				
 				try {
+					//On attribue l'extremite restante a ce port, le cable est pose
 					cable.setInPort(this);
+					//On ne dessine plus de cable
 					CWorkspace.getInstance().setDrawingCable(null); 
 					
 				} catch (PortAlreadyUsed e) {

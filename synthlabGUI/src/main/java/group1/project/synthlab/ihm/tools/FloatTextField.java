@@ -4,14 +4,14 @@ import group1.project.synthlab.ihm.workspace.CWorkspace;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.text.Format;
 
 import javax.swing.JFormattedTextField;
 
 /**
  * @author Groupe 1
- * Un contrôle n'acceptant que des valeurs numeriques
+ * Un controle n'acceptant que des valeurs numeriques
+ * Ce composant n'est pas reutilisable sans modification car il dependant du ws
  */
 public class FloatTextField extends JFormattedTextField {
 
@@ -23,6 +23,7 @@ public class FloatTextField extends JFormattedTextField {
 	
 	@Override
     public void processKeyEvent(KeyEvent ev) {
+		//Que certaines touches sont autorisee a la frappe
 		if (!((ev.getKeyChar() >= '0' && ev.getKeyChar() <= '9')|| ev.getKeyChar() == '.' || ev.getKeyCode()
 				== KeyEvent.VK_BACK_SPACE || ev.getKeyCode() == KeyEvent.VK_DELETE || ev.getKeyCode() == KeyEvent.VK_ENTER )) {
 				ev.consume();
@@ -37,6 +38,7 @@ public class FloatTextField extends JFormattedTextField {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					//On redonne le focus au ws
 					CWorkspace.getInstance().giveFocus();					
 				}
 				super.keyPressed(e);

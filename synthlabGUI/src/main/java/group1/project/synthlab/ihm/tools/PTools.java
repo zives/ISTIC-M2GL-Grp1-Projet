@@ -3,8 +3,17 @@ package group1.project.synthlab.ihm.tools;
 import java.awt.Point;
 import java.awt.geom.Line2D;
 
+/**
+ * @author Groupe 1
+ * Des outils pour les presentations
+ */
 public class PTools {
 
+	/**
+	 * Convertie une frequence en valeur affichable
+	 * @param freq la frequence
+	 * @return un string avec le meme nombre de decimale
+	 */
 	public static String freqToString(double freq) {
 		String val = String.valueOf(freq);
 		if (val.indexOf(".") < 0)
@@ -21,6 +30,12 @@ public class PTools {
 		return val;
 	}
 
+	/**
+	 * Calcul l'intersection entre deux lignes
+	 * @param line1
+	 * @param line2
+	 * @return le point d'intersection
+	 */
 	public static Point intersection(Line2D line1, Line2D line2) {
 		double x1, x2, x3, x4;
 		double y1, y2, y3, y4;

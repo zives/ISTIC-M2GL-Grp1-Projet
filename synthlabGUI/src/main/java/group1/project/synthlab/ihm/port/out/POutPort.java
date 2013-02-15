@@ -18,6 +18,7 @@ public class POutPort extends PPort implements IPOutPort {
 
 	@Override
 	public void paintComponent(Graphics g) {
+		//Un contour pour indiquer qu'il s'agit du port de sortie
 		g.setColor(new Color(100, 100, 220));
 		Graphics2D ig = (Graphics2D) g;
 		ig.setRenderingHint(RenderingHints.KEY_ANTIALIASING,

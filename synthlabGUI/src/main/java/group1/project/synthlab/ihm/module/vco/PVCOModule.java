@@ -216,16 +216,6 @@ public class PVCOModule extends PModule implements IPVCOModule {
 
 	}
 
-	public void warn(IFilterAmplitudeObservable subject, boolean tooHigh) {	
-			warnLabel.setVisible(tooHigh);		
-		
-	}
-
-	public void hasSignal(IFilterAmplitudeObservable subject, boolean hasSignal) {
-		
-		
-	}
-
 	@Override
 	public void updatePresentation() {
 		super.updatePresentation();
@@ -233,6 +223,21 @@ public class PVCOModule extends PModule implements IPVCOModule {
 		fineSlider.setValue((int) (controller.getFineAdjustment() * 10000.0));
 		freqLabel.setText(PTools.freqToString(controller.getf0()) + " Hz");
 		textFreq.setText(PTools.freqToString(controller.getf0()));
+		
+	}
+
+
+
+	@Override
+	public void warnSignalIsSatured(IFilterAmplitudeObservable subject,
+			boolean tooHigh) {
+		warnLabel.setVisible(tooHigh);
+		
+	}
+
+
+	@Override
+	public void hasSignal(IFilterAmplitudeObservable subject, boolean hasSignal) {
 		
 	}
 
