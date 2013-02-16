@@ -7,7 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author Groupe 1 Quelques outils pour les controleurs
+ * @author Groupe 1 
+ * Quelques outils pour les controleurs
  */
 public class CTools {
 

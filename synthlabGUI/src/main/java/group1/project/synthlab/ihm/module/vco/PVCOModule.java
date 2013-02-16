@@ -20,6 +20,10 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+/**
+ * @author Groupe 1
+ * Presentation du module VCO
+ */
 public class PVCOModule extends PModule implements IPVCOModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;

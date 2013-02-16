@@ -15,6 +15,10 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
+/**
+ * @author Groupe 1
+ * Presnetaiton generale d'un port
+ */
 public class PPort extends JPanel implements IPPort {
 	private static final long serialVersionUID = -7576041067842211961L;
 	

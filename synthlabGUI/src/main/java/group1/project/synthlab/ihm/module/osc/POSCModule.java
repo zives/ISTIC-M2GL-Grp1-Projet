@@ -23,6 +23,10 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+/**
+ * @author Groupe 1
+ * Presentation du module OSC
+ */
 public class POSCModule extends PModule implements IPOSCModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
@@ -30,6 +34,12 @@ public class POSCModule extends PModule implements IPOSCModule {
 	protected transient ICOSCModule controller;
 	protected transient final JSlider intervalSlider;
 	protected transient final JLabel intervalLabel;
+
+	// Coordonnées et largeur de la zone de dessin
+	protected double w = getWidth() - 22;
+	protected double x = (getWidth() - w) / 2;
+	protected double y = 40;
+	protected double h = getHeight() / 1.45;
 
 	public POSCModule(final ICOSCModule controller) {
 		super(controller);
@@ -86,6 +96,7 @@ public class POSCModule extends PModule implements IPOSCModule {
 		add(intervalSlider);
 		add(intervalLabel);
 
+		//Evenements
 		intervalSlider.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
@@ -96,14 +107,21 @@ public class POSCModule extends PModule implements IPOSCModule {
 			}
 		});
 		
+		refresh();
 
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see group1.project.synthlab.ihm.module.osc.IPOSCModule#refresh()
 	 */
 	public void refresh() {
-		repaint();
+		w = getWidth() - 22;
+		x = (getWidth() - w) / 2;
+		y = 40;
+		h = getHeight() / 1.45;
+		repaint((int)x, (int)y, (int)(x + w), (int)(y + h));
 	}
 
 	@Override
@@ -112,54 +130,64 @@ public class POSCModule extends PModule implements IPOSCModule {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-
+		
 		// Creation du background
 		g.setColor(new Color(50, 50, 50));
-
-		// Coordonnées et largeur
-		double w = getWidth() - 22;
-		double x = (getWidth() - w) / 2;
-		double y = 40;
-		double h = getHeight() / 1.45;
 
 		// Background
 		Rectangle2D background = new Rectangle2D.Double(x, y, w, h);
 		g2d.fill(background);
 		g2d.setStroke(new BasicStroke(0.5f));
+		
 
 		// Font
 		Font font = new Font("Arial", 0, 7);
 		g.setFont(font);
 		g.setColor(new Color(220, 220, 220));
 		// Création graphique des lignes
+		//Recuperation des valeurs
 		List<Double> values = controller.getValuesToDraw();
 		if (values == null)
 			return;
+		//Calcul de l'espacement entre chaque points
 		int step = (int) (values.size() / w);
 		if (step == 0)
 			step = 1;
+		//Definition du dernier point avant d'iterer sur les valeurs
 		Point last = null;
+		//Iterator
 		Iterator<Double> iterator = values.iterator();
+		//Nombre de valeurs
 		int size = values.size();
+		//Compteur definissant la position en abscisse du point a dessiner
 		int f = 0;
+		//Borne sup et inf de l'ecran affichant la courbe
 		Line2D lineUpBound = new Line2D.Double(x, y, x + w - 1, y);
-		Line2D lineBottomBound = new Line2D.Double(x, y + h, x + w -1, y + h);
+		Line2D lineBottomBound = new Line2D.Double(x, y + h, x + w - 1, y + h);
+		//On boucle sur les valeurs
 		while (iterator.hasNext()) {
 			Double value = iterator.next();
 			if (value == null)
 				break;
+			
+			//Trouve la position du point correspondant a la valeur
 			Point p = new Point((int) (f / (double) size * w + x),
 					(int) ((y + h / 2) - (value * (h / 2))));
 
+			//Si c'est le premier point, mettre a jour last et attendre le suivant pour dessiner une ligne
 			if (last == null) {
 				last = p;
 				continue;
 			}
 
+			//Creation de la ligne
 			Line2D line = new Line2D.Double(last, p);
+			
+			//Cherche les intersections avec la borne sup et inf et met a jour la coordonnee du point si besoin pour le ramener au niveau de la borne
+			//Si la ligne entiere et hors zone, ne pas l'afficher
 			if (!(p.getY() < y && last.getY() < y)
 					&& !(p.getY() > y + h && last.getY() > y + h)) {
-				
+
 				if (p.getY() < y) {
 					Point intersec = PTools.intersection(lineUpBound, line);
 					if (intersec != null)
@@ -178,20 +206,28 @@ public class POSCModule extends PModule implements IPOSCModule {
 					if (intersec != null)
 						line.setLine(intersec, line.getP2());
 				}
-				
+
+				//Dessiner la ligne
 				g2d.draw(line);
 			}
-						
 
+			//Le point courant devient le dernier
 			last = p;
+			
+			//Abscisse suivant
 			f++;
 		}
+		
+		//Dessiner les borenes de la meme couleur que le font pour cacher les artefacts
 		g2d.setStroke(new BasicStroke(1f));
 		g.setColor(new Color(50, 50, 50));
 		g2d.draw(lineUpBound);
 		g2d.draw(lineBottomBound);
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.PModule#updatePresentation()
+	 */
 	@Override
 	public void updatePresentation() {
 		super.updatePresentation();

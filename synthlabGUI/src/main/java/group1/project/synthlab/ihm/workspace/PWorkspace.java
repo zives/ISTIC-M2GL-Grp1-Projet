@@ -45,6 +45,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.jtattoo.plaf.noire.NoireLookAndFeel;
 
+/**
+ * @author Groupe 1
+ * Presentation du WS
+ */
 public class PWorkspace extends JFrame implements IPWorkspace {
 	
 	private static final long serialVersionUID = 1L;

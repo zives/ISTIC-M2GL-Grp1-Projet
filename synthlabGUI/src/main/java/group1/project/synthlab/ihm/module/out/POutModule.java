@@ -18,6 +18,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 
+/**
+ * @author Groupe 1
+ * Presentation du module OUT
+ */
 public class POutModule extends PModule implements IPOutModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
@@ -159,10 +163,9 @@ public class POutModule extends PModule implements IPOutModule {
 		});
 	}
 
-
-
-
-
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.PModule#updatePresentation()
+	 */
 	@Override
 	public void updatePresentation() {
 		super.updatePresentation();

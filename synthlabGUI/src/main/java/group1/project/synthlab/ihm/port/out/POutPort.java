@@ -8,6 +8,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
+/**
+ * @author Groupe 1
+ * Presentation du port de sortie
+ */
 public class POutPort extends PPort implements IPOutPort {
 
 	private static final long serialVersionUID = -5273540120761976911L;

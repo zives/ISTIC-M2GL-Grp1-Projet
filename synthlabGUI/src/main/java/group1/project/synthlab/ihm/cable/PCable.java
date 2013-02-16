@@ -17,7 +17,8 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 /**
- * @author Groupe 1 Presentation du cable
+ * @author Groupe 1 
+ * Presentation du cable
  */
 public class PCable extends JPanel implements IPCable {
 

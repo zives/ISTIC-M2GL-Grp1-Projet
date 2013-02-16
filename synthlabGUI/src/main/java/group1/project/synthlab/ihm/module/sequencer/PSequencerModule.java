@@ -16,12 +16,14 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+/**
+ * @author Groupe 1
+ * Presnetation du module sequenceur
+ */
 public class PSequencerModule extends PModule implements IPSequencerModule{
 
 	protected transient ICSequencerModule controller;
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 4031580764495351076L;
 
 	protected JSlider[] tensionSlider;
@@ -57,7 +59,6 @@ public class PSequencerModule extends PModule implements IPSequencerModule{
 		// 8 sliders de réglages de tension entre -1 et +1V
 		tensionSlider = new JSlider[8];	
 		int y = 50;
-		int y1 = 0;
 		for(int i = 0; i < 8; ++i) {
 			// Sliders
 			tensionSlider[i] = new JSlider();
@@ -169,11 +170,9 @@ public class PSequencerModule extends PModule implements IPSequencerModule{
 	
 	}
 
-	@Override
-	public void setSlidersEnabled(boolean value) {
-
-	}
-
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.PModule#updatePresentation()
+	 */
 	@Override
 	public void updatePresentation() {
 		super.updatePresentation();

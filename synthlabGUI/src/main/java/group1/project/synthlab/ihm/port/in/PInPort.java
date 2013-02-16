@@ -8,6 +8,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
+/**
+ * @author Groupe 1
+ * Presnetation de port d'entree
+ */
 public class PInPort extends PPort implements IPInPort {
 
 	private static final long serialVersionUID = 30814597301574881L;

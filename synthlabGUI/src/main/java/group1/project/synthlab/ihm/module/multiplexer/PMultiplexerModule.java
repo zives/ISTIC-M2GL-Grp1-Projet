@@ -13,6 +13,10 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+/**
+ * @author Groupe 1
+ * Presentation du module multiplexer
+ */
 public class PMultiplexerModule extends PModule implements IPMultiplexerModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
@@ -227,6 +231,9 @@ public class PMultiplexerModule extends PModule implements IPMultiplexerModule {
 		});
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.PModule#updatePresentation()
+	 */
 	@Override
 	public void updatePresentation() {
 		super.updatePresentation();

@@ -1,5 +1,9 @@
 package group1.project.synthlab.ihm.port;
 
+/**
+ * @author Groupe 1
+ * Interface de presentation d'un port
+ */
 public interface IPPort {
 	/**
 	 * Indique que le port n'est pas selectionnable

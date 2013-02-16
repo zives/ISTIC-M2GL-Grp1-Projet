@@ -5,11 +5,12 @@ import group1.project.synthlab.ihm.module.vcf.PVCFModule;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 
+/**
+ * @author Groupe 1
+ * Presentation du module VCF HP
+ */
 public class PVCFHPModule extends PVCFModule implements IPVCFHPModule {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7498802672670972503L;
 
 	protected transient ICVCFHPModule controller;

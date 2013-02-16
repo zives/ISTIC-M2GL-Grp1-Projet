@@ -6,7 +6,6 @@ import group1.project.synthlab.ihm.port.in.ICInPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
 import group1.project.synthlab.ihm.tools.FloatTextField;
 import group1.project.synthlab.ihm.tools.PTools;
-import group1.project.synthlab.module.out.IOutModule.Distribution;
 import group1.project.synthlab.unitExtension.filter.filterSupervisor.IFilterAmplitudeObservable;
 
 import java.awt.Color;
@@ -15,17 +14,17 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.NumberFormat;
 
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+/**
+ * @author Groupe 1
+ * Presentation generale des modules VCF
+ */
 public class PVCFModule extends PModule implements IPVCFModule {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8777395860220316410L;
 
 	protected transient ICVCFModule controller;

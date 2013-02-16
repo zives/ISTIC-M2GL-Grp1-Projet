@@ -11,6 +11,10 @@ import group1.project.synthlab.port.in.InPort;
 
 import com.jsyn.ports.ConnectableInput;
 
+/**
+ * @author Groupe 1
+ * Controleur pour port d'entree
+ */
 public class CInPort extends InPort implements ICInPort {
 
 	private static final long serialVersionUID = 4313365767212678923L;
@@ -22,10 +26,16 @@ public class CInPort extends InPort implements ICInPort {
 		presentation = new PInPort(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.port.ICPort#getPresentation()
+	 */
 	public IPInPort getPresentation() {
 		return presentation;
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.port.ICPort#actionCable()
+	 */
 	public void actionCable() throws BadConnection {
 		//Si le port n'est pas deja utilise
 		if (!isUsed()) {
@@ -52,12 +62,18 @@ public class CInPort extends InPort implements ICInPort {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.port.Port#setCable(group1.project.synthlab.cable.ICable)
+	 */
 	@Override
 	public void setCable(ICable cable) {
 		super.setCable(cable);
 		presentation.refresh();
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.port.ICPort#checkPutCable()
+	 */
 	public void checkPutCable() {
 		if (CWorkspace.getInstance().isDrawingCable() && isUsed())
 			presentation.setForbidden();
@@ -69,6 +85,9 @@ public class CInPort extends InPort implements ICInPort {
 			presentation.setAllowed();
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.port.ICPort#removeCable()
+	 */
 	public void removeCable()  throws BadConnection {
 		if (isUsed() && cable.isConnected())
 			cable.disconnect();

@@ -16,6 +16,10 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+/**
+ * @author Groupe 1
+ * Presentation du module EG
+ */
 public class PEGModule extends PModule implements IPEGModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
@@ -45,7 +49,6 @@ public class PEGModule extends PModule implements IPEGModule {
 		super(controller);
 		this.controller = controller;
 		this.setLayout(null);
-		final Font font = new Font("Arial",Font.BOLD,20);
 		this.attack = controller.getAttack();
 		this.release = controller.getRelease();
 		this.decay = controller.getDecay();
@@ -68,7 +71,7 @@ public class PEGModule extends PModule implements IPEGModule {
 		
 		
 		
-		// Sliders	
+		// Sliderset labels
 		sustainSlider = new JSlider();
 		sustainSlider.setMaximum(0);
 		sustainSlider.setMinimum(-60);
@@ -429,13 +432,9 @@ public class PEGModule extends PModule implements IPEGModule {
 		
 	}
 
-	@Override
-	public void setSlidersEnabled(boolean value) {
-		
-	}
-
-
-
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.PModule#updatePresentation()
+	 */
 	@Override
 	public void updatePresentation() {
 		super.updatePresentation();

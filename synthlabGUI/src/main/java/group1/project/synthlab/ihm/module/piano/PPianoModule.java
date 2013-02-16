@@ -24,19 +24,50 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+/**
+ * @author Groupe 1
+ * La presentation du piano
+ */
 public class PPianoModule extends PModule implements IPPianoModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
 
 	protected transient ICPianoModule controller;
 
+	/**
+	 * Zone neutre où aucun evenement ne se produira
+	 */
 	protected Rectangle2D neutralZone;
+		
+	/**
+	 * Liste des touches normales
+	 */
 	protected List<Rectangle2D> buttonsN;
+		
+	/**
+	 * Liste des touches dieses
+	 */
 	protected List<Rectangle2D> buttonsSharp;
+		
+	/**
+	 * Touche actuellement enfoncee
+	 */
 	protected Rectangle2D pressedButton;
+	
+	/**
+	 * Touche actuellement survolee
+	 */
 	protected Rectangle2D overflownButton;
+	
+	
+	/**
+	 * La touche enfoncee est une note diese
+	 */
 	protected boolean selectedButtonIsSharp;
-	protected boolean interact;
+	
+	/**
+	 * Le slider de debut d'octave
+	 */
 	protected final JSlider octaveSlider ;
 
 	public PPianoModule(final ICPianoModule controller) {
@@ -159,7 +190,7 @@ public class PPianoModule extends PModule implements IPPianoModule {
 
 			@Override
 			public void stateChanged(ChangeEvent ev) {
-				controller.changeoctave(octaveSlider.getValue());
+				controller.changeOctaveStart(octaveSlider.getValue());
 
 			}
 		});
@@ -168,15 +199,19 @@ public class PPianoModule extends PModule implements IPPianoModule {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.piano.IPPianoModule#mouseEvent(java.awt.event.MouseEvent)
+	 */
 	public void mouseEvent(MouseEvent me) {
 		seekButton(me.getX(), me.getY());
 		switch (me.getID()) {
 
 		case MouseEvent.MOUSE_EXITED:
-			canMove = true;
+			canMove = true; //On peut bouger la presentation si on appuit pas sur une touche
 			break;
 		case MouseEvent.MOUSE_DRAGGED:
 		case MouseEvent.MOUSE_PRESSED:
+			//Transmet au controleur la touche enfoncee
 			if (overflownButton != null) {
 				canMove = false;
 				pressedButton = overflownButton;
@@ -200,11 +235,12 @@ public class PPianoModule extends PModule implements IPPianoModule {
 				canMove = false;
 			break;
 		case MouseEvent.MOUSE_RELEASED:
-
+			//La touche est relachee donc on informe le controleur d'arreter de jouer la note
 			controller.stopPlay();
 			canMove = true;
 			break;
 		case MouseEvent.MOUSE_MOVED:
+			//Si on survol une touche, on met a jour la presentation pour un retour graphique a l'utilisateur
 			if (overflownButton != null) {
 				setCursor(new Cursor(Cursor.HAND_CURSOR));
 				repaint();
@@ -219,17 +255,25 @@ public class PPianoModule extends PModule implements IPPianoModule {
 		}
 	}
 
+	/**
+	 * Trouve la touche en fonction d'une coordonne sur la presentation du module
+	 * @param x
+	 * @param y
+	 */
 	private void seekButton(int x, int y) {
 		Rectangle2D previousButton = overflownButton;
 		overflownButton = null;
+		
+		//Recherche a travers les boutons normals
 		for (Rectangle2D button : buttonsN) {
 			if (button.contains(x, y)) {
 				overflownButton = button;
 				selectedButtonIsSharp = false;
 				break;
 			}
-
 		}
+		
+		//Recherche a travers les boutons dieses
 		for (Rectangle2D button : buttonsSharp) {
 			if (button.contains(x, y)) {
 				overflownButton = button;
@@ -241,6 +285,9 @@ public class PPianoModule extends PModule implements IPPianoModule {
 			repaint();
 	}
 
+	/**
+	 * Initialise les rectangles des touches et les ajoute en memoire
+	 */
 	private void initButtons() {
 
 		// Hauteur des touches
@@ -261,12 +308,14 @@ public class PPianoModule extends PModule implements IPPianoModule {
 		double wButtonSmall = (int) (wButton / 2);
 
 		for (int n = 0; n < 2; ++n) {
+			//Touches normales
 			for (int i = 0; i < 7 * nbO; ++i) {
 				Rectangle2D button = new Rectangle2D.Double(x + i * wButton, y,
 						wButton, hButton);
 				buttonsN.add(button);
 			}
 
+			//Touches dieses
 			for (int i = 0; i < 7 * nbO; ++i) {
 				if (i % 7 == 2 || i % 7 == 6)
 					continue;
@@ -275,6 +324,8 @@ public class PPianoModule extends PModule implements IPPianoModule {
 						hButtonSmall);
 				buttonsSharp.add(button);
 			}
+			
+			//On passe a la deuxieme rangee
 			y += hButton + 10;
 		}
 
@@ -306,6 +357,8 @@ public class PPianoModule extends PModule implements IPPianoModule {
 					button.getHeight(), 3, 3);
 			g2d.draw(buttonR);
 		}
+		
+		//Creation des touches dieses
 		g2d.setStroke(new BasicStroke(1f, BasicStroke.CAP_ROUND,
 				BasicStroke.JOIN_ROUND));
 		for (Rectangle2D button : buttonsSharp) {

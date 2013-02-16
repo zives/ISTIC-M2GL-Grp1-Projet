@@ -1,15 +1,13 @@
 package group1.project.synthlab.ihm.module.noise;
 
-import java.awt.Color;
-import java.awt.Font;
-
 import group1.project.synthlab.ihm.module.PModule;
 import group1.project.synthlab.ihm.port.PPort;
 import group1.project.synthlab.ihm.port.out.ICOutPort;
 
-import javax.swing.JLabel;
-import javax.swing.JSlider;
-
+/**
+ * @author Groupe 1
+ * Presentation du module Noise
+ */
 public class PNoiseModule extends PModule implements IPNoiseModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
@@ -48,6 +46,9 @@ public class PNoiseModule extends PModule implements IPNoiseModule {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.PModule#updatePresentation()
+	 */
 	@Override
 	public void updatePresentation() {
 		super.updatePresentation();

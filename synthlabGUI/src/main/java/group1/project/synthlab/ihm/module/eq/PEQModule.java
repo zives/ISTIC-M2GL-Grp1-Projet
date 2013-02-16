@@ -16,6 +16,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 
+/**
+ * @author Groupe 1
+ * Presentation du module EQ
+ */
 public class PEQModule extends PModule implements IPEQModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
@@ -145,6 +149,9 @@ public class PEQModule extends PModule implements IPEQModule {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.PModule#updatePresentation()
+	 */
 	@Override
 	public void updatePresentation() {
 		super.updatePresentation();

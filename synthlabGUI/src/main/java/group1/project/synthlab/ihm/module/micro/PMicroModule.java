@@ -14,6 +14,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 
+/**
+ * @author Groupe 1
+ * Presentation du module micro
+ */
 public class PMicroModule extends PModule implements IPMicroModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
@@ -123,6 +127,9 @@ public class PMicroModule extends PModule implements IPMicroModule {
 	
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.PModule#updatePresentation()
+	 */
 	@Override
 	public void updatePresentation() {
 		super.updatePresentation();

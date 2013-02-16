@@ -5,6 +5,10 @@ import group1.project.synthlab.ihm.module.IPModuleObserver;
 import group1.project.synthlab.module.multiplexer.MultiplexerModule;
 import group1.project.synthlab.port.IPort;
 
+/**
+ * @author Groupe 1
+ * Controleur pour le module multiplexer
+ */
 public class CMultiplexerModule extends MultiplexerModule implements ICMultiplexerModule {
 	/**
 	 * 
@@ -17,10 +21,16 @@ public class CMultiplexerModule extends MultiplexerModule implements ICMultiplex
 		this.presentation = new PMultiplexerModule(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.multiplexer.ICMultiplexerModule#getPresentation()
+	 */
 	public IPMultiplexerModule getPresentation() {
 		return presentation;
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.multiplexer.MultiplexerModule#cableConnected(group1.project.synthlab.port.IPort)
+	 */
 	@Override
 	public void cableConnected(IPort port) {		
 		super.cableConnected(port);
@@ -28,6 +38,9 @@ public class CMultiplexerModule extends MultiplexerModule implements ICMultiplex
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.module.multiplexer.MultiplexerModule#refresh()
+	 */
 	@Override
 	public void refresh() {
 		super.refresh();

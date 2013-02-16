@@ -8,6 +8,10 @@ import java.io.File;
 
 import javax.swing.JLayeredPane;
 
+/**
+ * @author Groupe 1
+ * Interface pour la presentation du WS
+ */
 public interface IPWorkspace extends IPModuleObserver {
 	
 	/**

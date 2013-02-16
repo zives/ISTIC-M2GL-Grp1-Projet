@@ -15,6 +15,10 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+/**
+ * @author Groupe 1
+ * Presnetation du module VCA
+ */
 public class PVCAModule extends PModule implements IPVCAModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;

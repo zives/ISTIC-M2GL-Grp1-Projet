@@ -11,6 +11,10 @@ import group1.project.synthlab.port.out.OutPort;
 
 import com.jsyn.ports.ConnectableOutput;
 
+/**
+ * @author Groupe 1
+ * Controleur de port de sortie
+ */
 public class COutPort extends OutPort implements ICOutPort {
 
 	private static final long serialVersionUID = 5664870563807386725L;
@@ -23,10 +27,16 @@ public class COutPort extends OutPort implements ICOutPort {
 		presentation = new POutPort(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.port.ICPort#getPresentation()
+	 */
 	public IPOutPort getPresentation() {
 		return presentation;
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.port.ICPort#actionCable()
+	 */
 	public void actionCable() throws BadConnection {
 		//Si le port n'est pas deja utilise par un autre cable
 		if (!isUsed()) {
@@ -49,12 +59,18 @@ public class COutPort extends OutPort implements ICOutPort {
 
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.port.Port#setCable(group1.project.synthlab.cable.ICable)
+	 */
 	@Override
 	public void setCable(ICable cable) {
 		super.setCable(cable);
 		presentation.refresh();
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.port.ICPort#checkPutCable()
+	 */
 	public void checkPutCable() {
 		if (CWorkspace.getInstance().isDrawingCable())
 			presentation.setForbidden();
@@ -64,6 +80,9 @@ public class COutPort extends OutPort implements ICOutPort {
 			presentation.setAllowed();
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.port.ICPort#removeCable()
+	 */
 	public void removeCable()  throws BadConnection {
 		if (isUsed() && cable.isConnected())
 			cable.disconnect();		

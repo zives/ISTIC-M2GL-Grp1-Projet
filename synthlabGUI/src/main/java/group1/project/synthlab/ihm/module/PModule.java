@@ -27,17 +27,48 @@ import javax.swing.JToggleButton;
 public abstract class PModule extends JPanel implements IPModule {
 
 	private static final long serialVersionUID = -3047834031036120214L;
-	private PModule self;
-	private Point locationComponentOnDrag = new Point();
-	protected transient List<IPModuleObserver> observers = new ArrayList<IPModuleObserver>();
+	
+	/**
+	 * Le module lui meme (sa presentation)
+	 */
+	protected PModule self;
+		
+	/**
+	 * Position du module pendant un drag
+	 */
+	protected Point locationComponentOnDrag;
+		
+	/**
+	 * Liste des observateurs
+	 */
+	protected transient List<IPModuleObserver> observers;
+		
+	/**
+	 * Bouton on/off
+	 */
 	protected final JToggleButton onOffButton;
+	
+	/**
+	 * Bouton de suppression du module
+	 */
 	protected final JToggleButton removeButton;
+		
+	/**
+	 * Defini si le module peut se deplacer
+	 */
 	protected boolean canMove;
+	
+	/**
+	 * Le controlleur du module
+	 */
 	protected transient ICModule controller;
 
 	public PModule(final ICModule controller) {
 		self = this;
 
+		//Initialisation des attributs
+		this.locationComponentOnDrag = new Point();
+		this.observers = new ArrayList<IPModuleObserver>(); 
 		this.controller = controller;
 		this.setLayout(null);
 		this.setOpaque(true);
@@ -47,7 +78,7 @@ public abstract class PModule extends JPanel implements IPModule {
 		this.setMaximumSize(this.getSize());
 		this.canMove = true;
 
-		// Label
+		//Nom du module
 		JLabel label = new JLabel(controller.getName());
 		label.setForeground(Color.LIGHT_GRAY);
 		label.setOpaque(false);
@@ -57,7 +88,7 @@ public abstract class PModule extends JPanel implements IPModule {
 		label.setFont(new Font("Arial", Font.BOLD, 14));
 		add(label);
 
-		// OnOff
+		//Bouton OnOff
 		onOffButton = new JToggleButton("On");
 		onOffButton.setOpaque(false);
 		onOffButton.setForeground(new Color(80, 80, 80));
@@ -70,7 +101,7 @@ public abstract class PModule extends JPanel implements IPModule {
 		onOffButton.setFocusPainted(false);
 		add(onOffButton);
 
-		// Remove
+		//Bouton supprimer
 		removeButton = new JToggleButton("X");
 		removeButton.setOpaque(false);
 		removeButton.setForeground(new Color(80, 80, 80));
@@ -84,7 +115,7 @@ public abstract class PModule extends JPanel implements IPModule {
 		removeButton.setFocusPainted(false);
 		add(removeButton);
 
-		// Events
+		//Evenements
 		onOffButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent ev) {
@@ -127,7 +158,6 @@ public abstract class PModule extends JPanel implements IPModule {
 				if (!CWorkspace.getInstance().isDrawingCable())
 					self.setCursor(Cursor
 							.getPredefinedCursor(Cursor.MOVE_CURSOR));
-
 			}
 
 			public void mouseClicked(MouseEvent arg0) {
@@ -141,11 +171,10 @@ public abstract class PModule extends JPanel implements IPModule {
 		this.addMouseMotionListener(new MouseMotionListener() {
 
 			public void mouseMoved(MouseEvent ev) {
-
 			}
 
 			public void mouseDragged(MouseEvent ev) {
-				// On déplace le module si on n'est pas en train de leir un
+				// On déplace le module si on n'est pas en train de lier un
 				// cable
 				if (canMove && !CWorkspace.getInstance().isDrawingCable()) {
 					Point loc = new Point(
@@ -153,6 +182,7 @@ public abstract class PModule extends JPanel implements IPModule {
 									.getX()),
 							(int) (self.getY() + ev.getY() - locationComponentOnDrag
 									.getY()));
+					
 					if (loc.x < 0 || loc.y < 0) {
 						locationComponentOnDrag = ev.getPoint();
 						return;
@@ -165,35 +195,46 @@ public abstract class PModule extends JPanel implements IPModule {
 		});
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.IPModuleObservable#register(group1.project.synthlab.ihm.module.IPModuleObserver)
+	 */
 	public void register(IPModuleObserver observer) {
 		observers.add(observer);
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.IPModuleObservable#unregister(group1.project.synthlab.ihm.module.IPModuleObserver)
+	 */
 	public void unregister(IPModuleObserver observer) {
 		observers.remove(observer);
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.IPModuleObservable#updateAllMove()
+	 */
 	public void updateAllMove() {
 		for (IPModuleObserver obs : observers)
 			if (obs != null)
 				obs.moduleMove(this);
 	}
 
-	public void unregisterAllCables() {
-		observers.clear();
-
-	}
-	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.IPModule#start()
+	 */
 	public void start() {
 		onOffButton.setSelected(true);
 	}
 	
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.IPModule#stop()
+	 */
 	public void stop() {
 		onOffButton.setSelected(false);
 	}
 	
-	
-
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.IPModule#updatePresentation()
+	 */
 	@Override
 	public void updatePresentation() {
 		if(controller.isStarted()){
@@ -209,6 +250,9 @@ public abstract class PModule extends JPanel implements IPModule {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see group1.project.synthlab.ihm.module.IPModule#updateLocation(int, int)
+	 */
 	@Override
 	public void updateLocation(int x, int y) {
 		setLocation(x, y);

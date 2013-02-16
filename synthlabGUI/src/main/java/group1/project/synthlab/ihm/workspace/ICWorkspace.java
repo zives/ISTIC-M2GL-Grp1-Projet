@@ -4,6 +4,10 @@ import group1.project.synthlab.cable.ICable;
 import group1.project.synthlab.ihm.cable.ICCable;
 import group1.project.synthlab.workspace.IWorkspace;
 
+/**
+ * @author Groupe 1
+ * Interface pour le controleur de WS
+ */
 public interface ICWorkspace extends IWorkspace {
 	
 	/** Retourne la presentation */

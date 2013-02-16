@@ -12,7 +12,13 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+/**
+ * @author Groupe 1
+ * Presentation du module VCF LP
+ */
 public class PVCFLPModule extends PVCFModule implements IPVCFLPModule {
+
+	private static final long serialVersionUID = -2272321808200813989L;
 
 	protected transient ICVCFLPModule controller;
 

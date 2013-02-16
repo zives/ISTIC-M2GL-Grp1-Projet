@@ -17,6 +17,10 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Groupe 1
+ * Presentation du module EQView
+ */
 public class PEQViewModule extends PModule implements IPEQViewModule {
 
 	private static final long serialVersionUID = 9202805048987933945L;
