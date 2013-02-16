@@ -8,7 +8,7 @@ public class ValueOfString {
 	 * Converti un string en type specifie
 	 * @param klazz
 	 * @param arg
-	 * @return
+	 * @return le type
 	 */
 	public static <T> T valueOf(Class<T> klazz, String arg) {
         Exception cause = null;

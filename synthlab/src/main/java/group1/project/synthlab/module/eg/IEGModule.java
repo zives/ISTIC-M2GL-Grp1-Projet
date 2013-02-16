@@ -24,7 +24,7 @@ public interface IEGModule extends IModule {
 	
 
 	/**
-	 * @param definit le temps de montee en secondes
+	 * @param attack defini le temps de montee en secondes
 	 */
 	public void setAttack(double attack);
 	
@@ -36,7 +36,7 @@ public interface IEGModule extends IModule {
 	
 
 	/**
-	 * @param definit le temps d'extinction en secondes
+	 * @param decay definit le temps d'extinction en secondes
 	 */
 	public void setDecay(double decay);
 
@@ -48,7 +48,7 @@ public interface IEGModule extends IModule {
 	
 	
 	/**
-	 * @param le temps de relachement en secondes
+	 * @param release le temps de relachement en secondes
 	 */
 	public void setRelease(double release);
 	
@@ -60,7 +60,7 @@ public interface IEGModule extends IModule {
 	
 	
 	/**
-	 * @param definit le temps entre le temps de montee et le temps de relachement en secondes
+	 * @param hold defini le temps entre le temps de montee et le temps de relachement en secondes
 	 */
 	public void setHold(double hold);
 	
@@ -72,7 +72,7 @@ public interface IEGModule extends IModule {
 	
 
 	/**
-	 * @param l'attenuation en dB du niveau maximum atteint en fin de phase de montee
+	 * @param sustain l'attenuation en dB du niveau maximum atteint en fin de phase de montee
 	 */
 	public void setSustain(double sustain);
 	

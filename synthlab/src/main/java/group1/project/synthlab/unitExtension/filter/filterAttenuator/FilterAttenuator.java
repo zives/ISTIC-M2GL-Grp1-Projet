@@ -43,7 +43,7 @@ public class FilterAttenuator extends UnitFilter {
 	}
 
 	/**
-	 * @param defini une attenuation en volt
+	 * @param attenuationV defini une attenuation en volt
 	 */
 	public void setAttenuation(double attenuationV) {
 		this.attenuationV = attenuationV;

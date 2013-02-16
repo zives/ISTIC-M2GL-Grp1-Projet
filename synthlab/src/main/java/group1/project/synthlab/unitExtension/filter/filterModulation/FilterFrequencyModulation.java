@@ -46,7 +46,7 @@ public class FilterFrequencyModulation extends UnitFilter {
 	}
 
 	/**
-	 * @param la nouvelle frequence de base
+	 * @param f0 la nouvelle frequence de base
 	 */
 	public void setf0(double f0) {
 		this.f0 = f0;

@@ -33,12 +33,12 @@ public interface IModule extends IPortObserver, IModuleObservable, Serializable 
 	public String getName();
 	
 	/**
-	 * @return change le nom du module (peu recommande)
+	 * change le nom du module (peu recommande)
 	 */
 	public void setName(String name);
 	
 	/**
-	 * @return remet le compteur d'instances de classe a 0
+	 * remet le compteur d'instances de classe a 0
 	 */
 	public void resetCounterInstance();
 	

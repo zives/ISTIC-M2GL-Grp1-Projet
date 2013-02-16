@@ -122,7 +122,7 @@ public class Cable implements ICable {
 		outPort.cableDisconnected();
 		inPort.cableDisconnected();
 		
-		//A faire impérativement en dernier
+		//A faire imperativement en dernier
 		outPort.setCable(null);
 		inPort.setCable(null);
 	}
@@ -162,7 +162,7 @@ public class Cable implements ICable {
 	}
 	
 	/**
-	 * @return remet le compteur d'instances de classe a 0
+	 * remet le compteur d'instances de classe a 0
 	 */
 	public static void resetCounterInstance() {
 		cableCount = 0;

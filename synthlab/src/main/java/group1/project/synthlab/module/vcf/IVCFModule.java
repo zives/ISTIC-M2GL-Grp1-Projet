@@ -84,7 +84,7 @@ public interface IVCFModule extends IModule {
 	public double getFineAdjustment();
 	
 	/**
-	 * @param fineAdjustment : la nouvelle valeur du reglage fin de la frequence de coupure f0
+	 * @param fineadjustment : la nouvelle valeur du reglage fin de la frequence de coupure f0
 	 */
 	public void setFineAdjustment(double fineadjustment);
 }
