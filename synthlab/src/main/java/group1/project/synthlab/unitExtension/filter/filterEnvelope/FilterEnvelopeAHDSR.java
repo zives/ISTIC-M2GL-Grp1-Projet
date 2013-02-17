@@ -1,4 +1,4 @@
-package group1.project.synthlab.unitExtension.envelope;
+package group1.project.synthlab.unitExtension.filter.filterEnvelope;
 
 import group1.project.synthlab.workspace.Workspace;
 
@@ -14,7 +14,7 @@ import com.jsyn.unitgen.UnitGate;
  * @author Groupe 1
  *
  */
-public class Envelope extends UnitGate {
+public class FilterEnvelopeAHDSR extends UnitGate {
 
 	/**
 	 * Precision de detection des flux montants et descendants
@@ -98,7 +98,7 @@ public class Envelope extends UnitGate {
 	 */
 	protected double previousGateAmp;
 
-	public Envelope() {
+	public FilterEnvelopeAHDSR() {
 		
 		//Ajout des ports
 		addPort(attack = new UnitInputPort("attack"));

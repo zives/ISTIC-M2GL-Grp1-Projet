@@ -7,7 +7,7 @@ import group1.project.synthlab.port.IPortObserver;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
 import group1.project.synthlab.signal.Tools;
-import group1.project.synthlab.unitExtension.envelope.Envelope;
+import group1.project.synthlab.unitExtension.filter.filterEnvelope.FilterEnvelopeAHDSR;
 
 import javax.swing.JFrame;
 
@@ -55,7 +55,7 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	protected double volt;
 
 	/** Le generateur d'enveloppe */
-	protected transient Envelope envelope;
+	protected transient FilterEnvelopeAHDSR envelope;
 
 	/**
 	 * Constructeur : initialise l'EG (ports, valeurs par defaut des parametres...)
@@ -63,7 +63,7 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	public EGModule(Factory factory) {
 		super("EG-" + ++moduleCount, factory);
 	
-		envelope = new Envelope();
+		envelope = new FilterEnvelopeAHDSR();
 
 		circuit.add(envelope);
 
@@ -154,7 +154,7 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	 * 
 	 * @see group1.project.synthlab.module.IEGModule#getEnvelope()
 	 */
-	public Envelope getEnvelope() {
+	public FilterEnvelopeAHDSR getEnvelope() {
 		return envelope;
 	}
 	

@@ -223,6 +223,7 @@ public class POSCModule extends PModule implements IPOSCModule {
 		g.setColor(new Color(50, 50, 50));
 		g2d.draw(lineUpBound);
 		g2d.draw(lineBottomBound);
+				
 	}
 
 	/* (non-Javadoc)

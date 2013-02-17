@@ -664,7 +664,6 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 		}
 
 		save += "</Configuration>";
-		System.out.println(save);
 		try {
 			if (!path.endsWith(".synth"))
 				path += ".synth";

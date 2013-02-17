@@ -100,9 +100,6 @@ public class VCOModule extends Module implements IVCOModule {
 	/** Reglage fin de la frequence de base : double entre 0 et 10 */
 	protected double fineAdjustment;
 
-	/**
-	 * Constructeur : initialise le VCO (, port, ...)
-	 */
 	public VCOModule(Factory factory) {
 		super("VCO-" + ++moduleCount, factory);
 

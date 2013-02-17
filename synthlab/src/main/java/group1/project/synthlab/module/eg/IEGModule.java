@@ -3,7 +3,7 @@ package group1.project.synthlab.module.eg;
 import group1.project.synthlab.module.IModule;
 import group1.project.synthlab.port.in.IInPort;
 import group1.project.synthlab.port.out.IOutPort;
-import group1.project.synthlab.unitExtension.envelope.Envelope;
+import group1.project.synthlab.unitExtension.filter.filterEnvelope.FilterEnvelopeAHDSR;
 
 /**
  * Module EG 
@@ -15,7 +15,7 @@ public interface IEGModule extends IModule {
 	/**
 	 * @return le generateur d'enveloppe
 	 */
-	public Envelope getEnvelope();
+	public FilterEnvelopeAHDSR getEnvelope();
 	
 	/**
 	 * @return le temps de montee en secondes

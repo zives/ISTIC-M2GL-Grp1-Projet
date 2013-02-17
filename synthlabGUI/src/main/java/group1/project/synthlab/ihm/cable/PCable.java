@@ -194,7 +194,7 @@ public class PCable extends JPanel implements IPCable {
 		Graphics2D ig = (Graphics2D) g;
 		ig.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		
+				
 		//Determine une ligne avec un point d'attraction
 		QuadCurve2D q = new QuadCurve2D.Double(Math.round(p1.getX() - getX()),
 				Math.round(p1.getY() - getY()), pBezier.x, pBezier.y, Math.round(p2.getX()
