@@ -261,7 +261,7 @@ public class VCAModule extends Module implements IPortObserver, IVCAModule {
 			}
 		}
 		
-		System.out.println("Sans modulation d'amplitude mais en reglant f0 a 6dB. L'amplitude du signal en sortie doit etre doublee (1 JSyn)");
+		System.out.println("Sans modulation d'amplitude mais en reglant a0 a 6dB. L'amplitude du signal en sortie doit etre doublee (1 JSyn)");
 		vca.seta0(6);
 		vca.changeGain();
 		i = 0;

@@ -478,7 +478,7 @@ public class VCOModule extends Module implements IVCOModule {
 		synth.add(vco.getCircuit());
 
 		vco.sineOsc.start();
-		vco.start();
+		//vco.start();
 		
 
 		// LineOut remplace ici OutModule

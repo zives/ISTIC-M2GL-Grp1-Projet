@@ -263,8 +263,8 @@ public class OutModule extends Module implements IOutModule {
 
 		// Vue graphique
 		AudioScope scope = new AudioScope(synth);
-		scope.addProbe(oscS.output);
-		scope.addProbe(oscT.output);
+		scope.addProbe(out.attenuatorLeft.output);
+		scope.addProbe(out.attenuatorRight.output);
 		scope.setTriggerMode(AudioScope.TriggerMode.AUTO);
 
 		scope.getModel().getTriggerModel().getLevelModel()
@@ -288,7 +288,7 @@ public class OutModule extends Module implements IOutModule {
 			System.out.println("Demarrage...");
 			Thread.sleep(2000);
 			System.out
-					.println("Resultat attendu freq 300 oscillation sinusoidale a gauche et triangle freq 600 a droite");
+					.println("Resultat attendu freq 200 oscillation sinusoidale a gauche et triangle freq 300 a droite");
 			out.setDistribution(Distribution.NORMAL);
 			oscS.amplitude.set(0);
 			Thread.sleep(2000);
