@@ -107,6 +107,7 @@ public class EGModule extends Module implements IPortObserver, IEGModule {
 	@Override
 	public void stop() {
 		envelope.stopProcessus();
+		super.stop();
 	}
 
 
