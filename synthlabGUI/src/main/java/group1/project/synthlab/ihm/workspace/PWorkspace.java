@@ -90,7 +90,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	
 
 	public PWorkspace(ICWorkspace controller) {
-		super("Synthetiseur du groupe 1");
+		super("Synthesizer created by group 1");
 		
 		//Change le theme general
 		initLnF();
