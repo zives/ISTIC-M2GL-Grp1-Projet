@@ -62,10 +62,10 @@ public class PSequencerModule extends PModule implements IPSequencerModule{
 		for(int i = 0; i < 8; ++i) {
 			// Sliders
 			tensionSlider[i] = new JSlider();
-			tensionSlider[i].setMaximum(10);
-			tensionSlider[i].setMinimum(-10);
+			tensionSlider[i].setMaximum(1000);
+			tensionSlider[i].setMinimum(-1000);
 			tensionSlider[i].setOrientation(JSlider.VERTICAL);
-			tensionSlider[i].setValue((int) controller.getStepValue(i+1)*10);
+			tensionSlider[i].setValue((int) (controller.getStepValue(i+1)*1000));
 			tensionSlider[i].setSize(45, 121);
 			tensionSlider[i].setFont(new Font("Arial", 0, 8));
 			tensionSlider[i].setForeground(Color.LIGHT_GRAY);
@@ -75,8 +75,8 @@ public class PSequencerModule extends PModule implements IPSequencerModule{
 			tensionSlider[i].setFocusable(false);
 			tensionSlider[i].setBorder(null);
 			tensionSlider[i].setLocation(i%8 * (tensionSlider[i].getWidth() + 5) + 10, y);
-			tensionSlider[i].setMajorTickSpacing(5);
-			tensionSlider[i].setMinorTickSpacing(1);
+			tensionSlider[i].setMajorTickSpacing(500);
+			tensionSlider[i].setMinorTickSpacing(100);
 			tensionSlider[i].setPaintTicks(true);
 		
 			//Labels slider
@@ -157,7 +157,7 @@ public class PSequencerModule extends PModule implements IPSequencerModule{
 			final int ii = i+1;
 		tensionSlider[i].addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				controller.setStepValue(ii, tensionSlider[ii-1].getValue()/10.0);
+				controller.setStepValue(ii, tensionSlider[ii-1].getValue()/1000.0);
 			}
 		
 		});
@@ -177,7 +177,7 @@ public class PSequencerModule extends PModule implements IPSequencerModule{
 	public void updatePresentation() {
 		super.updatePresentation();
 		for(int i = 0; i< this.tensionSlider.length;i++){
-			tensionSlider[i].setValue((int) (controller.getStepValue(i+1)*10));
+			tensionSlider[i].setValue((int) (controller.getStepValue(i+1)*1000));
 		}
 		
 	}
