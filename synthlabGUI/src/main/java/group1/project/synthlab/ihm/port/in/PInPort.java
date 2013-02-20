@@ -18,6 +18,7 @@ public class PInPort extends PPort implements IPInPort {
 
 	public PInPort(ICPort controller) {
 		super(controller);
+		
 	}
 
 	@Override
@@ -36,5 +37,9 @@ public class PInPort extends PPort implements IPInPort {
 	public void refresh() {
 		repaint();
 		
+	}
+	
+	public ICPort getController() {
+		return controller;
 	}
 }

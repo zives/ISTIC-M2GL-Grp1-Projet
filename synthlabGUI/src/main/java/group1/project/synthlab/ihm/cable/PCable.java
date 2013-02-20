@@ -37,12 +37,12 @@ public class PCable extends JPanel implements IPCable {
 	private Point pBezier; // le point d'attraction du cable pour la courbure
 	
 	//Plus le chiffre est gros, plus la ligne est tendue
-	protected final double RATE_OF_CURVATURE = 1.7;
+	protected final double RATE_OF_CURVATURE = 1.8;
 	
 	//Liste des couleurs que peut prendre le cable
 	protected final Color[] LINK_COLORS = { new Color(110, 110, 110),
 			new Color(100, 50, 50), new Color(130, 90, 50),
-			new Color(50, 100, 50), new Color(50, 50, 140),
+			new Color(50, 100, 50), new Color(90, 70, 140),
 			new Color(50, 100, 100), new Color(100, 50, 100),
 			new Color(50, 70, 120), new Color(150, 50, 80),
 			new Color(50, 100, 80), new Color(80, 50, 140)};
@@ -78,7 +78,7 @@ public class PCable extends JPanel implements IPCable {
 					animation = 2000;
 				repaint();
 			}
-		}, 100, 60);
+		}, 100, 50);
 
 	}
 
@@ -215,13 +215,13 @@ public class PCable extends JPanel implements IPCable {
 		ig.draw(q);
 
 		// On trace une deuxieme ligne par dessus (purement esthetique)
-		ig.setStroke(new BasicStroke(4f, BasicStroke.CAP_ROUND,
+		ig.setStroke(new BasicStroke(5f, BasicStroke.CAP_ROUND,
 				BasicStroke.JOIN_ROUND));
-		g.setColor(new Color((int) (LINK_COLORS[currentColor].getRed() / 1.5),
-				(int) (LINK_COLORS[currentColor].getGreen() / 1.5),
-				(int) (LINK_COLORS[currentColor].getBlue() / 1.5)));
+		g.setColor(new Color((int) (LINK_COLORS[currentColor].getRed() / 1.3),
+				(int) (LINK_COLORS[currentColor].getGreen() / 1.3),
+				(int) (LINK_COLORS[currentColor].getBlue() / 1.3)));
 		ig.draw(q);
-
+		
 		// On trace une troisième ligne hashee si il y a animation (purement
 		// esthetique)
 		if (controller.hasSignal()) {
@@ -230,8 +230,8 @@ public class PCable extends JPanel implements IPCable {
 					(int) (LINK_COLORS[currentColor].getRed() * 1.3),
 					(int) (LINK_COLORS[currentColor].getGreen() * 1.3),
 					(int) (LINK_COLORS[currentColor].getBlue() * 1.3)));
-			ig.setStroke(new BasicStroke(3f, BasicStroke.CAP_ROUND,
-					BasicStroke.JOIN_MITER, 10.0f, new float[] { 12f },
+			ig.setStroke(new BasicStroke(4f, BasicStroke.CAP_ROUND,
+					BasicStroke.JOIN_ROUND, 10.0f, new float[] { 12f },
 					animation));
 			ig.draw(q);
 		}

@@ -1,0 +1,152 @@
+<Configuration name="sequencer.synth">
+	<Module name="Sequencer-1" type="SequencerModule">
+		<Controller>
+			<Attr name="currentStep" type="int"  value="1" struct="primitive"/>
+			<Port name="gate" nameAttr="gate" type="in" refPresentation="0" moduleTargetName="VCO-2" portTargetName="square" />
+			<Port name="out" nameAttr="out" type="out" refPresentation="1" moduleTargetName="VCO-1" portTargetName="fm" />
+			<Attr name="steps" type="double" struct="array">
+				<item value="0.0" />
+				<item value="0.7" />
+				<item value="0.0" />
+				<item value="-0.5" />
+				<item value="0.8" />
+				<item value="0.4" />
+				<item value="-0.4" />
+				<item value="-0.7" />
+			</Attr>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="4" y="273" />
+		</Presentation>
+	</Module>
+	<Cable id="1">
+		<Color value="0" />
+	</Cable>
+	<Cable id="0">
+		<Color value="2" />
+	</Cable>
+	<Module name="VCO-1" type="VCOModule">
+		<Controller>
+			<Attr name="fmConnected" type="boolean"  value="true" struct="primitive"/>
+			<Attr name="f0" type="double"  value="440.0" struct="primitive"/>
+			<Port name="fm" nameAttr="fm" type="in" refPresentation="1" moduleTargetName="Sequencer-1" portTargetName="out" />
+			<Port name="sine" nameAttr="outSine" type="out" refPresentation="3" moduleTargetName="VCA-1" portTargetName="in" />
+			<Attr name="coarseAdjustment" type="int"  value="7" struct="primitive"/>
+			<Attr name="fineAdjustment" type="double"  value="0.33333333333333304" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="485" y="258" />
+		</Presentation>
+	</Module>
+	<Cable id="1">
+		<Color value="0" />
+	</Cable>
+	<Cable id="3">
+		<Color value="4" />
+	</Cable>
+	<Cable id="0">
+		<Color value="2" />
+	</Cable>
+	<Module name="Out-1" type="OutModule">
+		<Controller>
+			<Port name="in left" nameAttr="leftPort" type="in" refPresentation="8" moduleTargetName="EQView-1" portTargetName="out" />
+			<Attr name="distribution" type="group1.project.synthlab.module.out.IOutModule$Distribution" value="DISTRIBUTED" struct="enum" />
+			<Attr name="attenuationDB" type="double"  value="0.0" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="489" y="0" />
+		</Presentation>
+	</Module>
+	<Cable id="1">
+		<Color value="0" />
+	</Cable>
+	<Cable id="8">
+		<Color value="4" />
+	</Cable>
+	<Cable id="3">
+		<Color value="4" />
+	</Cable>
+	<Cable id="0">
+		<Color value="2" />
+	</Cable>
+	<Module name="VCO-2" type="VCOModule">
+		<Controller>
+			<Attr name="fmConnected" type="boolean"  value="false" struct="primitive"/>
+			<Attr name="f0" type="double"  value="4.998" struct="primitive"/>
+			<Port name="square" nameAttr="outSquare" type="out" refPresentation="0" moduleTargetName="Sequencer-1" portTargetName="gate" />
+			<Attr name="coarseAdjustment" type="int"  value="0" struct="primitive"/>
+			<Attr name="fineAdjustment" type="double"  value="0.0833" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="6" y="0" />
+		</Presentation>
+	</Module>
+	<Cable id="1">
+		<Color value="0" />
+	</Cable>
+	<Cable id="8">
+		<Color value="4" />
+	</Cable>
+	<Cable id="3">
+		<Color value="4" />
+	</Cable>
+	<Cable id="0">
+		<Color value="2" />
+	</Cable>
+	<Module name="EQView-1" type="EQViewModule">
+		<Controller>
+			<Port name="in" nameAttr="inPort" type="in" refPresentation="7" moduleTargetName="VCA-1" portTargetName="out" />
+			<Port name="out" nameAttr="outPort" type="out" refPresentation="8" moduleTargetName="Out-1" portTargetName="in left" />
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="824" y="2" />
+		</Presentation>
+	</Module>
+	<Cable id="7">
+		<Color value="4" />
+	</Cable>
+	<Cable id="1">
+		<Color value="0" />
+	</Cable>
+	<Cable id="8">
+		<Color value="4" />
+	</Cable>
+	<Cable id="3">
+		<Color value="4" />
+	</Cable>
+	<Cable id="0">
+		<Color value="2" />
+	</Cable>
+	<Module name="VCA-1" type="VCAModule">
+		<Controller>
+			<Attr name="amConnected" type="boolean"  value="false" struct="primitive"/>
+			<Attr name="a0" type="double"  value="6.3" struct="primitive"/>
+			<Port name="in" nameAttr="in" type="in" refPresentation="3" moduleTargetName="VCO-1" portTargetName="sine" />
+			<Port name="out" nameAttr="out" type="out" refPresentation="7" moduleTargetName="EQView-1" portTargetName="in" />
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="822" y="315" />
+		</Presentation>
+	</Module>
+	<Cable id="7">
+		<Color value="4" />
+	</Cable>
+	<Cable id="1">
+		<Color value="0" />
+	</Cable>
+	<Cable id="8">
+		<Color value="4" />
+	</Cable>
+	<Cable id="3">
+		<Color value="4" />
+	</Cable>
+	<Cable id="0">
+		<Color value="2" />
+	</Cable>
+</Configuration>

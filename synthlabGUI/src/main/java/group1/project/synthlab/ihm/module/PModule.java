@@ -223,13 +223,15 @@ public abstract class PModule extends JPanel implements IPModule {
 	 */
 	public void start() {
 		onOffButton.setSelected(true);
+		this.onOffButton.setText("Off");
 	}
 	
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.ihm.module.IPModule#stop()
 	 */
 	public void stop() {
-		onOffButton.setSelected(false);
+		onOffButton.setSelected(false);		
+		this.onOffButton.setText("On");
 	}
 	
 	/* (non-Javadoc)

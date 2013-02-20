@@ -109,8 +109,7 @@ public class PSequencerModule extends PModule implements IPSequencerModule{
 			tension0ValueLabel.setFont(font);
 			tension0ValueLabel.setPreferredSize(tensionLabel.getSize());
 			tension0ValueLabel.setLocation(tensionSlider[i].getWidth() + tensionSlider[i].getX(), tensionSlider[i].getY()+tensionSlider[i].getHeight()/2);
-			System.out.println(tensionSlider[i].getY());
-			
+						
 			JLabel tensionMinValueLabel = new JLabel("-1");
 			tensionMinValueLabel.setForeground(Color.LIGHT_GRAY);
 			tensionMinValueLabel.setOpaque(false);

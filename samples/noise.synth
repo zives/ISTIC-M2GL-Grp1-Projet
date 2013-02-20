@@ -1,0 +1,108 @@
+<Configuration name="noise">
+	<Module name="Noise-1" type="NoiseModule">
+		<Controller>
+			<Port name="brownian" nameAttr="outBrownian" type="out" refPresentation="2" moduleTargetName="VCF-LP-1" portTargetName="in" />
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="2" y="0" />
+		</Presentation>
+	</Module>
+	<Cable id="2">
+		<Color value="1" />
+	</Cable>
+	<Module name="Out-1" type="OutModule">
+		<Controller>
+			<Port name="in left" nameAttr="leftPort" type="in" refPresentation="4" moduleTargetName="OSC-1" portTargetName="out" />
+			<Attr name="distribution" type="group1.project.synthlab.module.out.IOutModule$Distribution" value="DISTRIBUTED" struct="enum" />
+			<Attr name="attenuationDB" type="double"  value="0.0" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="2" y="214" />
+		</Presentation>
+	</Module>
+	<Cable id="2">
+		<Color value="1" />
+	</Cable>
+	<Cable id="4">
+		<Color value="1" />
+	</Cable>
+	<Module name="OSC-1" type="OSCModule">
+		<Controller>
+			<Attr name="previousLastTime" type="double"  value="0.0" struct="primitive"/>
+			<Attr name="intervalS" type="double"  value="0.05" struct="primitive"/>
+			<Attr name="canRepaint" type="boolean"  value="true" struct="primitive"/>
+			<Attr name="cmptPaint" type="int"  value="1" struct="primitive"/>
+			<Port name="in" nameAttr="inPort" type="in" refPresentation="3" moduleTargetName="VCF-LP-1" portTargetName="out" />
+			<Port name="out" nameAttr="outPort" type="out" refPresentation="4" moduleTargetName="Out-1" portTargetName="in left" />
+			<Attr name="lastTime" type="double"  value="489.7162811791383" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="420" y="0" />
+		</Presentation>
+	</Module>
+	<Cable id="2">
+		<Color value="1" />
+	</Cable>
+	<Cable id="3">
+		<Color value="1" />
+	</Cable>
+	<Cable id="4">
+		<Color value="1" />
+	</Cable>
+	<Module name="VCF-LP-1" type="VCFLPModule">
+		<Controller>
+			<Attr name="f0" type="double"  value="2640.0" struct="primitive"/>
+			<Attr name="n" type="double"  value="1.7" struct="primitive"/>
+			<Attr name="q" type="double"  value="1.4" struct="primitive"/>
+			<Attr name="coarseAdjustment" type="int"  value="12" struct="primitive"/>
+			<Attr name="fineAdjustment" type="double"  value="0.0" struct="primitive"/>
+			<Port name="in" nameAttr="in" type="in" refPresentation="2" moduleTargetName="Noise-1" portTargetName="brownian" />
+			<Port name="fm" nameAttr="fm" type="in" refPresentation="5" moduleTargetName="VCO-1" portTargetName="triangle" />
+			<Port name="out" nameAttr="out" type="out" refPresentation="3" moduleTargetName="OSC-1" portTargetName="in" />
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="361" y="364" />
+		</Presentation>
+	</Module>
+	<Cable id="5">
+		<Color value="2" />
+	</Cable>
+	<Cable id="2">
+		<Color value="1" />
+	</Cable>
+	<Cable id="3">
+		<Color value="1" />
+	</Cable>
+	<Cable id="4">
+		<Color value="1" />
+	</Cable>
+	<Module name="VCO-1" type="VCOModule">
+		<Controller>
+			<Attr name="fmConnected" type="boolean"  value="false" struct="primitive"/>
+			<Attr name="f0" type="double"  value="3.0" struct="primitive"/>
+			<Port name="triangle" nameAttr="outTriangle" type="out" refPresentation="5" moduleTargetName="VCF-LP-1" portTargetName="fm" />
+			<Attr name="coarseAdjustment" type="int"  value="0" struct="primitive"/>
+			<Attr name="fineAdjustment" type="double"  value="0.05" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="825" y="334" />
+		</Presentation>
+	</Module>
+	<Cable id="5">
+		<Color value="2" />
+	</Cable>
+	<Cable id="2">
+		<Color value="1" />
+	</Cable>
+	<Cable id="3">
+		<Color value="1" />
+	</Cable>
+	<Cable id="4">
+		<Color value="1" />
+	</Cable>
+</Configuration>

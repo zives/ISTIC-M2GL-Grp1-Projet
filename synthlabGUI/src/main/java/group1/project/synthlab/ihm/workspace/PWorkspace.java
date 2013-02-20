@@ -88,6 +88,8 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	protected JButton oscButton;
 	protected JButton sequencerButton;
 	
+	protected File previousLocationDialog = new File(".");
+	
 
 	public PWorkspace(ICWorkspace controller) {
 		super("Synthesizer created by group 1");
@@ -368,7 +370,6 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 					if (SwingUtilities.isDescendingFrom(
 							(Component) e.getSource(), centerPanel)) {
 						MouseEvent m = (MouseEvent) e;
-						
 						if (m.getID() == MouseEvent.MOUSE_MOVED || m.getID() == MouseEvent.MOUSE_DRAGGED ) {
 							// On dessine le cable (meme si on mouse move sur le
 							// module en plus du ws)
@@ -397,11 +398,11 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 							} else
 								workspacePanel.setCursor(new Cursor(
 										Cursor.DEFAULT_CURSOR));
-						}
+						}						
 					}
 				}
 			}
-		}, AWTEvent.MOUSE_MOTION_EVENT_MASK);
+		}, AWTEvent.MOUSE_MOTION_EVENT_MASK | AWTEvent.MOUSE_EVENT_MASK);
 		
 		//Evenement lies a la roulette de la souris
 		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
@@ -651,7 +652,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	public File saveFileDialog() {
 		UIManager.put("FileChooser.openButtonText", "Save");
 		UIManager.put("FileChooser.openButtonToolTipText", "Save");
-		JFileChooser j = new JFileChooser();
+		JFileChooser j = new JFileChooser(previousLocationDialog);
 		j.setAcceptAllFileFilterUsed(false);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter( "Synth file (*.synth)","synth");
 		j.addChoosableFileFilter(filter);
@@ -660,6 +661,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		j.setDialogTitle("Save...");
 		j.setDialogType(JFileChooser.SAVE_DIALOG); 		
 		j.showOpenDialog(null);
+		previousLocationDialog = j.getSelectedFile();
 		return j.getSelectedFile();
 	}
 
@@ -671,6 +673,8 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		JOptionPane.showMessageDialog(null, s);
 	}
 
+	
+	
 	/* (non-Javadoc)
 	 * @see group1.project.synthlab.ihm.workspace.IPWorkspace#openFileDialog()
 	 */
@@ -678,7 +682,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 	public File openFileDialog() {
 		UIManager.put("FileChooser.openButtonText", "Open");
 		UIManager.put("FileChooser.openButtonToolTipText", "Open");
-		JFileChooser j = new JFileChooser();
+		JFileChooser j = new JFileChooser(previousLocationDialog);
 		j.setDialogTitle("Load...");
 		j.setAcceptAllFileFilterUsed(false);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Synth file (*.synth)", "synth" );
@@ -687,6 +691,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		j.setFileFilter(filter);
 		j.setDialogType(JFileChooser.OPEN_DIALOG); 
 		j.showOpenDialog(null);
+		previousLocationDialog = j.getSelectedFile();
 		return j.getSelectedFile();
 		
 	}

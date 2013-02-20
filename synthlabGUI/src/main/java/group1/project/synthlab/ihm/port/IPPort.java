@@ -18,4 +18,9 @@ public interface IPPort {
 	 * Indique que le port peut supprimer le cable
 	 */
 	public void setAllowedToDelete();
+	
+	/**
+	 * Retourne le controler
+	 */
+	public ICPort getController();
 }

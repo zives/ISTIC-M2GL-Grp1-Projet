@@ -19,7 +19,7 @@ public interface ICPort extends IPort {
 	 * Essai de generer un cable
 	 * @throws BadConnection
 	 */
-	public void actionCable()  throws BadConnection;
+	public void actionCable() throws BadConnection;
 
 	/**
 	 * Previens la presentation si la pose d'un cable est possible

@@ -1,0 +1,159 @@
+<Configuration name="piano.synth">
+	<Module name="Out-1" type="OutModule">
+		<Controller>
+			<Port name="in left" nameAttr="leftPort" type="in" refPresentation="15" moduleTargetName="OSC-1" portTargetName="out" />
+			<Attr name="distribution" type="group1.project.synthlab.module.out.IOutModule$Distribution" value="DISTRIBUTED" struct="enum" />
+			<Attr name="attenuationDB" type="double"  value="0.1" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="687" y="360" />
+		</Presentation>
+	</Module>
+	<Cable id="15">
+		<Color value="1" />
+	</Cable>
+	<Module name="Piano-1" type="PianoModule">
+		<Controller>
+			<Attr name="octaveStart" type="int"  value="4" struct="primitive"/>
+			<Port name="eg gate" nameAttr="outGate" type="out" refPresentation="17" moduleTargetName="EG-1" portTargetName="gate" />
+			<Port name="out" nameAttr="out" type="out" refPresentation="19" moduleTargetName="VCO-1" portTargetName="fm" />
+			<Attr name="a0" type="double"  value="0.6333333333333333" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="322" y="0" />
+		</Presentation>
+	</Module>
+	<Cable id="17">
+		<Color value="5" />
+	</Cable>
+	<Cable id="15">
+		<Color value="1" />
+	</Cable>
+	<Cable id="19">
+		<Color value="3" />
+	</Cable>
+	<Module name="VCO-1" type="VCOModule">
+		<Controller>
+			<Attr name="fmConnected" type="boolean"  value="true" struct="primitive"/>
+			<Attr name="f0" type="double"  value="440.0" struct="primitive"/>
+			<Port name="fm" nameAttr="fm" type="in" refPresentation="19" moduleTargetName="Piano-1" portTargetName="out" />
+			<Port name="sine" nameAttr="outSine" type="out" refPresentation="13" moduleTargetName="VCA-1" portTargetName="in" />
+			<Attr name="coarseAdjustment" type="int"  value="7" struct="primitive"/>
+			<Attr name="fineAdjustment" type="double"  value="0.33333333333333304" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="323" y="312" />
+		</Presentation>
+	</Module>
+	<Cable id="17">
+		<Color value="5" />
+	</Cable>
+	<Cable id="15">
+		<Color value="1" />
+	</Cable>
+	<Cable id="19">
+		<Color value="3" />
+	</Cable>
+	<Cable id="13">
+		<Color value="1" />
+	</Cable>
+	<Module name="EG-1" type="EGModule">
+		<Controller>
+			<Port name="gate" nameAttr="gate" type="in" refPresentation="17" moduleTargetName="Piano-1" portTargetName="eg gate" />
+			<Port name="out" nameAttr="out" type="out" refPresentation="18" moduleTargetName="VCA-1" portTargetName="am" />
+			<Attr name="attack" type="double"  value="0.2" struct="primitive"/>
+			<Attr name="decay" type="double"  value="0.7" struct="primitive"/>
+			<Attr name="release" type="double"  value="1.8" struct="primitive"/>
+			<Attr name="hold" type="double"  value="0.0" struct="primitive"/>
+			<Attr name="sustain" type="double"  value="0.9015711376059569" struct="primitive"/>
+			<Attr name="decibel" type="double"  value="-0.9" struct="primitive"/>
+			<Attr name="volt" type="double"  value="0.9015711376059569" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="0" y="0" />
+		</Presentation>
+	</Module>
+	<Cable id="18">
+		<Color value="6" />
+	</Cable>
+	<Cable id="17">
+		<Color value="5" />
+	</Cable>
+	<Cable id="15">
+		<Color value="1" />
+	</Cable>
+	<Cable id="19">
+		<Color value="3" />
+	</Cable>
+	<Cable id="13">
+		<Color value="1" />
+	</Cable>
+	<Module name="VCA-1" type="VCAModule">
+		<Controller>
+			<Attr name="amConnected" type="boolean"  value="true" struct="primitive"/>
+			<Attr name="a0" type="double"  value="-54.6" struct="primitive"/>
+			<Port name="in" nameAttr="in" type="in" refPresentation="13" moduleTargetName="VCO-1" portTargetName="sine" />
+			<Port name="am" nameAttr="am" type="in" refPresentation="18" moduleTargetName="EG-1" portTargetName="out" />
+			<Port name="out" nameAttr="out" type="out" refPresentation="14" moduleTargetName="OSC-1" portTargetName="in" />
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="0" y="340" />
+		</Presentation>
+	</Module>
+	<Cable id="18">
+		<Color value="6" />
+	</Cable>
+	<Cable id="17">
+		<Color value="5" />
+	</Cable>
+	<Cable id="15">
+		<Color value="1" />
+	</Cable>
+	<Cable id="14">
+		<Color value="1" />
+	</Cable>
+	<Cable id="19">
+		<Color value="3" />
+	</Cable>
+	<Cable id="13">
+		<Color value="1" />
+	</Cable>
+	<Module name="OSC-1" type="OSCModule">
+		<Controller>
+			<Attr name="previousLastTime" type="double"  value="0.0" struct="primitive"/>
+			<Attr name="intervalS" type="double"  value="0.005" struct="primitive"/>
+			<Attr name="canRepaint" type="boolean"  value="true" struct="primitive"/>
+			<Attr name="cmptPaint" type="int"  value="14" struct="primitive"/>
+			<Port name="in" nameAttr="inPort" type="in" refPresentation="14" moduleTargetName="VCA-1" portTargetName="out" />
+			<Port name="out" nameAttr="outPort" type="out" refPresentation="15" moduleTargetName="Out-1" portTargetName="in left" />
+			<Attr name="lastTime" type="double"  value="235.9568253968254" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="686" y="0" />
+		</Presentation>
+	</Module>
+	<Cable id="18">
+		<Color value="6" />
+	</Cable>
+	<Cable id="17">
+		<Color value="5" />
+	</Cable>
+	<Cable id="15">
+		<Color value="1" />
+	</Cable>
+	<Cable id="14">
+		<Color value="1" />
+	</Cable>
+	<Cable id="19">
+		<Color value="3" />
+	</Cable>
+	<Cable id="13">
+		<Color value="1" />
+	</Cable>
+</Configuration>

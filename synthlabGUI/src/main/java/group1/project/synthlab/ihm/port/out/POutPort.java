@@ -36,4 +36,8 @@ public class POutPort extends PPort implements IPOutPort {
 		repaint();
 
 	}
+	
+	public ICPort getController() {
+		return controller;
+	}
 }

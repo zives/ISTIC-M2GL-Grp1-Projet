@@ -460,7 +460,7 @@ public class VCOModule extends Module implements IVCOModule {
 
 	
 	public void resetCounterInstance() {
-		VCOModule.moduleCount = 0;		
+		VCOModule.moduleCount = 0;	
 	}
 
 	// Tests fonctionnels

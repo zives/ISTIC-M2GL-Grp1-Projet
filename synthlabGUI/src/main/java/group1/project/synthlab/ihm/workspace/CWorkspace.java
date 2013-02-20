@@ -28,10 +28,10 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -551,7 +551,7 @@ public class CWorkspace extends Workspace implements ICWorkspace {
 	private void saveConfiguration(String name, String path) {
 		
 		String save = "<Configuration name=\"" + name + "\">\n";
-		Set<ICCable> cables = new HashSet<>();
+		List<ICCable> cables = new ArrayList<>();
 		//on boucle sur tous les modules
 		for (IModule m : modules) {
 			String tmp = "";

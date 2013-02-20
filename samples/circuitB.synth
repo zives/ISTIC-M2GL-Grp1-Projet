@@ -1,0 +1,130 @@
+<Configuration name="circuitB">
+	<Module name="VCO-1" type="VCOModule">
+		<Controller>
+			<Attr name="fmConnected" type="boolean"  value="true" struct="primitive"/>
+			<Attr name="f0" type="double"  value="1500.0" struct="primitive"/>
+			<Port name="fm" nameAttr="fm" type="in" refPresentation="3" moduleTargetName="Multiplexer-1" portTargetName="out port 3" />
+			<Port name="triangle" nameAttr="outTriangle" type="out" refPresentation="0" moduleTargetName="VCO-2" portTargetName="fm" />
+			<Attr name="coarseAdjustment" type="int"  value="25" struct="primitive"/>
+			<Attr name="fineAdjustment" type="double"  value="0.0" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="2" y="1" />
+		</Presentation>
+	</Module>
+	<Cable id="3">
+		<Color value="4" />
+	</Cable>
+	<Cable id="0">
+		<Color value="2" />
+	</Cable>
+	<Module name="VCO-2" type="VCOModule">
+		<Controller>
+			<Attr name="fmConnected" type="boolean"  value="true" struct="primitive"/>
+			<Attr name="f0" type="double"  value="999.9959999999999" struct="primitive"/>
+			<Port name="fm" nameAttr="fm" type="in" refPresentation="0" moduleTargetName="VCO-1" portTargetName="triangle" />
+			<Port name="triangle" nameAttr="outTriangle" type="out" refPresentation="1" moduleTargetName="Multiplexer-1" portTargetName="in port 1" />
+			<Attr name="coarseAdjustment" type="int"  value="16" struct="primitive"/>
+			<Attr name="fineAdjustment" type="double"  value="0.6666" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="0" y="272" />
+		</Presentation>
+	</Module>
+	<Cable id="3">
+		<Color value="4" />
+	</Cable>
+	<Cable id="0">
+		<Color value="2" />
+	</Cable>
+	<Cable id="1">
+		<Color value="4" />
+	</Cable>
+	<Module name="Multiplexer-1" type="MultiplexerModule">
+		<Controller>
+			<Port name="in port 1" nameAttr="inPort1" type="in" refPresentation="1" moduleTargetName="VCO-2" portTargetName="triangle" />
+			<Port name="out port 3" nameAttr="outPort3" type="out" refPresentation="3" moduleTargetName="VCO-1" portTargetName="fm" />
+			<Port name="out port 4" nameAttr="outPort4" type="out" refPresentation="7" moduleTargetName="OSC-1" portTargetName="in" />
+			<Attr name="attenuationsDB" type="double" struct="array">
+				<item value="0.0" />
+				<item value="0.0" />
+				<item value="0.0" />
+				<item value="0.0" />
+			</Attr>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="0" y="569" />
+		</Presentation>
+	</Module>
+	<Cable id="7">
+		<Color value="4" />
+	</Cable>
+	<Cable id="3">
+		<Color value="4" />
+	</Cable>
+	<Cable id="0">
+		<Color value="2" />
+	</Cable>
+	<Cable id="1">
+		<Color value="4" />
+	</Cable>
+	<Module name="Out-1" type="OutModule">
+		<Controller>
+			<Port name="in right" nameAttr="rightPort" type="in" refPresentation="8" moduleTargetName="OSC-1" portTargetName="out" />
+			<Attr name="distribution" type="group1.project.synthlab.module.out.IOutModule$Distribution" value="DISTRIBUTED" struct="enum" />
+			<Attr name="attenuationDB" type="double"  value="0.0" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="361" y="555" />
+		</Presentation>
+	</Module>
+	<Cable id="7">
+		<Color value="4" />
+	</Cable>
+	<Cable id="3">
+		<Color value="4" />
+	</Cable>
+	<Cable id="8">
+		<Color value="4" />
+	</Cable>
+	<Cable id="0">
+		<Color value="2" />
+	</Cable>
+	<Cable id="1">
+		<Color value="4" />
+	</Cable>
+	<Module name="OSC-1" type="OSCModule">
+		<Controller>
+			<Attr name="previousLastTime" type="double"  value="0.0" struct="primitive"/>
+			<Attr name="intervalS" type="double"  value="0.03" struct="primitive"/>
+			<Attr name="canRepaint" type="boolean"  value="true" struct="primitive"/>
+			<Attr name="cmptPaint" type="int"  value="1" struct="primitive"/>
+			<Port name="in" nameAttr="inPort" type="in" refPresentation="7" moduleTargetName="Multiplexer-1" portTargetName="out port 4" />
+			<Port name="out" nameAttr="outPort" type="out" refPresentation="8" moduleTargetName="Out-1" portTargetName="in right" />
+			<Attr name="lastTime" type="double"  value="661.1949206349207" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="384" y="0" />
+		</Presentation>
+	</Module>
+	<Cable id="7">
+		<Color value="4" />
+	</Cable>
+	<Cable id="3">
+		<Color value="4" />
+	</Cable>
+	<Cable id="8">
+		<Color value="4" />
+	</Cable>
+	<Cable id="0">
+		<Color value="2" />
+	</Cable>
+	<Cable id="1">
+		<Color value="4" />
+	</Cable>
+</Configuration>

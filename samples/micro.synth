@@ -1,0 +1,142 @@
+<Configuration name="micro">
+	<Module name="Out-1" type="OutModule">
+		<Controller>
+			<Port name="in right" nameAttr="rightPort" type="in" refPresentation="24" moduleTargetName="OSC-1" portTargetName="out" />
+			<Attr name="distribution" type="group1.project.synthlab.module.out.IOutModule$Distribution" value="DISTRIBUTED" struct="enum" />
+			<Attr name="attenuationDB" type="double"  value="2.0" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="1035" y="384" />
+		</Presentation>
+	</Module>
+	<Cable id="24">
+		<Color value="0" />
+	</Cable>
+	<Module name="Micro-1" type="MicroModule">
+		<Controller>
+			<Port name="out" nameAttr="outPort" type="out" refPresentation="22" moduleTargetName="VCA-1" portTargetName="in" />
+			<Attr name="attenuationDB" type="double"  value="0.0" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="1" y="0" />
+		</Presentation>
+	</Module>
+	<Cable id="22">
+		<Color value="0" />
+	</Cable>
+	<Cable id="24">
+		<Color value="0" />
+	</Cable>
+	<Module name="VCA-1" type="VCAModule">
+		<Controller>
+			<Attr name="amConnected" type="boolean"  value="true" struct="primitive"/>
+			<Attr name="a0" type="double"  value="0.0" struct="primitive"/>
+			<Port name="in" nameAttr="in" type="in" refPresentation="22" moduleTargetName="Micro-1" portTargetName="out" />
+			<Port name="am" nameAttr="am" type="in" refPresentation="21" moduleTargetName="VCA-2" portTargetName="out" />
+			<Port name="out" nameAttr="out" type="out" refPresentation="23" moduleTargetName="OSC-1" portTargetName="in" />
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="436" y="118" />
+		</Presentation>
+	</Module>
+	<Cable id="22">
+		<Color value="0" />
+	</Cable>
+	<Cable id="21">
+		<Color value="0" />
+	</Cable>
+	<Cable id="23">
+		<Color value="0" />
+	</Cable>
+	<Cable id="24">
+		<Color value="0" />
+	</Cable>
+	<Module name="VCO-1" type="VCOModule">
+		<Controller>
+			<Attr name="fmConnected" type="boolean"  value="false" struct="primitive"/>
+			<Attr name="f0" type="double"  value="29.64" struct="primitive"/>
+			<Port name="triangle" nameAttr="outTriangle" type="out" refPresentation="20" moduleTargetName="VCA-2" portTargetName="in" />
+			<Attr name="coarseAdjustment" type="int"  value="0" struct="primitive"/>
+			<Attr name="fineAdjustment" type="double"  value="0.494" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="20" y="359" />
+		</Presentation>
+	</Module>
+	<Cable id="20">
+		<Color value="0" />
+	</Cable>
+	<Cable id="22">
+		<Color value="0" />
+	</Cable>
+	<Cable id="21">
+		<Color value="0" />
+	</Cable>
+	<Cable id="23">
+		<Color value="0" />
+	</Cable>
+	<Cable id="24">
+		<Color value="0" />
+	</Cable>
+	<Module name="VCA-2" type="VCAModule">
+		<Controller>
+			<Attr name="amConnected" type="boolean"  value="false" struct="primitive"/>
+			<Attr name="a0" type="double"  value="2.4" struct="primitive"/>
+			<Port name="in" nameAttr="in" type="in" refPresentation="20" moduleTargetName="VCO-1" portTargetName="triangle" />
+			<Port name="out" nameAttr="out" type="out" refPresentation="21" moduleTargetName="VCA-1" portTargetName="am" />
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="455" y="369" />
+		</Presentation>
+	</Module>
+	<Cable id="20">
+		<Color value="0" />
+	</Cable>
+	<Cable id="22">
+		<Color value="0" />
+	</Cable>
+	<Cable id="21">
+		<Color value="0" />
+	</Cable>
+	<Cable id="23">
+		<Color value="0" />
+	</Cable>
+	<Cable id="24">
+		<Color value="0" />
+	</Cable>
+	<Module name="OSC-1" type="OSCModule">
+		<Controller>
+			<Attr name="previousLastTime" type="double"  value="0.0" struct="primitive"/>
+			<Attr name="intervalS" type="double"  value="0.03" struct="primitive"/>
+			<Attr name="canRepaint" type="boolean"  value="true" struct="primitive"/>
+			<Attr name="cmptPaint" type="int"  value="0" struct="primitive"/>
+			<Port name="in" nameAttr="inPort" type="in" refPresentation="23" moduleTargetName="VCA-1" portTargetName="out" />
+			<Port name="out" nameAttr="outPort" type="out" refPresentation="24" moduleTargetName="Out-1" portTargetName="in right" />
+			<Attr name="lastTime" type="double"  value="423.7500487804878" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="1001" y="14" />
+		</Presentation>
+	</Module>
+	<Cable id="20">
+		<Color value="0" />
+	</Cable>
+	<Cable id="22">
+		<Color value="0" />
+	</Cable>
+	<Cable id="21">
+		<Color value="0" />
+	</Cable>
+	<Cable id="23">
+		<Color value="0" />
+	</Cable>
+	<Cable id="24">
+		<Color value="0" />
+	</Cable>
+</Configuration>

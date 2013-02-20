@@ -103,10 +103,25 @@ public class Workspace implements IWorkspace {
 	 * .synthlab.module.IModule)
 	 */
 	public void removeModule(IModule module) {
+		//Supprime les dependances
 		module.destruct();
 		synthesizer.remove(module.getCircuit());
-		modules.remove(module);
 
+		//Cherche si le workspace contient encore des modules du meme type
+		boolean found = false;
+		for (IModule m : modules) {
+			if (m.getClass().isInstance(module.getClass())) {
+				found = true;
+				break;
+			}
+		}
+		
+		//Si non, remettre le compteur a zero
+		if (!found)
+			module.resetCounterInstance();
+		
+		//Supprimer enfin le module
+		modules.remove(module);
 	}
 
 	/**

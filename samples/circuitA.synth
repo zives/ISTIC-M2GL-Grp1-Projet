@@ -1,0 +1,246 @@
+<Configuration name="circuitA.synth">
+	<Module name="Out-1" type="OutModule">
+		<Controller>
+			<Port name="in right" nameAttr="rightPort" type="in" refPresentation="0" moduleTargetName="OSC-1" portTargetName="out" />
+			<Attr name="distribution" type="group1.project.synthlab.module.out.IOutModule$Distribution" value="DISTRIBUTED" struct="enum" />
+			<Attr name="attenuationDB" type="double"  value="-0.5" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="810" y="366" />
+		</Presentation>
+	</Module>
+	<Cable id="0">
+		<Color value="5" />
+	</Cable>
+	<Module name="VCO-1" type="VCOModule">
+		<Controller>
+			<Attr name="fmConnected" type="boolean"  value="false" struct="primitive"/>
+			<Attr name="f0" type="double"  value="0.498" struct="primitive"/>
+			<Port name="sine" nameAttr="outSine" type="out" refPresentation="1" moduleTargetName="Multiplexer-1" portTargetName="in port 1" />
+			<Attr name="coarseAdjustment" type="int"  value="0" struct="primitive"/>
+			<Attr name="fineAdjustment" type="double"  value="0.0083" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="0" y="1" />
+		</Presentation>
+	</Module>
+	<Cable id="0">
+		<Color value="5" />
+	</Cable>
+	<Cable id="1">
+		<Color value="3" />
+	</Cable>
+	<Module name="VCO-2" type="VCOModule">
+		<Controller>
+			<Attr name="fmConnected" type="boolean"  value="false" struct="primitive"/>
+			<Attr name="f0" type="double"  value="999.9959999999999" struct="primitive"/>
+			<Port name="sawTooth" nameAttr="outSawTooth" type="out" refPresentation="2" moduleTargetName="VCF-LP-1" portTargetName="in" />
+			<Attr name="coarseAdjustment" type="int"  value="16" struct="primitive"/>
+			<Attr name="fineAdjustment" type="double"  value="0.6666" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="0" y="265" />
+		</Presentation>
+	</Module>
+	<Cable id="2">
+		<Color value="2" />
+	</Cable>
+	<Cable id="0">
+		<Color value="5" />
+	</Cable>
+	<Cable id="1">
+		<Color value="3" />
+	</Cable>
+	<Module name="Multiplexer-1" type="MultiplexerModule">
+		<Controller>
+			<Port name="in port 1" nameAttr="inPort1" type="in" refPresentation="1" moduleTargetName="VCO-1" portTargetName="sine" />
+			<Port name="out port 3" nameAttr="outPort3" type="out" refPresentation="4" moduleTargetName="EG-1" portTargetName="gate" />
+			<Port name="out port 4" nameAttr="outPort4" type="out" refPresentation="5" moduleTargetName="VCF-LP-1" portTargetName="fm" />
+			<Attr name="attenuationsDB" type="double" struct="array">
+				<item value="0.0" />
+				<item value="0.0" />
+				<item value="0.0" />
+				<item value="0.0" />
+			</Attr>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="0" y="530" />
+		</Presentation>
+	</Module>
+	<Cable id="4">
+		<Color value="3" />
+	</Cable>
+	<Cable id="2">
+		<Color value="2" />
+	</Cable>
+	<Cable id="0">
+		<Color value="5" />
+	</Cable>
+	<Cable id="5">
+		<Color value="3" />
+	</Cable>
+	<Cable id="1">
+		<Color value="3" />
+	</Cable>
+	<Module name="VCA-1" type="VCAModule">
+		<Controller>
+			<Attr name="amConnected" type="boolean"  value="true" struct="primitive"/>
+			<Attr name="a0" type="double"  value="-56.1" struct="primitive"/>
+			<Port name="in" nameAttr="in" type="in" refPresentation="6" moduleTargetName="VCF-LP-1" portTargetName="out" />
+			<Port name="am" nameAttr="am" type="in" refPresentation="7" moduleTargetName="EG-1" portTargetName="out" />
+			<Port name="out" nameAttr="out" type="out" refPresentation="8" moduleTargetName="OSC-1" portTargetName="in" />
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="338" y="266" />
+		</Presentation>
+	</Module>
+	<Cable id="8">
+		<Color value="4" />
+	</Cable>
+	<Cable id="7">
+		<Color value="1" />
+	</Cable>
+	<Cable id="4">
+		<Color value="3" />
+	</Cable>
+	<Cable id="2">
+		<Color value="2" />
+	</Cable>
+	<Cable id="6">
+		<Color value="8" />
+	</Cable>
+	<Cable id="0">
+		<Color value="5" />
+	</Cable>
+	<Cable id="5">
+		<Color value="3" />
+	</Cable>
+	<Cable id="1">
+		<Color value="3" />
+	</Cable>
+	<Module name="VCF-LP-1" type="VCFLPModule">
+		<Controller>
+			<Attr name="f0" type="double"  value="440.0" struct="primitive"/>
+			<Attr name="n" type="double"  value="1.7" struct="primitive"/>
+			<Attr name="q" type="double"  value="1.0" struct="primitive"/>
+			<Attr name="coarseAdjustment" type="int"  value="2" struct="primitive"/>
+			<Attr name="fineAdjustment" type="double"  value="0.0" struct="primitive"/>
+			<Port name="in" nameAttr="in" type="in" refPresentation="2" moduleTargetName="VCO-2" portTargetName="sawTooth" />
+			<Port name="fm" nameAttr="fm" type="in" refPresentation="5" moduleTargetName="Multiplexer-1" portTargetName="out port 4" />
+			<Port name="out" nameAttr="out" type="out" refPresentation="6" moduleTargetName="VCA-1" portTargetName="in" />
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="338" y="0" />
+		</Presentation>
+	</Module>
+	<Cable id="8">
+		<Color value="4" />
+	</Cable>
+	<Cable id="7">
+		<Color value="1" />
+	</Cable>
+	<Cable id="4">
+		<Color value="3" />
+	</Cable>
+	<Cable id="2">
+		<Color value="2" />
+	</Cable>
+	<Cable id="6">
+		<Color value="8" />
+	</Cable>
+	<Cable id="0">
+		<Color value="5" />
+	</Cable>
+	<Cable id="5">
+		<Color value="3" />
+	</Cable>
+	<Cable id="1">
+		<Color value="3" />
+	</Cable>
+	<Module name="EG-1" type="EGModule">
+		<Controller>
+			<Port name="gate" nameAttr="gate" type="in" refPresentation="4" moduleTargetName="Multiplexer-1" portTargetName="out port 3" />
+			<Port name="out" nameAttr="out" type="out" refPresentation="7" moduleTargetName="VCA-1" portTargetName="am" />
+			<Attr name="attack" type="double"  value="0.2" struct="primitive"/>
+			<Attr name="decay" type="double"  value="0.2" struct="primitive"/>
+			<Attr name="release" type="double"  value="2.4" struct="primitive"/>
+			<Attr name="hold" type="double"  value="0.0" struct="primitive"/>
+			<Attr name="sustain" type="double"  value="1.0" struct="primitive"/>
+			<Attr name="decibel" type="double"  value="0.0" struct="primitive"/>
+			<Attr name="volt" type="double"  value="1.0" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="339" y="515" />
+		</Presentation>
+	</Module>
+	<Cable id="8">
+		<Color value="4" />
+	</Cable>
+	<Cable id="7">
+		<Color value="1" />
+	</Cable>
+	<Cable id="4">
+		<Color value="3" />
+	</Cable>
+	<Cable id="2">
+		<Color value="2" />
+	</Cable>
+	<Cable id="6">
+		<Color value="8" />
+	</Cable>
+	<Cable id="0">
+		<Color value="5" />
+	</Cable>
+	<Cable id="5">
+		<Color value="3" />
+	</Cable>
+	<Cable id="1">
+		<Color value="3" />
+	</Cable>
+	<Module name="OSC-1" type="OSCModule">
+		<Controller>
+			<Attr name="previousLastTime" type="double"  value="0.0" struct="primitive"/>
+			<Attr name="intervalS" type="double"  value="0.02" struct="primitive"/>
+			<Attr name="canRepaint" type="boolean"  value="true" struct="primitive"/>
+			<Attr name="cmptPaint" type="int"  value="4" struct="primitive"/>
+			<Port name="in" nameAttr="inPort" type="in" refPresentation="8" moduleTargetName="VCA-1" portTargetName="out" />
+			<Port name="out" nameAttr="outPort" type="out" refPresentation="0" moduleTargetName="Out-1" portTargetName="in right" />
+			<Attr name="lastTime" type="double"  value="427.86086167800454" struct="primitive"/>
+			<Attr name="isOn" type="boolean"  value="true" struct="primitive"/>
+		</Controller>
+		<Presentation>
+			<Location x="810" y="0" />
+		</Presentation>
+	</Module>
+	<Cable id="8">
+		<Color value="4" />
+	</Cable>
+	<Cable id="7">
+		<Color value="1" />
+	</Cable>
+	<Cable id="4">
+		<Color value="3" />
+	</Cable>
+	<Cable id="2">
+		<Color value="2" />
+	</Cable>
+	<Cable id="6">
+		<Color value="8" />
+	</Cable>
+	<Cable id="0">
+		<Color value="5" />
+	</Cable>
+	<Cable id="5">
+		<Color value="3" />
+	</Cable>
+	<Cable id="1">
+		<Color value="3" />
+	</Cable>
+</Configuration>
