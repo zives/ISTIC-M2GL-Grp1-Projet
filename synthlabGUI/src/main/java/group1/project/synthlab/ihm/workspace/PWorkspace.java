@@ -164,7 +164,7 @@ public class PWorkspace extends JFrame implements IPWorkspace {
 		 * La barre de menu
 		 **************/
 		menuBar = new JMenuBar();
-		fichierMenu = new JMenu("Fichier");
+		fichierMenu = new JMenu("File");
 		workspaceMenu = new JMenu("Workspace");
 		
 		//Workspace

@@ -128,8 +128,8 @@ public class NoiseModule extends Module implements INoiseModule {
 	public void destruct() {
 		if (outWhite.isUsed())
 			outWhite.getCable().disconnect();
-		if (outBrownian.isUsed())
-			outBrownian.getCable().disconnect();
+		if (outPink.isUsed())
+			outPink.getCable().disconnect();
 		if (outBrownian.isUsed())
 			outBrownian.getCable().disconnect();
 	}
